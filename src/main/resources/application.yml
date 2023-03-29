@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    # Spring Boot 3.0.X False
+    open-in-view: false
+    #Hibernate javax > jakarta
+    properties:
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: UNSPECIFIED
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
