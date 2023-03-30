@@ -127,6 +127,10 @@ include::{snippets}/member-login-fail/http-response.adoc[]
 [[member-login]]
 === 로그인
 
-- 실패 시
+==== 성공 시
+
+operation::member-login-success[snippets='http-request,request-body,request-fields,http-response,response-body,response-fields']
+
+==== 실패 시
 
 operation::member-login-fail[snippets='http-request,response-body']
