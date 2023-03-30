@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SignUpService(
-        private val memberRepository: MemberRepository,
-        private val memberMapper: MemberMapper
+    private val memberRepository: MemberRepository,
+    private val memberMapper: MemberMapper
 ) {
     fun signUp(signUpCommand: SignUpCommand): SignUpResponse {
         // 이미 존재하는 회원인지
@@ -21,4 +21,3 @@ class SignUpService(
         return SignUpResponse(savedMember.email)
     }
 }
-

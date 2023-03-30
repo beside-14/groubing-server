@@ -15,18 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 @Entity
 @Table(name = "members")
 class Member(
-        @Id
-        @Column(name = "member_id")
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0L,
+    @Id
+    @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0L,
 
-        val email: String,
+    val email: String,
 
-        private val password: String,
+    private val password: String,
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "role")
-        val role: MemberRole = MemberRole.MEMBER
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    val role: MemberRole = MemberRole.MEMBER
 
 ) : BaseEntity() {
     fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
