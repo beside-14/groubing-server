@@ -9,5 +9,6 @@ class ApiResponse<T> private constructor(
             return ApiResponse(data, ApiResponseCode.OK)
         }
     }
+
     val message = code.message
 }

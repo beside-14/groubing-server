@@ -21,3 +21,4 @@ class SignUpService(
         return SignUpResponse(savedMember.email)
     }
 }
+

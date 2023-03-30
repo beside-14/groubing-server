@@ -1,8 +1,15 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
-import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
-import jakarta.persistence.*
+import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Entity

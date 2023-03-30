@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.global.handler
 
+import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.global.response.ApiResponseCode
 import com.beside.groubing.groubingserver.global.response.error.ApiError
 import org.hibernate.exception.ConstraintViolationException
@@ -42,6 +43,12 @@ class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handle(e: MethodArgumentNotValidException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_REQUEST_BODY, e)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(MemberInputException::class)
+    fun handle(e: MemberInputException): ResponseEntity<ApiError> {
+        val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
 }
