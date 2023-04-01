@@ -1,10 +1,15 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
+import com.beside.groubing.groubingserver.docs.NUMBER
+import com.beside.groubing.groubingserver.docs.STRING
+import com.beside.groubing.groubingserver.docs.andDocument
+import com.beside.groubing.groubingserver.docs.requestBody
+import com.beside.groubing.groubingserver.docs.responseBody
+import com.beside.groubing.groubingserver.docs.type
 import com.beside.groubing.groubingserver.domain.member.application.LoginService
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.LoginRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.LoginResponse
-import com.beside.groubing.groubingserver.extension.andDocument
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -18,10 +23,6 @@ import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
-import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
-import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
@@ -32,7 +33,7 @@ import org.springframework.test.web.servlet.post
 @AutoConfigureRestDocs
 class LoginApiTest(
     private val mockMvc: MockMvc,
-    private val objectMapper: ObjectMapper,
+    private val mapper: ObjectMapper,
     @MockkBean private val loginService: LoginService
 ) : BehaviorSpec({
     Given("유저가") {
@@ -46,40 +47,23 @@ class LoginApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.post("/api/members/login") {
-                    content = objectMapper.writeValueAsString(request)
+                    content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     with(csrf())
                 }.andExpect {
                     status { isOk() }
-                }.andDocument("member-login-success") {
-                    arrayOf(
-                        requestFields(
-                            fieldWithPath("email")
-                                .type(JsonFieldType.STRING)
-                                .description("로그인 이메일"),
-                            fieldWithPath("password")
-                                .type(JsonFieldType.STRING)
-                                .description("로그인 패스워드")
-                        ),
-                        responseFields(
-                            fieldWithPath("data.id")
-                                .type(JsonFieldType.NUMBER)
-                                .description("유저 ID"),
-                            fieldWithPath("data.email")
-                                .type(JsonFieldType.STRING)
-                                .description("유저 이메일"),
-                            fieldWithPath("data.token")
-                                .type(JsonFieldType.STRING)
-                                .description("유저 JWT 토큰"),
-                            fieldWithPath("code")
-                                .type(JsonFieldType.STRING)
-                                .description("Http 응답 코드"),
-                            fieldWithPath("message")
-                                .type(JsonFieldType.STRING)
-                                .description("Http 응답 메세지")
-                        )
+                }.andDocument(
+                    "member-login-success",
+                    requestBody(
+                        "email" type STRING means "유저 이메일" example "test@groubing.com",
+                        "password" type STRING means "유저 패스워드" example "Bside-14th"
+                    ),
+                    responseBody(
+                        "data.id" type NUMBER means "유저 ID" example "1",
+                        "data.email" type STRING means "유저 이메일" example "test@groubing.com",
+                        "data.token" type STRING means "유저 JWT 토큰"
                     )
-                }
+                )
 
                 verify(exactly = 1) { loginService.login(any()) }
             }
@@ -91,7 +75,7 @@ class LoginApiTest(
 
             Then("실패 응답을 리턴한다.") {
                 mockMvc.post("/api/members/login") {
-                    content = objectMapper.writeValueAsString(request)
+                    content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     with(csrf())
                 }.andExpect {

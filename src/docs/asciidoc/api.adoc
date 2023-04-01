@@ -134,3 +134,14 @@ operation::member-login-success[snippets='http-request,request-body,request-fiel
 ==== 실패 시
 
 operation::member-login-fail[snippets='http-request,response-body']
+
+[[member-signup]]
+=== 회원가입
+
+==== 성공 시
+
+operation::member-signup-success[snippets='http-request,request-body,request-fields,http-response,response-body,response-fields']
+
+==== 실패 시
+
+operation::member-signup-fail[snippets='http-request,response-body']

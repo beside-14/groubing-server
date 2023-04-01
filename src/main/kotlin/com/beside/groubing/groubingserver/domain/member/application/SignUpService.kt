@@ -6,8 +6,10 @@ import com.beside.groubing.groubingserver.domain.member.exception.MemberInputExc
 import com.beside.groubing.groubingserver.domain.member.payload.command.SignUpCommand
 import com.beside.groubing.groubingserver.domain.member.payload.response.SignUpResponse
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class SignUpService(
     private val memberRepository: MemberRepository,
     private val memberMapper: MemberMapper

@@ -15,7 +15,7 @@ class LoginApi(
     private val loginService: LoginService
 ) {
     @PostMapping("/login")
-    fun signUp(
+    fun login(
         @RequestBody request: LoginRequest
     ): ApiResponse<LoginResponse> {
         val loginResponse = loginService.login(request.command())
