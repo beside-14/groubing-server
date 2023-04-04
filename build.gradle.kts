@@ -1,7 +1,7 @@
-
 import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     id("org.springframework.boot") version "3.0.3"
@@ -69,6 +69,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.5.5")
     testImplementation("io.kotest:kotest-extensions-jvm:5.5.5")
     testImplementation("io.kotest:kotest-property-jvm:5.5.5")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 
     // AsciiDocs
     val asciidoctorExt: Configuration by configurations.creating
@@ -104,7 +105,7 @@ tasks {
         useJUnitPlatform()
         outputs.dir(snippetsDir)
         filter {
-            includeTestsMatching("com.beside.groubing")
+            includeTestsMatching("com.beside.groubing.*")
         }
     }
 
@@ -122,7 +123,7 @@ tasks {
         }
     }
 
-    withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    withType<BootJar> {
         dependsOn(asciidoctor)
         from("${asciidoctor.get().outputDir}/html5") {
             into("static/docs")

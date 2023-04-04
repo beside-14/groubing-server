@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/members")
 class SignUpApi(
-        private val signUpService: SignUpService
+    private val signUpService: SignUpService
 ) {
     @PostMapping
-    fun signUp(@RequestBody request: SignUpRequest
+    fun signUp(
+        @RequestBody request: SignUpRequest
     ): ApiResponse<SignUpResponse> {
         val signUpResponse = signUpService.signUp(request.command())
         return ApiResponse.OK(signUpResponse)
