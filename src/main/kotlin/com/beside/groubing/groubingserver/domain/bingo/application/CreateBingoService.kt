@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 class CreateBingoService(
     private val boardRepository: BingoBoardRepository,
     private val itemRepository: BingoItemRepository,
-    private val bingoBoardMapper: BingoBoardMapper
+    private val boardMapper: BingoBoardMapper
 ) {
 
     /**
@@ -21,7 +21,7 @@ class CreateBingoService(
     @Transactional
     fun create(command: CreateBingoCommand): BingoResponse {
         // 빙고 보드 기본 정보 생성
-        val board = boardRepository.save(bingoBoardMapper.toBingoBoard(command))
+        val board = boardRepository.save(boardMapper.toBingoBoard(command))
         // 기본 빙고 항목 생성
         val items = itemRepository.saveAll(board.createNewItems())
 

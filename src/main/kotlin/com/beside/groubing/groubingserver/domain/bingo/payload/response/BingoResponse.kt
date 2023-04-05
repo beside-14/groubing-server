@@ -36,6 +36,7 @@ class BingoResponse(
     }
 
     class BingoItemResponse(item: BingoItem) {
+        val bingoBoardId: Long = item.board.id
         val bingoItemId: Long = item.id
         val title: String = item.title
         val subtitle: String = item.subtitle

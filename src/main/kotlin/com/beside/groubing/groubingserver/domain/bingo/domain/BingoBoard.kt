@@ -47,7 +47,7 @@ class BingoBoard(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId", updatable = false)
-    val member: Member
+    val member: Member = Member()
 ) : BaseEntity() {
 
     @OneToMany(mappedBy = "board")
