@@ -12,31 +12,26 @@ import com.beside.groubing.groubingserver.domain.member.payload.response.SignUpR
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.property.Arb
-import io.kotest.property.arbitrary.email
-import io.kotest.property.arbitrary.single
-import io.kotest.property.arbitrary.string
 import io.mockk.every
 import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
-import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
-@WithMockUser
 @WebMvcTest(controllers = [SignUpApi::class])
 @AutoConfigureRestDocs
+@AutoConfigureMockMvc(addFilters = false)
 class SignUpApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
     @MockkBean private val signUpService: SignUpService
 ) : BehaviorSpec({
     Given("유저가") {
-        val email = Arb.email().single()
-        val password = Arb.string(18..18).single()
+        val email = "user1@gmail.com"
+        val password = "abcd1234"
         val request = SignUpRequest(email, password)
 
         When("올바른 정보로 회원가입 요청 시") {
@@ -47,7 +42,6 @@ class SignUpApiTest(
                 mockMvc.post("/api/members") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
-                    with(csrf())
                 }.andExpect {
                     status { isOk() }
                 }.andDocument(
@@ -73,7 +67,6 @@ class SignUpApiTest(
                 mockMvc.post("/api/members") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
-                    with(csrf())
                 }.andExpect {
                     status { isBadRequest() }
                 }.andDocument("member-signup-fail")
