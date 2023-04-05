@@ -7,6 +7,7 @@ import org.hibernate.exception.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.validation.BindException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingRequestHeaderException
 import org.springframework.web.bind.MissingServletRequestParameterException
@@ -37,6 +38,13 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException::class)
     fun handle(e: ConstraintViolationException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_REQUEST_HEADER, e)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(BindException::class)
+    fun handle(e: BindException): ResponseEntity<ApiError> {
+        val code = ApiResponseCode.BAD_REQUEST_BODY
+        val apiError = ApiError(code, e, e.fieldError?.defaultMessage ?: code.message)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
 

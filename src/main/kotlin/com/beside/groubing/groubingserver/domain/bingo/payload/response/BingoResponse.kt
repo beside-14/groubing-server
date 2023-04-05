@@ -5,6 +5,7 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
+import com.beside.groubing.groubingserver.domain.member.domain.Member
 import java.time.LocalDate
 
 class BingoResponse(
@@ -12,6 +13,7 @@ class BingoResponse(
     items: Collection<BingoItem>
 ) {
     val bingoBoardId: Long = board.id
+    val creator: BingoCreatorResponse = BingoCreatorResponse(board.member)
     val title: String = board.title
     val type: BingoType = board.type
     val size: BingoSizeResponse = BingoSizeResponse(board.size)
@@ -21,6 +23,11 @@ class BingoResponse(
     val until: LocalDate = board.until
     val memo: String = board.memo
     val items: Collection<BingoItemResponse> = items.map { item -> BingoItemResponse(item) }
+
+    class BingoCreatorResponse(member: Member) {
+        val id: Long = member.id
+        val email: String = member.email
+    }
 
     class BingoSizeResponse(size: BingoSize) {
         val name: String = size.name
