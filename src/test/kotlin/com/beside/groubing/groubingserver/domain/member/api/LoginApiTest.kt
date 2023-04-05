@@ -13,43 +13,36 @@ import com.beside.groubing.groubingserver.domain.member.payload.response.LoginRe
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.property.Arb
-import io.kotest.property.arbitrary.email
-import io.kotest.property.arbitrary.long
-import io.kotest.property.arbitrary.single
-import io.kotest.property.arbitrary.string
 import io.mockk.every
 import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
-import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
-@WithMockUser
 @WebMvcTest(controllers = [LoginApi::class])
 @AutoConfigureRestDocs
+@AutoConfigureMockMvc(addFilters = false)
 class LoginApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
     @MockkBean private val loginService: LoginService
 ) : BehaviorSpec({
     Given("유저가") {
-        val email = Arb.email().single()
-        val password = Arb.string(18..18).single()
+        val email = "user1@gmail.com"
+        val password = "abcd1234"
         val request = LoginRequest(email, password)
 
         When("올바른 정보로 로그인 요청 시") {
-            val response = LoginResponse(Arb.long().single(), email, Arb.string().single())
+            val response = LoginResponse(1L, email, "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6ImhvbGVtYW43OUBuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgwNjg0NTQ0LCJleHAiOjE2ODA3MDYxNDR9.dnkE6IBmUADw10peWuXE6U7REQuOcTUT6TiO_ImzaF_AI12aoMqz-2vlrpoXqxkPdTW61ufl7vhuCSmxhMJfzQ")
             every { loginService.login(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.post("/api/members/login") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
-                    with(csrf())
                 }.andExpect {
                     status { isOk() }
                 }.andDocument(
@@ -77,7 +70,6 @@ class LoginApiTest(
                 mockMvc.post("/api/members/login") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
-                    with(csrf())
                 }.andExpect {
                     status { isBadRequest() }
                 }.andDocument("member-login-fail")

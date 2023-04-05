@@ -1,11 +1,14 @@
 package com.beside.groubing.groubingserver.global.config
 
 import com.beside.groubing.groubingserver.global.filter.JwtAuthenticationFilter
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
@@ -14,7 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
-    private val AUTH_WHITELIST = arrayOf("/api/members", "/api/members/login")
+    companion object {
+        private val AUTH_WHITELIST = arrayOf("/api/members", "/api/members/login")
+        private val STATIC_RESOURCES = arrayOf("/*/*.html*", "/*/*.png", "/***.jpg", "/*/*.jpeg")
+    }
 
     @Bean
     fun passwordEncoder() = BCryptPasswordEncoder()
@@ -27,6 +33,8 @@ class SecurityConfig {
             .authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, *AUTH_WHITELIST)
             .permitAll()
+//                .requestMatchers(*STATIC_RESOURCES)
+//                .permitAll()
             .anyRequest()
             .authenticated()
             .and()
@@ -38,5 +46,14 @@ class SecurityConfig {
                 JwtAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter::class.java
             ).build()
+    }
+
+    @Bean
+    fun webSecurityCustomizer(): WebSecurityCustomizer? {
+        return WebSecurityCustomizer { web: WebSecurity ->
+            web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers(*STATIC_RESOURCES)
+        }
     }
 }
