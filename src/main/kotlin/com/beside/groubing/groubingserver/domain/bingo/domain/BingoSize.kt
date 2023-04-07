@@ -5,6 +5,6 @@ enum class BingoSize(
     val y: Int,
     val description: String
 ) {
-    NINE(3, 3, "3X3"),
-    SIXTEEN(4, 4, "4X4")
+    NINE(3, 3, "3x3"),
+    SIXTEEN(4, 4, "4x4")
 }

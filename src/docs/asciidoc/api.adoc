@@ -54,7 +54,7 @@
 | 잘못된 요청을 보낸 경우. 응답 본문에 더 오류에 대한 정보가 담겨있다.
 
 | `401 Unauthorized`
-| 유저 정보가 없거나 로그인 상태가 유요하지 않는 경우 요청에 실패한다.
+| 회원 정보가 없거나 로그인 상태가 유요하지 않는 경우 요청에 실패한다.
 
 | `404 Not Found`
 | 요청한 리소스가 없음.
@@ -120,16 +120,16 @@ include::{snippets}/member-login-fail/http-request.adoc[]
 include::{snippets}/member-login-fail/http-response.adoc[]
 
 [[member]]
-== 유저
+== 회원
 
-유저 도메인과 관련된 API 입니다.
+회원 도메인과 관련된 API 입니다.
 
 [[member-login]]
 === 로그인
 
 ==== 성공 시
 
-operation::member-login-success[snippets='http-request,request-body,request-fields,http-response,response-body,response-fields']
+operation::member-login-success[snippets='http-request,request-fields,http-response,response-fields']
 
 ==== 실패 시
 
@@ -140,8 +140,62 @@ operation::member-login-fail[snippets='http-request,response-body']
 
 ==== 성공 시
 
-operation::member-signup-success[snippets='http-request,request-body,request-fields,http-response,response-body,response-fields']
+operation::member-signup-success[snippets='http-request,request-fields,http-response,response-fields']
 
 ==== 실패 시
 
 operation::member-signup-fail[snippets='http-request,response-body']
+
+[[bingo]]
+== 빙고
+
+빙고 도메인과 관련된 API 입니다.
+
+[[bingo-enum]]
+=== 빙고 관련 상수
+
+빙고 보드를 구성하는 프로퍼티 별 상수에 대해 설명합니다.
+
+[[bingo-type]]
+==== 빙고 타입
+
+|===
+|상수명|설명
+
+|`PERSONAL`|개인 빙고
+|`GROUP`|그룹 빙고
+
+|===
+
+[[bingo-size]]
+==== 빙고 사이즈
+
+|===
+|상수명|X축|Y축|설명
+
+|`NINE`|3|3|3x3 사이즈
+|`SIXTEEN`|4|4|4x4 사이즈
+
+|===
+
+[[bingo-color]]
+==== 빙고 색상
+
+|===
+|상수명|Hex Code|설명
+
+|`RED`|#ff0000|빨강색
+|`ORANGE`|#f67828|주황색
+|`YELLOW`|#ffff00|노랑색
+|`GREEN`|#008000|초록색
+|`BLUE`|#0000ff|파랑색
+|`NAVY`|#000080|남색
+|`PURPLE`|#800080|보라색
+|`RANDOM`||랜덤 색상|
+
+|===
+
+[[create-bingo]]
+=== 빙고 생성
+
+operation::create-bingo[snippets='http-request,request-fields,http-response,response-fields']

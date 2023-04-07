@@ -7,6 +7,7 @@ import com.beside.groubing.groubingserver.domain.bingo.payload.command.CreateBin
 import com.beside.groubing.groubingserver.domain.bingo.payload.validate.NineGroup
 import com.beside.groubing.groubingserver.domain.bingo.payload.validate.SixteenGroup
 import jakarta.validation.constraints.Future
+import jakarta.validation.constraints.FutureOrPresent
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
@@ -31,12 +32,12 @@ data class CreateBingoRequest(
 
     val open: Boolean,
 
-    @field:Future(message = "빙고 시작일은 현재보다 과거에 있을 수 없습니다.")
+    @field:FutureOrPresent(message = "빙고 시작일은 현재보다 과거에 있을 수 없습니다.")
     val since: LocalDate,
 
     @field:Future(message = "빙고 종료일은 현재보다 과거에 있을 수 없습니다.")
     val until: LocalDate
 ) {
     fun command(memberId: Long): CreateBingoCommand =
-        CreateBingoCommand(memberId, title, type, size, color, goal, open, since, until);
+        CreateBingoCommand(memberId, title, type, size, color, goal, open, since, until)
 }

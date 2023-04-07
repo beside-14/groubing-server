@@ -458,10 +458,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_http_response_example">HTTP Response Example</a></li>
 </ul>
 </li>
-<li><a href="#member">유저</a>
+<li><a href="#member">회원</a>
 <ul class="sectlevel2">
 <li><a href="#member-login">로그인</a></li>
 <li><a href="#member-signup">회원가입</a></li>
+</ul>
+</li>
+<li><a href="#bingo">빙고</a>
+<ul class="sectlevel2">
+<li><a href="#bingo-enum">빙고 관련 상수</a></li>
+<li><a href="#create-bingo">빙고 생성</a></li>
 </ul>
 </li>
 </ul>
@@ -549,7 +555,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>401 Unauthorized</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 정보가 없거나 로그인 상태가 유요하지 않는 경우 요청에 실패한다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 정보가 없거나 로그인 상태가 유요하지 않는 경우 요청에 실패한다.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>404 Not Found</code></p></td>
@@ -649,14 +655,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_http_request_example"><a class="link" href="#_http_request_example">HTTP Request Example</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/login?_csrf=XE1kj9p8IeLaFYAnqyla4t673CgpdEySyi408OJL9ZEV8vBPa35VvulKEID3LLMSygRuh-uP8REQTHi__BpQwdstlqAhk8J3 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 118
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/login HTTP/1.1
+Content-Type: application/json
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "email" : "dtl0CGAdZ3m/#BM8X$Lbz|D0|'8GopEH$&amp;Ka@CF0.tO5myYFgAnaNKNj7ov.edu",
-  "password" : "M2(,bPs:YQ8f7%gB6k"
+  "email" : "user1@gmail.com",
+  "password" : "abcd1234"
 }</code></pre>
 </div>
 </div>
@@ -667,18 +673,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 287
+Content-Length: 288
 
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-01T22:53:09.03454",
+  "timestamp" : "2023-04-08T02:25:38.799677",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -687,10 +687,10 @@ Content-Length: 287
 </div>
 </div>
 <div class="sect1">
-<h2 id="member"><a class="link" href="#member">유저</a></h2>
+<h2 id="member"><a class="link" href="#member">회원</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>유저 도메인과 관련된 API 입니다.</p>
+<p>회원 도메인과 관련된 API 입니다.</p>
 </div>
 <div class="sect2">
 <h3 id="member-login"><a class="link" href="#member-login">로그인</a></h3>
@@ -700,25 +700,14 @@ Content-Length: 287
 <h5 id="_성공_시_http_request"><a class="link" href="#_성공_시_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/login?_csrf=bFNJ-HUH7wGJbKRFFZgty-K6e41vgoWGcx_35SGbc4PkZH1ICDV5zUU01jekWpd0LLUZrdCCVuxY47arEX3B0Uf-RbSAVUh- HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 129
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/login HTTP/1.1
+Content-Type: application/json
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "email" : "eTZtg%IpxT`fA2_L1C'9HyC@xwefvh-UuVw1BkEcKPhedUKzL3jw1IsLlXSpfcvfP48Cy.us",
-  "password" : "\"tecHMAD\\/U!+&amp;JOC]"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_성공_시_request_body"><a class="link" href="#_성공_시_request_body">Request body</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
-  "email" : "eTZtg%IpxT`fA2_L1C'9HyC@xwefvh-UuVw1BkEcKPhedUKzL3jw1IsLlXSpfcvfP48Cy.us",
-  "password" : "\"tecHMAD\\/U!+&amp;JOC]"
+  "email" : "user1@gmail.com",
+  "password" : "abcd1234"
 }</code></pre>
 </div>
 </div>
@@ -770,35 +759,13 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 292
+Content-Length: 367
 
 {
   "data" : {
-    "id" : -3010534853421522726,
-    "email" : "eTZtg%IpxT`fA2_L1C'9HyC@xwefvh-UuVw1BkEcKPhedUKzL3jw1IsLlXSpfcvfP48Cy.us",
-    "token" : "'WzSE[@5c2_2bq\\UsY&amp;u&lt;HNuRE^ZZ2,Lz6uqsYo:C9_qTHz+FGn8UmF]qTC&lt;-bQE"
-  },
-  "code" : "OK",
-  "message" : "요청이 성공하였습니다."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_성공_시_response_body"><a class="link" href="#_성공_시_response_body">Response body</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
-  "data" : {
-    "id" : -3010534853421522726,
-    "email" : "eTZtg%IpxT`fA2_L1C'9HyC@xwefvh-UuVw1BkEcKPhedUKzL3jw1IsLlXSpfcvfP48Cy.us",
-    "token" : "'WzSE[@5c2_2bq\\UsY&amp;u&lt;HNuRE^ZZ2,Lz6uqsYo:C9_qTHz+FGn8UmF]qTC&lt;-bQE"
+    "id" : 1,
+    "email" : "user1@gmail.com",
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6ImhvbGVtYW43OUBuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgwNjg0NTQ0LCJleHAiOjE2ODA3MDYxNDR9.dnkE6IBmUADw10peWuXE6U7REQuOcTUT6TiO_ImzaF_AI12aoMqz-2vlrpoXqxkPdTW61ufl7vhuCSmxhMJfzQ"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -878,14 +845,14 @@ Content-Length: 292
 <h5 id="_실패_시_http_request"><a class="link" href="#_실패_시_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/login?_csrf=XE1kj9p8IeLaFYAnqyla4t673CgpdEySyi408OJL9ZEV8vBPa35VvulKEID3LLMSygRuh-uP8REQTHi__BpQwdstlqAhk8J3 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 118
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/login HTTP/1.1
+Content-Type: application/json
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "email" : "dtl0CGAdZ3m/#BM8X$Lbz|D0|'8GopEH$&amp;Ka@CF0.tO5myYFgAnaNKNj7ov.edu",
-  "password" : "M2(,bPs:YQ8f7%gB6k"
+  "email" : "user1@gmail.com",
+  "password" : "abcd1234"
 }</code></pre>
 </div>
 </div>
@@ -897,7 +864,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-01T22:53:09.03454",
+  "timestamp" : "2023-04-08T02:25:38.799677",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -913,25 +880,14 @@ Host: localhost:8080
 <h5 id="_성공_시_2_http_request"><a class="link" href="#_성공_시_2_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members?_csrf=qmX3l7TeETIJnmvebcrBSbIKY40hQhaTSFYlCBmDrM13eNIlnVTOrtDpJVck_FvoWuf1f9M9Tu9CciG-ezcdbn_imqsUQesX HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 79
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members HTTP/1.1
+Content-Type: application/json
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "email" : "hqT9'Dy89EM@viYevRZiN.no",
-  "password" : "VUHh7'=ODih5_6[29m"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_성공_시_2_request_body"><a class="link" href="#_성공_시_2_request_body">Request body</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
-  "email" : "hqT9'Dy89EM@viYevRZiN.no",
-  "password" : "VUHh7'=ODih5_6[29m"
+  "email" : "user1@gmail.com",
+  "password" : "abcd1234"
 }</code></pre>
 </div>
 </div>
@@ -983,31 +939,11 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 128
+Content-Length: 119
 
 {
   "data" : {
-    "email" : "hqT9'Dy89EM@viYevRZiN.no"
-  },
-  "code" : "OK",
-  "message" : "요청이 성공하였습니다."
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_성공_시_2_response_body"><a class="link" href="#_성공_시_2_response_body">Response body</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
-  "data" : {
-    "email" : "hqT9'Dy89EM@viYevRZiN.no"
+    "email" : "user1@gmail.com"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -1071,14 +1007,14 @@ Content-Length: 128
 <h5 id="_실패_시_2_http_request"><a class="link" href="#_실패_시_2_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members?_csrf=YSFudFNbQu4qUbFTRISOFti-6-71Ln5HDNMsgxmo6r14l-EVVUdZEmNoddYHYdJnIKm6deiPxteWGR1qabZNsC_O09kb89Qg HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 137
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members HTTP/1.1
+Content-Type: application/json
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "email" : "CpgyLwD6kPJbz03*rKIOsq8CFuHL8Hoy@ixwjD1vKucc2bIE4FEeeBEQciTC2tJKgeM5LLZ9SxDPL8C.by",
-  "password" : "ytC@!Bw7Q%GQ.icA&gt;r"
+  "email" : "user1@gmail.com",
+  "password" : "abcd1234"
 }</code></pre>
 </div>
 </div>
@@ -1090,7 +1026,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-01T22:53:09.702745",
+  "timestamp" : "2023-04-08T02:25:39.036876",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1100,11 +1036,562 @@ Host: localhost:8080
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="bingo"><a class="link" href="#bingo">빙고</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>빙고 도메인과 관련된 API 입니다.</p>
+</div>
+<div class="sect2">
+<h3 id="bingo-enum"><a class="link" href="#bingo-enum">빙고 관련 상수</a></h3>
+<div class="paragraph">
+<p>빙고 보드를 구성하는 프로퍼티 별 상수에 대해 설명합니다.</p>
+</div>
+<div class="sect3">
+<h4 id="bingo-type"><a class="link" href="#bingo-type">빙고 타입</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">상수명</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERSONAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개인 빙고</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GROUP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">그룹 빙고</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="bingo-size"><a class="link" href="#bingo-size">빙고 사이즈</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">상수명</th>
+<th class="tableblock halign-left valign-top">X축</th>
+<th class="tableblock halign-left valign-top">Y축</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 사이즈</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SIXTEEN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4x4 사이즈</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="bingo-color"><a class="link" href="#bingo-color">빙고 색상</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">상수명</th>
+<th class="tableblock halign-left valign-top">Hex Code</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#ff0000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빨강색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORANGE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#f67828</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">주황색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>YELLOW</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#ffff00</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">노랑색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GREEN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#008000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">초록색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BLUE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#0000ff</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파랑색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NAVY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#000080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">남색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PURPLE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#800080</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">보라색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RANDOM</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">랜덤 색상</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="create-bingo"><a class="link" href="#create-bingo">빙고 생성</a></h3>
+<div class="sect3">
+<h4 id="create-bingo_http_request"><a class="link" href="#create-bingo_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
+Content-Type: application/json
+Content-Length: 189
+Host: localhost:8080
+
+{
+  "title" : "쟈텋꺄먞픂꼽곯방",
+  "type" : "GROUP",
+  "size" : "SIXTEEN",
+  "color" : "YELLOW",
+  "goal" : 3,
+  "open" : true,
+  "since" : "2023-04-08",
+  "until" : "2023-09-09"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="create-bingo_request_fields"><a class="link" href="#create-bingo_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">속성명</th>
+<th class="tableblock halign-left valign-top">데이터 타입</th>
+<th class="tableblock halign-left valign-top">데이터 형식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">기본값</th>
+<th class="tableblock halign-left valign-top">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\[-_~]{1,40}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[테스트] 새로운 빙고입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개인 : <code>PERSONAL</code>, 그룹 : <code>GROUP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 유형</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERSONAL</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 : <code>NINE</code>, 4x4 : <code>SIXTEEN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">color</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RED</code>, <code>ORANGE</code>, <code>YELLOW</code>, <code>GREEN</code>, <code>BLUE</code>, <code>NAVY</code>, <code>PURPLE</code>, <code>RANDOM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RANDOM</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">goal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">open</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">피드 공개여부, <code>true</code> : 공개,<code>false</code> : 비공개</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">since</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 시작일자, 현재보다 미래로 설정</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-01-01</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">until</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 종료일자, 시작일자보다 미래로 설정</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-01</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="create-bingo_http_response"><a class="link" href="#create-bingo_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1258
+
+{
+  "data" : {
+    "items" : [ {
+      "bingoBoardId" : 0,
+      "bingoItemId" : 0,
+      "title" : "",
+      "subtitle" : "",
+      "imageUrl" : "",
+      "positionX" : 0,
+      "positionY" : 0
+    }, {
+      "bingoBoardId" : 0,
+      "bingoItemId" : 0,
+      "title" : "",
+      "subtitle" : "",
+      "imageUrl" : "",
+      "positionX" : 0,
+      "positionY" : 0
+    }, {
+      "bingoBoardId" : 0,
+      "bingoItemId" : 0,
+      "title" : "",
+      "subtitle" : "",
+      "imageUrl" : "",
+      "positionX" : 0,
+      "positionY" : 0
+    }, {
+      "bingoBoardId" : 0,
+      "bingoItemId" : 0,
+      "title" : "",
+      "subtitle" : "",
+      "imageUrl" : "",
+      "positionX" : 0,
+      "positionY" : 0
+    } ],
+    "bingoBoardId" : 0,
+    "creator" : {
+      "id" : 44,
+      "email" : ""
+    },
+    "title" : "쟈텋꺄먞픂꼽곯방",
+    "type" : "GROUP",
+    "size" : {
+      "name" : "SIXTEEN",
+      "x" : 4,
+      "y" : 4,
+      "description" : "4x4"
+    },
+    "color" : {
+      "name" : "YELLOW",
+      "hex" : "#ffff00",
+      "description" : "노랑색"
+    },
+    "goal" : 3,
+    "open" : true,
+    "since" : "2023-04-08",
+    "until" : "2023-09-09",
+    "memo" : ""
+  },
+  "code" : "OK",
+  "message" : "요청이 성공하였습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="create-bingo_response_fields"><a class="link" href="#create-bingo_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">속성명</th>
+<th class="tableblock halign-left valign-top">데이터 타입</th>
+<th class="tableblock halign-left valign-top">데이터 형식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">기본값</th>
+<th class="tableblock halign-left valign-top">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoBoardId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.creator.id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.creator.email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 이메일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="mailto:test@groubing.com">test@groubing.com</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\[-_~]{1,40}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[테스트] 새로운 빙고입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개인 : <code>PERSONAL</code>, 그룹 : <code>GROUP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 유형</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERSONAL</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 : <code>NINE</code>, 4x4 : <code>SIXTEEN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈명</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NINE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : 3, <code>SIXTEEN</code> : 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 X축 크기</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.y</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : 3, <code>SIXTEEN</code> : 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 Y축 크기</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : <code>3x3</code>, <code>SIXTEEN</code> : <code>4x4</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈 설명</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.color.name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RED</code>, <code>ORANGE</code>, <code>YELLOW</code>, <code>GREEN</code>, <code>BLUE</code>, <code>NAVY</code>, <code>PURPLE</code>, <code>RANDOM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상명</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RANDOM</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.color.hex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상 HEX 코드</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">#ff0000</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.color.description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상 설명</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빨강색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.goal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.open</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">피드 공개여부, <code>true</code> : 공개,<code>false</code> : 비공개</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.since</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 시작일자, 현재보다 미래로 설정</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-01-01</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.until</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 종료일자, 시작일자보다 미래로 설정</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-01</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.memo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 비고 메모</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 메모 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].bingoBoardId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].bingoItemId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">할 일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">토익 점수 990점 달성</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].subtitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부가설명</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LC 집중적으로 학습하기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].imageUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].positionX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 X축 좌표</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[].positionY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 Y축 좌표</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Http 응답 코드</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Http 응답 메세지</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-01 22:49:01 +0900
+Last updated 2023-04-08 02:25:25 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

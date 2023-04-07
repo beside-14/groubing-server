@@ -26,5 +26,5 @@ class CompleteMember(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", updatable = false)
-    val member: Member,
+    val member: Member
 ) : BaseCreatedTimeEntity()

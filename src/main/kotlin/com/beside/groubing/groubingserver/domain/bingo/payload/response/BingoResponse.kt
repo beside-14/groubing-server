@@ -19,6 +19,7 @@ class BingoResponse(
     val size: BingoSizeResponse = BingoSizeResponse(board.size)
     val color: BingoColorResponse = BingoColorResponse((board.color))
     val goal: Int = board.goal
+    val open: Boolean = board.open
     val since: LocalDate = board.since
     val until: LocalDate = board.until
     val memo: String = board.memo

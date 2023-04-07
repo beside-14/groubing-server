@@ -22,8 +22,11 @@ class CreateBingoApi(
 
     @PostMapping
     fun create(
-        @AuthenticationPrincipal member: Member,
-        @RequestBody @Validated request: CreateBingoRequest,
+        @AuthenticationPrincipal
+        member: Member,
+        @RequestBody
+        @Validated
+        request: CreateBingoRequest,
         bindingResult: BindingResult
     ): ApiResponse<BingoResponse> {
         if (bindingResult.hasErrors()) throw BindException(bindingResult)

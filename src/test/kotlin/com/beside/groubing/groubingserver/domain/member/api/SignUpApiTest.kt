@@ -3,8 +3,9 @@ package com.beside.groubing.groubingserver.domain.member.api
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.requestBody
+import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
-import com.beside.groubing.groubingserver.docs.type
+import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.member.application.SignUpService
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
@@ -47,11 +48,11 @@ class SignUpApiTest(
                 }.andDocument(
                     "member-signup-success",
                     requestBody(
-                        "email" type STRING means "유저 이메일" example "test@groubing.com",
-                        "password" type STRING means "유저 패스워드" example "Bside-14th"
+                        "email" requestType STRING means "유저 이메일" example "test@groubing.com",
+                        "password" requestType STRING means "유저 패스워드" example "Bside-14th"
                     ),
                     responseBody(
-                        "data.email" type STRING means "유저 이메일" example "test@groubing.com"
+                        "email" responseType STRING means "유저 이메일" example "test@groubing.com"
                     )
                 )
 

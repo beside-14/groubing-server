@@ -1,8 +1,8 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
 enum class BingoColor(
-    val hex: String, val
-    description: String
+    val hex: String,
+    val description: String
 ) {
     RED("#ff0000", "빨강색"),
     ORANGE("#f67828", "주황색"),
