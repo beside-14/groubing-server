@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
-import com.beside.groubing.groubingserver.config.WithAuthMember
+import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.BOOLEAN
 import com.beside.groubing.groubingserver.docs.DATE
 import com.beside.groubing.groubingserver.docs.ENUM
@@ -19,6 +19,7 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.CreateBingoRequest
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoResponse
 import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -32,18 +33,14 @@ import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import java.time.LocalDate
 
-@WithAuthMember
+@ApiTest
 @WebMvcTest(controllers = [CreateBingoApi::class])
-@AutoConfigureMockMvc(addFilters = false)
-@AutoConfigureRestDocs
 class CreateBingoApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
@@ -86,6 +83,7 @@ class CreateBingoApiTest(
                 mockMvc.post("/api/bingos") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
+                    header("Authorization", getHttpHeaderJwt())
                 }.andDo {
                     print()
                 }.andExpect {

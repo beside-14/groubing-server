@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
+import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.requestBody
@@ -15,16 +16,13 @@ import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
 import io.mockk.verify
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
+@ApiTest
 @WebMvcTest(controllers = [SignUpApi::class])
-@AutoConfigureRestDocs
-@AutoConfigureMockMvc(addFilters = false)
 class SignUpApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,

@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
+import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
@@ -11,21 +12,19 @@ import com.beside.groubing.groubingserver.domain.member.application.LoginService
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.LoginRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.LoginResponse
+import com.beside.groubing.groubingserver.extension.getJwt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
 import io.mockk.verify
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
+@ApiTest
 @WebMvcTest(controllers = [LoginApi::class])
-@AutoConfigureMockMvc(addFilters = false)
-@AutoConfigureRestDocs
 class LoginApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
@@ -37,11 +36,8 @@ class LoginApiTest(
         val request = LoginRequest(email, password)
 
         When("올바른 정보로 로그인 요청 시") {
-            val response = LoginResponse(
-                1L,
-                email,
-                "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6ImhvbGVtYW43OUBuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgwNjg0NTQ0LCJleHAiOjE2ODA3MDYxNDR9.dnkE6IBmUADw10peWuXE6U7REQuOcTUT6TiO_ImzaF_AI12aoMqz-2vlrpoXqxkPdTW61ufl7vhuCSmxhMJfzQ"
-            )
+            val jwt = getJwt()
+            val response = LoginResponse(1L, email, jwt)
             every { loginService.login(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
