@@ -1,6 +1,5 @@
 package com.beside.groubing.groubingserver.global.domain.security
 
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -45,13 +44,9 @@ class JwtProvider {
 
         fun getAuthentication(token: String?): Authentication {
             val claims = getAllClaims(token)
-            val member = Member(
-                id = (claims[MEMBER_ID] as Int).toLong(),
-                email = claims[EMAIL] as String
-            )
             val authorities =
                 listOf(claims[ROLE]).map { role -> SimpleGrantedAuthority(role as String?) }
-            return UsernamePasswordAuthenticationToken(member, token, authorities)
+            return UsernamePasswordAuthenticationToken((claims[MEMBER_ID] as Int).toLong(), token, authorities)
         }
 
         fun isValidToken(token: String?): Boolean {

@@ -2,73 +2,87 @@ package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
 
 @Entity
-@Table(name = "bingo_boards")
+@Table(name = "BINGO_BOARDS")
 class BingoBoard(
     @Id
-    @Column(name = "bingo_board_id", updatable = false)
+    @Column(name = "BINGO_BOARD_ID", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val title: String = "",
+    var title: String,
 
     @Enumerated(EnumType.STRING)
-    val type: BingoType = BingoType.PERSONAL,
+    val type: BingoType,
 
     @Enumerated(EnumType.STRING)
-    val size: BingoSize = BingoSize.NINE,
+    val size: BingoSize,
 
     @Enumerated(EnumType.STRING)
-    val color: BingoColor = BingoColor.RANDOM,
+    val color: BingoColor,
 
-    val goal: Int = 1,
+    var goal: Int,
 
-    val open: Boolean = true,
+    val open: Boolean,
 
-    val since: LocalDate = LocalDate.now(),
+    var since: LocalDate,
 
-    val until: LocalDate = LocalDate.now().plusDays(14),
+    var until: LocalDate,
 
-    val memo: String = "",
+    var memo: String = "",
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId", updatable = false)
-    val member: Member = Member()
+    creatorId: Long
 ) : BaseEntity() {
 
-    @OneToMany(mappedBy = "board")
-    private val items: Collection<BingoItem> = mutableListOf()
+    @OneToMany(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "BINGO_BOARD_ID")
+    private var items: List<BingoItem>
 
-    fun getItems(): List<List<BingoItem>> = convertItems(items)
+    @OneToMany(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "BINGO_BOARD_ID")
+    var members: List<BingoMember>
 
-    fun setItems(items: List<List<BingoItem>>): List<List<BingoItem>> {
-        (this.items as MutableList).clear()
-        this.items += (items.flatten())
-        return getItems()
-    }
+    init {
+        // 빙고 생성자 생성
+        val bingoCreator =
+            BingoMember(type = BingoMemberType.CREATOR, bingoBoard = this, member = Member(id = creatorId))
+        this.members = listOf(bingoCreator)
 
-    fun createNewItems(): List<List<BingoItem>> {
+        // 신규 아이템 생성
         val newItems = (0 until size.x).map { x ->
             (0 until size.y).map { y ->
                 BingoItem(board = this, positionX = x, positionY = y)
             }
         }
-        setItems(newItems)
-        return newItems
+        this.items = newItems.flatten()
+    }
+
+    fun getItems(): List<List<BingoItem>> = convertItems(items)
+
+    fun setItems(items: List<List<BingoItem>>): List<List<BingoItem>> {
+        this.items = items.flatten()
+        return getItems()
+    }
+
+    fun updateBingoBoard(title: String, goal: Int, since: LocalDate, until: LocalDate, memo: String) {
+        this.title = title
+        this.goal = goal
+        this.since = since
+        this.until = until
+        this.memo = memo
     }
 
     private fun convertItems(items: Collection<BingoItem>): List<List<BingoItem>> {

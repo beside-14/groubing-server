@@ -2,16 +2,16 @@ package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMember
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMemberType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import java.time.LocalDate
 
 class BingoBoardResponse(
     board: BingoBoard
 ) {
     val bingoBoardId: Long = board.id
-    val creator: BingoCreatorResponse = BingoCreatorResponse(board.member)
     val title: String = board.title
     val type: BingoType = board.type
     val size: BingoSizeResponse = BingoSizeResponse(board.size)
@@ -23,10 +23,13 @@ class BingoBoardResponse(
     val memo: String = board.memo
     val items: List<List<BingoItemResponse>> =
         board.getItems().map { bingoItems -> BingoItemResponse.newInstances(bingoItems) }
+    val members: List<BingoMemberResponse> = board.members.map { bingoMember -> BingoMemberResponse(bingoMember) }
 
-    class BingoCreatorResponse(member: Member) {
-        val id: Long = member.id
-        val email: String = member.email
+    class BingoMemberResponse(bingoMember: BingoMember) {
+        val bingoMemberId: Long = bingoMember.id
+        val memberId: Long = bingoMember.member.id
+        val email: String = bingoMember.member.email
+        val type: BingoMemberType = bingoMember.type
     }
 
     class BingoSizeResponse(size: BingoSize) {

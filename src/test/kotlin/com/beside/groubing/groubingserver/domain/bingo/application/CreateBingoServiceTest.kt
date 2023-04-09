@@ -1,13 +1,11 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardMapper
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.CreateBingoCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.date.shouldBeBefore
@@ -23,10 +21,8 @@ import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import io.mockk.verify
-import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
-@Import(BingoBoardMapper::class)
 class CreateBingoServiceTest(
     @MockkBean private val createBingoService: CreateBingoService
 ) : BehaviorSpec({
@@ -56,9 +52,8 @@ class CreateBingoServiceTest(
                     open = command.open,
                     since = command.since,
                     until = command.until,
-                    member = Member(id = command.memberId)
+                    creatorId = command.memberId
                 )
-            board.createNewItems()
 
             Then("해당 데이터를 리턴한다.") {
                 every { createBingoService.create(any()) } returns BingoBoardResponse(board)

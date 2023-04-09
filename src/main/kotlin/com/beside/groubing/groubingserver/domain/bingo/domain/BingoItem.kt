@@ -12,10 +12,10 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "bingo_items")
+@Table(name = "BINGO_ITEMS")
 class BingoItem(
     @Id
-    @Column(name = "bingo_item_id", updatable = false)
+    @Column(name = "BINGO_ITEM_ID", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
@@ -32,6 +32,6 @@ class BingoItem(
     val positionY: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bingo_board_id", updatable = false)
+    @JoinColumn(name = "BINGO_BOARD_ID", updatable = false)
     val board: BingoBoard
 ) : BaseEntity()

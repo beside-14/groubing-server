@@ -14,11 +14,11 @@ import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.CreateBingoService
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMemberType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.CreateBingoBoardRequest
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -72,9 +72,8 @@ class CreateBingoApiTest(
                 open = request.open,
                 since = request.since,
                 until = request.until,
-                member = Member(id = memberId)
+                creatorId = memberId
             )
-            board.createNewItems()
             val response = ApiResponse.OK(BingoBoardResponse(board))
 
             Then("생성된 빙고를 리턴한다.") {
@@ -103,8 +102,10 @@ class CreateBingoApiTest(
                     ),
                     responseBody(
                         "bingoBoardId" responseType NUMBER means "빙고 ID" example "1",
-                        "creator.id" responseType NUMBER means "작성자 ID" example "1",
-                        "creator.email" responseType STRING means "작성자 이메일" example "test@groubing.com",
+                        "members[].bingoMemberId" responseType NUMBER means "빙고 멤버 ID" example "1",
+                        "members[].memberId" responseType NUMBER means "유저 ID" example "1",
+                        "members[].email" responseType STRING means "유저 Email" example "test@groubing.com",
+                        "members[].type" responseType ENUM(BingoMemberType::class) means "빙고 멤버 타입" example "`CREATOR`",
                         "title" responseType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}",
                         "type" responseType ENUM(BingoType::class) means "빙고 유형" example "`PERSONAL`" formattedAs "개인 : `PERSONAL`, 그룹 : `GROUP`",
                         "size.name" responseType STRING means "빙고 사이즈명" example "NINE" formattedAs "3x3 : `NINE`, 4x4 : `SIXTEEN`",
