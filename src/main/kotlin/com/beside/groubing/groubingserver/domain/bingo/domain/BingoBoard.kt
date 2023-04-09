@@ -51,11 +51,28 @@ class BingoBoard(
 ) : BaseEntity() {
 
     @OneToMany(mappedBy = "board")
-    val items: Collection<BingoItem> = mutableListOf()
+    private val items: Collection<BingoItem> = mutableListOf()
 
-    fun createNewItems(): Collection<BingoItem> {
-        val newItems = (1..size.x).map { _ -> BingoItem(board = this) }
-        this.items + newItems
+    fun getItems(): List<List<BingoItem>> = convertItems(items)
+
+    fun setItems(items: List<List<BingoItem>>): List<List<BingoItem>> {
+        (this.items as MutableList).clear()
+        this.items += (items.flatten())
+        return getItems()
+    }
+
+    fun createNewItems(): List<List<BingoItem>> {
+        val newItems = (0 until size.x).map { x ->
+            (0 until size.y).map { y ->
+                BingoItem(board = this, positionX = x, positionY = y)
+            }
+        }
+        setItems(newItems)
         return newItems
+    }
+
+    private fun convertItems(items: Collection<BingoItem>): List<List<BingoItem>> {
+        val xToY = items.groupBy { item -> item.positionX }.toSortedMap()
+        return xToY.values.toList()
     }
 }

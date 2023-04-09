@@ -16,8 +16,8 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
-import com.beside.groubing.groubingserver.domain.bingo.payload.request.CreateBingoRequest
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoResponse
+import com.beside.groubing.groubingserver.domain.bingo.payload.request.CreateBingoBoardRequest
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
@@ -51,7 +51,7 @@ class CreateBingoApiTest(
         val tomorrow = now.plusDays(1)
         val memberId = Arb.long(1L..100L).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
-        val request = CreateBingoRequest(
+        val request = CreateBingoBoardRequest(
             title = Arb.stringPattern(pattern).single(),
             type = Arb.enum<BingoType>().single(),
             size = Arb.enum<BingoSize>().single(),
@@ -74,8 +74,8 @@ class CreateBingoApiTest(
                 until = request.until,
                 member = Member(id = memberId)
             )
-            val items = board.createNewItems()
-            val response = ApiResponse.OK(BingoResponse(board, items))
+            board.createNewItems()
+            val response = ApiResponse.OK(BingoBoardResponse(board))
 
             Then("생성된 빙고를 리턴한다.") {
                 every { createBingoService.create(any()) } returns response.data
@@ -110,6 +110,7 @@ class CreateBingoApiTest(
                         "size.name" responseType STRING means "빙고 사이즈명" example "NINE" formattedAs "3x3 : `NINE`, 4x4 : `SIXTEEN`",
                         "size.x" responseType NUMBER means "빙고 X축 크기" example "3" formattedAs "`NINE` : 3, `SIXTEEN` : 4",
                         "size.y" responseType NUMBER means "빙고 Y축 크기" example "3" formattedAs "`NINE` : 3, `SIXTEEN` : 4",
+                        "size.itemCount" responseType NUMBER means "빙고 아이템 수" example "9" formattedAs "`NINE` : 9, `SIXTEEN` : 16",
                         "size.description" responseType STRING means "빙고 사이즈 설명" example "3x3" formattedAs "`NINE` : `3x3`, `SIXTEEN` : `4x4`",
                         "color.name" responseType STRING means "빙고 색상명" example "RANDOM" formattedAs "`RED`, `ORANGE`, `YELLOW`, `GREEN`, `BLUE`, `NAVY`, `PURPLE`, `RANDOM`",
                         "color.hex" responseType STRING means "빙고 색상 HEX 코드" example "#ff0000",
@@ -119,13 +120,13 @@ class CreateBingoApiTest(
                         "since" responseType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd",
                         "until" responseType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd",
                         "memo" responseType STRING means "빙고 비고 메모" example "빙고 메모 입니다.",
-                        "items[].bingoBoardId" responseType NUMBER means "빙고 ID" example "1",
-                        "items[].bingoItemId" responseType NUMBER means "빙고 아이템 ID" example "1",
-                        "items[].title" responseType STRING means "할 일" example "토익 점수 990점 달성",
-                        "items[].subtitle" responseType STRING means "부가설명" example "LC 집중적으로 학습하기",
-                        "items[].imageUrl" responseType STRING means "이미지 URL",
-                        "items[].positionX" responseType NUMBER means "빙고 아이템 X축 좌표" example "0",
-                        "items[].positionY" responseType NUMBER means "빙고 아이템 Y축 좌표" example "0"
+                        "items[][].bingoBoardId" responseType NUMBER means "빙고 ID" example "1",
+                        "items[][].bingoItemId" responseType NUMBER means "빙고 아이템 ID" example "1",
+                        "items[][].title" responseType STRING means "할 일" example "토익 점수 990점 달성",
+                        "items[][].subtitle" responseType STRING means "부가설명" example "LC 집중적으로 학습하기",
+                        "items[][].imageUrl" responseType STRING means "이미지 URL",
+                        "items[][].positionX" responseType NUMBER means "빙고 아이템 X축 좌표" example "0",
+                        "items[][].positionY" responseType NUMBER means "빙고 아이템 Y축 좌표" example "0"
                     )
                 )
             }

@@ -6,11 +6,10 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.CreateBingoCommand
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoResponse
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.inspectors.forExactly
 import io.kotest.matchers.date.shouldBeBefore
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.beBlank
@@ -59,17 +58,18 @@ class CreateBingoServiceTest(
                     until = command.until,
                     member = Member(id = command.memberId)
                 )
-            val items = board.createNewItems()
+            board.createNewItems()
 
             Then("해당 데이터를 리턴한다.") {
-                every { createBingoService.create(any()) } returns BingoResponse(board, items)
+                every { createBingoService.create(any()) } returns BingoBoardResponse(board)
 
                 val response = createBingoService.create(command)
 
                 response.since shouldBeBefore response.until
                 response.memo shouldBe beBlank()
-                response.items.size shouldBe command.size.x
-                response.items.forExactly(command.size.x) { it.bingoBoardId shouldBe response.bingoBoardId }
+                board.getItems().forEachIndexed { x, bingoItems ->
+                    bingoItems.forEachIndexed { y, bingoItem -> response.items[x][y].bingoItemId shouldBe bingoItem.id }
+                }
 
                 verify(exactly = 1) { createBingoService.create(any()) }
             }

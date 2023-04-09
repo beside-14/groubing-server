@@ -1,7 +1,6 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.inspectors.forExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.enum
@@ -16,7 +15,41 @@ class BingoBoardTest : BehaviorSpec({
 
             Then("빙고 아이템을 생성한다.") {
                 items.size shouldBe board.size.x
-                items.forExactly(board.size.x) { it.board.id shouldBe board.id }
+                items.forEachIndexed { x, bingoItems ->
+                    bingoItems.forEachIndexed { y, bingoItem ->
+                        bingoItem.positionX shouldBe x
+                        bingoItem.positionY shouldBe y
+                    }
+                }
+            }
+        }
+
+        And("기존 빙고 보드에") {
+            val otherBoard = BingoBoard(type = board.type, size = board.size)
+            val otherItems = otherBoard.createNewItems()
+
+            When("다른 보드의 아이템으로") {
+                board.setItems(otherItems)
+
+                Then("변경한다.") {
+                    val items = board.getItems()
+
+                    otherItems.forEachIndexed { x, bingoItems ->
+                        bingoItems.forEachIndexed { y, bingoItem -> items[x][y] shouldBe bingoItem }
+                    }
+                }
+            }
+
+            When("기존 빙고 아이템을") {
+                val newItems = board.createNewItems()
+                val items = board.getItems()
+
+                Then("가져온다.") {
+                    items.size shouldBe newItems.size
+                    items.forEachIndexed { x, bingoItems ->
+                        bingoItems.forEachIndexed { y, bingoItem -> bingoItem shouldBe newItems[x][y] }
+                    }
+                }
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
 import com.beside.groubing.groubingserver.domain.bingo.application.CreateBingoService
-import com.beside.groubing.groubingserver.domain.bingo.payload.request.CreateBingoRequest
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoResponse
+import com.beside.groubing.groubingserver.domain.bingo.payload.request.CreateBingoBoardRequest
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -26,9 +26,9 @@ class CreateBingoApi(
         member: Member,
         @RequestBody
         @Validated
-        request: CreateBingoRequest,
+        request: CreateBingoBoardRequest,
         bindingResult: BindingResult
-    ): ApiResponse<BingoResponse> {
+    ): ApiResponse<BingoBoardResponse> {
         if (bindingResult.hasErrors()) throw BindException(bindingResult)
         val command = request.command(member.id)
         val response = createBingoService.create(command)

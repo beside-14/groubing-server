@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.Range
 import java.time.LocalDate
 
-data class CreateBingoRequest(
+data class CreateBingoBoardRequest(
     @field:NotBlank(message = "빙고 제목을 입력해 주세요.")
     @field:Size(min = 1, max = 40, message = "빙고 제목은 40자 이내로 입력해 주세요.")
     @field:Pattern(regexp = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}", message = "사용할 수 없는 특수문자가 포함되어 있습니다.")

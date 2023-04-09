@@ -25,8 +25,10 @@ class BingoItem(
 
     val imageUrl: String = "",
 
+    @Column(updatable = false)
     val positionX: Int = 0,
 
+    @Column(updatable = false)
     val positionY: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
