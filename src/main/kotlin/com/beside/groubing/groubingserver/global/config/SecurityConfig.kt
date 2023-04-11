@@ -33,8 +33,6 @@ class SecurityConfig {
             .authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, *AUTH_WHITELIST)
             .permitAll()
-//                .requestMatchers(*STATIC_RESOURCES)
-//                .permitAll()
             .anyRequest()
             .authenticated()
             .and()
