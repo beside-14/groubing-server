@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domagin.bingo.dto
+package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
@@ -21,7 +21,7 @@ class BingoBoardResponse private constructor(
 
     val bingoSize: Int,
 
-    val memo: String,
+    val memo: String?,
 
     val bingoLines: List<BingoLineResponse>,
 
@@ -39,9 +39,9 @@ class BingoBoardResponse private constructor(
 
         val title: String,
 
-        val subTitle: String,
+        val subTitle: String?,
 
-        val imageUrl: String,
+        val imageUrl: String?,
 
         val complete: Boolean,
     ) {

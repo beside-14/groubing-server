@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
-import com.beside.groubing.groubingserver.domagin.bingo.dto.BingoBoardResponse
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardRepository
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import org.springframework.stereotype.Service

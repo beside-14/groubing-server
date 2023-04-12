@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class BingoCreateService(
+class BingoBoardCreateService(
     private val bingoBoardRepository: BingoBoardRepository
 ) {
     fun create(command: BingoBoardCreateCommand): BingoBoardResponse {
