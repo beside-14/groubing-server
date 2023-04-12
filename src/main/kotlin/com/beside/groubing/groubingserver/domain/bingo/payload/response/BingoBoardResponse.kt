@@ -1,48 +1,98 @@
-package com.beside.groubing.groubingserver.domain.bingo.payload.response
+package com.beside.groubing.groubingserver.domagin.bingo.dto
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMember
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMemberType
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoType
-import java.time.LocalDate
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
+import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoLine
+import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 
-class BingoBoardResponse(
-    board: BingoBoard
+class BingoBoardResponse private constructor(
+    val id: Long,
+
+    val title: String,
+
+    val goal: Int,
+
+    val groupType: BingoBoardType,
+
+    val open: Boolean,
+
+    val dDay: String,
+
+    val bingoSize: Int,
+
+    val memo: String,
+
+    val bingoLines: List<BingoLineResponse>,
+
+    val totalCompleteCount: Int,
+
+    val horizontalCompleteLineIndexes: List<Int>,
+
+    val verticalCompleteLineIndexes: List<Int>,
+
+    val diagonalCompleteLineIndexes: List<Int>
 ) {
-    val bingoBoardId: Long = board.id
-    val title: String = board.title
-    val type: BingoType = board.type
-    val size: BingoSizeResponse = BingoSizeResponse(board.size)
-    val color: BingoColorResponse = BingoColorResponse((board.color))
-    val goal: Int = board.goal
-    val open: Boolean = board.open
-    val since: LocalDate = board.since
-    val until: LocalDate = board.until
-    val memo: String = board.memo
-    val items: List<List<BingoItemResponse>> =
-        board.getItems().map { bingoItems -> BingoItemResponse.newInstances(bingoItems) }
-    val members: List<BingoMemberResponse> = board.members.map { bingoMember -> BingoMemberResponse(bingoMember) }
 
-    class BingoMemberResponse(bingoMember: BingoMember) {
-        val bingoMemberId: Long = bingoMember.id
-        val memberId: Long = bingoMember.member.id
-        val email: String = bingoMember.member.email
-        val type: BingoMemberType = bingoMember.type
+    class BingoItemResponse private constructor(
+        val id: Long,
+
+        val title: String,
+
+        val subTitle: String,
+
+        val imageUrl: String,
+
+        val complete: Boolean,
+    ) {
+        companion object {
+            fun fromBingoItem(bingoItem: BingoItem, memberId: Long): BingoItemResponse {
+                return BingoItemResponse(
+                    id = bingoItem.id,
+                    title = bingoItem.title,
+                    subTitle = bingoItem.subTitle,
+                    imageUrl = bingoItem.imageUrl,
+                    complete = bingoItem.isCompleted(memberId),
+                )
+            }
+        }
     }
 
-    class BingoSizeResponse(size: BingoSize) {
-        val name: String = size.name
-        val x: Int = size.x
-        val y: Int = size.y
-        val itemCount: Int = size.itemCount
-        val description: String = size.description
+    class BingoLineResponse private constructor(
+        val direction: Direction,
+
+        val bingoItems: List<BingoItemResponse>
+    ) {
+        companion object {
+            fun fromBingoLine(bingoLine: BingoLine, memberId: Long): BingoLineResponse {
+                return BingoLineResponse(
+                    direction = bingoLine.direction,
+                    bingoItems = bingoLine.bingoItems
+                        .map { BingoItemResponse.fromBingoItem(it, memberId) }
+                )
+            }
+        }
     }
 
-    class BingoColorResponse(color: BingoColor) {
-        val name: String = color.name
-        val hex: String = color.hex
-        val description: String = color.description
+    companion object {
+        fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardResponse {
+            val bingoMap = bingoBoard.makeBingoMap(memberId)
+            return BingoBoardResponse(
+                id = bingoBoard.id,
+                title = bingoBoard.title,
+                goal = bingoBoard.goal,
+                groupType = bingoBoard.boardType,
+                open = bingoBoard.open,
+                dDay = "D-${bingoBoard.calculateLeftDays()}",
+                memo = bingoBoard.memo,
+                bingoSize = bingoBoard.bingoSize,
+                bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
+                    .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
+                totalCompleteCount = bingoMap.calculateTotalCompleteCount(),
+                horizontalCompleteLineIndexes = bingoMap.getCompleteLineIndexes(Direction.HORIZONTAL),
+                verticalCompleteLineIndexes = bingoMap.getCompleteLineIndexes(Direction.VERTICAL),
+                diagonalCompleteLineIndexes = bingoMap.getCompleteLineIndexes(Direction.DIAGONAL)
+            )
+        }
     }
 }

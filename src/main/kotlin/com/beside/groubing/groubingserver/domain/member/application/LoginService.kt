@@ -17,7 +17,7 @@ class LoginService(
 ) {
     fun login(loginCommand: LoginCommand): LoginResponse {
         // 아이디가 존재하는지
-        val member = memberRepository.findByEmail(loginCommand.email) ?: throw MemberInputException("존재하지 않는 이메일 입니다.")
+        val member = memberRepository.findByEmail(loginCommand.email) ?: throw MemberInputException("존재하지 않는 이메일 입니다.: $loginCommand.email")
         // 패스워드가 일치하는지
         member.matches(loginCommand.password, passwordEncoder)
         return LoginResponse(member.id, member.email, JwtProvider.createToken(member.id, member.email, member.role))

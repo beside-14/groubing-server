@@ -1,37 +1,46 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
-import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
+import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
+import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
 @Table(name = "BINGO_ITEMS")
-class BingoItem(
+class BingoItem private constructor(
     @Id
-    @Column(name = "BINGO_ITEM_ID", updatable = false)
+    @Column(name = "BINGO_ITEM_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val title: String = "",
+    var title: String,
 
-    val subtitle: String = "",
+    var subTitle: String? = null,
 
-    val imageUrl: String = "",
+    var imageUrl: String? = null,
 
-    @Column(updatable = false)
-    val positionX: Int = 0,
+    @ElementCollection
+    @CollectionTable(name = "BINGO_COMPLETE_MEMBERS", joinColumns = [JoinColumn(name = "BINGO_ITEM_ID")])
+    val completeMembers: MutableSet<Long> = mutableSetOf()
+) {
+    fun isCompleted(memberId: Long): Boolean {
+        return completeMembers.contains(memberId)
+    }
 
-    @Column(updatable = false)
-    val positionY: Int = 0,
+    fun addBingoMember(memberId: Long) {
+        completeMembers.add(memberId)
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BINGO_BOARD_ID", updatable = false)
-    val board: BingoBoard
-) : BaseEntity()
+    fun cancelBingoMember(memberId: Long) {
+        completeMembers.remove(memberId)
+    }
+
+    companion object {
+        fun createBingoItems(bingoSize: Int): List<BingoItem> = (0 until bingoSize).map { BingoItem(title = "") }
+    }
+}
