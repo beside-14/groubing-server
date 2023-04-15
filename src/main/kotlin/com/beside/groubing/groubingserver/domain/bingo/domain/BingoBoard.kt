@@ -50,18 +50,9 @@ class BingoBoard private constructor(
 
 ) : BaseEntity() {
     init {
-        if (bingoSize != 3 && bingoSize != 4) {
-            throw BingoInputException("빙고 사이즈는 3X3 혹은 4X4 사이즈만 가능합니다.")
-        }
-        if (bingoSize == 3 && goal !in (1..3)) {
-            throw BingoInputException("목표는 3개 이내로 설정해 주세요.")
-        }
-        if (bingoSize == 4 && goal !in (1..4)) {
-            throw BingoInputException("목표는 4개 이내로 설정해 주세요.")
-        }
-        if (until.isBefore(since)) {
-            throw BingoInputException("빙고 종료일은 시작일보다 과거일 수 없습니다.")
-        }
+        checkBingoSize()
+        checkGoal()
+        checkDate()
     }
 
     fun calculateLeftDays(): Long {
@@ -73,10 +64,33 @@ class BingoBoard private constructor(
     }
 
     fun edit(title: String, goal: Int, since: LocalDate, until: LocalDate) {
+        checkGoal()
+        checkDate()
         this.title = title
         this.goal = goal
         this.since = since
         this.until = until
+    }
+
+    private fun checkBingoSize(bingoSize: Int = this.bingoSize) {
+        if (bingoSize != 3 && bingoSize != 4) {
+            throw BingoInputException("빙고 사이즈는 3X3 혹은 4X4 사이즈만 가능합니다.")
+        }
+    }
+
+    private fun checkGoal(goal: Int = this.goal) {
+        if (bingoSize == 3 && goal !in (1..3)) {
+            throw BingoInputException("목표는 3개 이내로 설정해 주세요.")
+        }
+        if (bingoSize == 4 && goal !in (1..4)) {
+            throw BingoInputException("목표는 4개 이내로 설정해 주세요.")
+        }
+    }
+
+    private fun checkDate(since: LocalDate = this.since, until: LocalDate = this.until) {
+        if (until.isBefore(since)) {
+            throw BingoInputException("빙고 종료일은 시작일보다 과거일 수 없습니다.")
+        }
     }
 
     fun getLeader(): BingoMember =

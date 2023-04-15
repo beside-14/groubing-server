@@ -194,3 +194,8 @@ operation::member-signup-fail[snippets='http-request,response-body']
 === 빙고 생성
 
 operation::create-bingo[snippets='http-request,request-fields,http-response,response-fields']
+
+[[edit-bingo]]
+=== 빙고 수정
+
+operation::edit-bingo[snippets='http-request,request-fields,http-response,response-fields']

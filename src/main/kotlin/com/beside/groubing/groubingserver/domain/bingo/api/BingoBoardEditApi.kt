@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class BingoBoardEditApi(
     private val bingoBoardEditService: BingoBoardEditService
 ) {
-    @PatchMapping("/boards")
+    @PatchMapping
     fun edit(
         @AuthenticationPrincipal
         memberId: Long,
