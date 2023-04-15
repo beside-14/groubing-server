@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
+import com.beside.groubing.groubingserver.domain.bingo.exception.BingoMemberFindException
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -54,6 +55,17 @@ class BingoBoard private constructor(
     fun makeBingoMap(memberId: Long): BingoMap {
         return BingoMap(memberId, bingoSize, bingoItems)
     }
+
+    fun edit(title: String, goal: Int, since: LocalDate, until: LocalDate) {
+        this.title = title
+        this.goal = goal
+        this.since = since
+        this.until = until
+    }
+
+    fun getLeader(): BingoMember =
+        bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }
+            ?: throw BingoMemberFindException("빙고 생성자를 찾을 수 없습니다.")
 
     companion object {
         fun createBingoBoard(

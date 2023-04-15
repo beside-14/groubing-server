@@ -21,6 +21,8 @@ class BingoMember private constructor(
     val bingoMemberType: BingoMemberType
 ) : BaseEntity() {
 
+    fun isMe(memberId: Long): Boolean = id == memberId
+
     companion object {
         fun createBingoMember(memberId: Long, bingoMemberType: BingoMemberType): BingoMember =
             BingoMember(memberId = memberId, bingoMemberType = bingoMemberType)
