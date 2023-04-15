@@ -60,9 +60,14 @@ class BingoBoard private constructor(
         this.period = BingoPeriod.createBingoPeriod(since, until)
     }
 
-    fun getLeader(): BingoMember =
-        bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }
+    fun isLeader(memberId: Long): Boolean = leader.memberId == memberId
+
+    val leader: BingoMember
+        get() = bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }
             ?: throw BingoMemberFindException("빙고 생성자를 찾을 수 없습니다.")
+
+    val participants: MutableList<BingoMember>
+        get() = bingoMembers.filter { it.bingoMemberType == BingoMemberType.PARTICIPANT }.toMutableList()
 
     val bingoSize: Int
         get() = sizeAndGoal.bingoSize
