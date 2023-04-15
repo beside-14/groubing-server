@@ -17,7 +17,6 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoBoardCreateRequest
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
-import com.beside.groubing.groubingserver.domain.bingo.validator.BingoBoardCreateValidator
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -32,7 +31,6 @@ import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
-import io.mockk.justRun
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -44,8 +42,7 @@ import java.time.LocalDate
 class BingoBoardCreateApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
-    @MockkBean private val bingoBoardCreateService: BingoBoardCreateService,
-    @MockkBean private val bingoBoardCreateValidator: BingoBoardCreateValidator
+    @MockkBean private val bingoBoardCreateService: BingoBoardCreateService
 ) : BehaviorSpec({
     Given("신규 빙고 생성 요청 시") {
         val now = LocalDate.now()
@@ -70,7 +67,6 @@ class BingoBoardCreateApiTest(
 
             Then("생성된 빙고를 리턴한다.") {
                 every { bingoBoardCreateService.create(any()) } returns response
-                justRun { bingoBoardCreateValidator.validate(any(), any()) }
 
                 mockMvc.post("/api/bingos/boards") {
                     content = mapper.writeValueAsString(request)

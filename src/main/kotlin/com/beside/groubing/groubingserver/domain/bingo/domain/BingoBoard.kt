@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
+import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoMemberFindException
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
@@ -48,6 +49,21 @@ class BingoBoard private constructor(
     val bingoItems: List<BingoItem>
 
 ) : BaseEntity() {
+    init {
+        if (bingoSize != 3 && bingoSize != 4) {
+            throw BingoInputException("빙고 사이즈는 3X3 혹은 4X4 사이즈만 가능합니다.")
+        }
+        if (bingoSize == 3 && goal !in (1..3)) {
+            throw BingoInputException("목표는 3개 이내로 설정해 주세요.")
+        }
+        if (bingoSize == 4 && goal !in (1..4)) {
+            throw BingoInputException("목표는 4개 이내로 설정해 주세요.")
+        }
+        if (until.isBefore(since)) {
+            throw BingoInputException("빙고 종료일은 시작일보다 과거일 수 없습니다.")
+        }
+    }
+
     fun calculateLeftDays(): Long {
         return LocalDate.now().until(until, ChronoUnit.DAYS)
     }
