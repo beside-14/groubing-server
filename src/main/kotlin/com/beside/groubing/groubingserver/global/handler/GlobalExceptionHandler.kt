@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.global.handler
 
+import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.global.response.ApiResponseCode
 import com.beside.groubing.groubingserver.global.response.error.ApiError
@@ -56,6 +57,12 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(MemberInputException::class)
     fun handle(e: MemberInputException): ResponseEntity<ApiError> {
+        val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(BingoInputException::class)
+    fun handle(e: BingoInputException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
