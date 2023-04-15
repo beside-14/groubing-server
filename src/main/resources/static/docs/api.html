@@ -680,12 +680,12 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 287
+Content-Length: 288
 
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-15T20:23:32.39348",
+  "timestamp" : "2023-04-15T20:25:30.353902",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -778,7 +778,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTc4MTIsImV4cCI6MTY4MTU3OTQxMn0.9X0Fvdp1EePcNCWqrZElSkfurrID50y645WH4Sv_GLsQmvp1wo7n02k3K8IbSBGokTv89ADcegKVjS8nreRttg"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTc5MzAsImV4cCI6MTY4MTU3OTUzMH0.-ghIsO1lrEwVZpVDz0PyrP_MAaGe5rjwa-D4rbogEHtokSQZLBhFc1uWJCyDGvpOK6qKhwJNnsVHHHlVdpz1FA"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -877,7 +877,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-15T20:23:32.39348",
+  "timestamp" : "2023-04-15T20:25:30.353902",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1045,7 +1045,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-15T20:23:32.656569",
+  "timestamp" : "2023-04-15T20:25:30.6101",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1152,20 +1152,20 @@ Host: localhost:8080
 <h4 id="create-bingo_http_request"><a class="link" href="#create-bingo_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos/boards HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTc4MTEsImV4cCI6MTY4MTU3OTQxMX0.EPeN4N7Q7Uq_AexjdlzigsUiwN4jjFhkOUBDzLKw88j7mj0e1tUt4cS7-6faP5hEsBQctDFh_PYv_oUlMvUOSQ
-Content-Length: 189
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTc5MjksImV4cCI6MTY4MTU3OTUyOX0.SR1UFUoP8eZfUUA1zl_DqNNgXAwA--WpR_Eu_LNZ2qbHqoqJxipNy_sqfM9PY2dt0T3YgccevvDc04z2wz4SVg
+Content-Length: 245
 Host: localhost:8080
 
 {
-  "title" : "랠횃삭흱눺멼젗컝랗넰썣녰뱣쳽",
-  "goal" : 1,
-  "boardType" : "SINGLE",
+  "title" : "뀻셱뼰쫆퉧쐈빰똉폷쥨뉁닑틌먟꽪댄텢낻씫쳬떎헡썕뢷뱳쩍됵긶저뀃칻뵈쇬",
+  "goal" : 3,
+  "boardType" : "GROUP",
   "open" : false,
   "since" : "2023-04-15",
-  "until" : "2030-12-22",
-  "bingoSize" : 3
+  "until" : "2025-02-13",
+  "bingoSize" : 4
 }</code></pre>
 </div>
 </div>
@@ -1263,16 +1263,16 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1854
+Content-Length: 2900
 
 {
   "data" : {
     "id" : 0,
-    "title" : "랠횃삭흱눺멼젗컝랗넰썣녰뱣쳽",
-    "goal" : 1,
-    "groupType" : "SINGLE",
+    "title" : "뀻셱뼰쫆퉧쐈빰똉폷쥨뉁닑틌먟꽪댄텢낻씫쳬떎헡썕뢷뱳쩍됵긶저뀃칻뵈쇬",
+    "goal" : 3,
+    "groupType" : "GROUP",
     "open" : false,
-    "bingoSize" : 3,
+    "bingoSize" : 4,
     "memo" : null,
     "bingoLines" : [ {
       "direction" : "HORIZONTAL",
@@ -1294,6 +1294,12 @@ Content-Length: 1854
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
@@ -1315,10 +1321,49 @@ Content-Length: 1854
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
+    }, {
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
         "id" : 0,
         "title" : "",
         "subTitle" : null,
@@ -1342,7 +1387,7 @@ Content-Length: 1854
     "horizontalCompleteLineIndexes" : [ ],
     "verticalCompleteLineIndexes" : [ ],
     "diagonalCompleteLineIndexes" : [ ],
-    "dday" : "D-2808"
+    "dday" : "D-670"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -1544,16 +1589,16 @@ Content-Length: 1854
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTc4MTEsImV4cCI6MTY4MTU3OTQxMX0.EPeN4N7Q7Uq_AexjdlzigsUiwN4jjFhkOUBDzLKw88j7mj0e1tUt4cS7-6faP5hEsBQctDFh_PYv_oUlMvUOSQ
-Content-Length: 169
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTc5MjksImV4cCI6MTY4MTU3OTUyOX0.SR1UFUoP8eZfUUA1zl_DqNNgXAwA--WpR_Eu_LNZ2qbHqoqJxipNy_sqfM9PY2dt0T3YgccevvDc04z2wz4SVg
+Content-Length: 139
 Host: localhost:8080
 
 {
-  "id" : -2119743864334190947,
-  "title" : "뷴졥옜큑겔쩙뫘폰똶쐳놃밾쌟퇸랼깑뛮바",
-  "goal" : 3,
+  "id" : -8463279218932565075,
+  "title" : "쾁띛믒꾾쐻뷢쥫챨",
+  "goal" : 4,
   "since" : "2023-04-15",
-  "until" : "2029-07-02"
+  "until" : "2024-08-30"
 }</code></pre>
 </div>
 </div>
@@ -1635,15 +1680,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 2857
+Content-Length: 2825
 
 {
   "data" : {
     "id" : 0,
-    "title" : "뷴졥옜큑겔쩙뫘폰똶쐳놃밾쌟퇸랼깑뛮바",
-    "goal" : 3,
+    "title" : "쾁띛믒꾾쐻뷢쥫챨",
+    "goal" : 4,
     "groupType" : "SINGLE",
-    "open" : false,
+    "open" : true,
     "bingoSize" : 4,
     "memo" : null,
     "bingoLines" : [ {
@@ -1759,7 +1804,7 @@ Content-Length: 2857
     "horizontalCompleteLineIndexes" : [ ],
     "verticalCompleteLineIndexes" : [ ],
     "diagonalCompleteLineIndexes" : [ ],
-    "dday" : "D-2270"
+    "dday" : "D-503"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -1959,7 +2004,7 @@ Content-Length: 2857
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-15 20:22:52 +0900
+Last updated 2023-04-15 20:25:00 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
