@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class BingoBoardCreateApi(
     private val bingoBoardCreateService: BingoBoardCreateService
 ) {
-    @PostMapping("/boards")
+    @PostMapping
     fun create(
         @AuthenticationPrincipal
         memberId: Long,
