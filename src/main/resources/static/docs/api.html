@@ -684,7 +684,7 @@ Content-Length: 288
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-10T00:29:48.679319",
+  "timestamp" : "2023-04-15T18:33:42.335018",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -777,7 +777,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODEwNTQxODgsImV4cCI6MTY4MTA3NTc4OH0.bcoXwCuOhK3A1Zi7kfoAVvfjWd44CIuR2pZA9_FVFtURZq5mPAEeN2R79KFul3q-HY5gUjZfTu6KzShxmJPNnQ"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTEyMjIsImV4cCI6MTY4MTU3MjgyMn0.GB88fKBA487WqUgq_0rUeBrtdg3z5Ijp9O5zZH1908Q-Ofi41364ucgPYvgQhGyfb74FlEyvfXfhlf2iHzJ5oA"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -876,7 +876,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-10T00:29:48.679319",
+  "timestamp" : "2023-04-15T18:33:42.335018",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1044,7 +1044,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력 값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-10T00:29:49.22006",
+  "timestamp" : "2023-04-15T18:33:42.590741",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1189,21 +1189,20 @@ Host: localhost:8080
 <h4 id="create-bingo_http_request"><a class="link" href="#create-bingo_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODEwNTQxODcsImV4cCI6MTY4MTA3NTc4N30.4ih80LDz7MA3a9HBkL4IemZHRq69TlCsU-jn08V8GqTCuETR5aBHxrdny1-Mzgf4hOkJs5pDgVix1G1gwR0YRQ
-Content-Length: 206
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE1NTEyMjEsImV4cCI6MTY4MTU3MjgyMX0.a7A71OWx09QeqzH2yinGyvyk4kBzVKhGX5RqeTP5di50sTs6aMH9ff-E-_gj_K4FUOfjc3snNlf-62DLUR13Tg
+Content-Length: 221
 Host: localhost:8080
 
 {
-  "title" : "긞꼩쇩헜줜썛릻셿_덄읷섬갭쒖",
-  "type" : "PERSONAL",
-  "size" : "NINE",
-  "color" : "YELLOW",
+  "title" : "챨붌됞쩷퉡햴쮌믹힑갪숴컘뻩짂쨲퇹깣뾿슃캎뺁췣퉛겧댞",
   "goal" : 2,
+  "boardType" : "GROUP",
   "open" : false,
-  "since" : "2023-04-10",
-  "until" : "2028-04-23"
+  "since" : "2023-04-15",
+  "until" : "2026-07-26",
+  "bingoSize" : 4
 }</code></pre>
 </div>
 </div>
@@ -1239,36 +1238,20 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">[테스트] 새로운 빙고입니다.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">개인 : <code>PERSONAL</code>, 그룹 : <code>GROUP</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 유형</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERSONAL</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 : <code>NINE</code>, 4x4 : <code>SIXTEEN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">color</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RED</code>, <code>ORANGE</code>, <code>YELLOW</code>, <code>GREEN</code>, <code>BLUE</code>, <code>NAVY</code>, <code>PURPLE</code>, <code>RANDOM</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RANDOM</code></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">goal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boardType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개인 : <code>SINGLE</code>, 그룹 : <code>GROUP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 유형</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SINGLE</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">open</p></td>
@@ -1294,6 +1277,14 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-01</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bingoSize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 : 3, 4x4 : 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1309,109 +1300,131 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 2227
+Content-Length: 2877
 
 {
   "data" : {
-    "bingoBoardId" : 0,
-    "title" : "긞꼩쇩헜줜썛릻셿_덄읷섬갭쒖",
-    "type" : "PERSONAL",
-    "size" : {
-      "name" : "NINE",
-      "x" : 3,
-      "y" : 3,
-      "itemCount" : 9,
-      "description" : "3x3"
-    },
-    "color" : {
-      "name" : "YELLOW",
-      "hex" : "#ffff00",
-      "description" : "노랑색"
-    },
+    "id" : 0,
+    "title" : "챨붌됞쩷퉡햴쮌믹힑갪숴컘뻩짂쨲퇹깣뾿슃캎뺁췣퉛겧댞",
     "goal" : 2,
+    "groupType" : "GROUP",
     "open" : false,
-    "since" : "2023-04-10",
-    "until" : "2028-04-23",
-    "memo" : "",
-    "items" : [ [ {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 0,
-      "positionY" : 0
+    "bingoSize" : 4,
+    "memo" : null,
+    "bingoLines" : [ {
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
     }, {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 0,
-      "positionY" : 1
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
     }, {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 0,
-      "positionY" : 2
-    } ], [ {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 1,
-      "positionY" : 0
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
     }, {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 1,
-      "positionY" : 1
-    }, {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 1,
-      "positionY" : 2
-    } ], [ {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 2,
-      "positionY" : 0
-    }, {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 2,
-      "positionY" : 1
-    }, {
-      "bingoBoardId" : 0,
-      "bingoItemId" : 0,
-      "title" : "",
-      "subtitle" : "",
-      "imageUrl" : "",
-      "positionX" : 2,
-      "positionY" : 2
-    } ] ],
-    "members" : [ {
-      "bingoMemberId" : 0,
-      "memberId" : 1,
-      "email" : "",
-      "type" : "CREATOR"
-    } ]
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
+    } ],
+    "totalCompleteCount" : 0,
+    "horizontalCompleteLineIndexes" : [ ],
+    "verticalCompleteLineIndexes" : [ ],
+    "diagonalCompleteLineIndexes" : [ ],
+    "dday" : "D-1198"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -1442,44 +1455,12 @@ Content-Length: 2227
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoBoardId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.members[].bingoMemberId</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 멤버 ID</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.members[].memberId</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 ID</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.members[].email</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 Email</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="mailto:test@groubing.com">test@groubing.com</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.members[].type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">["CREATOR","MEMBER"]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 멤버 타입</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CREATOR</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.title</p></td>
@@ -1490,84 +1471,20 @@ Content-Length: 2227
 <td class="tableblock halign-left valign-top"><p class="tableblock">[테스트] 새로운 빙고입니다.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">개인 : <code>PERSONAL</code>, 그룹 : <code>GROUP</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 유형</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERSONAL</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 : <code>NINE</code>, 4x4 : <code>SIXTEEN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈명</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NINE</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : 3, <code>SIXTEEN</code> : 4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 X축 크기</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.y</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : 3, <code>SIXTEEN</code> : 4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 Y축 크기</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.itemCount</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : 9, <code>SIXTEEN</code> : 16</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 수</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.size.description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NINE</code> : <code>3x3</code>, <code>SIXTEEN</code> : <code>4x4</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈 설명</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3x3</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.color.name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RED</code>, <code>ORANGE</code>, <code>YELLOW</code>, <code>GREEN</code>, <code>BLUE</code>, <code>NAVY</code>, <code>PURPLE</code>, <code>RANDOM</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상명</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RANDOM</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.color.hex</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상 HEX 코드</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">#ff0000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.color.description</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 색상 설명</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빨강색</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.goal</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.groupType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개인 : <code>SINGLE</code>, 그룹 : <code>GROUP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 유형</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SINGLE</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.open</p></td>
@@ -1578,39 +1495,39 @@ Content-Length: 2227
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.since</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.dday</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 시작일자, 현재보다 미래로 설정</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-01-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 종료일자까지 남은 일 카운트</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.until</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 종료일자, 시작일자보다 미래로 설정</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoSize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3x3 : 3, 4x4 : 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 사이즈</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2023-02-01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.memo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 비고 메모</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 메모</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 메모 입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 메모이며 <code>null</code> 일 수 있습니다.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].bingoBoardId</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].direction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X : <code>HORIZONTAL</code>, Y : <code>VERTICAL</code>, Z : <code>DIAGONAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 축을 의미합니다.</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HORIZONTAL</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].bingoItemId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].bingoItems[].id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 ID</p></td>
@@ -1618,44 +1535,68 @@ Content-Length: 2227
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].bingoItems[].title</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">할 일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">토익 점수 990점 달성</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">토익 만점 받기</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].subtitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].bingoItems[].subTitle</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">부가설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO 부가 설명, <code>null</code> 일 수 있습니다.</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">LC 집중적으로 학습하기</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">토익 만점을 받으려면 열심히 공부해야 한다.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].imageUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].bingoItems[].imageUrl</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 추가 이미지 URL, <code>null</code> 일 수 있습니다.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].positionX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].bingoItems[].complete</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO 달성 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.totalCompleteCount</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 X축 좌표</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">달성한 총 TODO 수</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.items[][].positionY</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.horizontalCompleteLineIndexes[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 Y축 좌표</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X축 달성한 빙고 아이템 인덱스</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.verticalCompleteLineIndexes[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y축 달성한 빙고 아이템 인덱스</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.diagonalCompleteLineIndexes[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Z축 달성한 빙고 아이템 인덱스</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
@@ -1683,7 +1624,7 @@ Content-Length: 2227
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-09 14:19:37 +0900
+Last updated 2023-04-15 18:22:33 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

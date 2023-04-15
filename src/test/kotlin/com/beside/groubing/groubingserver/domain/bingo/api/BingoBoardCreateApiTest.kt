@@ -14,6 +14,7 @@ import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardCreateService
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
+import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoBoardCreateRequest
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.bingo.validator.BingoBoardCreateValidator
@@ -59,7 +60,7 @@ class BingoBoardCreateApiTest(
             open = Arb.boolean().single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
             until = Arb.localDate(minDate = tomorrow.plusDays(1)).single(),
-            bingoSize = bingoSize * bingoSize
+            bingoSize = bingoSize
         )
 
         When("데이터가 유효하다면") {
@@ -71,7 +72,7 @@ class BingoBoardCreateApiTest(
                 every { bingoBoardCreateService.create(any()) } returns response
                 justRun { bingoBoardCreateValidator.validate(any(), any()) }
 
-                mockMvc.post("/api/bingos") {
+                mockMvc.post("/api/bingos/boards") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     header("Authorization", getHttpHeaderJwt())
@@ -89,7 +90,7 @@ class BingoBoardCreateApiTest(
                         "open" requestType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd",
                         "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd",
-                        "bingoSize" requestType NUMBER means "빙고 사이즈" example "9" formattedAs "3x3 : 9, 4x4 : 16"
+                        "bingoSize" requestType NUMBER means "빙고 사이즈" example "3" formattedAs "3x3 : 3, 4x4 : 4"
                     ),
                     responseBody(
                         "id" responseType NUMBER means "빙고 ID" example "1",
@@ -97,14 +98,15 @@ class BingoBoardCreateApiTest(
                         "goal" responseType NUMBER means "달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개" example "1",
                         "groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
-                        "dDay" responseType STRING means "빙고 종료일자까지 남은 일 카운트",
-                        "bingoSize" responseType NUMBER means "빙고 사이즈" example "9" formattedAs "3x3 : 9, 4x4 : 16",
+                        "dday" responseType STRING means "빙고 종료일자까지 남은 일 카운트",
+                        "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3x3 : 3, 4x4 : 4",
                         "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
-                        "bingoLines[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
-                        "bingoLines[].title" responseType STRING means "TODO" example "토익 만점 받기",
-                        "bingoLines[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
-                        "bingoLines[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
-                        "bingoLines[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
+                        "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
+                        "bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
+                        "bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
+                        "bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
+                        "bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
+                        "bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
                         "totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수",
                         "horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
                         "verticalCompleteLineIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",

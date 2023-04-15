@@ -26,14 +26,14 @@ class BingoBoardTest : BehaviorSpec({
             open = Arb.boolean().single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
             until = Arb.localDate(minDate = tomorrow).single(),
-            bingoSize = bingoSize * bingoSize
+            bingoSize = bingoSize
         )
 
         When("설정한 빙고 사이즈만큼") {
             val items = board.bingoItems
 
             Then("빙고 아이템을 생성한다.") {
-                items.size shouldBe board.bingoSize
+                items.size shouldBe (board.bingoSize * board.bingoSize)
             }
         }
     }

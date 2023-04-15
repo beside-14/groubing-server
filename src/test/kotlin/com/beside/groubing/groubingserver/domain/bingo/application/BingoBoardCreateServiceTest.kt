@@ -5,8 +5,8 @@ import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoar
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.beBlank
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.enum
@@ -36,7 +36,7 @@ class BingoBoardCreateServiceTest(
             open = Arb.boolean().single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
             until = Arb.localDate(minDate = tomorrow).single(),
-            bingoSize = bingoSize * bingoSize
+            bingoSize = bingoSize
         )
 
         When("빙고 보드 및 아이템을 생성하고") {
@@ -51,7 +51,7 @@ class BingoBoardCreateServiceTest(
                 val response = bingoBoardCreateService.create(command)
 
                 response.dDay shouldBe "D-${board.calculateLeftDays()}"
-                response.memo shouldBe beBlank()
+                response.memo shouldBe beNull()
                 response.bingoLines.size shouldBe bingoSize
 
                 verify(exactly = 1) { bingoBoardCreateService.create(any()) }
