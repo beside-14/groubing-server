@@ -17,7 +17,7 @@ class BingoBoardEditService(
         val board = bingoBoardRepository.findById(command.id)
             .orElseThrow { BingoInputException("존재하지 않는 BingoBoard Id입니다. : ${command.id}") }
         if (!board.isLeader(command.memberId)) throw BingoEditException("해당 빙고를 수정할 권한이 없습니다.")
-        board.edit(command.title, command.goal, command.since, command.since, command.memo)
+        board.edit(command.title, command.goal, command.since, command.until, command.memo)
         return BingoBoardResponse.fromBingoBoard(board, command.memberId)
     }
 }
