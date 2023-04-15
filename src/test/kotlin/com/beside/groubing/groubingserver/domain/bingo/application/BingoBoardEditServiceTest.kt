@@ -32,19 +32,20 @@ class BingoBoardEditServiceTest(
             title = Arb.string().single(),
             goal = Arb.int(1..bingoSize).single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
-            until = Arb.localDate(minDate = tomorrow).single()
+            until = Arb.localDate(minDate = tomorrow).single(),
+            memo = Arb.string().single()
         )
 
         When("수정 권한 확인 후") {
             val board = BingoBoard
                 .createBingoBoard(
                     memberId = command.memberId,
-                    title = command.title,
-                    goal = command.goal,
+                    title = command.title!!,
+                    goal = command.goal!!,
                     boardType = Arb.enum<BingoBoardType>().single(),
                     open = Arb.boolean().single(),
-                    since = command.since,
-                    until = command.until,
+                    since = command.since!!,
+                    until = command.until!!,
                     bingoSize = bingoSize
                 )
 

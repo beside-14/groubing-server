@@ -54,10 +54,15 @@ class BingoBoard private constructor(
         return BingoMap(memberId, sizeAndGoal.bingoSize, bingoItems)
     }
 
-    fun edit(title: String, goal: Int, since: LocalDate, until: LocalDate) {
-        this.title = title
-        this.sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(bingoSize, goal)
-        this.period = BingoPeriod.createBingoPeriod(since, until)
+    fun edit(title: String?, goal: Int?, since: LocalDate?, until: LocalDate?, memo: String?) {
+        if (!title.isNullOrBlank()) this.title = title
+        if (goal != null) this.sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(this.bingoSize, goal)
+        if (memo != null) this.memo = memo
+        when {
+            since != null && until != null -> this.period = BingoPeriod.createBingoPeriod(since, until)
+            since != null && until == null -> this.period = BingoPeriod.createBingoPeriod(since, this.until)
+            since == null && until != null -> this.period = BingoPeriod.createBingoPeriod(this.since, until)
+        }
     }
 
     fun isLeader(memberId: Long): Boolean = leader.memberId == memberId

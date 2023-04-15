@@ -30,6 +30,7 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.localDate
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
+import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -56,18 +57,19 @@ class BingoBoardEditApiTest(
             title = Arb.stringPattern(pattern).single(),
             goal = Arb.int(1..bingoSize).single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
-            until = Arb.localDate(minDate = tomorrow.plusDays(1)).single()
+            until = Arb.localDate(minDate = tomorrow.plusDays(1)).single(),
+            memo = Arb.string().single()
         )
 
         When("데이터가 유효하다면") {
             val board = BingoBoard.createBingoBoard(
                 memberId = memberId,
-                title = request.title,
-                goal = request.goal,
+                title = request.title!!,
+                goal = request.goal!!,
                 boardType = Arb.enum<BingoBoardType>().single(),
                 open = Arb.boolean().single(),
-                since = request.since,
-                until = request.until,
+                since = request.since!!,
+                until = request.until!!,
                 bingoSize = bingoSize
             )
             val response = BingoBoardResponse.fromBingoBoard(board, memberId)
@@ -85,11 +87,12 @@ class BingoBoardEditApiTest(
                 }.andDocument(
                     "edit-bingo",
                     requestBody(
-                        "id" requestType NUMBER means "빙고 ID" example "1",
-                        "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs pattern,
-                        "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
-                        "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd",
-                        "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd"
+                        "id" requestType NUMBER means "빙고 ID" example "1" isOptional false,
+                        "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs pattern isOptional true,
+                        "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1" isOptional true,
+                        "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd" isOptional true,
+                        "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd" isOptional true,
+                        "memo" requestType STRING means "빙고 메모" example "빙고 메모입니다." isOptional true
                     ),
                     responseBody(
                         "id" responseType NUMBER means "빙고 ID" example "1",
