@@ -85,21 +85,21 @@ class BingoBoardCreateApiTest(
                     "create-bingo",
                     requestBody(
                         "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs pattern,
-                        "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개" example "1",
+                        "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
                         "boardType" requestType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "open" requestType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd",
                         "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd",
-                        "bingoSize" requestType NUMBER means "빙고 사이즈" example "3" formattedAs "3x3 : 3, 4x4 : 4"
+                        "bingoSize" requestType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4"
                     ),
                     responseBody(
                         "id" responseType NUMBER means "빙고 ID" example "1",
                         "title" responseType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}",
-                        "goal" responseType NUMBER means "달성 목표수, 빙고 사이즈가 3x3 인 경우 최대 3개, 4x4 인 경우 최대 4개" example "1",
+                        "goal" responseType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
                         "groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "dday" responseType STRING means "빙고 종료일자까지 남은 일 카운트",
-                        "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3x3 : 3, 4x4 : 4",
+                        "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
                         "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
                         "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
                         "bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",

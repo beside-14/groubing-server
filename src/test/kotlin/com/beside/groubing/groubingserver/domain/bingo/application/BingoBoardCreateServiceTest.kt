@@ -28,7 +28,7 @@ class BingoBoardCreateServiceTest(
         val tomorrow = now.plusDays(1)
         val memberId = Arb.long().single()
         val bingoSize = Arb.int(3..4).single()
-        val command = BingoBoardCreateCommand.createBingoBoardCommand(
+        val command = BingoBoardCreateCommand.createCommand(
             memberId = memberId,
             title = Arb.string().single(),
             goal = Arb.int(1..bingoSize).single(),
