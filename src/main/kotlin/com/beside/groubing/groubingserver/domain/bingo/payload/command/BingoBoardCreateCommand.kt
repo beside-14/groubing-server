@@ -18,7 +18,7 @@ class BingoBoardCreateCommand private constructor(
         BingoBoard.createBingoBoard(memberId, title, goal, boardType, open, since, until, bingoSize)
 
     companion object {
-        fun createBingoBoardCommand(
+        fun createCommand(
             memberId: Long,
             title: String,
             goal: Int,

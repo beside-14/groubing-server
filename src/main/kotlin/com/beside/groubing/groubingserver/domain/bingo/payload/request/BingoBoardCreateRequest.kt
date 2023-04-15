@@ -4,7 +4,6 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardCreateCommand
 import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.FutureOrPresent
-import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.NotBlank
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
@@ -13,8 +12,6 @@ data class BingoBoardCreateRequest(
     @NotBlank(message = "제목을 입력해 주세요.")
     @Length(message = "제목은 40자 이내로 입력해 주세요.")
     val title: String,
-    @Max(value = 3, groups = [], message = "목표는 3개 이내로 설정해 주세요.")
-    @Max(value = 4, groups = [], message = "목표는 4개 이내로 설정해 주세요.")
     val goal: Int,
     val boardType: BingoBoardType,
     val open: Boolean,
@@ -25,5 +22,5 @@ data class BingoBoardCreateRequest(
     val bingoSize: Int
 ) {
     fun command(memberId: Long): BingoBoardCreateCommand =
-        BingoBoardCreateCommand.createBingoBoardCommand(memberId, title, goal, boardType, open, since, until, bingoSize)
+        BingoBoardCreateCommand.createCommand(memberId, title, goal, boardType, open, since, until, bingoSize)
 }
