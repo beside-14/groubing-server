@@ -12,5 +12,5 @@ enum class ApiResponseCode(val message: String) {
     UNAUTHORIZED("인증에 실패하였습니다."),
     SERVER_ERROR("서버 에러입니다."),
 
-    BAD_MEMBER_INPUT("사용자 입력 값이 잘못 되었습니다.")
+    BAD_MEMBER_INPUT("사용자 입력값이 잘못 되었습니다.")
 }
