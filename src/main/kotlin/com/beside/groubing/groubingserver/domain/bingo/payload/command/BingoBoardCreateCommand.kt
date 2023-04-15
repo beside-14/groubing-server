@@ -4,7 +4,7 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import java.time.LocalDate
 
-data class BingoBoardCreateCommand(
+class BingoBoardCreateCommand private constructor(
     val memberId: Long,
     val title: String,
     val goal: Int,
@@ -16,4 +16,18 @@ data class BingoBoardCreateCommand(
 ) {
     fun toNewBingoBoard(): BingoBoard =
         BingoBoard.createBingoBoard(memberId, title, goal, boardType, open, since, until, bingoSize)
+
+    companion object {
+        fun createBingoBoardCommand(
+            memberId: Long,
+            title: String,
+            goal: Int,
+            boardType: BingoBoardType,
+            open: Boolean,
+            since: LocalDate,
+            until: LocalDate,
+            bingoSize: Int
+        ): BingoBoardCreateCommand =
+            BingoBoardCreateCommand(memberId, title, goal, boardType, open, since, until, bingoSize)
+    }
 }

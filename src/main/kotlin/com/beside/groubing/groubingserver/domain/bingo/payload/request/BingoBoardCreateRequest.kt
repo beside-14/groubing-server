@@ -25,5 +25,5 @@ data class BingoBoardCreateRequest(
     val bingoSize: Int
 ) {
     fun command(memberId: Long): BingoBoardCreateCommand =
-        BingoBoardCreateCommand(memberId, title, goal, boardType, open, since, until, bingoSize)
+        BingoBoardCreateCommand.createBingoBoardCommand(memberId, title, goal, boardType, open, since, until, bingoSize)
 }

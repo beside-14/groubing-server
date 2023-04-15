@@ -11,18 +11,40 @@ class BingoMap(
 
     init {
         bingoLines = mutableListOf<BingoLine>().apply {
-            addAll((0 until bingoSize).map { lineIndex ->
-                BingoLine(Direction.HORIZONTAL, lineIndex + 1, bingoItems.slice(lineIndex * bingoSize until (lineIndex + 1) * bingoSize))
-            })
-            addAll((0 until bingoSize).map { lineIndex ->
-                BingoLine(Direction.VERTICAL, lineIndex + 1, (0 until bingoSize).map { index ->
-                    bingoItems[index * bingoSize + lineIndex]
-                })
-            })
-            addAll(listOf(
-                BingoLine(Direction.DIAGONAL, 1, (0 until bingoSize).map { index -> bingoItems[index * (bingoSize + 1)] }),
-                BingoLine(Direction.DIAGONAL, 2, (0 until bingoSize).map { index -> bingoItems[(index + 1) * bingoSize - 1] })
-            ))
+            addAll(
+                (0 until bingoSize).map { lineIndex ->
+                    BingoLine(
+                        Direction.HORIZONTAL,
+                        lineIndex + 1,
+                        bingoItems.slice(lineIndex * bingoSize until (lineIndex + 1) * bingoSize)
+                    )
+                }
+            )
+            addAll(
+                (0 until bingoSize).map { lineIndex ->
+                    BingoLine(
+                        Direction.VERTICAL,
+                        lineIndex + 1,
+                        (0 until bingoSize).map { index ->
+                            bingoItems[index * bingoSize + lineIndex]
+                        }
+                    )
+                }
+            )
+            addAll(
+                listOf(
+                    BingoLine(
+                        Direction.DIAGONAL,
+                        1,
+                        (0 until bingoSize).map { index -> bingoItems[index * (bingoSize + 1)] }
+                    ),
+                    BingoLine(
+                        Direction.DIAGONAL,
+                        2,
+                        (0 until bingoSize).map { index -> bingoItems[(index + 1) * bingoSize - 1] }
+                    )
+                )
+            )
         }
     }
 

@@ -6,7 +6,7 @@ import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 
 @Component
-class BingoCreateValidator : Validator {
+class BingoBoardCreateValidator : Validator {
     override fun supports(clazz: Class<*>): Boolean {
         return BingoBoardCreateRequest::class.java.isAssignableFrom(clazz)
     }

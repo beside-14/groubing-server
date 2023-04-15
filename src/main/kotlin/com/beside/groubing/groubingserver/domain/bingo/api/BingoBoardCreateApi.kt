@@ -3,7 +3,7 @@ package com.beside.groubing.groubingserver.domain.bingo.api
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardCreateService
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoBoardCreateRequest
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
-import com.beside.groubing.groubingserver.domain.bingo.validator.BingoCreateValidator
+import com.beside.groubing.groubingserver.domain.bingo.validator.BingoBoardCreateValidator
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.BindException
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/bingos")
 class BingoBoardCreateApi(
     private val bingoBoardCreateService: BingoBoardCreateService,
-    private val bingoBoardCreateValidator: BingoCreateValidator
+    private val bingoBoardCreateValidator: BingoBoardCreateValidator
 ) {
     @PostMapping("/boards")
     fun create(

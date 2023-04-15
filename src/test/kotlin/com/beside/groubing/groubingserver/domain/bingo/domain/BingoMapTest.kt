@@ -7,19 +7,10 @@ import org.junit.jupiter.api.Test
 class BingoMapTest {
     @Test
     fun `Test calculateTotalCompleteCount`() {
-        val bingoItems = listOf(
-            BingoItem(title = "1", subTitle = "1", imageUrl = ""),
-            BingoItem(title = "2", subTitle = "2", imageUrl = ""),
-            BingoItem(title = "3", subTitle = "3", imageUrl = ""),
-            BingoItem(title = "4", subTitle = "4", imageUrl = ""),
-            BingoItem(title = "5", subTitle = "5", imageUrl = ""),
-            BingoItem(title = "6", subTitle = "6", imageUrl = ""),
-            BingoItem(title = "7", subTitle = "7", imageUrl = ""),
-            BingoItem(title = "8", subTitle = "8", imageUrl = ""),
-            BingoItem(title = "9", subTitle = "9", imageUrl = "")
-        )
+        val bingoSize = 3
+        val bingoItems = BingoItem.createBingoItems(bingoSize)
         val memberId = 1L
-        val bingoMap = BingoMap(memberId, 3, bingoItems)
+        val bingoMap = BingoMap(memberId, bingoSize, bingoItems)
 
         // no complete
         assertEquals(0, bingoMap.calculateTotalCompleteCount())
