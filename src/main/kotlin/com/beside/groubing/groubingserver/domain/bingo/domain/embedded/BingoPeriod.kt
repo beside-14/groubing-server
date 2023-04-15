@@ -12,6 +12,7 @@ class BingoPeriod private constructor(
 ) {
     init {
         if (until.isBefore(since)) throw BingoInputException("빙고 종료일은 시작일보다 과거일 수 없습니다.")
+        if (since.isEqual(until)) throw BingoInputException("빙고 시작일과 종료일이 같을 수 없습니다.")
     }
 
     fun calculateLeftDays(): Long = LocalDate.now().until(until, ChronoUnit.DAYS)

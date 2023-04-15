@@ -28,7 +28,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     // Jackson
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")z
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
