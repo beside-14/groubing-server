@@ -152,7 +152,7 @@ operation::member-signup-fail[snippets='http-request,response-body']
 빙고 도메인과 관련된 API 입니다.
 
 [[bingo-enum]]
-=== 빙고 관련 상수
+=== 빙고 관련 데이터
 
 빙고 보드를 구성하는 프로퍼티 별 상수에 대해 설명합니다.
 
@@ -162,36 +162,31 @@ operation::member-signup-fail[snippets='http-request,response-body']
 |===
 |상수명|설명
 
-|`PERSONAL`|개인 빙고
+|`SINGLE`|개인 빙고
 |`GROUP`|그룹 빙고
 
 |===
 
-[[bingo-size]]
-==== 빙고 사이즈
+[[bingo-member-type]]
+==== 빙고 멤버 타입
 
 |===
-|상수명|X축|Y축|설명
+|상수명|설명
 
-|`NINE`|3|3|3x3 사이즈
-|`SIXTEEN`|4|4|4x4 사이즈
-
-|===
-
-[[bingo-color]]
-==== 빙고 색상
+|`LEADER`|개인 / 그룹 빙고 생성자
+|`PARTICIPANT`|그룹 빙고 참여자
 
 |===
-|상수명|Hex Code|설명
 
-|`RED`|#ff0000|빨강색
-|`ORANGE`|#f67828|주황색
-|`YELLOW`|#ffff00|노랑색
-|`GREEN`|#008000|초록색
-|`BLUE`|#0000ff|파랑색
-|`NAVY`|#000080|남색
-|`PURPLE`|#800080|보라색
-|`RANDOM`||랜덤 색상|
+[[bingo-direction]]
+==== 빙고 방향
+
+|===
+|값|설명
+
+|`HORIZONTAL`|X 축
+|`VERTICAL`|Y 축
+|`DIAGONAL`|Z 축
 
 |===
 
