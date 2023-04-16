@@ -56,6 +56,7 @@ class BingoBoardEditApiTest(
             id = Arb.long().single(),
             title = Arb.stringPattern(pattern).single(),
             goal = Arb.int(1..bingoSize).single(),
+            open = Arb.boolean().single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
             until = Arb.localDate(minDate = tomorrow.plusDays(1)).single(),
             memo = Arb.string().single()
@@ -67,7 +68,7 @@ class BingoBoardEditApiTest(
                 title = request.title!!,
                 goal = request.goal!!,
                 boardType = Arb.enum<BingoBoardType>().single(),
-                open = Arb.boolean().single(),
+                open = request.open!!,
                 since = request.since!!,
                 until = request.until!!,
                 bingoSize = bingoSize
@@ -90,6 +91,7 @@ class BingoBoardEditApiTest(
                         "id" requestType NUMBER means "빙고 ID" example "1" isOptional false,
                         "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs pattern isOptional true,
                         "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1" isOptional true,
+                        "open" requestType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd" isOptional true,
                         "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd" isOptional true,
                         "memo" requestType STRING means "빙고 메모" example "빙고 메모입니다." isOptional true

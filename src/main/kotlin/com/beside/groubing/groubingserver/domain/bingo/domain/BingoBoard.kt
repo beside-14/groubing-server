@@ -29,7 +29,7 @@ class BingoBoard private constructor(
 
     val boardType: BingoBoardType,
 
-    val open: Boolean,
+    var open: Boolean,
 
     var memo: String? = null,
 
@@ -54,9 +54,10 @@ class BingoBoard private constructor(
         return BingoMap(memberId, sizeAndGoal.bingoSize, bingoItems)
     }
 
-    fun edit(title: String?, goal: Int?, since: LocalDate?, until: LocalDate?, memo: String?) {
+    fun edit(title: String?, goal: Int?, open: Boolean?, since: LocalDate?, until: LocalDate?, memo: String?) {
         if (!title.isNullOrBlank()) this.title = title
         if (goal != null) this.sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(this.bingoSize, goal)
+        if (open != null) this.open = open
         if (memo != null) this.memo = memo
         when {
             since != null && until != null -> this.period = BingoPeriod.createBingoPeriod(since, until)

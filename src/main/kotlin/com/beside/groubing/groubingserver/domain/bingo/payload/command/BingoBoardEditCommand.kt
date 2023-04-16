@@ -7,6 +7,7 @@ class BingoBoardEditCommand private constructor(
     val id: Long,
     val title: String?,
     val goal: Int?,
+    val open: Boolean?,
     val since: LocalDate?,
     val until: LocalDate?,
     val memo: String?
@@ -18,10 +19,11 @@ class BingoBoardEditCommand private constructor(
             id: Long,
             title: String?,
             goal: Int?,
+            open: Boolean?,
             since: LocalDate?,
             until: LocalDate?,
             memo: String?
         ): BingoBoardEditCommand =
-            BingoBoardEditCommand(memberId, id, title, goal, since, until, memo)
+            BingoBoardEditCommand(memberId, id, title, goal, open, since, until, memo)
     }
 }

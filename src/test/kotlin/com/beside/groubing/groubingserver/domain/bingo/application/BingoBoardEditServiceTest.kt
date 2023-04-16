@@ -31,6 +31,7 @@ class BingoBoardEditServiceTest(
             id = Arb.long().single(),
             title = Arb.string().single(),
             goal = Arb.int(1..bingoSize).single(),
+            open = Arb.boolean().single(),
             since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
             until = Arb.localDate(minDate = tomorrow).single(),
             memo = Arb.string().single()
@@ -43,7 +44,7 @@ class BingoBoardEditServiceTest(
                     title = command.title!!,
                     goal = command.goal!!,
                     boardType = Arb.enum<BingoBoardType>().single(),
-                    open = Arb.boolean().single(),
+                    open = command.open!!,
                     since = command.since!!,
                     until = command.until!!,
                     bingoSize = bingoSize
