@@ -3,6 +3,7 @@ package com.beside.groubing.groubingserver.domain.bingo.domain
 import com.beside.groubing.groubingserver.domain.bingo.domain.embedded.BingoPeriod
 import com.beside.groubing.groubingserver.domain.bingo.domain.embedded.BingoSizeAndGoal
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
+import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoMemberFindException
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
@@ -66,7 +67,15 @@ class BingoBoard private constructor(
         }
     }
 
+    fun editItem(bingoItemId: Long, title: String, subTitle: String?, imageUrl: String?) {
+        val item = findItem(bingoItemId)
+        item.edit(title, subTitle, imageUrl)
+    }
+
     fun isLeader(memberId: Long): Boolean = leader.memberId == memberId
+
+    fun findItem(bingoItemId: Long): BingoItem =
+        bingoItems.find { it.id == bingoItemId } ?: throw BingoInputException("존재하지 않는 BingoItem Id입니다.")
 
     val leader: BingoMember
         get() = bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }

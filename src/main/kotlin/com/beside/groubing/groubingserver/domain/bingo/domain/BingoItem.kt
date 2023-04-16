@@ -40,6 +40,12 @@ class BingoItem private constructor(
         completeMembers.remove(memberId)
     }
 
+    fun edit(title: String, subTitle: String?, imageUrl: String?) {
+        this.title = title
+        if (subTitle != null) this.subTitle = subTitle
+        if (imageUrl != null) this.imageUrl = imageUrl
+    }
+
     companion object {
         fun createBingoItems(bingoSize: Int): List<BingoItem> =
             (0 until (bingoSize * bingoSize)).map { BingoItem(title = "") }

@@ -685,7 +685,7 @@ Content-Length: 287
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-16T18:08:06.374305",
+  "timestamp" : "2023-04-16T19:34:52.013446",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -778,7 +778,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE2MzYwODYsImV4cCI6MTY4MTY1NzY4Nn0.JqYIELrfQC9di3GjPz4YTDg24pI-Ytn7GToIDPWjkXsJjiVkWbc58a7GtISFbJEk7dx5UNsj1mPBapo4zTHZNw"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE2NDEyOTEsImV4cCI6MTY4MTY2Mjg5MX0.naWgth-p0OjkUyM1ArUYlLX1juL-RJjAbHIwtUwLCfczK_phCQQK6x3M-Lblj3h2od8ka-xxipT9n2dOQjT_nQ"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -877,7 +877,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-16T18:08:06.374305",
+  "timestamp" : "2023-04-16T19:34:52.013446",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1045,7 +1045,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-16T18:08:06.618949",
+  "timestamp" : "2023-04-16T19:34:52.258847",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1154,17 +1154,17 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE2MzYwODUsImV4cCI6MTY4MTY1NzY4NX0.OuINykXbnY-iWXPX8bu2BDbnzLxWiLRSJO0z9uYzxIm392j0taEscsAtRGYVs5eEProq2Gdx6Al2FkH3aPtzxA
-Content-Length: 243
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE2NDEyOTEsImV4cCI6MTY4MTY2Mjg5MX0.naWgth-p0OjkUyM1ArUYlLX1juL-RJjAbHIwtUwLCfczK_phCQQK6x3M-Lblj3h2od8ka-xxipT9n2dOQjT_nQ
+Content-Length: 214
 Host: localhost:8080
 
 {
-  "title" : "쳱싌좫뮜쯡끳콰얀뢌썸첿눯롿쌴갑쌬료뎟븊쫖뤟뱼댈꾂굢쯆퇆갉췱튌츓졧",
-  "goal" : 3,
-  "boardType" : "SINGLE",
-  "open" : false,
+  "title" : "핖먨쩕곒챛팸릎뀤킰컬꽥맲놉숭쿼왠퀖굖퐫촖큿춁놶",
+  "goal" : 2,
+  "boardType" : "GROUP",
+  "open" : true,
   "since" : "2023-04-16",
-  "until" : "2027-05-15",
+  "until" : "2026-03-28",
   "bingoSize" : 3
 }</code></pre>
 </div>
@@ -1263,15 +1263,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1908
+Content-Length: 1879
 
 {
   "data" : {
     "id" : 0,
-    "title" : "쳱싌좫뮜쯡끳콰얀뢌썸첿눯롿쌴갑쌬료뎟븊쫖뤟뱼댈꾂굢쯆퇆갉췱튌츓졧",
-    "goal" : 3,
-    "groupType" : "SINGLE",
-    "open" : false,
+    "title" : "핖먨쩕곒챛팸릎뀤킰컬꽥맲놉숭쿼왠퀖굖퐫촖큿춁놶",
+    "goal" : 2,
+    "groupType" : "GROUP",
+    "open" : true,
     "bingoSize" : 3,
     "memo" : null,
     "bingoLines" : [ {
@@ -1342,7 +1342,7 @@ Content-Length: 1908
     "horizontalCompleteLineIndexes" : [ ],
     "verticalCompleteLineIndexes" : [ ],
     "diagonalCompleteLineIndexes" : [ ],
-    "dday" : "D-1490"
+    "dday" : "D-1077"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -1571,18 +1571,18 @@ Content-Length: 1908
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE2MzYwODUsImV4cCI6MTY4MTY1NzY4NX0.OuINykXbnY-iWXPX8bu2BDbnzLxWiLRSJO0z9uYzxIm392j0taEscsAtRGYVs5eEProq2Gdx6Al2FkH3aPtzxA
-Content-Length: 250
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE2NDEyOTEsImV4cCI6MTY4MTY2Mjg5MX0.naWgth-p0OjkUyM1ArUYlLX1juL-RJjAbHIwtUwLCfczK_phCQQK6x3M-Lblj3h2od8ka-xxipT9n2dOQjT_nQ
+Content-Length: 255
 Host: localhost:8080
 
 {
-  "id" : 6974715151516788924,
-  "title" : "쒦꿆횮렡삔끛뮱괽꼍뼎믶픦켌죕끸뗤끕솺",
-  "goal" : 1,
+  "id" : -1911693891902356309,
+  "title" : "풫껶숽될얃롞뾢뽜쀆똏땳뇼배옌쩹벅쀒퇩",
+  "goal" : 3,
   "open" : false,
   "since" : "2023-04-16",
-  "until" : "2029-08-07",
-  "memo" : "CN\"\\kPoq_]dAyp-pv1g&amp;+r1P^ZXv?X0=],1-kSB[6`*15Fh"
+  "until" : "2030-11-25",
+  "memo" : "G&amp;D1;nr#fB356n3aItG@lLY?H&gt;f`*VXOU!M('KhOQFkRbk-918b[0"
 }</code></pre>
 </div>
 </div>
@@ -1680,16 +1680,16 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 2856
+Content-Length: 1865
 
 {
   "data" : {
     "id" : 0,
-    "title" : "쒦꿆횮렡삔끛뮱괽꼍뼎믶픦켌죕끸뗤끕솺",
-    "goal" : 1,
+    "title" : "풫껶숽될얃롞뾢뽜쀆똏땳뇼배옌쩹벅쀒퇩",
+    "goal" : 3,
     "groupType" : "GROUP",
     "open" : false,
-    "bingoSize" : 4,
+    "bingoSize" : 3,
     "memo" : null,
     "bingoLines" : [ {
       "direction" : "HORIZONTAL",
@@ -1711,12 +1711,6 @@ Content-Length: 2856
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
@@ -1738,49 +1732,10 @@ Content-Length: 2856
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      } ]
-    }, {
-      "direction" : "HORIZONTAL",
-      "bingoItems" : [ {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
         "id" : 0,
         "title" : "",
         "subTitle" : null,
@@ -1804,7 +1759,7 @@ Content-Length: 2856
     "horizontalCompleteLineIndexes" : [ ],
     "verticalCompleteLineIndexes" : [ ],
     "diagonalCompleteLineIndexes" : [ ],
-    "dday" : "D-2305"
+    "dday" : "D-2780"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -2004,7 +1959,7 @@ Content-Length: 2856
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-16 00:22:13 +0900
+Last updated 2023-04-16 18:37:50 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
