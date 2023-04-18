@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.bingo.domain.embedded
+package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import jakarta.persistence.Embeddable

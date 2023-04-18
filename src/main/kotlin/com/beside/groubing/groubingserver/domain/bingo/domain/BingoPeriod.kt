@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.bingo.domain.embedded
+package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import jakarta.persistence.Embeddable
@@ -21,6 +21,7 @@ class BingoPeriod private constructor(
     fun calculateLeftDays(): Long = LocalDate.now().until(until, ChronoUnit.DAYS)
 
     companion object {
-        fun createBingoPeriod(since: LocalDate, until: LocalDate): BingoPeriod = BingoPeriod(since, until)
+        fun createBingoPeriod(since: LocalDate, until: LocalDate): BingoPeriod =
+            BingoPeriod(since, until)
     }
 }

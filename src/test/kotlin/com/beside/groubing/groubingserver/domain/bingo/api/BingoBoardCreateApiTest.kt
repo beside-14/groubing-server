@@ -26,7 +26,6 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.int
-import io.kotest.property.arbitrary.localDate
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.stringPattern
@@ -35,7 +34,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
-import java.time.LocalDate
 
 @ApiTest
 @WebMvcTest(controllers = [BingoBoardCreateApi::class])
@@ -45,8 +43,6 @@ class BingoBoardCreateApiTest(
     @MockkBean private val bingoBoardCreateService: BingoBoardCreateService
 ) : BehaviorSpec({
     Given("신규 빙고 생성 요청 시") {
-        val now = LocalDate.now()
-        val tomorrow = now.plusDays(1)
         val memberId = Arb.long(1L..100L).single()
         val bingoSize = Arb.int(3..4).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
@@ -55,8 +51,6 @@ class BingoBoardCreateApiTest(
             goal = Arb.int(1..3).single(),
             boardType = Arb.enum<BingoBoardType>().single(),
             open = Arb.boolean().single(),
-            since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
-            until = Arb.localDate(minDate = tomorrow.plusDays(1)).single(),
             bingoSize = bingoSize
         )
 
