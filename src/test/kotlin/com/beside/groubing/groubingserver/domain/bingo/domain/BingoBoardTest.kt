@@ -30,18 +30,11 @@ class BingoBoardTest : BehaviorSpec({
         When("Null 이 아닌 데이터만") {
             val title = Arb.string().single()
             val goal = null
-            val open = null
-            val since = null
-            val until = null
-            val memo = null
-            board.edit(title, goal, open, since, until, memo)
+            board.editBoard(title, goal)
 
             Then("수정한다.") {
                 board.title shouldBe title
                 board.goal shouldNotBe goal
-                board.open shouldNotBe open
-                board.since shouldNotBe since
-                board.until shouldNotBe until
             }
         }
     }

@@ -1,7 +1,5 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.embedded.BingoPeriod
-import com.beside.groubing.groubingserver.domain.bingo.domain.embedded.BingoSizeAndGoal
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoMemberFindException
@@ -38,7 +36,7 @@ class BingoBoard private constructor(
     private var sizeAndGoal: BingoSizeAndGoal,
 
     @Embedded
-    private var period: BingoPeriod,
+    private var period: BingoPeriod? = null,
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "BINGO_BOARD_ID")
@@ -49,22 +47,16 @@ class BingoBoard private constructor(
     val bingoItems: List<BingoItem>
 
 ) : BaseEntity() {
-    fun calculateLeftDays(): Long = period.calculateLeftDays()
+
+    fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
 
     fun makeBingoMap(memberId: Long): BingoMap {
         return BingoMap(memberId, sizeAndGoal.bingoSize, bingoItems)
     }
 
-    fun edit(title: String?, goal: Int?, open: Boolean?, since: LocalDate?, until: LocalDate?, memo: String?) {
+    fun editBoard(title: String?, goal: Int?) {
         if (!title.isNullOrBlank()) this.title = title
         if (goal != null) this.sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(this.bingoSize, goal)
-        if (open != null) this.open = open
-        if (memo != null) this.memo = memo
-        when {
-            since != null && until != null -> this.period = BingoPeriod.createBingoPeriod(since, until)
-            since != null && until == null -> this.period = BingoPeriod.createBingoPeriod(since, this.until)
-            since == null && until != null -> this.period = BingoPeriod.createBingoPeriod(this.since, until)
-        }
     }
 
     fun editItem(bingoItemId: Long, title: String, subTitle: String?, imageUrl: String?) {
@@ -84,17 +76,21 @@ class BingoBoard private constructor(
     val participants: MutableList<BingoMember>
         get() = bingoMembers.filter { it.bingoMemberType == BingoMemberType.PARTICIPANT }.toMutableList()
 
+    fun isDraft(): Boolean = period == null
+
+    fun isActive(): Boolean = calculateLeftDays() > 0
+
     val bingoSize: Int
         get() = sizeAndGoal.bingoSize
 
     val goal: Int
         get() = sizeAndGoal.goal
 
-    val since: LocalDate
-        get() = period.since
+    val since: LocalDate?
+        get() = period?.since
 
-    val until: LocalDate
-        get() = period.until
+    val until: LocalDate?
+        get() = period?.until
 
     companion object {
         fun createBingoBoard(
@@ -103,15 +99,12 @@ class BingoBoard private constructor(
             goal: Int,
             boardType: BingoBoardType,
             open: Boolean,
-            since: LocalDate,
-            until: LocalDate,
             bingoSize: Int
         ): BingoBoard = BingoBoard(
             title = title,
             boardType = boardType,
             open = open,
             sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(bingoSize, goal),
-            period = BingoPeriod.createBingoPeriod(since, until),
             bingoMembers = listOf(BingoMember.createBingoMember(memberId, BingoMemberType.LEADER)),
             bingoItems = BingoItem.createBingoItems(bingoSize)
         )

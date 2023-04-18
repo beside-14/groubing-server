@@ -26,7 +26,6 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.int
-import io.kotest.property.arbitrary.localDate
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.stringPattern
@@ -35,7 +34,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
-import java.time.LocalDate
 
 @ApiTest
 @WebMvcTest(controllers = [BingoBoardCreateApi::class])
@@ -45,8 +43,6 @@ class BingoBoardCreateApiTest(
     @MockkBean private val bingoBoardCreateService: BingoBoardCreateService
 ) : BehaviorSpec({
     Given("신규 빙고 생성 요청 시") {
-        val now = LocalDate.now()
-        val tomorrow = now.plusDays(1)
         val memberId = Arb.long(1L..100L).single()
         val bingoSize = Arb.int(3..4).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
@@ -55,8 +51,6 @@ class BingoBoardCreateApiTest(
             goal = Arb.int(1..3).single(),
             boardType = Arb.enum<BingoBoardType>().single(),
             open = Arb.boolean().single(),
-            since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
-            until = Arb.localDate(minDate = tomorrow.plusDays(1)).single(),
             bingoSize = bingoSize
         )
 
@@ -95,6 +89,8 @@ class BingoBoardCreateApiTest(
                         "groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "dday" responseType STRING means "빙고 종료일자까지 남은 일 카운트",
+                        "isDraft" responseType BOOLEAN means "빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다." example "false" formattedAs "`true` : 임시저장 상태, `false` : 발행 상태",
+                        "isActive" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 진행 중, `false` : 빙고 종료",
                         "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
                         "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
                         "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
