@@ -48,6 +48,25 @@ class BingoBoard private constructor(
 
 ) : BaseEntity() {
 
+    val leader: BingoMember
+        get() = bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }
+            ?: throw BingoMemberFindException("빙고 생성자를 찾을 수 없습니다.")
+
+    val participants: MutableList<BingoMember>
+        get() = bingoMembers.filter { it.bingoMemberType == BingoMemberType.PARTICIPANT }.toMutableList()
+
+    val bingoSize: Int
+        get() = sizeAndGoal.bingoSize
+
+    val goal: Int
+        get() = sizeAndGoal.goal
+
+    val since: LocalDate?
+        get() = period?.since
+
+    val until: LocalDate?
+        get() = period?.until
+
     fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
 
     fun makeBingoMap(memberId: Long): BingoMap {
@@ -69,28 +88,9 @@ class BingoBoard private constructor(
     fun findItem(bingoItemId: Long): BingoItem =
         bingoItems.find { it.id == bingoItemId } ?: throw BingoInputException("존재하지 않는 BingoItem Id입니다.")
 
-    val leader: BingoMember
-        get() = bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }
-            ?: throw BingoMemberFindException("빙고 생성자를 찾을 수 없습니다.")
-
-    val participants: MutableList<BingoMember>
-        get() = bingoMembers.filter { it.bingoMemberType == BingoMemberType.PARTICIPANT }.toMutableList()
-
     fun isDraft(): Boolean = period == null
 
     fun isActive(): Boolean = calculateLeftDays() > 0
-
-    val bingoSize: Int
-        get() = sizeAndGoal.bingoSize
-
-    val goal: Int
-        get() = sizeAndGoal.goal
-
-    val since: LocalDate?
-        get() = period?.since
-
-    val until: LocalDate?
-        get() = period?.until
 
     companion object {
         fun createBingoBoard(

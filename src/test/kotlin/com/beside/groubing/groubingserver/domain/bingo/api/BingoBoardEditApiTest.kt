@@ -3,7 +3,6 @@ package com.beside.groubing.groubingserver.domain.bingo.api
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.ARRAY
 import com.beside.groubing.groubingserver.docs.BOOLEAN
-import com.beside.groubing.groubingserver.docs.DATE
 import com.beside.groubing.groubingserver.docs.ENUM
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
@@ -43,7 +42,7 @@ class BingoBoardEditApiTest(
     private val mapper: ObjectMapper,
     @MockkBean private val bingoBoardEditService: BingoBoardEditService
 ) : BehaviorSpec({
-    Given("빙고 수정 요청 시") {
+    Given("기본 빙고 수정 요청 시") {
         val memberId = Arb.long(1L..100L).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
         val bingoSize = Arb.int(3..4).single()
@@ -79,11 +78,7 @@ class BingoBoardEditApiTest(
                     requestBody(
                         "id" requestType NUMBER means "빙고 ID" example "1" isOptional false,
                         "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs pattern isOptional true,
-                        "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1" isOptional true,
-                        "open" requestType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
-                        "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd" isOptional true,
-                        "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd" isOptional true,
-                        "memo" requestType STRING means "빙고 메모" example "빙고 메모입니다." isOptional true
+                        "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1" isOptional true
                     ),
                     responseBody(
                         "id" responseType NUMBER means "빙고 ID" example "1",
@@ -92,6 +87,8 @@ class BingoBoardEditApiTest(
                         "groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "dday" responseType STRING means "빙고 종료일자까지 남은 일 카운트",
+                        "isDraft" responseType BOOLEAN means "빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다." example "false" formattedAs "`true` : 임시저장 상태, `false` : 발행 상태",
+                        "isActive" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 진행 중, `false` : 빙고 종료",
                         "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
                         "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
                         "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",

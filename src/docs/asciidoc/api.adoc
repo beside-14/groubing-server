@@ -195,17 +195,14 @@ operation::member-signup-fail[snippets='http-request,response-body']
 
 operation::create-bingo[snippets='http-request,request-fields,http-response,response-fields']
 
-[[edit-bingo]]
-=== 빙고 수정
+[[edit-bingo-board]]
+=== 빙고 보드 수정
 
 빙고 보드에 대한 내용을 수정합니다.
 수정 가능한 요소는 다음과 같습니다.
 
 - 제목
 - 목표수
-- 시작일
-- 종료일
-- 메모
 
 요청 바디에 필요한 요소만 담아서 수정이 가능하도록 개발 되었습니다.
 따라서 빙고 수정과 별개의 화면에서 진행되는 빙고 메모의 경우 수정할 메모 문자열만 담아서 보내주시면 됩니다.

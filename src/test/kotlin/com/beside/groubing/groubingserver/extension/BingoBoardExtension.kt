@@ -13,7 +13,7 @@ import io.kotest.property.arbitrary.string
 
 fun Arb.Companion.bingoBoard(
     memberId: Long = Arb.long().single(),
-    bingoSize: Int = Arb.int(3..4).single(),
+    bingoSize: Int = Arb.int(3..4).single()
 ): Arb<BingoBoard> {
     return Arb.of(
         BingoBoard.createBingoBoard(
