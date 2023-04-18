@@ -469,6 +469,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#bingo-enum">빙고 관련 데이터</a></li>
 <li><a href="#create-bingo">빙고 생성</a></li>
 <li><a href="#edit-bingo-board">빙고 보드 수정</a></li>
+<li><a href="#edit-bingo-item">빙고 아이템 수정</a></li>
 </ul>
 </li>
 </ul>
@@ -685,7 +686,7 @@ Content-Length: 287
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T20:01:52.720936",
+  "timestamp" : "2023-04-18T21:08:41.508897",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -778,7 +779,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTU3MTIsImV4cCI6MTY4MTgzNzMxMn0.86GBZ51NaZE0GVbhTgosbXxu2XN2E1lPG9uwMCNcxRZYZStAp8jIijDKehCHkbZOfGJ0AEi5rXvrzfCx1QM7Pw"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTk3MjEsImV4cCI6MTY4MTg0MTMyMX0.HdeNA1kAhY8EQzkqWjy0cebtmdRhEpOzXDW8wH5akqq36cSETNB9h_YXWYc43t389CAHr2lC7u1Azd3pkEGtnw"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -877,7 +878,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T20:01:52.720936",
+  "timestamp" : "2023-04-18T21:08:41.508897",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1045,7 +1046,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T20:01:52.961864",
+  "timestamp" : "2023-04-18T21:08:41.743237",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1154,16 +1155,16 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTU3MTEsImV4cCI6MTY4MTgzNzMxMX0.lajNgh7lDxfqa4pmRi8THCqEWCk5_r6gEYaG8Y2DBn2BDjLxc-UdPIRLYsG6i6ZM4Q2JP4kmbYe5SdUeiHAzmA
-Content-Length: 106
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTk3MjAsImV4cCI6MTY4MTg0MTMyMH0.DvayAiWrcmvTykCGocJaqGKabR5oKwkaDR-cBmcD10UbJmPl4bVODFBtayqfzQzrxff2ZX9UI1SEsuFCzzgBCQ
+Content-Length: 97
 Host: localhost:8080
 
 {
-  "title" : "룔뿇섯꽓",
-  "goal" : 2,
+  "title" : "둼",
+  "goal" : 3,
   "boardType" : "SINGLE",
   "open" : true,
-  "bingoSize" : 3
+  "bingoSize" : 4
 }</code></pre>
 </div>
 </div>
@@ -1261,18 +1262,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1866
+Content-Length: 2848
 
 {
   "data" : {
     "id" : 0,
-    "title" : "룔뿇섯꽓",
-    "goal" : 2,
+    "title" : "둼",
+    "goal" : 3,
     "groupType" : "SINGLE",
     "open" : true,
     "isDraft" : true,
     "isActive" : false,
-    "bingoSize" : 3,
+    "bingoSize" : 4,
     "memo" : null,
     "bingoLines" : [ {
       "direction" : "HORIZONTAL",
@@ -1294,6 +1295,12 @@ Content-Length: 1866
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
@@ -1315,10 +1322,49 @@ Content-Length: 1866
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
+    }, {
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
         "id" : 0,
         "title" : "",
         "subTitle" : null,
@@ -1554,6 +1600,8 @@ Content-Length: 1866
 </div>
 <div class="sect2">
 <h3 id="edit-bingo-board"><a class="link" href="#edit-bingo-board">빙고 보드 수정</a></h3>
+<div class="sect3">
+<h4 id="edit-bingo-board-default"><a class="link" href="#edit-bingo-board-default">제목 및 목표수 수정</a></h4>
 <div class="paragraph">
 <p>빙고 보드에 대한 내용을 수정합니다.
 수정 가능한 요소는 다음과 같습니다.</p>
@@ -1568,30 +1616,26 @@ Content-Length: 1866
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>요청 바디에 필요한 요소만 담아서 수정이 가능하도록 개발 되었습니다.
-따라서 빙고 수정과 별개의 화면에서 진행되는 빙고 메모의 경우 수정할 메모 문자열만 담아서 보내주시면 됩니다.</p>
-</div>
-<div class="sect3">
-<h4 id="edit-bingo-board_http_request"><a class="link" href="#edit-bingo-board_http_request">HTTP request</a></h4>
+<div class="sect4">
+<h5 id="edit-bingo-board-default_http_request"><a class="link" href="#edit-bingo-board-default_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTU3MTIsImV4cCI6MTY4MTgzNzMxMn0.86GBZ51NaZE0GVbhTgosbXxu2XN2E1lPG9uwMCNcxRZYZStAp8jIijDKehCHkbZOfGJ0AEi5rXvrzfCx1QM7Pw
-Content-Length: 177
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTk3MjAsImV4cCI6MTY4MTg0MTMyMH0.DvayAiWrcmvTykCGocJaqGKabR5oKwkaDR-cBmcD10UbJmPl4bVODFBtayqfzQzrxff2ZX9UI1SEsuFCzzgBCQ
+Content-Length: 144
 Host: localhost:8080
 
 {
-  "id" : -2836761216206070618,
-  "title" : "뚼싸칯졢랸녕믹겆냆삪얁쑬킊꿘헕덄뮌륱봲쯀풼몷롺섗긹쏧쟁쫊얔뭻뫐쐘걗캌쎥쇬눬퉭",
-  "goal" : 1
+  "id" : 0,
+  "title" : "엸퍤촞판얘괘릉븩쥍캣큋풖륀뭷퉸뤴랥넔(쯩쾀쌺텧샏됡젤읳퇽툮릸퀎쥙잦헙",
+  "goal" : 3
 }</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="edit-bingo-board_request_fields"><a class="link" href="#edit-bingo-board_request_fields">Request fields</a></h4>
+<div class="sect4">
+<h5 id="edit-bingo-board-default_request_fields"><a class="link" href="#edit-bingo-board-default_request_fields">Request fields</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1639,109 +1683,142 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
+</div>
 <div class="sect3">
-<h4 id="edit-bingo-board_http_response"><a class="link" href="#edit-bingo-board_http_response">HTTP response</a></h4>
+<h4 id="edit-bingo-board-memo"><a class="link" href="#edit-bingo-board-memo">메모 수정</a></h4>
+<div class="paragraph">
+<p>빙고 보드의 메모를 수정합니다.</p>
+</div>
+<div class="sect4">
+<h5 id="edit-bingo-board-memo_http_request"><a class="link" href="#edit-bingo-board-memo_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 1967
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos/memo HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTk3MjAsImV4cCI6MTY4MTg0MTMyMH0.DvayAiWrcmvTykCGocJaqGKabR5oKwkaDR-cBmcD10UbJmPl4bVODFBtayqfzQzrxff2ZX9UI1SEsuFCzzgBCQ
+Content-Length: 84
+Host: localhost:8080
 
 {
-  "data" : {
-    "id" : 0,
-    "title" : "뚼싸칯졢랸녕믹겆냆삪얁쑬킊꿘헕덄뮌륱봲쯀풼몷롺섗긹쏧쟁쫊얔뭻뫐쐘걗캌쎥쇬눬퉭",
-    "goal" : 1,
-    "groupType" : "GROUP",
-    "open" : true,
-    "isDraft" : true,
-    "isActive" : false,
-    "bingoSize" : 3,
-    "memo" : null,
-    "bingoLines" : [ {
-      "direction" : "HORIZONTAL",
-      "bingoItems" : [ {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      } ]
-    }, {
-      "direction" : "HORIZONTAL",
-      "bingoItems" : [ {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      } ]
-    }, {
-      "direction" : "HORIZONTAL",
-      "bingoItems" : [ {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      } ]
-    } ],
-    "totalCompleteCount" : 0,
-    "horizontalCompleteLineIndexes" : [ ],
-    "verticalCompleteLineIndexes" : [ ],
-    "diagonalCompleteLineIndexes" : [ ],
-    "dday" : "D-0"
-  },
-  "code" : "OK",
-  "message" : "요청이 성공하였습니다."
+  "id" : 0,
+  "memo" : "Cd6w3GpB7n27?O?#xtz%[$6j6;OO9&amp;@s&lt;4Rk%h m^uf$\"p2co(rGUn"
 }</code></pre>
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="edit-bingo-board-memo_request_fields"><a class="link" href="#edit-bingo-board-memo_request_fields">Request fields</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">속성명</th>
+<th class="tableblock halign-left valign-top">데이터 타입</th>
+<th class="tableblock halign-left valign-top">데이터 형식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">기본값</th>
+<th class="tableblock halign-left valign-top">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">memo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>null</code> 허용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 메모</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이번 주까지 파티 준비 마무리하기</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="sect3">
-<h4 id="edit-bingo-board_response_fields"><a class="link" href="#edit-bingo-board_response_fields">Response fields</a></h4>
+<h4 id="edit-bingo-board-open"><a class="link" href="#edit-bingo-board-open">공개여부 수정</a></h4>
+<div class="paragraph">
+<p>빙고 보드의 공개여부를 수정합니다.</p>
+</div>
+<div class="sect4">
+<h5 id="edit-bingo-board-open_http_request"><a class="link" href="#edit-bingo-board-open_http_request">HTTP request</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos/openable HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTk3MjAsImV4cCI6MTY4MTg0MTMyMH0.DvayAiWrcmvTykCGocJaqGKabR5oKwkaDR-cBmcD10UbJmPl4bVODFBtayqfzQzrxff2ZX9UI1SEsuFCzzgBCQ
+Content-Length: 31
+Host: localhost:8080
+
+{
+  "id" : 0,
+  "open" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="edit-bingo-board-open_request_fields"><a class="link" href="#edit-bingo-board-open_request_fields">Request fields</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">속성명</th>
+<th class="tableblock halign-left valign-top">데이터 타입</th>
+<th class="tableblock halign-left valign-top">데이터 형식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">기본값</th>
+<th class="tableblock halign-left valign-top">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">open</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">피드 공개여부, <code>true</code> : 공개,<code>false</code> : 비공개</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="edit-bingo-board-response-fields"><a class="link" href="#edit-bingo-board-response-fields">빙고 보드 수정 공통 응답 모델</a></h4>
+<div class="paragraph">
+<p>각 빙고 보드 수정 API 의 응답 모델은 다음과 같습니다.</p>
+</div>
+<div class="sect4">
+<h5 id="edit-bingo-board-response-fields_response_fields"><a class="link" href="#edit-bingo-board-response-fields_response_fields">Response fields</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1943,12 +2020,210 @@ Content-Length: 1967
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="edit-bingo-item"><a class="link" href="#edit-bingo-item">빙고 아이템 수정</a></h3>
+<div class="sect3">
+<h4 id="edit-bingo-item_http_request"><a class="link" href="#edit-bingo-item_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos/items HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTk3MjEsImV4cCI6MTY4MTg0MTMyMX0.HdeNA1kAhY8EQzkqWjy0cebtmdRhEpOzXDW8wH5akqq36cSETNB9h_YXWYc43t389CAHr2lC7u1Azd3pkEGtnw
+Content-Length: 196
+Host: localhost:8080
+
+{
+  "id" : 0,
+  "bingoBoardId" : 0,
+  "title" : "&lt;J_5YzFu:z(_ =oVz)L=Rg&lt;x^I.tH3qxwixR/(RjBVr!F4[dTuOZ?A^\\^E9]w_$BP&amp;T)`x7\"#'l)vR(GhMh9)25f vfx%N,TLR+r",
+  "subTitle" : null,
+  "imageUrl" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="edit-bingo-item_request_fields"><a class="link" href="#edit-bingo-item_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">속성명</th>
+<th class="tableblock halign-left valign-top">데이터 타입</th>
+<th class="tableblock halign-left valign-top">데이터 형식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">기본값</th>
+<th class="tableblock halign-left valign-top">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bingoBoardId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이번 달은 갓생 살자.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">subTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 내용</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이번 달은 이것저것 다 해서 갓생 살자~!</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">imageUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="edit-bingo-item_http_response"><a class="link" href="#edit-bingo-item_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 188
+
+{
+  "data" : {
+    "id" : 0,
+    "title" : "",
+    "subTitle" : null,
+    "imageUrl" : null,
+    "complete" : false
+  },
+  "code" : "OK",
+  "message" : "요청이 성공하였습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="edit-bingo-item_response_fields"><a class="link" href="#edit-bingo-item_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">속성명</th>
+<th class="tableblock halign-left valign-top">데이터 타입</th>
+<th class="tableblock halign-left valign-top">데이터 형식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">기본값</th>
+<th class="tableblock halign-left valign-top">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이번 달은 갓생 살자.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.subTitle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 내용</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이번 달은 이것저것 다 해서 갓생 살자~!</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.imageUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 아이템 이미지 URL</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.complete</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> : 현재 유저는 해당 아이템 완료, <code>false</code> : 현재 유저는 해당 아이템 미완료</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Http 응답 코드</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Http 응답 메세지</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-18 20:01:28 +0900
+Last updated 2023-04-18 21:08:27 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

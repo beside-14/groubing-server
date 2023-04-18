@@ -15,7 +15,6 @@ class BingoItemEditRequest(
     val subTitle: String?,
     val imageUrl: String?
 ) {
-
     fun command(memberId: Long): BingoItemEditCommand =
         BingoItemEditCommand.createCommand(id, bingoBoardId, memberId, title, subTitle, imageUrl)
 }

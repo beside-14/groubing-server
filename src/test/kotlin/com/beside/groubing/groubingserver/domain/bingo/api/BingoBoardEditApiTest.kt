@@ -12,22 +12,23 @@ import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardEditService
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoBoardEditRequest
+import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoBoardMemoEditRequest
+import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoBoardOpenableEditRequest
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
+import com.beside.groubing.groubingserver.extension.bingoBoard
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
-import io.kotest.property.arbitrary.boolean
-import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
+import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -42,29 +43,23 @@ class BingoBoardEditApiTest(
     private val mapper: ObjectMapper,
     @MockkBean private val bingoBoardEditService: BingoBoardEditService
 ) : BehaviorSpec({
-    Given("기본 빙고 수정 요청 시") {
+    Given("빙고 수정 요청 시") {
         val memberId = Arb.long(1L..100L).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
         val bingoSize = Arb.int(3..4).single()
-        val request = BingoBoardEditRequest(
-            id = Arb.long().single(),
-            title = Arb.stringPattern(pattern).single(),
-            goal = Arb.int(1..bingoSize).single()
-        )
+        val board = Arb.bingoBoard(memberId, bingoSize).single()
 
-        When("데이터가 유효하다면") {
-            val board = BingoBoard.createBingoBoard(
-                memberId = memberId,
-                title = request.title!!,
-                goal = request.goal!!,
-                boardType = Arb.enum<BingoBoardType>().single(),
-                open = Arb.boolean().single(),
-                bingoSize = bingoSize
+        When("제목 혹은 목표수 데이터가 유효하다면") {
+            val request = BingoBoardEditRequest(
+                id = board.id,
+                title = Arb.stringPattern(pattern).single(),
+                goal = Arb.int(1..bingoSize).single()
             )
+            board.editBoard(request.title, request.goal)
             val response = BingoBoardResponse.fromBingoBoard(board, memberId)
 
             Then("수정한 빙고를 리턴한다.") {
-                every { bingoBoardEditService.edit(any()) } returns response
+                every { bingoBoardEditService.editBoard(any()) } returns response
 
                 mockMvc.patch("/api/bingos") {
                     content = mapper.writeValueAsString(request)
@@ -74,7 +69,7 @@ class BingoBoardEditApiTest(
                     status { isOk() }
                     content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
                 }.andDocument(
-                    "edit-bingo",
+                    "edit-bingo-board",
                     requestBody(
                         "id" requestType NUMBER means "빙고 ID" example "1" isOptional false,
                         "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs pattern isOptional true,
@@ -101,6 +96,62 @@ class BingoBoardEditApiTest(
                         "horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
                         "verticalCompleteLineIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
                         "diagonalCompleteLineIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스"
+                    )
+                )
+            }
+        }
+
+        When("메모 데이터가 유효하다면") {
+            val request = BingoBoardMemoEditRequest(
+                id = board.id,
+                memo = Arb.string().single()
+            )
+            board.editMemo(request.memo)
+            val response = BingoBoardResponse.fromBingoBoard(board, memberId)
+
+            Then("수정한 빙고를 리턴한다.") {
+                every { bingoBoardEditService.editMemo(any(), any(), any()) } returns response
+
+                mockMvc.patch("/api/bingos/memo") {
+                    content = mapper.writeValueAsString(request)
+                    contentType = MediaType.APPLICATION_JSON
+                    header("Authorization", getHttpHeaderJwt())
+                }.andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                }.andDocument(
+                    "edit-bingo-board-memo",
+                    requestBody(
+                        "id" requestType NUMBER means "빙고 ID" example "1" isOptional false,
+                        "memo" requestType STRING means "빙고 메모" example "이번 주까지 파티 준비 마무리하기" formattedAs "`null` 허용" isOptional false
+                    )
+                )
+            }
+        }
+
+        When("공개여부 데이터가 유효하다면") {
+            val request = BingoBoardOpenableEditRequest(
+                id = board.id,
+                open = !board.open
+            )
+            board.editOpenable(request.open)
+            val response = BingoBoardResponse.fromBingoBoard(board, memberId)
+
+            Then("수정한 빙고를 리턴한다.") {
+                every { bingoBoardEditService.editOpenable(any(), any(), any()) } returns response
+
+                mockMvc.patch("/api/bingos/openable") {
+                    content = mapper.writeValueAsString(request)
+                    contentType = MediaType.APPLICATION_JSON
+                    header("Authorization", getHttpHeaderJwt())
+                }.andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                }.andDocument(
+                    "edit-bingo-board-open",
+                    requestBody(
+                        "id" requestType NUMBER means "빙고 ID" example "1" isOptional false,
+                        "open" requestType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false"
                     )
                 )
             }

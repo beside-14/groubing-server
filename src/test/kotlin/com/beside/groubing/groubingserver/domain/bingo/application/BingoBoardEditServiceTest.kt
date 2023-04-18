@@ -40,9 +40,9 @@ class BingoBoardEditServiceTest(
             )
 
             Then("요청한 데이터로 수정한다.") {
-                every { bingoBoardEditService.edit(any()) } returns BingoBoardResponse.fromBingoBoard(board, memberId)
+                every { bingoBoardEditService.editBoard(any()) } returns BingoBoardResponse.fromBingoBoard(board, memberId)
 
-                val response = bingoBoardEditService.edit(command)
+                val response = bingoBoardEditService.editBoard(command)
 
                 response.title shouldBe command.title
                 response.goal shouldBe command.goal

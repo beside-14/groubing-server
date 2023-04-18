@@ -198,13 +198,39 @@ operation::create-bingo[snippets='http-request,request-fields,http-response,resp
 [[edit-bingo-board]]
 === 빙고 보드 수정
 
+[[edit-bingo-board-default]]
+==== 제목 및 목표수 수정
+
 빙고 보드에 대한 내용을 수정합니다.
 수정 가능한 요소는 다음과 같습니다.
 
 - 제목
 - 목표수
 
-요청 바디에 필요한 요소만 담아서 수정이 가능하도록 개발 되었습니다.
-따라서 빙고 수정과 별개의 화면에서 진행되는 빙고 메모의 경우 수정할 메모 문자열만 담아서 보내주시면 됩니다.
+operation::edit-bingo-board[snippets='http-request,request-fields']
 
-operation::edit-bingo[snippets='http-request,request-fields,http-response,response-fields']
+[[edit-bingo-board-memo]]
+==== 메모 수정
+
+빙고 보드의 메모를 수정합니다.
+
+operation::edit-bingo-board-memo[snippets='http-request,request-fields']
+
+[[edit-bingo-board-open]]
+==== 공개여부 수정
+
+빙고 보드의 공개여부를 수정합니다.
+
+operation::edit-bingo-board-open[snippets='http-request,request-fields']
+
+[[edit-bingo-board-response-fields]]
+==== 빙고 보드 수정 공통 응답 모델
+
+각 빙고 보드 수정 API 의 응답 모델은 다음과 같습니다.
+
+operation::edit-bingo-board[snippets='response-fields']
+
+[[edit-bingo-item]]
+=== 빙고 아이템 수정
+
+operation::edit-bingo-item[snippets='http-request,request-fields,http-response,response-fields']

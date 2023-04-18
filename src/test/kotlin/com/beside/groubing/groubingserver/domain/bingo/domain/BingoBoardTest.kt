@@ -28,7 +28,7 @@ class BingoBoardTest : BehaviorSpec({
         val board = Arb.bingoBoard(memberId).single()
 
         When("Null 이 아닌 데이터만") {
-            val title = Arb.string().single()
+            val title = Arb.string(minSize = 1).single()
             val goal = null
             board.editBoard(title, goal)
 

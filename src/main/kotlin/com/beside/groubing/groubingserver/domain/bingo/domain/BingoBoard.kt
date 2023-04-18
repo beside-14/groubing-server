@@ -24,13 +24,7 @@ class BingoBoard private constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    var title: String,
-
     val boardType: BingoBoardType,
-
-    var open: Boolean,
-
-    var memo: String? = null,
 
     @Embedded
     private var sizeAndGoal: BingoSizeAndGoal,
@@ -44,9 +38,21 @@ class BingoBoard private constructor(
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "BINGO_BOARD_ID")
-    val bingoItems: List<BingoItem>
+    val bingoItems: List<BingoItem>,
 
+    title: String,
+
+    open: Boolean
 ) : BaseEntity() {
+
+    var title: String = title
+        private set
+
+    var open: Boolean = open
+        private set
+
+    var memo: String? = null
+        private set
 
     val leader: BingoMember
         get() = bingoMembers.find { it.bingoMemberType == BingoMemberType.LEADER }
@@ -76,6 +82,14 @@ class BingoBoard private constructor(
     fun editBoard(title: String?, goal: Int?) {
         if (!title.isNullOrBlank()) this.title = title
         if (goal != null) this.sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(this.bingoSize, goal)
+    }
+
+    fun editMemo(memo: String?) {
+        this.memo = memo
+    }
+
+    fun editOpenable(open: Boolean) {
+        this.open = open
     }
 
     fun editItem(bingoItemId: Long, title: String, subTitle: String?, imageUrl: String?) {
