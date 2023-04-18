@@ -684,7 +684,7 @@ Content-Length: 287
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T19:35:07.947386",
+  "timestamp" : "2023-04-18T19:44:00.667697",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -777,7 +777,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTQxMDcsImV4cCI6MTY4MTgzNTcwN30.kbm2jBkrYc6RmOKerXGlhT2hefLEDN2YNcgkcNRCto6dh5wSiUmyqDM7e_2195ik_WkTudyTqP-fIwoZLmBWgg"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTQ2NDAsImV4cCI6MTY4MTgzNjI0MH0.V-okTzo3d-cYqarwY-hjWfpiKyIVV0xalJCu0-ulVh6a03hNR7Bpt_Tg7QWR4SUj3T1MmT0JHt8S8N45wG8Dtg"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -876,7 +876,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T19:35:07.947386",
+  "timestamp" : "2023-04-18T19:44:00.667697",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1044,7 +1044,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T19:35:08.208507",
+  "timestamp" : "2023-04-18T19:44:00.916865",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1153,16 +1153,16 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTQxMDcsImV4cCI6MTY4MTgzNTcwN30.kbm2jBkrYc6RmOKerXGlhT2hefLEDN2YNcgkcNRCto6dh5wSiUmyqDM7e_2195ik_WkTudyTqP-fIwoZLmBWgg
-Content-Length: 175
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTQ2NDAsImV4cCI6MTY4MTgzNjI0MH0.V-okTzo3d-cYqarwY-hjWfpiKyIVV0xalJCu0-ulVh6a03hNR7Bpt_Tg7QWR4SUj3T1MmT0JHt8S8N45wG8Dtg
+Content-Length: 143
 Host: localhost:8080
 
 {
-  "title" : "쐄욑텴븭펻짅묖넫뷷룥쩟놾춀깆뜳ㅚ땗붉럴감믪툽찥뺤츝륦옮",
-  "goal" : 1,
-  "boardType" : "GROUP",
+  "title" : "멬뭪놢딏핬좣녢뫕덓뎢쭈욻듙벹픒쫆",
+  "goal" : 2,
+  "boardType" : "SINGLE",
   "open" : false,
-  "bingoSize" : 3
+  "bingoSize" : 4
 }</code></pre>
 </div>
 </div>
@@ -1260,16 +1260,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1889
+Content-Length: 2894
 
 {
   "data" : {
     "id" : 0,
-    "title" : "쐄욑텴븭펻짅묖넫뷷룥쩟놾춀깆뜳ㅚ땗붉럴감믪툽찥뺤츝륦옮",
-    "goal" : 1,
-    "groupType" : "GROUP",
+    "title" : "멬뭪놢딏핬좣녢뫕덓뎢쭈욻듙벹픒쫆",
+    "goal" : 2,
+    "groupType" : "SINGLE",
     "open" : false,
-    "bingoSize" : 3,
+    "isDraft" : true,
+    "isActive" : false,
+    "bingoSize" : 4,
     "memo" : null,
     "bingoLines" : [ {
       "direction" : "HORIZONTAL",
@@ -1291,6 +1293,12 @@ Content-Length: 1889
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
@@ -1312,10 +1320,49 @@ Content-Length: 1889
         "subTitle" : null,
         "imageUrl" : null,
         "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      } ]
+    }, {
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : "",
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false
+      }, {
         "id" : 0,
         "title" : "",
         "subTitle" : null,
@@ -1416,6 +1463,22 @@ Content-Length: 1889
 <td class="tableblock halign-left valign-top"><p class="tableblock">빙고 종료일자까지 남은 일 카운트</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isDraft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> : 임시저장 상태, <code>false</code> : 발행 상태</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isActive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> : 빙고 진행 중, <code>false</code> : 빙고 종료</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoSize</p></td>
