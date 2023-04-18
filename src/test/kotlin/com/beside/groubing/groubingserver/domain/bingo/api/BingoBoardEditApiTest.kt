@@ -27,17 +27,14 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.int
-import io.kotest.property.arbitrary.localDate
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
-import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.patch
-import java.time.LocalDate
 
 @ApiTest
 @WebMvcTest(controllers = [BingoBoardEditApi::class])
@@ -47,19 +44,13 @@ class BingoBoardEditApiTest(
     @MockkBean private val bingoBoardEditService: BingoBoardEditService
 ) : BehaviorSpec({
     Given("빙고 수정 요청 시") {
-        val now = LocalDate.now()
-        val tomorrow = now.plusDays(1)
         val memberId = Arb.long(1L..100L).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
         val bingoSize = Arb.int(3..4).single()
         val request = BingoBoardEditRequest(
             id = Arb.long().single(),
             title = Arb.stringPattern(pattern).single(),
-            goal = Arb.int(1..bingoSize).single(),
-            open = Arb.boolean().single(),
-            since = Arb.localDate(minDate = now, maxDate = tomorrow).single(),
-            until = Arb.localDate(minDate = tomorrow.plusDays(1)).single(),
-            memo = Arb.string().single()
+            goal = Arb.int(1..bingoSize).single()
         )
 
         When("데이터가 유효하다면") {
@@ -68,9 +59,7 @@ class BingoBoardEditApiTest(
                 title = request.title!!,
                 goal = request.goal!!,
                 boardType = Arb.enum<BingoBoardType>().single(),
-                open = request.open!!,
-                since = request.since!!,
-                until = request.until!!,
+                open = Arb.boolean().single(),
                 bingoSize = bingoSize
             )
             val response = BingoBoardResponse.fromBingoBoard(board, memberId)
