@@ -21,7 +21,7 @@ class BingoMap(
             })
             addAll(listOf(
                 BingoLine(Direction.DIAGONAL, 1, (0 until bingoSize).map { index -> bingoItems[index * (bingoSize + 1)] }),
-                BingoLine(Direction.DIAGONAL, 2, (0 until bingoSize).map { index -> bingoItems[(index + 1) * bingoSize - 1] })
+                BingoLine(Direction.DIAGONAL, 2, (0 until bingoSize).map { index -> bingoItems[(index + 1) * (bingoSize - 1)] })
             ))
         }
     }
