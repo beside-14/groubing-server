@@ -18,11 +18,11 @@ class BingoItem private constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val title: String?,
+    var title: String? = null,
 
-    val subTitle: String?,
+    var subTitle: String? = null,
 
-    var imageUrl: String?
+    var imageUrl: String? = null,
 
     @ElementCollection
     @CollectionTable(name = "BINGO_COMPLETE_MEMBERS", joinColumns = [JoinColumn(name = "BINGO_ITEM_ID")])
@@ -46,6 +46,6 @@ class BingoItem private constructor(
 
     companion object {
         fun createBingoItems(bingoSize: Int): List<BingoItem> =
-            (0 until (bingoSize * bingoSize)).map { BingoItem(title = "") }
+            (0 until (bingoSize * bingoSize)).map { BingoItem() }
     }
 }
