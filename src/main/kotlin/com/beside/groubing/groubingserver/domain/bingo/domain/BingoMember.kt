@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "BINGO_MEMBERS")
-class BingoMember(
+class BingoMember private constructor(
     @Id
     @Column(name = "BINGO_MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +19,10 @@ class BingoMember(
     val memberId: Long,
 
     val bingoMemberType: BingoMemberType
-) : BaseEntity()
+) : BaseEntity() {
+
+    companion object {
+        fun createBingoMember(memberId: Long, bingoMemberType: BingoMemberType): BingoMember =
+            BingoMember(memberId = memberId, bingoMemberType = bingoMemberType)
+    }
+}

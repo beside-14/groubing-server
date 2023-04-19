@@ -75,7 +75,10 @@ open class CustomDescriptor<T : IgnorableDescriptor<T>>(
     }
 }
 
-infix fun String.type(docsFieldType: DocsFieldType): CustomDescriptor<FieldDescriptor> {
+/**
+ * DocsFieldType.ENUM 타입을 제외한 타입의 요청 필드 생성 시 사용
+ */
+infix fun String.requestType(docsFieldType: DocsFieldType): CustomDescriptor<FieldDescriptor> {
     val field = createField(this, docsFieldType.type, true)
     when (docsFieldType) {
         is DATE -> field formattedAs RestDocsUtils.DATE_FORMAT
@@ -85,10 +88,42 @@ infix fun String.type(docsFieldType: DocsFieldType): CustomDescriptor<FieldDescr
     return field
 }
 
-infix fun <E : Enum<E>> String.type(enumFieldType: ENUM<E>): CustomDescriptor<FieldDescriptor> {
+/**
+ * DocsFieldType.ENUM 타입의 요청 필드 생성 시 사용
+ */
+infix fun <E : Enum<E>> String.requestType(enumFieldType: ENUM<E>): CustomDescriptor<FieldDescriptor> {
     val field = createField(this, JsonFieldType.STRING, false)
     field.formattedAs(enumFieldType.toString())
     return field
+}
+
+/**
+ * DocsFieldType.ENUM 타입을 제외한 타입의 응답 필드 생성 시 사용
+ * ("data." prefix 추가)
+ */
+infix fun String.responseType(docsFieldType: DocsFieldType): CustomDescriptor<FieldDescriptor> {
+    val field = createField(this.prefix(), docsFieldType.type, true)
+    when (docsFieldType) {
+        is DATE -> field formattedAs RestDocsUtils.DATE_FORMAT
+        is DATETIME -> field formattedAs RestDocsUtils.DATETIME_FORMAT
+        else -> {}
+    }
+    return field
+}
+
+/**
+ * DocsFieldType.ENUM 타입의 응답 필드 생성 시 사용
+ * ("data." prefix 추가)
+ */
+infix fun <E : Enum<E>> String.responseType(enumFieldType: ENUM<E>): CustomDescriptor<FieldDescriptor> {
+    val field = createField(this.prefix(), JsonFieldType.STRING, false)
+    field.formattedAs(enumFieldType.toString())
+    return field
+}
+
+private fun String.prefix(): String {
+    val prefix = "data."
+    return if (!this.contains(prefix) && this != "code" && this != "message") prefix + this else this
 }
 
 private fun createField(

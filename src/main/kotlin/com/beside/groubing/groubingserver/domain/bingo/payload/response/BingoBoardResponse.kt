@@ -19,9 +19,13 @@ class BingoBoardResponse private constructor(
 
     val dDay: String,
 
+    val isDraft: Boolean,
+
+    val isActive: Boolean,
+
     val bingoSize: Int,
 
-    val memo: String,
+    val memo: String?,
 
     val bingoLines: List<BingoLineResponse>,
 
@@ -88,6 +92,8 @@ class BingoBoardResponse private constructor(
                 open = bingoBoard.open,
                 dDay = "D-${bingoBoard.calculateLeftDays()}",
                 memo = bingoBoard.memo,
+                isDraft = bingoBoard.isDraft(),
+                isActive = bingoBoard.isActive(),
                 bingoSize = bingoBoard.bingoSize,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                     .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },

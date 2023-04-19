@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "BINGO_ITEMS")
-class BingoItem(
+class BingoItem private constructor(
     @Id
     @Column(name = "BINGO_ITEM_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ class BingoItem(
 
     val subTitle: String?,
 
-    val imageUrl: String,
+    var imageUrl: String?
 
     @ElementCollection
     @CollectionTable(name = "BINGO_COMPLETE_MEMBERS", joinColumns = [JoinColumn(name = "BINGO_ITEM_ID")])
@@ -42,5 +42,10 @@ class BingoItem(
 
     fun isEmpty(): Boolean {
         return title.isNullOrBlank() && subTitle.isNullOrBlank()
+    }
+
+    companion object {
+        fun createBingoItems(bingoSize: Int): List<BingoItem> =
+            (0 until (bingoSize * bingoSize)).map { BingoItem(title = "") }
     }
 }

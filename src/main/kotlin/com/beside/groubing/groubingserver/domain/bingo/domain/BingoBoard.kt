@@ -4,6 +4,7 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
+import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -12,31 +13,28 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 @Entity
 @Table(name = "BINGO_BOARDS")
-class BingoBoard(
+class BingoBoard private constructor(
     @Id
     @Column(name = "BINGO_BOARD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val title: String,
-
-    val goal: Int,
+    var title: String,
 
     val boardType: BingoBoardType,
 
     val open: Boolean,
 
-    val since: LocalDate,
+    var memo: String? = null,
 
-    val until: LocalDate,
+    @Embedded
+    private var sizeAndGoal: BingoSizeAndGoal,
 
-    val bingoSize: Int,
-
-    val memo: String,
+    @Embedded
+    private var period: BingoPeriod? = null,
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "BINGO_BOARD_ID")
@@ -47,11 +45,44 @@ class BingoBoard(
     val bingoItems: List<BingoItem>
 
 ) : BaseEntity() {
-    fun calculateLeftDays(): Long {
-        return LocalDate.now().until(until, ChronoUnit.DAYS)
-    }
+
+    fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
 
     fun makeBingoMap(memberId: Long): BingoMap {
-        return BingoMap(memberId, bingoSize, bingoItems)
+        return BingoMap(memberId, sizeAndGoal.bingoSize, bingoItems)
+    }
+
+    fun isDraft(): Boolean = period == null
+
+    fun isActive(): Boolean = calculateLeftDays() > 0
+
+    val bingoSize: Int
+        get() = sizeAndGoal.bingoSize
+
+    val goal: Int
+        get() = sizeAndGoal.goal
+
+    val since: LocalDate?
+        get() = period?.since
+
+    val until: LocalDate?
+        get() = period?.until
+
+    companion object {
+        fun createBingoBoard(
+            memberId: Long,
+            title: String,
+            goal: Int,
+            boardType: BingoBoardType,
+            open: Boolean,
+            bingoSize: Int
+        ): BingoBoard = BingoBoard(
+            title = title,
+            boardType = boardType,
+            open = open,
+            sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(bingoSize, goal),
+            bingoMembers = listOf(BingoMember.createBingoMember(memberId, BingoMemberType.LEADER)),
+            bingoItems = BingoItem.createBingoItems(bingoSize)
+        )
     }
 }

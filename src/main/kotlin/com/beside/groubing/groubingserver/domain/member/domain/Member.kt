@@ -20,9 +20,9 @@ class Member(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val email: String,
+    val email: String = "",
 
-    private val password: String,
+    private val password: String = "",
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
