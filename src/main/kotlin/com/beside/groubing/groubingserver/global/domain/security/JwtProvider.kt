@@ -20,17 +20,19 @@ class JwtProvider {
             "77848c3af62f4699e4d1ede93555864c2306bb49f0554e2fa9aaad9225d582ca4d17bca04df0459b4f170c462b92d48708a1e73090823bf7275e9580d52e6347"
         private val KEY: Key? = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET))
 
-        private const val PROPERTY = "email"
+        private const val MEMBER_ID = "memberId"
+        private const val EMAIL = "email"
         private const val ROLE = "role"
 
-        fun createToken(email: String, role: MemberRole): String {
+        fun createToken(memberId: Long, email: String, role: MemberRole): String {
             val issuedAt = LocalDateTime.now()
             val issuedDate = Date.from(issuedAt.atZone(ZoneId.systemDefault()).toInstant())
 
             val expiration = LocalDateTime.now().plusHours(6)
             val expirationDate = Date.from(expiration.atZone(ZoneId.systemDefault()).toInstant())
 
-            val claims = mapOf(PROPERTY to email, ROLE to role.name)
+            val claims =
+                mapOf(MEMBER_ID to memberId, EMAIL to email, ROLE to role.name)
 
             return Jwts.builder()
                 .setClaims(claims)
@@ -42,10 +44,9 @@ class JwtProvider {
 
         fun getAuthentication(token: String?): Authentication {
             val claims = getAllClaims(token)
-            val email = claims[PROPERTY]
-            val authorities = listOf(claims[ROLE])
-                .map { role -> SimpleGrantedAuthority(role as String?) }
-            return UsernamePasswordAuthenticationToken(email, token, authorities)
+            val authorities =
+                listOf(claims[ROLE]).map { role -> SimpleGrantedAuthority(role as String?) }
+            return UsernamePasswordAuthenticationToken((claims[MEMBER_ID] as Int).toLong(), token, authorities)
         }
 
         fun isValidToken(token: String?): Boolean {

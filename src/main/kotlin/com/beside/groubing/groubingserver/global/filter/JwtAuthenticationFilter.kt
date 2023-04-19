@@ -8,7 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtAuthenticationFilter : OncePerRequestFilter() {
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
         val authHeader = request.getHeader("Authorization")
         if (authHeader.isNullOrBlank() || !authHeader.startsWith("Bearer ")) {
             return filterChain.doFilter(request, response)
@@ -16,7 +20,12 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
         validateJwt(authHeader.substring("Bearer ".length), filterChain, request, response)
     }
 
-    private fun validateJwt(jwt: String, filterChain: FilterChain, request: HttpServletRequest, response: HttpServletResponse) {
+    private fun validateJwt(
+        jwt: String,
+        filterChain: FilterChain,
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ) {
         if (JwtProvider.isValidToken(jwt)) {
             SecurityContextHolder.getContext().authentication = JwtProvider.getAuthentication(jwt)
         }

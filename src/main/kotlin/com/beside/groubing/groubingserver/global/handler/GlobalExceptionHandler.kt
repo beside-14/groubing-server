@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.global.handler
 
+import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.global.response.ApiResponseCode
 import com.beside.groubing.groubingserver.global.response.error.ApiError
@@ -7,6 +8,7 @@ import org.hibernate.exception.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.validation.BindException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingRequestHeaderException
 import org.springframework.web.bind.MissingServletRequestParameterException
@@ -40,6 +42,13 @@ class GlobalExceptionHandler {
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(BindException::class)
+    fun handle(e: BindException): ResponseEntity<ApiError> {
+        val code = ApiResponseCode.BAD_REQUEST_BODY
+        val apiError = ApiError(code, e, e.fieldError?.defaultMessage ?: code.message)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handle(e: MethodArgumentNotValidException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_REQUEST_BODY, e)
@@ -48,6 +57,12 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(MemberInputException::class)
     fun handle(e: MemberInputException): ResponseEntity<ApiError> {
+        val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(BingoInputException::class)
+    fun handle(e: BingoInputException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }

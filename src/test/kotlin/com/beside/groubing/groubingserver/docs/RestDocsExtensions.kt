@@ -20,8 +20,9 @@ fun requestBody(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
 }
 
 fun responseBody(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
-    val snippets =
-        fields.toMutableList() + ("code" type STRING means "Http 응답 코드") + ("message" type STRING means "Http 응답 메세지")
+    val snippets = fields.toMutableList() +
+        ("code" responseType STRING means "Http 응답 코드") +
+        ("message" responseType STRING means "Http 응답 메세지")
     return responseFields(snippets.map { it.descriptor as FieldDescriptor })
 }
 
@@ -43,7 +44,7 @@ fun ResultActionsDsl.andDocument(identifier: String, vararg snippets: Snippet) {
 }
 
 fun ResultActions.andDocument(identifier: String, vararg snippets: Snippet) {
-    "memberRole" type ENUM(MemberRole::class)
+    "memberRole" responseType ENUM(MemberRole::class)
     andDo(print())
     andDo(
         document(

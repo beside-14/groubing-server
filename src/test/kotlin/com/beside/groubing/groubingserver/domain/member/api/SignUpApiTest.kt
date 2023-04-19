@@ -1,10 +1,12 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
+import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.requestBody
+import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
-import com.beside.groubing.groubingserver.docs.type
+import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.member.application.SignUpService
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
@@ -14,16 +16,13 @@ import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
 import io.mockk.verify
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
+@ApiTest
 @WebMvcTest(controllers = [SignUpApi::class])
-@AutoConfigureRestDocs
-@AutoConfigureMockMvc(addFilters = false)
 class SignUpApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
@@ -47,11 +46,11 @@ class SignUpApiTest(
                 }.andDocument(
                     "member-signup-success",
                     requestBody(
-                        "email" type STRING means "유저 이메일" example "test@groubing.com",
-                        "password" type STRING means "유저 패스워드" example "Bside-14th"
+                        "email" requestType STRING means "유저 이메일" example "test@groubing.com",
+                        "password" requestType STRING means "유저 패스워드" example "Bside-14th"
                     ),
                     responseBody(
-                        "data.email" type STRING means "유저 이메일" example "test@groubing.com"
+                        "email" responseType STRING means "유저 이메일" example "test@groubing.com"
                     )
                 )
 

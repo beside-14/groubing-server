@@ -13,16 +13,16 @@ import jakarta.persistence.Table
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Entity
-@Table(name = "members")
+@Table(name = "MEMBERS")
 class Member(
     @Id
-    @Column(name = "member_id")
+    @Column(name = "MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val email: String,
+    val email: String = "",
 
-    private val password: String,
+    private val password: String = "",
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
