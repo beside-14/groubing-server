@@ -18,9 +18,9 @@ class BingoItem(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val title: String,
+    val title: String?,
 
-    val subTitle: String,
+    val subTitle: String?,
 
     val imageUrl: String,
 
@@ -38,5 +38,9 @@ class BingoItem(
 
     fun cancelBingoMember(memberId: Long) {
         completeMembers.remove(memberId)
+    }
+
+    fun isEmpty(): Boolean {
+        return title.isNullOrBlank() && subTitle.isNullOrBlank()
     }
 }
