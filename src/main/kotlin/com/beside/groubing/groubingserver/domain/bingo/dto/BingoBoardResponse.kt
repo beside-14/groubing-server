@@ -37,11 +37,13 @@ class BingoBoardResponse private constructor(
     class BingoItemResponse private constructor(
         val id: Long,
 
-        val title: String,
+        val title: String?,
 
-        val subTitle: String,
+        val subTitle: String?,
 
         val imageUrl: String,
+
+        val empty: Boolean,
 
         val complete: Boolean,
     ) {
@@ -52,7 +54,8 @@ class BingoBoardResponse private constructor(
                     title = bingoItem.title,
                     subTitle = bingoItem.subTitle,
                     imageUrl = bingoItem.imageUrl,
-                    complete = bingoItem.isCompleted(memberId),
+                    empty = bingoItem.isEmpty(),
+                    complete = bingoItem.isCompleted(memberId)
                 )
             }
         }
