@@ -40,7 +40,7 @@ class BingoBoardResponse private constructor(
 
     class BingoItemResponse private constructor(
         val id: Long,
-        val title: String,
+        val title: String?,
         val subTitle: String?,
         val imageUrl: String?,
         val complete: Boolean
