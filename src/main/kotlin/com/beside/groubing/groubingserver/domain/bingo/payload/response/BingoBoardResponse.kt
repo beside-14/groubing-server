@@ -19,9 +19,9 @@ class BingoBoardResponse private constructor(
 
     val dDay: String,
 
-    val isDraft: Boolean,
+    val isStarted: Boolean,
 
-    val isActive: Boolean,
+    val isFinished: Boolean,
 
     val bingoSize: Int,
 
