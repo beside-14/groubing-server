@@ -60,7 +60,7 @@ class BingoBoard private constructor(
     val goal: Int
         get() = bingoGoal.goal
 
-    fun isDraft(): Boolean = period == null
+    fun isStarted(): Boolean = period == null
 
     fun isFinished(): Boolean = calculateLeftDays() < 0
 
