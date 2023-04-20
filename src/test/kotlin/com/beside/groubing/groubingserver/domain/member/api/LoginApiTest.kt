@@ -36,7 +36,7 @@ class LoginApiTest(
         val request = LoginRequest(email, password)
 
         When("올바른 정보로 로그인 요청 시") {
-            val jwt = getJwt()
+            val jwt = getJwt(1L)
             val response = LoginResponse(1L, email, jwt)
             every { loginService.login(any()) } returns response
 

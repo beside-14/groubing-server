@@ -31,7 +31,10 @@ class BingoBoard private constructor(
     var memo: String? = null,
 
     @Embedded
-    private var sizeAndGoal: BingoSizeAndGoal,
+    private val bingoSize: BingoSize,
+
+    @Embedded
+    private val bingoGoal: BingoGoal,
 
     @Embedded
     private var period: BingoPeriod? = null,
@@ -49,18 +52,18 @@ class BingoBoard private constructor(
     fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
 
     fun makeBingoMap(memberId: Long): BingoMap {
-        return BingoMap(memberId, sizeAndGoal.bingoSize, bingoItems)
+        return BingoMap(memberId, size, bingoItems)
     }
+    val size: Int
+        get() = bingoSize.size
+
+    val goal: Int
+        get() = bingoGoal.goal
 
     fun isDraft(): Boolean = period == null
 
-    fun isActive(): Boolean = calculateLeftDays() > 0
+    fun isFinished(): Boolean = calculateLeftDays() < 0
 
-    val bingoSize: Int
-        get() = sizeAndGoal.bingoSize
-
-    val goal: Int
-        get() = sizeAndGoal.goal
 
     val since: LocalDate?
         get() = period?.since
@@ -69,7 +72,7 @@ class BingoBoard private constructor(
         get() = period?.until
 
     companion object {
-        fun createBingoBoard(
+        fun create(
             memberId: Long,
             title: String,
             goal: Int,
@@ -80,9 +83,10 @@ class BingoBoard private constructor(
             title = title,
             boardType = boardType,
             open = open,
-            sizeAndGoal = BingoSizeAndGoal.createBingoSizeAndGoal(bingoSize, goal),
+            bingoSize = BingoSize.cache(bingoSize),
+            bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
             bingoMembers = listOf(BingoMember.createBingoMember(memberId, BingoMemberType.LEADER)),
-            bingoItems = BingoItem.createBingoItems(bingoSize)
+            bingoItems = (0 until (bingoSize * bingoSize)).map { BingoItem.create() }
         )
     }
 }

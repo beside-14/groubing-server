@@ -45,7 +45,8 @@ class BingoItem private constructor(
     }
 
     companion object {
-        fun createBingoItems(bingoSize: Int): List<BingoItem> =
-            (0 until (bingoSize * bingoSize)).map { BingoItem() }
+        fun create(): BingoItem {
+            return BingoItem()
+        }
     }
 }

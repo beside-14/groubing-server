@@ -14,7 +14,7 @@ class BingoBoardTest : BehaviorSpec({
     Given("신규 보드 생성 시") {
         val memberId = Arb.long().single()
         val bingoSize = Arb.int(3..4).single()
-        val board = BingoBoard.createBingoBoard(
+        val board = BingoBoard.create(
             memberId = memberId,
             title = Arb.string().single(),
             goal = Arb.int(1..bingoSize).single(),
@@ -27,7 +27,7 @@ class BingoBoardTest : BehaviorSpec({
             val items = board.bingoItems
 
             Then("빙고 아이템을 생성한다.") {
-                items.size shouldBe (board.bingoSize * board.bingoSize)
+                items.size shouldBe (board.size * board.size)
             }
         }
     }

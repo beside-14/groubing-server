@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
-import com.beside.groubing.groubingserver.domagin.bingo.dto.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardFindService
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
