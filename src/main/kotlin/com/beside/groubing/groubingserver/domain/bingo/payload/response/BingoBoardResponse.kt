@@ -87,9 +87,9 @@ class BingoBoardResponse private constructor(
                 open = bingoBoard.open,
                 dDay = "D-${bingoBoard.calculateLeftDays()}",
                 memo = bingoBoard.memo,
-                isDraft = bingoBoard.isDraft(),
-                isActive = bingoBoard.isActive(),
-                bingoSize = bingoBoard.bingoSize,
+                isStarted = bingoBoard.isStarted(),
+                isFinished = bingoBoard.isFinished(),
+                bingoSize = bingoBoard.size,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                     .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
                 totalCompleteCount = bingoMap.calculateTotalCompleteCount(),
