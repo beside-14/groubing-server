@@ -64,7 +64,6 @@ class BingoBoard private constructor(
 
     fun isFinished(): Boolean = calculateLeftDays() < 0
 
-
     val since: LocalDate?
         get() = period?.since
 
