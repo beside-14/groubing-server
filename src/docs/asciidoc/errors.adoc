@@ -1,0 +1,27 @@
+[[errors]]
+== 오류 발생시 Response
+
+|===
+| 클래스 | 필드 | 타입 | 설명
+
+| `ApiError`
+| timestamp
+| LocalDateTime
+| 예외가 발생한 일시
+
+|
+| code
+| String
+| 에러 코드
+
+|
+| message
+| String
+| 노출용 메시지
+
+|
+| debugMessage
+| String
+| 디버그용 메시지
+
+|===
