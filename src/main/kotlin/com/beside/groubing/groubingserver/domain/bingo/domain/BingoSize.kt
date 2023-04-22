@@ -1,12 +1,16 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
+import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 
 @Embeddable
 class BingoSize private constructor(
+    @Column
     val size: Int
 ) {
+    fun getMaxGoal(): Int = (size * 2) + 2
+
     companion object {
         private const val MIN = 3
         private const val MAX = 10
@@ -18,9 +22,5 @@ class BingoSize private constructor(
             }
             return bingoSizeCache[size - MIN]
         }
-    }
-
-    fun getMaxGoal(): Int {
-        return (size * 2) + 2
     }
 }

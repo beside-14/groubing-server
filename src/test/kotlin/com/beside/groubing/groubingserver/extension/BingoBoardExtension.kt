@@ -16,7 +16,7 @@ fun Arb.Companion.bingoBoard(
     bingoSize: Int = Arb.int(3..4).single()
 ): Arb<BingoBoard> {
     return Arb.of(
-        BingoBoard.createBingoBoard(
+        BingoBoard.create(
             memberId = memberId,
             title = Arb.string().single(),
             goal = Arb.int(1..bingoSize).single(),

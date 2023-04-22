@@ -59,7 +59,7 @@ class BingoItemEditApiTest(
                 mockMvc.patch("/api/bingos/items") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
-                    header("Authorization", getHttpHeaderJwt())
+                    header("Authorization", getHttpHeaderJwt(memberId))
                 }.andExpect {
                     status { isOk() }
                     content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
@@ -77,7 +77,8 @@ class BingoItemEditApiTest(
                         "title" responseType STRING means "빙고 아이템 제목" example "이번 달은 갓생 살자.",
                         "subTitle" responseType STRING means "빙고 아이템 내용" example "이번 달은 이것저것 다 해서 갓생 살자~!",
                         "imageUrl" responseType STRING means "빙고 아이템 이미지 URL",
-                        "complete" responseType BOOLEAN means "false" example "`true` : 현재 유저는 해당 아이템 완료, `false` : 현재 유저는 해당 아이템 미완료"
+                        "complete" responseType BOOLEAN means "false" example "`true` : 현재 유저는 해당 아이템 완료, `false` : 현재 유저는 해당 아이템 미완료",
+                        "empty" responseType BOOLEAN means "TODO 작성 완료 여부" example "true"
                     )
                 )
             }

@@ -30,7 +30,7 @@ class BingoBoardEditServiceTest(
         )
 
         When("수정 권한 확인 후") {
-            val board = BingoBoard.createBingoBoard(
+            val board = BingoBoard.create(
                 memberId = command.memberId,
                 title = command.title!!,
                 goal = command.goal!!,
@@ -40,7 +40,10 @@ class BingoBoardEditServiceTest(
             )
 
             Then("요청한 데이터로 수정한다.") {
-                every { bingoBoardEditService.editBoard(any()) } returns BingoBoardResponse.fromBingoBoard(board, memberId)
+                every { bingoBoardEditService.editBoard(any()) } returns BingoBoardResponse.fromBingoBoard(
+                    board,
+                    memberId
+                )
 
                 val response = bingoBoardEditService.editBoard(command)
 
