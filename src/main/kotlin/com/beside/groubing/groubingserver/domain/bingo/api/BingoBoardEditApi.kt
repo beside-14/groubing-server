@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/bingos")
+@RequestMapping("/api/bingoboards")
 class BingoBoardEditApi(
     private val bingoBoardEditService: BingoBoardEditService
 ) {
@@ -49,7 +49,7 @@ class BingoBoardEditApi(
         return ApiResponse.OK(response)
     }
 
-    @PatchMapping("/openable")
+    @PatchMapping("/open")
     fun editOpenable(
         @AuthenticationPrincipal
         memberId: Long,

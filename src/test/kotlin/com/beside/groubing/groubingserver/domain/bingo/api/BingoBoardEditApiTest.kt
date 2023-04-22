@@ -61,7 +61,7 @@ class BingoBoardEditApiTest(
             Then("수정한 빙고를 리턴한다.") {
                 every { bingoBoardEditService.editBoard(any()) } returns response
 
-                mockMvc.patch("/api/bingos") {
+                mockMvc.patch("/api/bingoboards") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     header("Authorization", getHttpHeaderJwt(memberId))
@@ -113,7 +113,7 @@ class BingoBoardEditApiTest(
             Then("수정한 빙고를 리턴한다.") {
                 every { bingoBoardEditService.editMemo(any(), any(), any()) } returns response
 
-                mockMvc.patch("/api/bingos/memo") {
+                mockMvc.patch("/api/bingoboards/memo") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     header("Authorization", getHttpHeaderJwt(memberId))
@@ -141,7 +141,7 @@ class BingoBoardEditApiTest(
             Then("수정한 빙고를 리턴한다.") {
                 every { bingoBoardEditService.editOpenable(any(), any(), any()) } returns response
 
-                mockMvc.patch("/api/bingos/openable") {
+                mockMvc.patch("/api/bingoboards/open") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     header("Authorization", getHttpHeaderJwt(memberId))

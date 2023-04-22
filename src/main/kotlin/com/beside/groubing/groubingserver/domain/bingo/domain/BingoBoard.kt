@@ -17,7 +17,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "BINGO_BOARDS")
-class BingoBoard private constructor(
+class BingoBoard(
     @Id
     @Column(name = "BINGO_BOARD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -114,7 +114,7 @@ class BingoBoard private constructor(
             open = open,
             bingoSize = BingoSize.cache(bingoSize),
             bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
-            bingoMembers = listOf(BingoMember.createBingoMember(memberId, BingoMemberType.LEADER)),
+            bingoMembers = listOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
             bingoItems = (0 until (bingoSize * bingoSize)).map { BingoItem.create() }
         )
     }

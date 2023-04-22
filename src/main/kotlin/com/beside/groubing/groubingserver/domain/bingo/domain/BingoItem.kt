@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "BINGO_ITEMS")
-class BingoItem private constructor(
+class BingoItem(
     @Id
     @Column(name = "BINGO_ITEM_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

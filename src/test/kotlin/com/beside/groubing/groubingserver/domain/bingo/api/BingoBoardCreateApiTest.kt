@@ -62,7 +62,7 @@ class BingoBoardCreateApiTest(
             Then("생성된 빙고를 리턴한다.") {
                 every { bingoBoardCreateService.create(any()) } returns response
 
-                mockMvc.post("/api/bingos") {
+                mockMvc.post("/api/bingoboards") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     header("Authorization", getHttpHeaderJwt(memberId))

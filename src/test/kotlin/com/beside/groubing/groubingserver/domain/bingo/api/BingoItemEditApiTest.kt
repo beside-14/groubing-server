@@ -56,7 +56,7 @@ class BingoItemEditApiTest(
             Then("수정한 빙고 아이템을 리턴한다.") {
                 every { bingoItemEditService.edit(any()) } returns response
 
-                mockMvc.patch("/api/bingos/items") {
+                mockMvc.patch("/api/bingoboards/bingoitems") {
                     content = mapper.writeValueAsString(request)
                     contentType = MediaType.APPLICATION_JSON
                     header("Authorization", getHttpHeaderJwt(memberId))

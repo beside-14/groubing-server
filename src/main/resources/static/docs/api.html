@@ -681,12 +681,12 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 287
+Content-Length: 286
 
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-23T00:54:42.178676",
+  "timestamp" : "2023-04-23T01:01:12.89646",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -779,7 +779,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MSwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODIxNzg4ODIsImV4cCI6MTY4MjIwMDQ4Mn0.joiX1tjUM_g4KxxBVkqfKq7xWHIkeQXqj6EXt-CM1x6Ifre4-MP1nBWPcRXfqCTT-dFRsSMOtaLMIgIFFqVHSg"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MSwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODIxNzkyNzIsImV4cCI6MTY4MjIwMDg3Mn0.IEx3a0BAeloVB6OZ_83OnXJ_mmff_-youK0baUzPzktCTQHMUcs1dHNSBB6Jkeen1h9KE6C_Xa9uH8G7TBIGZw"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -878,7 +878,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-23T00:54:42.178676",
+  "timestamp" : "2023-04-23T01:01:12.89646",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1046,7 +1046,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-23T00:54:42.400453",
+  "timestamp" : "2023-04-23T01:01:13.122254",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1153,18 +1153,18 @@ Host: localhost:8080
 <h4 id="create-bingo_http_request"><a class="link" href="#create-bingo_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingoboards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6OTksImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc4ODgwLCJleHAiOjE2ODIyMDA0ODB9.pwjEoeEEsNDAhwCLBngRWu__N5i4-3EMX9N6NcIemZHzTvr1r9F4Ydo-rCs6wEML3betc7lV_DBWhBf3WR2j3A
-Content-Length: 184
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NDMsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc5MjcxLCJleHAiOjE2ODIyMDA4NzF9.sGEDo167catWpCB0Cj7t0Ktan3J0vFo-XXRbyqshmSEeM3Ku5QZ_SN-yoEzcQ5NRyr8R0zJ8ecQIvKve0nPxvw
+Content-Length: 174
 Host: localhost:8080
 
 {
-  "title" : "쟖딞꼗곾탧욙췙뢽뽫닁닑상녗좘딯촚첇쉻멳켱퇝횅꼛휺쥅쏄햫둖덮쁧",
+  "title" : "땱귓쀒뉽줟섊븇쥓웃헋뛮끡진쏞첿읆쐇쳬쌿엮뺓ㄲ볩뜧묨욃힎",
   "goal" : 2,
-  "boardType" : "SINGLE",
+  "boardType" : "GROUP",
   "open" : true,
-  "bingoSize" : 3
+  "bingoSize" : 4
 }</code></pre>
 </div>
 </div>
@@ -1262,18 +1262,18 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 2182
+Content-Length: 3345
 
 {
   "data" : {
     "id" : 0,
-    "title" : "쟖딞꼗곾탧욙췙뢽뽫닁닑상녗좘딯촚첇쉻멳켱퇝횅꼛휺쥅쏄햫둖덮쁧",
+    "title" : "땱귓쀒뉽줟섊븇쥓웃헋뛮끡진쏞첿읆쐇쳬쌿엮뺓ㄲ볩뜧묨욃힎",
     "goal" : 2,
-    "groupType" : "SINGLE",
+    "groupType" : "GROUP",
     "open" : true,
     "isStarted" : true,
     "isFinished" : false,
-    "bingoSize" : 3,
+    "bingoSize" : 4,
     "memo" : null,
     "bingoLines" : [ {
       "direction" : "HORIZONTAL",
@@ -1298,6 +1298,13 @@ Content-Length: 2182
         "imageUrl" : null,
         "complete" : false,
         "empty" : true
+      }, {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
       } ]
     }, {
       "direction" : "HORIZONTAL",
@@ -1322,10 +1329,55 @@ Content-Length: 2182
         "imageUrl" : null,
         "complete" : false,
         "empty" : true
+      }, {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
+      }, {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
+      }, {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
+      }, {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
+      } ]
+    }, {
+      "direction" : "HORIZONTAL",
+      "bingoItems" : [ {
+        "id" : 0,
+        "title" : null,
+        "subTitle" : null,
+        "imageUrl" : null,
+        "complete" : false,
+        "empty" : true
+      }, {
         "id" : 0,
         "title" : null,
         "subTitle" : null,
@@ -1592,15 +1644,15 @@ Content-Length: 2182
 <h5 id="edit-bingo-board-default_http_request"><a class="link" href="#edit-bingo-board-default_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingoboards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NjcsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc4ODgxLCJleHAiOjE2ODIyMDA0ODF9.XB2hX94Nh2wZnNIE_E_3-B1-3wsCoLaxqtXj9IdcoX3awFYZTV51efwsIdO1HM0A5btT4QGzkKafAVGTj7MyMA
-Content-Length: 53
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTMsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc5MjcyLCJleHAiOjE2ODIyMDA4NzJ9.U0NCzVdm19xyFNieyu3rFuPIR0M0aarL7pRftd3pt_VMNNAHXbo8d-e4Vi26wkBbH5EVFfb_trfFcaD5lRqhlA
+Content-Length: 116
 Host: localhost:8080
 
 {
   "id" : 0,
-  "title" : "창툾핻",
+  "title" : "쨍칖왛쓳곙먱븡젗똞셡쩗쏖먞맀쯡꽭븸맪즔얉쓄즨렏뭊",
   "goal" : 4
 }</code></pre>
 </div>
@@ -1665,15 +1717,15 @@ Host: localhost:8080
 <h5 id="edit-bingo-board-memo_http_request"><a class="link" href="#edit-bingo-board-memo_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos/memo HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingoboards/memo HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MTYsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc4ODgxLCJleHAiOjE2ODIyMDA0ODF9.u6E9MOUZXNyok1pA4-hj362b_7_dkQw6aSMw_QqxIbP4pR0V7mKaKwKp0QqKJsqxN5EMAb-YFLZcpzRv2QHKXQ
-Content-Length: 87
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MzksImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc5MjcyLCJleHAiOjE2ODIyMDA4NzJ9.7lKO6cEq2QdOlfjzsbBcj50zpCJekX8Znf9S3cUh_Uomi0jDurSabOM9GfscFQy-vxE6qFhzUMN9IF9K_mrxIw
+Content-Length: 111
 Host: localhost:8080
 
 {
   "id" : 0,
-  "memo" : "3'?r6pcD32xG;+in:&gt;,=\\.7ieFwUBJK-\\i9g6D;hXxb7WF\"8+mV-ZGz"
+  "memo" : "a#%BoM8kX\"&gt;VhVTm$rOdNs]o1@a\"3IeC4(khLswcCNA:rmEcr-[5274SO`+V4QlptZ2R;/&amp;M^\"e /(E"
 }</code></pre>
 </div>
 </div>
@@ -1729,9 +1781,9 @@ Host: localhost:8080
 <h5 id="edit-bingo-board-open_http_request"><a class="link" href="#edit-bingo-board-open_http_request">HTTP request</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos/openable HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingoboards/openable HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NTgsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc4ODgxLCJleHAiOjE2ODIyMDA0ODF9.cSC4xCkCJ6Jg3fXcBqYmvPOt3TlR2Fs0eyzOM7niMVTQDGTyndppSfcCWQN6SM1fTZOPW9dhxsQPdTMI3M3icw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NTUsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc5MjcyLCJleHAiOjE2ODIyMDA4NzJ9.2vXTBNebFO8CBQUzhVh3Knp88eMB4azNKzwYYhbpoAq3n-HOphsK42FGN_Yx00BqFje4IbelCZzuOaXRClsnug
 Content-Length: 31
 Host: localhost:8080
 
@@ -2006,16 +2058,16 @@ Host: localhost:8080
 <h4 id="edit-bingo-item_http_request"><a class="link" href="#edit-bingo-item_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingos/items HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bingoboards/bingoitems HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NjEsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc4ODgxLCJleHAiOjE2ODIyMDA0ODF9.Kd4v3u34sIVfupQ_reglsSxA58ggI6A62dceyfZgNX-kFJ0LdJc4Sh5HwnotFym225QLCdlKPiLQqVlYPgb2bw
-Content-Length: 130
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NDMsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc5MjcyLCJleHAiOjE2ODIyMDA4NzJ9.lPNRzEZ3qn7Oz4O28w4CqOiTIqKt3f58obDontcdB9aVbrR33rdGSGuc_i28QhXYrGL84RrltUnu6ekJQRPWew
+Content-Length: 192
 Host: localhost:8080
 
 {
   "id" : 0,
   "bingoBoardId" : 0,
-  "title" : "T4m#`'MY1Sr)n:uxKK?R6/.8bw\"lL)'wwqv",
+  "title" : "orw:`HOLBnVUYV;@Ey8:p ahP$vS0RdD7]tnw&amp;'AA!=(drBf$CR*W9Cjr3Kzfz:($yk&amp;Svr$%C@d[XfS'P';ekqy?^CmQz-,o(",
   "subTitle" : null,
   "imageUrl" : null
 }</code></pre>

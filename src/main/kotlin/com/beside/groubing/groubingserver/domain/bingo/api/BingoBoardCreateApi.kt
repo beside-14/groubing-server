@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/bingos")
+@RequestMapping("/api/bingoboards")
 class BingoBoardCreateApi(
     private val bingoBoardCreateService: BingoBoardCreateService
 ) {
