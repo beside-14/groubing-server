@@ -41,7 +41,7 @@ class BingoMap(
                     BingoLine(
                         Direction.DIAGONAL,
                         2,
-                        (0 until bingoSize).map { index -> bingoItems[(index + 1) * bingoSize - 1] }
+                        (0 until bingoSize).map { index -> bingoItems[(index + 1) * (bingoSize - 1)] }
                     )
                 )
             )

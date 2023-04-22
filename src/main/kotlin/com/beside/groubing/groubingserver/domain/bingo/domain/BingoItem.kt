@@ -18,7 +18,7 @@ class BingoItem private constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    var title: String,
+    var title: String? = null,
 
     var subTitle: String? = null,
 
@@ -46,8 +46,13 @@ class BingoItem private constructor(
         if (imageUrl != null) this.imageUrl = imageUrl
     }
 
+    fun isEmpty(): Boolean {
+        return title.isNullOrBlank() && subTitle.isNullOrBlank()
+    }
+
     companion object {
-        fun createBingoItems(bingoSize: Int): List<BingoItem> =
-            (0 until (bingoSize * bingoSize)).map { BingoItem(title = "") }
+        fun create(): BingoItem {
+            return BingoItem()
+        }
     }
 }

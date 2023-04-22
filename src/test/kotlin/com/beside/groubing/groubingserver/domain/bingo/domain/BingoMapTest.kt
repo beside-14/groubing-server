@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class BingoMapTest {
+
     @Test
     fun `Test calculateTotalCompleteCount`() {
         val bingoSize = 3
-        val bingoItems = BingoItem.createBingoItems(bingoSize)
+        val bingoItems = (0 until (bingoSize * bingoSize)).map { BingoItem.create() }
         val memberId = 1L
         val bingoMap = BingoMap(memberId, bingoSize, bingoItems)
 
@@ -29,7 +30,7 @@ class BingoMapTest {
         // diagonal bingo
         bingoItems[4].completeMembers.add(memberId)
         bingoItems[8].completeMembers.add(memberId)
-        assertEquals(3, bingoMap.calculateTotalCompleteCount())
+        assertEquals(4, bingoMap.calculateTotalCompleteCount())
 
         // all complete
         bingoItems[1].completeMembers.add(memberId)

@@ -18,7 +18,7 @@ class BingoBoardTest : BehaviorSpec({
             val items = board.bingoItems
 
             Then("빙고 아이템을 생성한다.") {
-                items.size shouldBe (board.bingoSize * board.bingoSize)
+                items.size shouldBe (board.size * board.size)
             }
         }
     }

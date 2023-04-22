@@ -19,9 +19,9 @@ class BingoBoardResponse private constructor(
 
     val dDay: String,
 
-    val isDraft: Boolean,
+    val isStarted: Boolean,
 
-    val isActive: Boolean,
+    val isFinished: Boolean,
 
     val bingoSize: Int,
 
@@ -40,9 +40,10 @@ class BingoBoardResponse private constructor(
 
     class BingoItemResponse private constructor(
         val id: Long,
-        val title: String,
+        val title: String?,
         val subTitle: String?,
         val imageUrl: String?,
+        val empty: Boolean,
         val complete: Boolean
     ) {
         companion object {
@@ -52,6 +53,7 @@ class BingoBoardResponse private constructor(
                     title = bingoItem.title,
                     subTitle = bingoItem.subTitle,
                     imageUrl = bingoItem.imageUrl,
+                    empty = bingoItem.isEmpty(),
                     complete = bingoItem.isCompleted(memberId)
                 )
             }
@@ -85,9 +87,9 @@ class BingoBoardResponse private constructor(
                 open = bingoBoard.open,
                 dDay = "D-${bingoBoard.calculateLeftDays()}",
                 memo = bingoBoard.memo,
-                isDraft = bingoBoard.isDraft(),
-                isActive = bingoBoard.isActive(),
-                bingoSize = bingoBoard.bingoSize,
+                isStarted = bingoBoard.isStarted(),
+                isFinished = bingoBoard.isFinished(),
+                bingoSize = bingoBoard.size,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                     .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
                 totalCompleteCount = bingoMap.calculateTotalCompleteCount(),

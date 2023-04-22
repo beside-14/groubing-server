@@ -12,7 +12,7 @@ class BingoBoardCreateCommand private constructor(
     val bingoSize: Int
 ) {
     fun toNewBingoBoard(): BingoBoard =
-        BingoBoard.createBingoBoard(memberId, title, goal, boardType, open, bingoSize)
+        BingoBoard.create(memberId, title, goal, boardType, open, bingoSize)
 
     companion object {
         fun createCommand(
