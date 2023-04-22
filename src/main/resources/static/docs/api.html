@@ -684,7 +684,7 @@ Content-Length: 287
 {
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T19:44:00.667697",
+  "timestamp" : "2023-04-23T00:11:37.306971",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -777,7 +777,7 @@ Content-Length: 382
   "data" : {
     "id" : 1,
     "email" : "user1@gmail.com",
-    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTQ2NDAsImV4cCI6MTY4MTgzNjI0MH0.V-okTzo3d-cYqarwY-hjWfpiKyIVV0xalJCu0-ulVh6a03hNR7Bpt_Tg7QWR4SUj3T1MmT0JHt8S8N45wG8Dtg"
+    "token" : "eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MSwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODIxNzYyOTcsImV4cCI6MTY4MjE5Nzg5N30.CcSjBcJ3US_MtTKRR57kqogvth7nTUE5PKKfCyJq1LA8s7pMYjWCN8Gmdmat2DIJh2QTOqzVPM7aIZj7l8AYsA"
   },
   "code" : "OK",
   "message" : "요청이 성공하였습니다."
@@ -876,7 +876,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T19:44:00.667697",
+  "timestamp" : "2023-04-23T00:11:37.306971",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 존재하지 않는 이메일 입니다."
 }</code></pre>
 </div>
@@ -1044,7 +1044,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-json hljs" data-lang="json">{
   "code" : "BAD_MEMBER_INPUT",
   "message" : "사용자 입력값이 잘못 되었습니다.",
-  "timestamp" : "2023-04-18T19:44:00.916865",
+  "timestamp" : "2023-04-23T00:11:37.571639",
   "debugMessage" : "com.beside.groubing.groubingserver.domain.member.exception.MemberInputException: 이미 가입된 email 주소입니다."
 }</code></pre>
 </div>
@@ -1153,16 +1153,16 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bingos HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6MCwiZW1haWwiOiJ0ZXN0QGdyb3ViaW5nLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2ODE4MTQ2NDAsImV4cCI6MTY4MTgzNjI0MH0.V-okTzo3d-cYqarwY-hjWfpiKyIVV0xalJCu0-ulVh6a03hNR7Bpt_Tg7QWR4SUj3T1MmT0JHt8S8N45wG8Dtg
-Content-Length: 143
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJJZCI6NjAsImVtYWlsIjoidGVzdEBncm91YmluZy5jb20iLCJyb2xlIjoiTUVNQkVSIiwiaWF0IjoxNjgyMTc2Mjk2LCJleHAiOjE2ODIxOTc4OTZ9.y6cZnPQKsM7Bhqj-G4udhTEB17DWMzJZu9zvMfrSrHrXkKoZ4ywKS0qa9MKu41b0lYndCYbGimKlCEco1c-3EQ
+Content-Length: 155
 Host: localhost:8080
 
 {
-  "title" : "멬뭪놢딏핬좣녢뫕덓뎢쭈욻듙벹픒쫆",
-  "goal" : 2,
+  "title" : "윬큿첟긱흊퀾엫츳뤦끋퐶뷹팆뇁댘'킺훶퉸횫뜯",
+  "goal" : 3,
   "boardType" : "SINGLE",
-  "open" : false,
-  "bingoSize" : 4
+  "open" : true,
+  "bingoSize" : 3
 }</code></pre>
 </div>
 </div>
@@ -1260,125 +1260,89 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 2894
+Content-Length: 2153
 
 {
   "data" : {
     "id" : 0,
-    "title" : "멬뭪놢딏핬좣녢뫕덓뎢쭈욻듙벹픒쫆",
-    "goal" : 2,
+    "title" : "윬큿첟긱흊퀾엫츳뤦끋퐶뷹팆뇁댘'킺훶퉸횫뜯",
+    "goal" : 3,
     "groupType" : "SINGLE",
-    "open" : false,
-    "isDraft" : true,
-    "isActive" : false,
-    "bingoSize" : 4,
+    "open" : true,
+    "isStarted" : true,
+    "isFinished" : false,
+    "bingoSize" : 3,
     "memo" : null,
     "bingoLines" : [ {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       }, {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       }, {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       }, {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       }, {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       } ]
     }, {
       "direction" : "HORIZONTAL",
       "bingoItems" : [ {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       }, {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       }, {
         "id" : 0,
-        "title" : "",
+        "title" : null,
         "subTitle" : null,
         "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      } ]
-    }, {
-      "direction" : "HORIZONTAL",
-      "bingoItems" : [ {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
-        "complete" : false
-      }, {
-        "id" : 0,
-        "title" : "",
-        "subTitle" : null,
-        "imageUrl" : null,
+        "empty" : true,
         "complete" : false
       } ]
     } ],
@@ -1465,7 +1429,7 @@ Content-Length: 2894
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.isDraft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isStarted</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> : 임시저장 상태, <code>false</code> : 발행 상태</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다.</p></td>
@@ -1473,9 +1437,9 @@ Content-Length: 2894
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.isActive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isFinished</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> : 빙고 진행 중, <code>false</code> : 빙고 종료</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> : 빙고 종료, <code>false</code> : 빙고 진행 중</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
@@ -1545,6 +1509,14 @@ Content-Length: 2894
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.bingoLines[].bingoItems[].empty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TODO 작성 완료 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.totalCompleteCount</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1602,7 +1574,7 @@ Content-Length: 2894
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-18 19:24:01 +0900
+Last updated 2023-04-23 00:10:55 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
