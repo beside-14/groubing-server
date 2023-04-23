@@ -1,7 +1,6 @@
 HELP.md
 .gradle
 build/
-*/src/main/resources/static/docs/*.html
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -36,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### REST DOCS ###
+**/src/main/resources/static/docs/**/**.html
