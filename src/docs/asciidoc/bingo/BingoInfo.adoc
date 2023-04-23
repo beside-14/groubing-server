@@ -1,0 +1,38 @@
+[[bingo-enum]]
+=== 빙고 관련 데이터
+
+빙고 보드를 구성하는 프로퍼티 별 상수에 대해 설명합니다.
+
+[[bingo-type]]
+==== 빙고 타입
+
+|===
+|상수명|설명
+
+|`SINGLE`|개인 빙고
+|`GROUP`|그룹 빙고
+
+|===
+
+[[bingo-member-type]]
+==== 빙고 멤버 타입
+
+|===
+|상수명|설명
+
+|`LEADER`|개인 / 그룹 빙고 생성자
+|`PARTICIPANT`|그룹 빙고 참여자
+
+|===
+
+[[bingo-direction]]
+==== 빙고 방향
+
+|===
+|값|설명
+
+|`HORIZONTAL`|X 축
+|`VERTICAL`|Y 축
+|`DIAGONAL`|Z 축
+
+|===

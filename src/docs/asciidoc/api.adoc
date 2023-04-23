@@ -6,118 +6,12 @@
 :toclevels: 2
 :sectlinks:
 
-[[overview]]
-= 개요
+[[introduction]]
+== 소개
+Groubing 서비스 Backend API 문서
 
-[[overview-http-verbs]]
-== HTTP 동사
-
-본 REST API 에서 사용하는 HTTP 동사(verbs)는 가능한한 표준 HTTP 와 REST 규약을 따릅니다.
-
-|===
-| 동사 | 용례
-
-| `GET`
-| 리소스를 가져올 때 사용
-
-| `POST`
-| 새 리소스를 만들 때 사용
-
-| `PUT`
-| 기존 리소스를 수정할 때 사용
-
-| `PATCH`
-| 기존 리소스의 일부를 수정할 때 사용
-
-| `DELETE`
-| 기존 리소스를 삭제할 떄 사용
-|===
-
-[[overview-http-status-codes]]
-== HTTP 상태 코드
-
-본 REST API에서 사용하는 HTTP 상태 코드는 가능한한 표준 HTTP와 REST 규약을 따릅니다.
-
-|===
-| 상태 코드 | 용례
-
-| `200 OK`
-| 요청을 성공적으로 처리함.
-
-| `201 Created`
-| 새 리소스를 성공적으로 생성함. 응답의 `Location` 헤더에 해당 리소스의 URI가 담겨있다.
-
-| `204 No Content`
-| 기존 리소스를 성공적으로 수정함.
-
-| `400 Bad Request`
-| 잘못된 요청을 보낸 경우. 응답 본문에 더 오류에 대한 정보가 담겨있다.
-
-| `401 Unauthorized`
-| 회원 정보가 없거나 로그인 상태가 유요하지 않는 경우 요청에 실패한다.
-
-| `404 Not Found`
-| 요청한 리소스가 없음.
-|===
-
-[[overview-rest-docs-snippets]]
-== Snippets 개요
-
-generated-snippets 하위에 생성되는 스니펫을 상황에 맞게 포함해서 문서를 작성해주세요.
-
-|===
-| request 관련 정보 | 용례
-
-| `http-request`
-| HTTP 요청 전체 정보
-
-| `request-headers`
-| HTTP 요청 헤더 정보
-
-| `query-parameters`
-| HTTP 요청에 파라미터 정보 (?로 시작하는 쿼리)
-
-| `path-parameters`
-| HTTP 요청 path의 파라미터가 정보
-
-| `request-body`
-| HTTP 요청 request body 예시
-
-| `request-fields`
-| HTTP 요청 request body 의 각 field 정보
-|===
-
-|===
-| response 관련 정보 | 용례
-
-| `http-response`
-| HTTP 응답 전체 정보
-
-| `response-headers`
-| HTTP 응답 헤더 정보
-
-| `response-body`
-| HTTP 응답 response body 예시
-
-| `response-fields`
-| HTTP 응답 response body 의 각 field 정보
-|===
-
-[[overview-errors]]
-== 오류
-
-에러 응답이 발생했을 때 (상태 코드 >= 400), 본문에 해당 문제를 기술한 JSON 객체가 담겨있다.
-에러 객체는 다음의 구조를 따른다.
-
-예를 들어, 잘못된 요청으로 이벤트를 만들려고 했을 때 다음과 같은 `400 Bad Request` 응답을 받는다.
-
-=== HTTP Request Example
-
-include::{snippets}/member-login-fail/http-request.adoc[]
-
-=== HTTP Response Example
-
-include::{snippets}/member-login-fail/http-response.adoc[]
+* link:overview.html[개요, window=_blank]
+* link:common.html[공통사항, window=_blank]
 
 [[member]]
 == 회원
@@ -125,72 +19,24 @@ include::{snippets}/member-login-fail/http-response.adoc[]
 회원 도메인과 관련된 API 입니다.
 
 [[member-login]]
-=== 로그인
-
-==== 성공 시
-
-operation::member-login-success[snippets='http-request,request-fields,http-response,response-fields']
-
-==== 실패 시
-
-operation::member-login-fail[snippets='http-request,response-body']
+=== 로그인 API
+* link:member/LoginApi.html[로그인 API, window=_blank]
 
 [[member-signup]]
-=== 회원가입
-
-==== 성공 시
-
-operation::member-signup-success[snippets='http-request,request-fields,http-response,response-fields']
-
-==== 실패 시
-
-operation::member-signup-fail[snippets='http-request,response-body']
+=== 회원가입 API
+* link:member/SignUp.html[회원가입 API, window=_blank]
 
 [[bingo]]
 == 빙고
-
 빙고 도메인과 관련된 API 입니다.
 
-[[bingo-enum]]
-=== 빙고 관련 데이터
+=== 빙고 기본 정보
+* link:bingo/BingoInfo.html[빙고 기본정보, window=_blank]
 
-빙고 보드를 구성하는 프로퍼티 별 상수에 대해 설명합니다.
-
-[[bingo-type]]
-==== 빙고 타입
-
-|===
-|상수명|설명
-
-|`SINGLE`|개인 빙고
-|`GROUP`|그룹 빙고
-
-|===
-
-[[bingo-member-type]]
-==== 빙고 멤버 타입
-
-|===
-|상수명|설명
-
-|`LEADER`|개인 / 그룹 빙고 생성자
-|`PARTICIPANT`|그룹 빙고 참여자
-
-|===
-
-[[bingo-direction]]
-==== 빙고 방향
-
-|===
-|값|설명
-
-|`HORIZONTAL`|X 축
-|`VERTICAL`|Y 축
-|`DIAGONAL`|Z 축
-
-|===
-
-[[create-bingo]]
+[[bingo-create]]
 === 빙고 생성
-
 operation::create-bingo[snippets='http-request,request-fields,http-response,response-fields']
+
+[[bingo-find]]
+=== 빙고 조회
+operation::bingo-board-find[snippets='http-request,http-response,response-fields']

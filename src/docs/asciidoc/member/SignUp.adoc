@@ -1,0 +1,10 @@
+[[member-signup]]
+=== 회원가입
+
+==== 성공 시
+
+operation::member-signup-success[snippets='http-request,request-fields,http-response,response-fields']
+
+==== 실패 시
+
+operation::member-signup-fail[snippets='http-request,response-body']
