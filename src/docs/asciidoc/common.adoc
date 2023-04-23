@@ -1,0 +1,62 @@
+[[common]]
+= 공통사항
+== Common Response
+공통응답
+|===
+| 클래스 | 필드 | 타입 | 설명
+| `ApiResponse`
+| data
+| Object
+| 데이터
+|
+| code
+| String
+| 응답코드
+|
+| message
+| String
+| 응답메세지
+|===
+
+응답코드
+|===
+| 클래스 | 코드 | 메세
+| `ApiResponseCode`
+| OK
+| 요청이 성공하였습니다.
+|
+| BAD_PARAMETER
+| 요청 파라미터가 잘못 되었습니다.
+|
+| MISSING_REQUEST_HEADER
+| 필수 Header 정보가 누락되었습니다.
+|
+| MISSING_REQUEST_PARAMETER
+| 필수 parameter 정보가 누락되었습니다.
+|
+| NOT_READABLE_REQUEST_BODY
+| Request Body 정보를 읽을 수 없습니다.
+|
+| BAD_REQUEST_HEADER
+| 요청 Header 정보가 누락되었습니다.
+|
+| BAD_REQUEST_BODY
+| 요청 Body 정보가 누락되었습니다.
+|
+| NOT_FOUND
+| 리소스를 찾지 못했습니다.
+|
+| UNAUTHORIZED
+| 인증에 실패하였습니다.
+|
+| SERVER_ERROR
+| 서버 에러입니다.
+|
+| INPUT_EXCEPTION
+| 사용자 입력 값 예외 발생했습니다.
+|
+
+|===
+
+
+include::errors.adoc[]
