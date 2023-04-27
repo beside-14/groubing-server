@@ -44,7 +44,8 @@ class BingoBoardResponse private constructor(
         val subTitle: String?,
         val imageUrl: String?,
         val empty: Boolean,
-        val complete: Boolean
+        val complete: Boolean,
+        val itemOrder: Int
     ) {
         companion object {
             fun fromBingoItem(bingoItem: BingoItem, memberId: Long): BingoItemResponse {
@@ -54,7 +55,8 @@ class BingoBoardResponse private constructor(
                     subTitle = bingoItem.subTitle,
                     imageUrl = bingoItem.imageUrl,
                     empty = bingoItem.isEmpty(),
-                    complete = bingoItem.isCompleted(memberId)
+                    complete = bingoItem.isCompleted(memberId),
+                    itemOrder = bingoItem.itemOrder
                 )
             }
         }
