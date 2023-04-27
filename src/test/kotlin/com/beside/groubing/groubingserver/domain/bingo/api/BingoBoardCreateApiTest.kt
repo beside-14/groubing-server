@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
+import com.beside.groubing.groubingserver.aEmptyBingo
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.ARRAY
 import com.beside.groubing.groubingserver.docs.BOOLEAN
@@ -28,7 +29,6 @@ import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
-import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -47,7 +47,7 @@ class BingoBoardCreateApiTest(
         val bingoSize = Arb.int(3..4).single()
         val pattern = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}"
         val request = BingoBoardCreateRequest(
-            title = Arb.stringPattern(pattern).single(),
+            title = "[테스트] 새로운 빙고입니다.",
             goal = Arb.int(1..3).single(),
             boardType = Arb.enum<BingoBoardType>().single(),
             open = Arb.boolean().single(),
@@ -55,9 +55,7 @@ class BingoBoardCreateApiTest(
         )
 
         When("데이터가 유효하다면") {
-            val command = request.command(memberId)
-            val board = command.toNewBingoBoard()
-            val response = BingoBoardResponse.fromBingoBoard(board, memberId)
+            val response = BingoBoardResponse.fromBingoBoard(aEmptyBingo(), memberId)
 
             Then("생성된 빙고를 리턴한다.") {
                 every { bingoBoardCreateService.create(any()) } returns response
@@ -89,8 +87,8 @@ class BingoBoardCreateApiTest(
                         "groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "dday" responseType STRING means "빙고 종료일자까지 남은 일 카운트",
-                        "isDraft" responseType BOOLEAN means "빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다." example "false" formattedAs "`true` : 임시저장 상태, `false` : 발행 상태",
-                        "isActive" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 진행 중, `false` : 빙고 종료",
+                        "isStarted" responseType BOOLEAN means "빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다." example "false" formattedAs "`true` : 임시저장 상태, `false` : 발행 상태",
+                        "isFinished" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 종료, `false` : 빙고 진행 중",
                         "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
                         "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
                         "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
@@ -99,6 +97,8 @@ class BingoBoardCreateApiTest(
                         "bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
                         "bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
                         "bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
+                        "bingoLines[].bingoItems[].empty" responseType BOOLEAN means "빙고 아이템 title, subTitle 입력 여부" example "true",
+                        "bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
                         "totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수",
                         "horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
                         "verticalCompleteLineIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
