@@ -12,11 +12,10 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import java.time.LocalDate
 
 @Entity
 @Table(name = "BINGO_BOARDS")
-class BingoBoard private constructor(
+class BingoBoard internal constructor(
     @Id
     @Column(name = "BINGO_BOARD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,26 +48,33 @@ class BingoBoard private constructor(
 
 ) : BaseEntity() {
 
-    fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
-
-    fun makeBingoMap(memberId: Long): BingoMap {
-        return BingoMap(memberId, size, bingoItems)
-    }
     val size: Int
         get() = bingoSize.size
 
     val goal: Int
         get() = bingoGoal.goal
 
-    fun isStarted(): Boolean = period == null
+    fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
+
+    fun makeBingoMap(memberId: Long): BingoMap {
+        return BingoMap(memberId, size, bingoItems)
+    }
+
+    fun isStarted(): Boolean = period != null
 
     fun isFinished(): Boolean = calculateLeftDays() < 0
 
-    val since: LocalDate?
-        get() = period?.since
+    fun updateBingoItems(updateBingoItems: List<BingoItem>) {
+        updateBingoItems.forEach { updateBingoItem ->
+            bingoItems.find { bingoItem -> bingoItem.isBingoItem(updateBingoItem.itemOrder) }
+                ?.updateTitleAndSubTitle(updateBingoItem.title, updateBingoItem.subTitle)
+        }
+    }
 
-    val until: LocalDate?
-        get() = period?.until
+    fun completeBingoItem(bingoItemId: Long, memberId: Long) {
+        bingoItems.find { bingoItem -> bingoItem.isSame(bingoItemId) }
+            ?.completeBingoItem(memberId)
+    }
 
     companion object {
         fun create(
@@ -85,7 +91,7 @@ class BingoBoard private constructor(
             bingoSize = BingoSize.cache(bingoSize),
             bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
             bingoMembers = listOf(BingoMember.createBingoMember(memberId, BingoMemberType.LEADER)),
-            bingoItems = (0 until (bingoSize * bingoSize)).map { BingoItem.create() }
+            bingoItems = (1..(bingoSize * bingoSize)).map { BingoItem.create(it) }
         )
     }
 }
