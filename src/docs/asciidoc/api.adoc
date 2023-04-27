@@ -24,7 +24,7 @@ Groubing 서비스 Backend API 문서
 
 [[member-signup]]
 === 회원가입 API
-* link:member/SignUp.html[로그인 API, window=_blank]
+* link:member/SignUp.html[회원가입 API, window=_blank]
 
 [[bingo]]
 == 빙고
