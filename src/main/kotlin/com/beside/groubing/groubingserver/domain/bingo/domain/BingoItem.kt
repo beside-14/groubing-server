@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "BINGO_ITEMS")
-class BingoItem private constructor(
+class BingoItem internal constructor(
     @Id
     @Column(name = "BINGO_ITEM_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,8 @@ class BingoItem private constructor(
 
     var imageUrl: String? = null,
 
+    val itemOrder: Int,
+
     @ElementCollection
     @CollectionTable(name = "BINGO_COMPLETE_MEMBERS", joinColumns = [JoinColumn(name = "BINGO_ITEM_ID")])
     val completeMembers: MutableSet<Long> = mutableSetOf()
@@ -32,21 +34,34 @@ class BingoItem private constructor(
         return completeMembers.contains(memberId)
     }
 
-    fun addBingoMember(memberId: Long) {
-        completeMembers.add(memberId)
-    }
-
-    fun cancelBingoMember(memberId: Long) {
-        completeMembers.remove(memberId)
-    }
-
     fun isEmpty(): Boolean {
         return title.isNullOrBlank() && subTitle.isNullOrBlank()
     }
 
+    fun isSame(bingoItemId: Long): Boolean {
+        return id == bingoItemId
+    }
+
+    fun completeBingoItem(memberId: Long) {
+        completeMembers.add(memberId)
+    }
+
+    fun cancelBingoItem(memberId: Long) {
+        completeMembers.remove(memberId)
+    }
+
+    fun updateTitleAndSubTitle(title: String?, subTitle: String?) {
+        this.title = title
+        this.subTitle = subTitle
+    }
+
+    fun isBingoItem(itemOrder: Int): Boolean {
+        return this.itemOrder == itemOrder
+    }
+
     companion object {
-        fun create(): BingoItem {
-            return BingoItem()
+        fun create(itemOrder: Int): BingoItem {
+            return BingoItem(itemOrder = itemOrder)
         }
     }
 }
