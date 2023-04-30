@@ -4,6 +4,7 @@ import com.beside.groubing.groubingserver.domain.member.application.SignUpServic
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.LoginResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,7 +17,9 @@ class SignUpApi(
 ) {
     @PostMapping
     fun signUp(
-        @RequestBody request: SignUpRequest
+        @RequestBody
+        @Validated
+        request: SignUpRequest
     ): ApiResponse<LoginResponse> {
         val loginResponse = signUpService.signUp(request.command())
         return ApiResponse.OK(loginResponse)

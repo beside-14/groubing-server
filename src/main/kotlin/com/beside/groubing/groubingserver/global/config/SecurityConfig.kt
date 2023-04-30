@@ -18,7 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfig {
     companion object {
-        private val AUTH_WHITELIST = arrayOf("/api/members", "/api/members/login")
+        private val POST_AUTH_WHITELIST = arrayOf("/api/members", "/api/members/login", "/api/members/find-email")
+        private val PATCH_AUTH_WHITELIST = arrayOf("/api/members/*/password")
         private val STATIC_RESOURCES = arrayOf("/*/*.html*", "/*/*.png", "/***.jpg", "/*/*.jpeg")
     }
 
@@ -31,7 +32,9 @@ class SecurityConfig {
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            .requestMatchers(HttpMethod.POST, *AUTH_WHITELIST)
+            .requestMatchers(HttpMethod.POST, *POST_AUTH_WHITELIST)
+            .permitAll()
+            .requestMatchers(HttpMethod.PATCH, *PATCH_AUTH_WHITELIST)
             .permitAll()
             .anyRequest()
             .authenticated()

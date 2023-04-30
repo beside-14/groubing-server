@@ -53,8 +53,8 @@ class SignUpApiTest(
                     "member-signup-success",
                     requestBody(
                         "email" requestType STRING means "유저 이메일" example "test@groubing.com",
-                        "password" requestType STRING means "유저 패스워드" example "Bside-14th",
-                        "nickname" requestType STRING means "닉네임" example "푸른바다123"
+                        "password" requestType STRING means "유저 패스워드" example "Bside-14th" formattedAs "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}",
+                        "nickname" requestType STRING means "닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}"
                     ),
                     responseBody(
                         "id" responseType NUMBER means "유저 ID" example "1",
