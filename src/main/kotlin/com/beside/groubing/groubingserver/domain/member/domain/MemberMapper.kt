@@ -9,8 +9,9 @@ class MemberMapper(
     private val passwordEncoder: BCryptPasswordEncoder
 ) {
     fun toMember(signUpCommand: SignUpCommand): Member =
-        Member(
+        Member.create(
             email = signUpCommand.email,
-            password = passwordEncoder.encode(signUpCommand.password)
+            password = passwordEncoder.encode(signUpCommand.password),
+            nickname = signUpCommand.nickname
         )
 }

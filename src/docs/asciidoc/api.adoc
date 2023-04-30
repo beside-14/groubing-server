@@ -8,10 +8,11 @@
 
 [[introduction]]
 == 소개
+
 Groubing 서비스 Backend API 문서
 
-* link:overview.html[개요, window=_blank]
-* link:common.html[공통사항, window=_blank]
+* link:overview.html[개요,window=_blank]
+* link:common.html[공통사항,window=_blank]
 
 [[member]]
 == 회원
@@ -20,23 +21,29 @@ Groubing 서비스 Backend API 문서
 
 [[member-login]]
 === 로그인 API
-* link:member/LoginApi.html[로그인 API, window=_blank]
+
+* link:member/LoginApi.html[로그인 API,window=_blank]
 
 [[member-signup]]
 === 회원가입 API
-* link:member/SignUp.html[회원가입 API, window=_blank]
+
+* link:member/SignUpApi.html[회원가입 API,window=_blank]
 
 [[bingo]]
 == 빙고
+
 빙고 도메인과 관련된 API 입니다.
 
 === 빙고 기본 정보
-* link:bingo/BingoInfo.html[빙고 기본정보, window=_blank]
+
+* link:bingo/BingoInfo.html[빙고 기본정보,window=_blank]
 
 [[bingo-create]]
 === 빙고 생성
+
 operation::create-bingo[snippets='http-request,request-fields,http-response,response-fields']
 
 [[bingo-find]]
 === 빙고 조회
+
 operation::bingo-board-find[snippets='http-request,http-response,response-fields']

@@ -14,24 +14,43 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Entity
 @Table(name = "MEMBERS")
-class Member(
+class Member private constructor(
+    val email: String,
+    password: String,
+    nickname: String
+) : BaseEntity() {
     @Id
     @Column(name = "MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L,
+    val id: Long = 0L
 
-    val email: String = "",
+    var password: String = password
+        private set
 
-    private val password: String = "",
+    var nickname: String = nickname
+        private set
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: MemberRole = MemberRole.MEMBER
 
-) : BaseEntity() {
     fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
         if (!passwordEncoder.matches(password, this.password)) {
             throw MemberInputException("비밀번호가 일치하지 않습니다.")
+        }
+    }
+
+    fun editNickname(nickname: String) {
+        this.nickname = nickname
+    }
+
+    fun editPassword(encodedPassword: String) {
+        this.password = encodedPassword
+    }
+
+    companion object {
+        fun create(email: String, password: String, nickname: String): Member {
+            return Member(email, password, nickname)
         }
     }
 }
