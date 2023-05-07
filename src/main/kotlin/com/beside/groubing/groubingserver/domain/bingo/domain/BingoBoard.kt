@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 
 @Entity
 @Table(name = "BINGO_BOARDS")
@@ -80,10 +81,11 @@ class BingoBoard internal constructor(
         return bingoItem
     }
 
-    fun updateBase(memberId: Long, title: String, goal: Int) {
+    fun updateBase(memberId: Long, title: String, goal: Int, since: LocalDate, until: LocalDate) {
         validateUpdateAuthority(memberId)
         this.title = title
         this.bingoGoal = BingoGoal.create(goal, bingoSize)
+        this.period = BingoPeriod.create(since, until)
     }
 
     fun updateBingoMembersPeriod(memberId: Long, bingoMembers: List<Long>, since: LocalDate, until: LocalDate) {

@@ -71,9 +71,12 @@ class BingoBoardUpdateApiTest(
 
         val bingoBoardBaseUpdateRequest = BingoBoardBaseUpdateRequest(
             title = "New Title",
-            goal = 5
+            goal = 5,
+            since = LocalDate.now(),
+            until = LocalDate.now().plusDays(7)
         )
-        aEmptyBingo.updateBase(memberId, bingoBoardBaseUpdateRequest.title, bingoBoardBaseUpdateRequest.goal)
+        aEmptyBingo.updateBase(memberId, bingoBoardBaseUpdateRequest.title, bingoBoardBaseUpdateRequest.goal,
+            bingoBoardBaseUpdateRequest.since, bingoBoardBaseUpdateRequest.until)
         val baseUpdatedResponse = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
         every { bingoBoardUpdateService.updateBase(id, memberId, any()) } returns baseUpdatedResponse
 
@@ -89,7 +92,9 @@ class BingoBoardUpdateApiTest(
                 "update-bingo-base",
                 requestBody(
                     "title" requestType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}",
-                    "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1"
+                    "goal" requestType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
+                    "since" requestType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd",
+                    "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd"
                 ),
                 responseSnippets
             )
