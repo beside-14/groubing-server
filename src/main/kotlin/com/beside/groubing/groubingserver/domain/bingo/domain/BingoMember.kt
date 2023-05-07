@@ -21,8 +21,13 @@ class BingoMember private constructor(
     val bingoMemberType: BingoMemberType
 ) : BaseEntity() {
 
+    fun isLeader(): Boolean {
+        return bingoMemberType.isLeader()
+    }
+
     companion object {
-        fun createBingoMember(memberId: Long, bingoMemberType: BingoMemberType): BingoMember =
-            BingoMember(memberId = memberId, bingoMemberType = bingoMemberType)
+        fun create(memberId: Long, bingoMemberType: BingoMemberType = BingoMemberType.PARTICIPANT): BingoMember {
+            return BingoMember(memberId = memberId, bingoMemberType = bingoMemberType)
+        }
     }
 }
