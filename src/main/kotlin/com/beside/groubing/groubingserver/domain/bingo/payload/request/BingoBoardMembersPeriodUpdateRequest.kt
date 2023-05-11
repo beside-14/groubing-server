@@ -6,9 +6,10 @@ import jakarta.validation.constraints.NotEmpty
 import java.time.LocalDate
 
 class BingoBoardMembersPeriodUpdateRequest(
-    @NotEmpty
+    @field:NotEmpty
     val bingoMembers: List<Long>,
 
+    @field:NotEmpty
     val since: LocalDate,
 
     @field:Future

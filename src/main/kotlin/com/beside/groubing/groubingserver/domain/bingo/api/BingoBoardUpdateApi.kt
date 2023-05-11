@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/bingoboards")
+@RequestMapping("/api/bingo-boards")
 class BingoBoardUpdateApi(
     private val bingoBoardUpdateService: BingoBoardUpdateService
 ) {
@@ -32,7 +32,7 @@ class BingoBoardUpdateApi(
         return ApiResponse.OK(bingoBoardResponse)
     }
 
-    @PatchMapping("/{id}/members-period")
+    @PatchMapping("/{id}/publish-info")
     fun updateBingoMembersPeriod(
         @PathVariable id: Long,
         @AuthenticationPrincipal
