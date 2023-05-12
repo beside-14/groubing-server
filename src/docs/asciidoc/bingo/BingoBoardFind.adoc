@@ -1,0 +1,2 @@
+=== 빙고 보드 단 건 조회
+operation::bingo-board-find[snippets='http-request,http-response,response-fields']

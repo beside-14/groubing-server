@@ -1,0 +1,3 @@
+[[bingo-item-update]]
+=== 빙고 아이템 업데이트
+operation::bingo-item-update[snippets='request-body,request-fields,http-request,response-fields,http-response']

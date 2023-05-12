@@ -34,14 +34,6 @@ class BingoItem internal constructor(
         return completeMembers.contains(memberId)
     }
 
-    fun isEmpty(): Boolean {
-        return title.isNullOrBlank() && subTitle.isNullOrBlank()
-    }
-
-    fun isSame(bingoItemId: Long): Boolean {
-        return id == bingoItemId
-    }
-
     fun completeBingoItem(memberId: Long) {
         completeMembers.add(memberId)
     }
@@ -50,13 +42,9 @@ class BingoItem internal constructor(
         completeMembers.remove(memberId)
     }
 
-    fun updateTitleAndSubTitle(title: String?, subTitle: String?) {
+    fun updateBingoItem(title: String, subTitle: String?) {
         this.title = title
         this.subTitle = subTitle
-    }
-
-    fun isBingoItem(itemOrder: Int): Boolean {
-        return this.itemOrder == itemOrder
     }
 
     companion object {

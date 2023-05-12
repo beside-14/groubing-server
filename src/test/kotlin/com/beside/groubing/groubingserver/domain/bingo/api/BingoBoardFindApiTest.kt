@@ -72,7 +72,6 @@ class BingoBoardFindApiTest(
                         "bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
                         "bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
                         "bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
-                        "bingoLines[].bingoItems[].empty" responseType BOOLEAN means "빙고 아이템 title, subTitle 입력 여부" example "true",
                         "bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
                         "totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수",
                         "horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",

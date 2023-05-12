@@ -7,8 +7,8 @@ import java.time.temporal.ChronoUnit
 
 @Embeddable
 class BingoPeriod private constructor(
-    var since: LocalDate,
-    var until: LocalDate
+    since: LocalDate,
+    val until: LocalDate
 ) {
     init {
         val now = LocalDate.now()
@@ -21,7 +21,7 @@ class BingoPeriod private constructor(
     fun calculateLeftDays(): Long = LocalDate.now().until(until, ChronoUnit.DAYS)
 
     companion object {
-        fun createBingoPeriod(since: LocalDate, until: LocalDate): BingoPeriod =
+        fun create(since: LocalDate, until: LocalDate): BingoPeriod =
             BingoPeriod(since, until)
     }
 }

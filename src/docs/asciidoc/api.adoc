@@ -49,6 +49,7 @@ operation::member-edit-nickname[snippets='http-request,request-fields,http-respo
 
 빙고 도메인과 관련된 API 입니다.
 
+[[bingo-basic-info]]
 === 빙고 기본 정보
 
 * link:bingo/BingoInfo.html[빙고 기본정보,window=_blank]
@@ -56,9 +57,15 @@ operation::member-edit-nickname[snippets='http-request,request-fields,http-respo
 [[bingo-create]]
 === 빙고 생성
 
-operation::create-bingo[snippets='http-request,request-fields,http-response,response-fields']
+* link:bingo/BingoBoardCreate.html[빙고 생성,window=_blank]
 
 [[bingo-find]]
 === 빙고 조회
 
-operation::bingo-board-find[snippets='http-request,http-response,response-fields']
+* link:bingo/BingoBoardFind.html[빙고보드 단 건 조회,window=_blank]
+
+[[bingo-update]]
+=== 빙고 업데이트
+
+* link:bingo/BingoBoardUpdate.html[빙고보드 업데이트,window=_blank]
+* link:bingo/BingoItemUpdate.html[빙고 아이템 업데이트,window=_blank]
