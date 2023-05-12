@@ -56,7 +56,7 @@ class BingoMap(
 
     fun getBingoLines(direction: Direction): List<BingoLine> {
         return bingoLines
-            .filter { it.isSame(direction) }
+            .filter { it.direction == direction }
     }
 
     fun getCompleteLineIndexes(direction: Direction): List<Int> {

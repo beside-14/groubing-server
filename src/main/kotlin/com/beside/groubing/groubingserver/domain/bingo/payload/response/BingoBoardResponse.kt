@@ -2,7 +2,6 @@ package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoLine
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 
@@ -37,30 +36,6 @@ class BingoBoardResponse private constructor(
 
     val diagonalCompleteLineIndexes: List<Int>
 ) {
-
-    class BingoItemResponse private constructor(
-        val id: Long,
-        val title: String?,
-        val subTitle: String?,
-        val imageUrl: String?,
-        val empty: Boolean,
-        val complete: Boolean,
-        val itemOrder: Int
-    ) {
-        companion object {
-            fun fromBingoItem(bingoItem: BingoItem, memberId: Long): BingoItemResponse {
-                return BingoItemResponse(
-                    id = bingoItem.id,
-                    title = bingoItem.title,
-                    subTitle = bingoItem.subTitle,
-                    imageUrl = bingoItem.imageUrl,
-                    empty = bingoItem.isEmpty(),
-                    complete = bingoItem.isCompleted(memberId),
-                    itemOrder = bingoItem.itemOrder
-                )
-            }
-        }
-    }
 
     class BingoLineResponse private constructor(
         val direction: Direction,

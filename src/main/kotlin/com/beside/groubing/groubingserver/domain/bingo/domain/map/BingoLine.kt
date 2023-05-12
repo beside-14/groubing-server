@@ -14,8 +14,4 @@ class BingoLine(
             it.isCompleted(memberId)
         }
     }
-
-    fun isSame(direction: Direction): Boolean {
-        return this.direction == direction
-    }
 }
