@@ -42,9 +42,9 @@ class BingoBoardFindApiTest(
 
         every { bingoBoardFindService.findBingoBoard(memberId, bingoBoardId) } returns bingoBoardResponse
 
-        When("GET /api/bingoboards/{id} 요청이 들어왔을 때") {
+        When("GET /api/bingo-boards/{id} 요청이 들어왔을 때") {
             mockMvc.perform(
-                get("/api/bingoboards/{id}", bingoBoardId)
+                get("/api/bingo-boards/{id}", bingoBoardId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header("Authorization", getHttpHeaderJwt(memberId))
