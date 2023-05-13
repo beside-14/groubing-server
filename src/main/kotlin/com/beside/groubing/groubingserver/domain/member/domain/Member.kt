@@ -17,7 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 class Member private constructor(
     val email: String,
     password: String,
-    nickname: String
+    nickname: String,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    val role: MemberRole
 ) : BaseEntity() {
     @Id
     @Column(name = "MEMBER_ID")
@@ -29,10 +32,6 @@ class Member private constructor(
 
     var nickname: String = nickname
         private set
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    val role: MemberRole = MemberRole.MEMBER
 
     fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
         if (!passwordEncoder.matches(password, this.password)) {
@@ -49,8 +48,8 @@ class Member private constructor(
     }
 
     companion object {
-        fun create(email: String, password: String, nickname: String): Member {
-            return Member(email, password, nickname)
+        fun create(email: String, password: String, nickname: String, role: MemberRole): Member {
+            return Member(email, password, nickname, role)
         }
     }
 }

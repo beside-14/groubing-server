@@ -12,6 +12,7 @@ class MemberMapper(
         Member.create(
             email = signUpCommand.email,
             password = passwordEncoder.encode(signUpCommand.password),
-            nickname = signUpCommand.nickname
+            nickname = signUpCommand.nickname,
+            role = MemberRole.MEMBER
         )
 }
