@@ -9,7 +9,6 @@ class BingoBoardMembersPeriodUpdateRequest(
     @field:NotEmpty
     val bingoMembers: List<Long>,
 
-    @field:NotEmpty
     val since: LocalDate,
 
     @field:Future
