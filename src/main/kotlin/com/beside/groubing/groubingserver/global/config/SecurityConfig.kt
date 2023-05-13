@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig {
     companion object {
         private val AUTH_WHITELIST = arrayOf("/api/members", "/api/members/login")
-        private val STATIC_RESOURCES = arrayOf("/*/*.html*", "/*/*.png", "/***.jpg", "/*/*.jpeg")
+        private val STATIC_RESOURCES = arrayOf("/docs/**", "/*/*.png", "/***.jpg", "/*/*.jpeg")
     }
 
     @Bean
