@@ -20,7 +20,7 @@ class SecurityConfig {
     companion object {
         private val POST_AUTH_WHITELIST = arrayOf("/api/members", "/api/members/login", "/api/members/find-email")
         private val PATCH_AUTH_WHITELIST = arrayOf("/api/members/*/password")
-        private val STATIC_RESOURCES = arrayOf("/*/*.html*", "/*/*.png", "/***.jpg", "/*/*.jpeg")
+        private val STATIC_RESOURCES = arrayOf("/docs/**", "/*/*.png", "/***.jpg", "/*/*.jpeg")
     }
 
     @Bean
