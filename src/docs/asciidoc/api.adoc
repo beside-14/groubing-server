@@ -29,20 +29,20 @@ Groubing 서비스 Backend API 문서
 
 * link:member/SignUpApi.html[회원가입 API,window=_blank]
 
-[[member-find-email]]
-=== 회원가입 여부 API
+[[member-email-find]]
+=== 이메일 찾기
 
-operation::member-find-email[snippets='http-request,request-fields,http-response,response-fields']
+* link:member/MemberEmailFind.html[이메일 찾기 API,window=_blank]
 
-[[member-reset-password]]
+[[member-password-reset]]
 === 비밀번호 변경 API
 
-operation::member-reset-password[snippets='http-request,request-fields,http-response']
+* link:member/MemberPasswordReset.html[비밀번호 변경 API,window=_blank]
 
-[[member-edit-nickname]]
+[[member-nickname-edit]]
 === 닉네임 변경 API
 
-operation::member-edit-nickname[snippets='http-request,request-fields,http-response']
+* link:member/MemberNicknameEdit.html[닉네임 변경 API,window=_blank]
 
 [[bingo]]
 == 빙고

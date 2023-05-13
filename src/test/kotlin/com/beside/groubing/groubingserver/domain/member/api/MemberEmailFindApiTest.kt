@@ -56,7 +56,7 @@ class MemberEmailFindApiTest(
                         content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
                     }
                 }.andDocument(
-                    "member-find-email",
+                    "member-email-find",
                     requestBody(
                         "email" requestType STRING means "유저 이메일" example email
                     ),

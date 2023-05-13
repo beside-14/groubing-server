@@ -52,7 +52,7 @@ class MemberNicknameEditApiTest(
                 ).andDo(print())
                     .andExpect(status().isOk)
                     .andDocument(
-                        "member-edit-nickname",
+                        "member-nickname-edit",
                         pathVariables(
                             "id" optional true means "회원 ID" example id.toString()
                         ),

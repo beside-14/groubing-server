@@ -52,7 +52,7 @@ class MemberPasswordResetApiTest(
                 ).andDo(MockMvcResultHandlers.print())
                     .andExpect(MockMvcResultMatchers.status().isOk)
                     .andDocument(
-                        "member-reset-password",
+                        "member-password-reset",
                         pathVariables(
                             "id" optional true means "회원 ID" example id.toString()
                         ),

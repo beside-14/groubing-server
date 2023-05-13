@@ -1,0 +1,4 @@
+[[member-nickname-edit]]
+=== 닉네임 변경
+
+operation::member-nickname-edit[snippets='request-body,request-fields,http-request,http-response']
