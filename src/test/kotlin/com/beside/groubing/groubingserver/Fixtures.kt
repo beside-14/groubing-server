@@ -8,6 +8,15 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMember
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMemberType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
+import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.Codepoint
+import io.kotest.property.arbitrary.alphanumeric
+import io.kotest.property.arbitrary.email
+import io.kotest.property.arbitrary.single
+import io.kotest.property.arbitrary.string
+import io.kotest.property.arbitrary.stringPattern
 
 fun aEmptyBingo(): BingoBoard {
     val memberId = 1L
@@ -100,4 +109,17 @@ fun aBingoBoard(): BingoBoard {
     bingoBoard.completeBingoItem(7L, memberId)
     bingoBoard.completeBingoItem(8L, memberId)
     return bingoBoard
+}
+
+fun aMember(
+    email: String = Arb.email(Arb.string(5, 10, Codepoint.alphanumeric()), Arb.stringPattern("groubing\\.com")).single(),
+    password: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single(),
+    nickname: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single()
+): Member {
+    return Member.create(
+        email = email,
+        password = password,
+        nickname = nickname,
+        role = MemberRole.MEMBER
+    )
 }

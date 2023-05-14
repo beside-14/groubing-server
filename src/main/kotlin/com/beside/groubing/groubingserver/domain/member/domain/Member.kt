@@ -47,6 +47,14 @@ class Member private constructor(
         this.password = encodedPassword
     }
 
+    fun maskEmail(): String {
+        val atSignIndex = email.indexOfFirst { it == '@' }
+        val username = email.substring(0 until atSignIndex)
+        val oldValue = username.substring(username.length / 2)
+        val newValue = oldValue.toCharArray().map { '*' }.joinToString("")
+        return email.replace(oldValue, newValue)
+    }
+
     companion object {
         fun create(email: String, password: String, nickname: String, role: MemberRole): Member {
             return Member(email, password, nickname, role)

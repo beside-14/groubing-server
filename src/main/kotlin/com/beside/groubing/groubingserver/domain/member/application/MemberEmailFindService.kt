@@ -11,6 +11,6 @@ class MemberEmailFindService(
 ) {
     fun find(email: String): MemberEmailFindResponse {
         val member = memberRepository.findByEmail(email) ?: throw MemberInputException("존재하지 않는 유저 입니다.")
-        return MemberEmailFindResponse(member.id, member.email)
+        return MemberEmailFindResponse(member.id, member.maskEmail())
     }
 }
