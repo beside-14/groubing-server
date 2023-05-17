@@ -48,11 +48,10 @@ class Member private constructor(
     }
 
     fun maskEmail(): String {
-        val atSignIndex = email.indexOfFirst { it == '@' }
-        val username = email.substring(0 until atSignIndex)
-        val oldValue = username.substring(username.length / 2)
-        val newValue = oldValue.toCharArray().map { '*' }.joinToString("")
-        return email.replace(oldValue, newValue)
+        val endIndex = email.indexOfFirst { it == '@' }
+        val startIndex = endIndex / 2
+        val replacement = (startIndex until endIndex).map { '*' }.joinToString("")
+        return StringBuilder(email).replace(startIndex, endIndex, replacement).toString()
     }
 
     companion object {
