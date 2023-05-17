@@ -11,7 +11,7 @@ import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.member.application.LoginService
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.LoginRequest
-import com.beside.groubing.groubingserver.domain.member.payload.response.LoginResponse
+import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.extension.getJwt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -37,7 +37,7 @@ class LoginApiTest(
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
-            val response = LoginResponse(1L, email, jwt)
+            val response = MemberResponse(1L, email, jwt)
             every { loginService.login(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {

@@ -2,8 +2,9 @@ package com.beside.groubing.groubingserver.domain.member.api
 
 import com.beside.groubing.groubingserver.domain.member.application.SignUpService
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
-import com.beside.groubing.groubingserver.domain.member.payload.response.SignUpResponse
+import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,9 +17,11 @@ class SignUpApi(
 ) {
     @PostMapping
     fun signUp(
-        @RequestBody request: SignUpRequest
-    ): ApiResponse<SignUpResponse> {
-        val signUpResponse = signUpService.signUp(request.command())
-        return ApiResponse.OK(signUpResponse)
+        @RequestBody
+        @Validated
+        request: SignUpRequest
+    ): ApiResponse<MemberResponse> {
+        val loginResponse = signUpService.signUp(request.command())
+        return ApiResponse.OK(loginResponse)
     }
 }
