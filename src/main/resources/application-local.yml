@@ -3,9 +3,14 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    defer-datasource-initialization: true
   h2:
     console:
       enabled: true
+  sql:
+    init:
+      dataLocations: classpath:data-local.sql
+      mode: embedded
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:groubing

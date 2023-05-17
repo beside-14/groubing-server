@@ -24,11 +24,15 @@ class Member(
 
     private val password: String = "",
 
+    nickname: String,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: MemberRole = MemberRole.MEMBER
 
 ) : BaseEntity() {
+    var nickname: String = nickname
+        private set
     fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
         if (!passwordEncoder.matches(password, this.password)) {
             throw MemberInputException("비밀번호가 일치하지 않습니다.")

@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
-import com.beside.groubing.groubingserver.aBingoBoard
+import com.beside.groubing.groubingserver.aEnglishStudyBingoBoard
+import com.beside.groubing.groubingserver.aMember
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.ARRAY
 import com.beside.groubing.groubingserver.docs.BOOLEAN
@@ -15,7 +16,7 @@ import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardFindService
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardDetailResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -36,9 +37,11 @@ class BingoBoardFindApiTest(
     Given("BingoBoardFindApi가 주어졌을 때") {
         val memberId = 1L
         val bingoBoardId = 1L
-        val bingoBoard = aBingoBoard()
+        val bingoBoard = aEnglishStudyBingoBoard()
+        val member = aMember(memberId)
+        val otherMembers = (2L..5L).map { aMember(it) }
 
-        val bingoBoardResponse = BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+        val bingoBoardResponse = BingoBoardDetailResponse.fromBingoBoard(bingoBoard, member, otherMembers)
 
         every { bingoBoardFindService.findBingoBoard(memberId, bingoBoardId) } returns bingoBoardResponse
 
@@ -66,17 +69,31 @@ class BingoBoardFindApiTest(
                         "isFinished" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 종료, `false` : 빙고 진행 중",
                         "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
                         "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
-                        "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
-                        "bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
-                        "bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
-                        "bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
-                        "bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
-                        "bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
-                        "bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
-                        "totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수",
-                        "horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
-                        "verticalCompleteLineIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
-                        "diagonalCompleteLineIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스"
+                        "bingoMap.nickName" responseType STRING means "빙고 참여자 본인 닉네임" example "holeman79",
+                        "bingoMap.bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
+                        "bingoMap.bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
+                        "bingoMap.bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
+                        "bingoMap.bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
+                        "bingoMap.bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
+                        "bingoMap.bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
+                        "bingoMap.bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
+                        "bingoMap.totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수",
+                        "bingoMap.horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
+                        "bingoMap.verticalCompleteLineIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
+                        "bingoMap.diagonalCompleteLineIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스",
+
+                        "otherBingoMaps[].nickName" responseType STRING means "본인 외 빙고 참여자 닉네임" example "holeman79",
+                        "otherBingoMaps[].bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
+                        "otherBingoMaps[].bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
+                        "otherBingoMaps[].bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
+                        "otherBingoMaps[].bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
+                        "otherBingoMaps[].bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
+                        "otherBingoMaps[].bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
+                        "otherBingoMaps[].bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
+                        "otherBingoMaps[].totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수",
+                        "otherBingoMaps[].horizontalCompleteLineIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
+                        "otherBingoMaps[].verticalCompleteLineIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
+                        "otherBingoMaps[].diagonalCompleteLineIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스",
                     )
                 )
         }

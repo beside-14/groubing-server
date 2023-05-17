@@ -31,7 +31,7 @@ class SignUpApiTest(
     Given("유저가") {
         val email = "user1@gmail.com"
         val password = "abcd1234"
-        val request = SignUpRequest(email, password)
+        val request = SignUpRequest(email, password, "nickname")
 
         When("올바른 정보로 회원가입 요청 시") {
             val response = SignUpResponse(email)

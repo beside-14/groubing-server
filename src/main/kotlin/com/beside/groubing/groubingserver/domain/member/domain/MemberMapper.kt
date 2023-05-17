@@ -11,6 +11,7 @@ class MemberMapper(
     fun toMember(signUpCommand: SignUpCommand): Member =
         Member(
             email = signUpCommand.email,
-            password = passwordEncoder.encode(signUpCommand.password)
+            password = passwordEncoder.encode(signUpCommand.password),
+            nickname = signUpCommand.nickname,
         )
 }
