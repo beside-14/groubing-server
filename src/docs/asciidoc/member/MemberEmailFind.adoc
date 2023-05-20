@@ -1,0 +1,4 @@
+[[member-email-find]]
+=== 이메일 찾기
+
+operation::member-email-find[snippets='request-body,request-fields,http-request,response-fields,response-body,http-response']

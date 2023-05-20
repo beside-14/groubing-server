@@ -7,10 +7,13 @@ import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 
 data class SignUpRequest(
-    @Email(message = "이메일을 올바른 양식으로 입력해 주세요.")
-    @NotBlank
+    @field:Email(message = "이메일을 올바른 양식으로 입력해 주세요.")
+    @field:NotBlank(message = "이메일을 입력해 주세요")
     val email: String,
-    @NotBlank(message = "비밀번호를 입력해 주세요.")
+
+    @field:NotBlank(message = "비밀번호를 입력해 주세요.")
+    @field:Length(min = 8, max = 20, message = "비밀번호는 8 ~ 20자 내외로 입력해 주세요.")
+    @field:Pattern(regexp = "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}", message = "허용하지 않는 특수문자가 포함되어 있어요.")
     val password: String,
 
     @field:NotBlank(message = "닉네임을 입력해 주세요.")

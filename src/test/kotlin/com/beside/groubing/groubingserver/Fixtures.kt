@@ -1,11 +1,5 @@
 package com.beside.groubing.groubingserver
 
-import com.beside.groubing.groubingserver.docs.BOOLEAN
-import com.beside.groubing.groubingserver.docs.ENUM
-import com.beside.groubing.groubingserver.docs.NUMBER
-import com.beside.groubing.groubingserver.docs.STRING
-import com.beside.groubing.groubingserver.docs.responseBody
-import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoGoal
@@ -124,3 +118,16 @@ val bingoBoardResponseSnippets = responseBody(
     "bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
     "bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3..."
 )
+
+fun aMember(
+    email: String = Arb.email(Arb.string(5, 10, Codepoint.alphanumeric()), Arb.stringPattern("groubing\\.com")).single(),
+    password: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single(),
+    nickname: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single()
+): Member {
+    return Member.create(
+        email = email,
+        password = password,
+        nickname = nickname,
+        role = MemberRole.MEMBER
+    )
+}
