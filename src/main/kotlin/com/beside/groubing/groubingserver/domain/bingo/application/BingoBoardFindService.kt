@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class BingoBoardFindService(
     private val bingoBoardFindDao: BingoBoardFindDao,
-
     private val memberRepository: MemberRepository
 ) {
     fun findBingoBoard(memberId: Long, boardId: Long): BingoBoardDetailResponse {
