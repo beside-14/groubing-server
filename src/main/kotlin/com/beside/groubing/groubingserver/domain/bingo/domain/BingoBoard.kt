@@ -1,6 +1,5 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoMember.bingoMember
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoIllegalStateException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
@@ -17,7 +16,6 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 
 @Entity
 @Table(name = "BINGO_BOARDS")
@@ -60,10 +58,20 @@ class BingoBoard internal constructor(
     val goal: Int
         get() = bingoGoal.goal
 
+    val since: LocalDate?
+        get() = period?.since
+
+    val until: LocalDate?
+        get() = period?.until
+
     fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
 
     fun makeBingoMap(memberId: Long): BingoMap {
         return BingoMap(memberId, size, bingoItems.sortedBy { it.itemOrder })
+    }
+
+    fun getBingoMemberIds(): List<Long> {
+        return bingoMembers.map { it.memberId }
     }
 
     fun isStarted(): Boolean = period != null

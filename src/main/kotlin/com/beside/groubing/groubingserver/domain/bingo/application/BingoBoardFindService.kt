@@ -1,19 +1,21 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardRepository
-import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
+import com.beside.groubing.groubingserver.domain.bingo.dao.BingoBoardFindDao
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardDetailResponse
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
 class BingoBoardFindService(
-    private val bingoBoardRepository: BingoBoardRepository
+    private val bingoBoardFindDao: BingoBoardFindDao,
+    private val memberRepository: MemberRepository
 ) {
-    fun findBingoBoard(memberId: Long, boardId: Long): BingoBoardResponse {
-        val bingoBoard = bingoBoardRepository.findById(boardId)
-            .orElseThrow { throw BingoInputException("존재하지 않는 BingoBoard Id입니다. : $boardId") }
-        return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+    fun findBingoBoard(memberId: Long, boardId: Long): BingoBoardDetailResponse {
+        val bingoBoard = bingoBoardFindDao.findById(boardId)
+        val (currentMember, otherMembers) = memberRepository.findAllById(bingoBoard.getBingoMemberIds())
+            .partition { it.id == memberId }
+        return BingoBoardDetailResponse.fromBingoBoard(bingoBoard, currentMember.first(), otherMembers)
     }
 }

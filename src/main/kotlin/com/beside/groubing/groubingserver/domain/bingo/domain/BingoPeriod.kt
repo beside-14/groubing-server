@@ -7,13 +7,11 @@ import java.time.temporal.ChronoUnit
 
 @Embeddable
 class BingoPeriod private constructor(
-    since: LocalDate,
+    val since: LocalDate,
     val until: LocalDate
 ) {
     init {
         val now = LocalDate.now()
-        if (since.isBefore(now)) throw BingoInputException("빙고 시작일은 현재보다 과거일 수 없습니다.")
-        if (since.isEqual(until)) throw BingoInputException("빙고 시작일과 종료일은 같은 수 없습니다.")
         if (until.isBefore(now)) throw BingoInputException("빙고 종료일은 현재 과거일 수 없습니다.")
         if (until.isBefore(since)) throw BingoInputException("빙고 종료일은 시작일보다 과거일 수 없습니다.")
     }

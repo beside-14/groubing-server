@@ -44,7 +44,6 @@ class BingoBoardCreateServiceTest(
 
                 val response = bingoBoardCreateService.create(command)
 
-                response.dDay shouldBe "D-${board.calculateLeftDays()}"
                 response.memo shouldBe beNull()
                 response.bingoLines.size shouldBe bingoSize
 

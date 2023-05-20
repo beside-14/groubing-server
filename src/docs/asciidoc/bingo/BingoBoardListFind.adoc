@@ -1,0 +1,2 @@
+=== 빙고 보드 리스트 조회
+operation::bingo-board-list-find[snippets='http-request,http-response,response-fields']

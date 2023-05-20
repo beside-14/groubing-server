@@ -64,6 +64,11 @@ Groubing 서비스 Backend API 문서
 
 * link:bingo/BingoBoardFind.html[빙고보드 단 건 조회,window=_blank]
 
+[[bingo-list-find]]
+=== 빙고 리스트 조회
+
+* link:bingo/BingoBoardListFind.html[빙고보드 리스트 조회,window=_blank]
+
 [[bingo-update]]
 === 빙고 업데이트
 

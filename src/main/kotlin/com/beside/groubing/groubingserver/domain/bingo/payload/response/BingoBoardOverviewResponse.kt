@@ -4,12 +4,16 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoMapResponse.BingoLineResponse
+import java.time.LocalDate
 
-class BingoBoardResponse private constructor(
+class BingoBoardOverviewResponse private constructor(
     val id: Long,
 
     val title: String,
+
+    val since: LocalDate?,
+
+    val until: LocalDate?,
 
     val goal: Int,
 
@@ -17,31 +21,24 @@ class BingoBoardResponse private constructor(
 
     val open: Boolean,
 
-    val isStarted: Boolean,
+    val bingoLines: List<BingoMapResponse.BingoLineResponse>,
 
-    val isFinished: Boolean,
-
-    val bingoSize: Int,
-
-    val memo: String?,
-
-    val bingoLines: List<BingoLineResponse>
+    val totalCompleteCount: Int
 ) {
     companion object {
-        fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardResponse {
+        fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardOverviewResponse {
             val bingoMap = BingoMap(memberId, bingoBoard.size, bingoBoard.bingoItems)
-            return BingoBoardResponse(
+            return BingoBoardOverviewResponse(
                 id = bingoBoard.id,
                 title = bingoBoard.title,
+                since = bingoBoard.since,
+                until = bingoBoard.until,
                 goal = bingoBoard.goal,
                 groupType = bingoBoard.boardType,
                 open = bingoBoard.open,
-                memo = bingoBoard.memo,
-                isStarted = bingoBoard.isStarted(),
-                isFinished = bingoBoard.isFinished(),
-                bingoSize = bingoBoard.size,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
-                    .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) }
+                    .map { BingoMapResponse.BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
+                totalCompleteCount = bingoMap.calculateTotalCompleteCount()
             )
         }
     }
