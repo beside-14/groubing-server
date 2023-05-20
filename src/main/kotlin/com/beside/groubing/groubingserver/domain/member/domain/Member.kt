@@ -14,7 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Entity
 @Table(name = "MEMBERS")
-class Member private constructor(
+class Member internal constructor(
+    @Id
+    @Column(name = "MEMBER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0L,
     val email: String,
     password: String,
     nickname: String,
@@ -22,11 +26,6 @@ class Member private constructor(
     @Column(name = "role")
     val role: MemberRole
 ) : BaseEntity() {
-    @Id
-    @Column(name = "MEMBER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L
-
     var password: String = password
         private set
 
@@ -56,7 +55,7 @@ class Member private constructor(
 
     companion object {
         fun create(email: String, password: String, nickname: String, role: MemberRole): Member {
-            return Member(email, password, nickname, role)
+            return Member(email = email, password = password, nickname = nickname, role = role)
         }
     }
 }

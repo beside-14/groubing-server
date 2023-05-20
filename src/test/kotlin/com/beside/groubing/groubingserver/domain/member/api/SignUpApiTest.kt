@@ -35,7 +35,8 @@ class SignUpApiTest(
         val id = 1L
         val email = "user1@gmail.com"
         val password = "abcd1234"
-        val request = SignUpRequest(email, password)
+        val nickname = "푸른바다123"
+        val request = SignUpRequest(email, password, nickname)
 
         When("올바른 정보로 회원가입 요청 시") {
             val token = JwtProvider.createToken(id, email, MemberRole.MEMBER)

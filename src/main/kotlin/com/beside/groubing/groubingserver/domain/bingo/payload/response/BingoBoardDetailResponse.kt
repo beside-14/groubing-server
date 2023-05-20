@@ -42,7 +42,7 @@ class BingoBoardDetailResponse private constructor(
                 isStarted = bingoBoard.isStarted(),
                 isFinished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,
-                bingoMap = BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(member.id), member!!.nickname),
+                bingoMap = BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(member.id), member.nickname),
                 otherBingoMaps = otherMembers
                     .map { BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(it.id), it.nickname) }
             )

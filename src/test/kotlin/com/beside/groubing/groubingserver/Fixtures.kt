@@ -1,5 +1,11 @@
 package com.beside.groubing.groubingserver
 
+import com.beside.groubing.groubingserver.docs.BOOLEAN
+import com.beside.groubing.groubingserver.docs.ENUM
+import com.beside.groubing.groubingserver.docs.NUMBER
+import com.beside.groubing.groubingserver.docs.STRING
+import com.beside.groubing.groubingserver.docs.responseBody
+import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoGoal
@@ -10,6 +16,14 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
 import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.Codepoint
+import io.kotest.property.arbitrary.alphanumeric
+import io.kotest.property.arbitrary.email
+import io.kotest.property.arbitrary.single
+import io.kotest.property.arbitrary.string
+import io.kotest.property.arbitrary.stringPattern
 import java.time.LocalDate
 
 fun aEmptyBingo(): BingoBoard {
@@ -96,7 +110,7 @@ fun aGameBingoBoard(): BingoBoard {
 }
 
 fun aMember(memberId: Long): Member {
-    return Member(id = memberId, email = "test${memberId}@gmail.com", "1234", "test${memberId}")
+    return Member(id = memberId, email = "test${memberId}@gmail.com", "1234", "test${memberId}", role = MemberRole.MEMBER)
 }
 
 val bingoBoardResponseSnippets = responseBody(
