@@ -1,0 +1,6 @@
+[[bingo-item-complete-cancel]]
+=== 빙고 아이템 완료
+operation::bingo-item-complete[snippets='request-body,request-fields,http-request,response-fields,http-response']
+
+=== 빙고 아이템 완료 취소
+operation::bingo-item-cancel[snippets='request-body,request-fields,http-request,response-fields,http-response']

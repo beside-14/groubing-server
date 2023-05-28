@@ -125,6 +125,11 @@ class BingoBoard internal constructor(
             ?.completeBingoItem(memberId)
     }
 
+    fun cancelBingoItem(bingoItemId: Long, memberId: Long) {
+        bingoItems.find { it.id == bingoItemId }
+            ?.cancelBingoItem(memberId)
+    }
+
     companion object {
         fun create(
             memberId: Long,

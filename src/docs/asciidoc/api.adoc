@@ -73,4 +73,8 @@ Groubing 서비스 Backend API 문서
 === 빙고 업데이트
 
 * link:bingo/BingoBoardUpdate.html[빙고보드 업데이트,window=_blank]
+
+[[bingo-item-update]]
+=== 빙고 아이템 업데이트
 * link:bingo/BingoItemUpdate.html[빙고 아이템 업데이트,window=_blank]
+* link:bingo/BingoItemComplete.html[빙고 아이템 완료/완료취소,window=_blank]
