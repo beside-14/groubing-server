@@ -11,7 +11,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 @Entity
-@Table(name = "FILE_INFO")
+@Table(name = "FILE_INFOS")
 class FileInfo private constructor(
     private val directory: String,
     private val fileName: String,
