@@ -1,14 +1,19 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
+import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
@@ -23,7 +28,7 @@ class Member internal constructor(
     password: String,
     nickname: String,
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "ROLE")
     val role: MemberRole
 ) : BaseEntity() {
     var password: String = password
@@ -31,6 +36,10 @@ class Member internal constructor(
 
     var nickname: String = nickname
         private set
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "PROFILE_ID")
+    var profile: FileInfo? = null
 
     fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
         if (!passwordEncoder.matches(password, this.password)) {
@@ -51,6 +60,14 @@ class Member internal constructor(
         val startIndex = endIndex / 2
         val replacement = (startIndex until endIndex).map { '*' }.joinToString("")
         return StringBuilder(email).replace(startIndex, endIndex, replacement).toString()
+    }
+
+    fun editProfile(profile: FileInfo) {
+        this.profile = profile
+    }
+
+    fun deleteProfile() {
+        this.profile = null
     }
 
     companion object {
