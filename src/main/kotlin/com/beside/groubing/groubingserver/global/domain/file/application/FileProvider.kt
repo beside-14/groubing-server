@@ -31,8 +31,8 @@ class FileProvider {
             return FileInfo.create(directory, fileName, file.originalFilename!!)
         }
 
-        fun delete(fileInfo: FileInfo?) {
-            if (fileInfo != null) Files.deleteIfExists(fileInfo.getAbsolutePath())
+        fun delete(fileInfo: FileInfo) {
+            Files.deleteIfExists(fileInfo.getAbsolutePath())
         }
 
         fun find(fileInfo: FileInfo): Resource {
