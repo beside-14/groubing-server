@@ -23,7 +23,7 @@ class FileInfo private constructor(
     val id: Long = 0L
 
     val url: String
-        get() = "/api/download/$fileName"
+        get() = "/api/files/$fileName"
 
     fun getAbsolutePath(): Path {
         val root = System.getProperty("user.home")
