@@ -50,7 +50,7 @@ class MemberProfileEditApiTest(
         val fileInfo = FileInfo.create("/groubing", fileName, profile.originalFilename)
 
         When("새로운 프로필 이미지를 등록하는 경우") {
-            every { memberProfileEditService.deleteAndEdit(any(), any()) } returns fileInfo.url
+            every { memberProfileEditService.edit(any(), any()) } returns fileInfo.url
             val response = MemberProfileResponse(fileInfo.url)
 
             Then("프로필 이미지 URL 을 응답하도록 한다.") {

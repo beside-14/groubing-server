@@ -15,7 +15,7 @@ class MemberProfileEditService(
     private val memberFindDao: MemberFindDao,
     private val fileInfoRepository: FileInfoRepository
 ) {
-    fun deleteAndEdit(id: Long, profile: MultipartFile): String {
+    fun edit(id: Long, profile: MultipartFile): String {
         val member = memberFindDao.findExistingMemberById(id)
         delete(member.profile)
         edit(member, profile)

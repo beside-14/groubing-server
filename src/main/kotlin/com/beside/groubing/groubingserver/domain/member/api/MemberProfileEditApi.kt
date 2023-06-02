@@ -20,7 +20,7 @@ class MemberProfileEditApi(
         @PathVariable id: Long,
         @RequestPart profile: MultipartFile
     ): ApiResponse<MemberProfileResponse> {
-        val profileUrl = memberProfileEditService.deleteAndEdit(id, profile)
+        val profileUrl = memberProfileEditService.edit(id, profile)
         val response = MemberProfileResponse(profileUrl)
         return ApiResponse.OK(response)
     }
