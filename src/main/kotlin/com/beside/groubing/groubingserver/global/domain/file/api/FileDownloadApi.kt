@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/download")
+@RequestMapping("/api/files")
 class FileDownloadApi(
     private val fileInfoService: FileInfoService
 ) {
