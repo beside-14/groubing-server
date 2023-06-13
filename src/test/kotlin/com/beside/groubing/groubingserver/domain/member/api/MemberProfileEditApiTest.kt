@@ -11,6 +11,7 @@ import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.member.application.MemberProfileEditService
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberProfileResponse
+import com.beside.groubing.groubingserver.extension.multipart
 import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -22,9 +23,9 @@ import io.kotest.property.arbitrary.single
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.core.io.InputStreamResource
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -55,7 +56,7 @@ class MemberProfileEditApiTest(
 
             Then("프로필 이미지 URL 을 응답하도록 한다.") {
                 mockMvc.perform(
-                    multipart("/api/members/{id}/profile", id)
+                    multipart(HttpMethod.PATCH, "/api/members/{id}/profile", id)
                         .file(profile)
                 ).andDo(print())
                     .andExpect(status().isOk)
