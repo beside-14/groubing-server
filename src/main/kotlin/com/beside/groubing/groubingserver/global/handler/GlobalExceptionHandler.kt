@@ -2,6 +2,7 @@ package com.beside.groubing.groubingserver.global.handler
 
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
+import com.beside.groubing.groubingserver.global.domain.file.exception.FileInfoInputException
 import com.beside.groubing.groubingserver.global.response.ApiResponseCode
 import com.beside.groubing.groubingserver.global.response.error.ApiError
 import org.hibernate.exception.ConstraintViolationException
@@ -63,6 +64,12 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(BingoInputException::class)
     fun handle(e: BingoInputException): ResponseEntity<ApiError> {
+        val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(FileInfoInputException::class)
+    fun handle(e: FileInfoInputException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }

@@ -1,0 +1,4 @@
+[[member-profile-edit]]
+=== 프로필 변경
+
+operation::member-profile-edit[snippets='path-parameters,request-parts,http-request,response-body,response-fields,http-response']

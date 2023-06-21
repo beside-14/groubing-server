@@ -3,9 +3,9 @@ package com.beside.groubing.groubingserver.domain.member.api
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
-import com.beside.groubing.groubingserver.docs.optional
 import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestBody
+import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.domain.member.application.MemberNicknameEditService
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberNicknameEditRequest
@@ -54,7 +54,7 @@ class MemberNicknameEditApiTest(
                     .andDocument(
                         "member-nickname-edit",
                         pathVariables(
-                            "id" optional true means "회원 ID" example id.toString()
+                            "id" requestParam "회원 ID" example id.toString() isOptional true
                         ),
                         requestBody(
                             "nickname" requestType STRING means "닉네임" example nickname formattedAs "^[가-힣a-zA-Z0-9]{2,7}"
