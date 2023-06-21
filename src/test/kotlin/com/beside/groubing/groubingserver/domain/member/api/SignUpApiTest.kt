@@ -12,7 +12,7 @@ import com.beside.groubing.groubingserver.domain.member.application.SignUpServic
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
-import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
+import com.beside.groubing.groubingserver.domain.member.payload.response.MemberLoginResponse
 import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -40,7 +40,7 @@ class SignUpApiTest(
 
         When("올바른 정보로 회원가입 요청 시") {
             val token = JwtProvider.createToken(id, email, MemberRole.MEMBER)
-            val response = MemberResponse(id, email, token)
+            val response = MemberLoginResponse(id, email, token)
             every { signUpService.signUp(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
