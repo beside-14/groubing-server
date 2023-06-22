@@ -6,4 +6,4 @@ operation::member-friends-find[snippets='path-parameters,http-request,response-f
 [[member-friends-nickname-find]]
 === 친구 목록 닉네임 검색
 
-operation::member-friends-nickname-find[snippets='path-parameters,http-request,response-fields,response-body,http-response']
+operation::member-friends-nickname-find[snippets='path-parameters,query-parameters,http-request,response-fields,response-body,http-response']

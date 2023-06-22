@@ -94,7 +94,8 @@ class MemberFindFriendsApiTest(
 
             Then("검색한다.") {
                 mockMvc.perform(
-                    get("/api/members/{id}/friends/{nickname}", id, nickname)
+                    get("/api/members/{id}/friends", id)
+                        .param("nickname", nickname)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", getHttpHeaderJwt(id))
@@ -103,10 +104,8 @@ class MemberFindFriendsApiTest(
                     .andExpect(content().json(mapper.writeValueAsString(ApiResponse.OK(response))))
                     .andDocument(
                         "member-friends-nickname-find",
-                        pathVariables(
-                            "id" requestParam "유저 ID" example "1",
-                            "nickname" requestParam "검색할 닉네임" example nickname
-                        ),
+                        pathVariables("id" requestParam "유저 ID" example "1"),
+                        requestParam("nickname" requestParam "검색할 닉네임" example nickname),
                         responseBody(
                             "[].id" responseType NUMBER means "유저 ID" example "1",
                             "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",

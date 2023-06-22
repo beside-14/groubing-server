@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
+import com.beside.groubing.groubingserver.domain.friendship.domain.Friendship
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity

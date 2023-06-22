@@ -1,5 +1,6 @@
-package com.beside.groubing.groubingserver.domain.member.domain
+package com.beside.groubing.groubingserver.domain.friendship.domain
 
+import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

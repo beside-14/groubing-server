@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
-import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
+import com.beside.groubing.groubingserver.domain.friendship.domain.Friendship
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Embeddable
 import jakarta.persistence.OneToMany
@@ -32,13 +32,6 @@ class Friends private constructor(
     fun delete(friendId: Long) {
         friendshipsAsInviter.removeIf { friendship -> friendship.status.isAccept() && friendship.invitee.id == friendId }
         friendshipsAsInvitee.removeIf { friendship -> friendship.status.isAccept() && friendship.inviter.id == friendId }
-    }
-
-    fun changeStatus(id: Long, status: FriendshipStatus) {
-        val pendingFriend =
-            friendshipsAsInvitee.firstOrNull { invitee -> invitee.status.isPending() && invitee.inviter.id == id }
-                ?: throw MemberInputException("친구 요청 목록에 존재하지 않는 회원입니다.")
-        pendingFriend.status = status
     }
 
     companion object {

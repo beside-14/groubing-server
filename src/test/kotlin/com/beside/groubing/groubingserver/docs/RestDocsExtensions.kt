@@ -10,12 +10,17 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.ParameterDescriptor
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.request.RequestDocumentation.requestParts
 import org.springframework.restdocs.request.RequestPartDescriptor
 import org.springframework.restdocs.snippet.Snippet
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+
+fun requestParam(vararg fields: CustomDescriptor<ParameterDescriptor>): Snippet {
+    return queryParameters(fields.map { it.descriptor as ParameterDescriptor })
+}
 
 fun requestBody(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
     return requestFields(fields.map { it.descriptor as FieldDescriptor })

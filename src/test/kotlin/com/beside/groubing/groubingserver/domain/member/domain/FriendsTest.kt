@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
 import com.beside.groubing.groubingserver.aMember
+import com.beside.groubing.groubingserver.domain.friendship.domain.FriendshipStatus
 import io.kotest.core.spec.style.ExpectSpec
 import io.kotest.matchers.shouldBe
 
