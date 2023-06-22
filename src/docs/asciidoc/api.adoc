@@ -54,6 +54,11 @@ Groubing 서비스 Backend API 문서
 
 * link:member/MemberProfileDelete.html[프로필 삭제 API,window=_blank]
 
+[[member-friends-find]]
+=== 친구 목록 API
+
+* link:member/MemberFriendsFind.html[친구 목록 / 닉네임 검색 API,window=_blank]
+
 [[bingo]]
 == 빙고
 

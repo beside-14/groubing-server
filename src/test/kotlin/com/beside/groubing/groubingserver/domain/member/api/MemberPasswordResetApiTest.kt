@@ -24,6 +24,7 @@ import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -45,7 +46,7 @@ class MemberPasswordResetApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
-                    RestDocumentationRequestBuilders.patch("/api/members/{id}/password", id)
+                    patch("/api/members/{id}/password", id)
                         .header("Authorization", getHttpHeaderJwt(id))
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
