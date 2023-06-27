@@ -1,36 +1,24 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
-import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
+import com.beside.groubing.groubingserver.domain.member.dao.MemberFindFriendsDao
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberDetailResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
 class MemberFindFriendsService(
-    private val memberFindDao: MemberFindDao
+    private val memberFindFriendsDao: MemberFindFriendsDao
 ) {
-    fun find(id: Long): List<MemberDetailResponse> {
-        val member = memberFindDao.findExistingMemberById(id)
-        return member.friends.members.map { friend ->
-            MemberDetailResponse(
-                friend.id,
-                friend.email,
-                friend.nickname,
-                friend.profile?.url
-            )
-        }
+    fun findById(id: Long, pageable: Pageable): Page<MemberDetailResponse> {
+        val friends = memberFindFriendsDao.findFriendsById(id, pageable)
+        return friends.map(::MemberDetailResponse)
     }
 
-    fun findByNickname(id: Long, nickname: String): List<MemberDetailResponse> {
-        val member = memberFindDao.findExistingMemberById(id)
-        return member.friends.findByNickname(nickname).map { friend ->
-            MemberDetailResponse(
-                friend.id,
-                friend.email,
-                friend.nickname,
-                friend.profile?.url
-            )
-        }
+    fun findByIdAndNickname(id: Long, pageable: Pageable, nickname: String): Page<MemberDetailResponse> {
+        val friends = memberFindFriendsDao.findFriendsByIdAndNickname(id, pageable, nickname)
+        return friends.map(::MemberDetailResponse)
     }
 }

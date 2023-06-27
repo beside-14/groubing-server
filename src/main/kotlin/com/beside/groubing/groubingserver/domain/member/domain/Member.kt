@@ -1,12 +1,10 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
-import com.beside.groubing.groubingserver.domain.friendship.domain.Friendship
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
-import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -43,9 +41,6 @@ class Member internal constructor(
     @JoinColumn(name = "PROFILE_ID")
     var profile: FileInfo? = null
 
-    @Embedded
-    val friends: Friends = Friends.create()
-
     fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
         if (!passwordEncoder.matches(password, this.password)) {
             throw MemberInputException("비밀번호가 일치하지 않습니다.")
@@ -73,16 +68,6 @@ class Member internal constructor(
 
     fun deleteProfile() {
         this.profile = null
-    }
-
-    fun addFriend(invitee: Member): Friendship {
-        val friendship = Friendship.create(this, invitee)
-        friends.add(friendship)
-        return friendship
-    }
-
-    fun deleteFriend(friend: Member) {
-        friends.delete(friend.id)
     }
 
     companion object {

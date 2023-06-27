@@ -27,9 +27,33 @@ fun requestBody(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
 }
 
 fun responseBody(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
-    val snippets = fields.toMutableList() +
+    return createResponseBody(*fields)
+}
+
+fun responseBodyWithPage(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
+    return createResponseBody(*fields) {
+        mutableListOf(
+            ("totalElements" responseType NUMBER means "총 데이터 개수"),
+            ("numberOfElements" responseType NUMBER means ""),
+            ("currentPage" responseType NUMBER means "현재 페이지 번호"),
+            ("totalPages" responseType NUMBER means "총 페이지 개수"),
+            ("size" responseType NUMBER means "페이지에 포함된 데이터 개수"),
+            ("first" responseType BOOLEAN means "현재 페이지가 첫 페이지인지 여부"),
+            ("last" responseType BOOLEAN means "현재 페이지가 마지막 페이지인지 여부")
+        )
+    }
+}
+
+private fun createResponseBody(
+    vararg fields: CustomDescriptor<FieldDescriptor>,
+    addFieldFunc: (() -> MutableList<CustomDescriptor<FieldDescriptor>>)? = null
+): Snippet {
+    val snippets = (fields.toMutableList() +
         ("code" responseType STRING means "Http 응답 코드") +
-        ("message" responseType STRING means "Http 응답 메세지")
+        ("message" responseType STRING means "Http 응답 메세지")).toMutableList()
+    if (addFieldFunc != null) {
+        snippets += addFieldFunc.invoke()
+    }
     return responseFields(snippets.map { it.descriptor as FieldDescriptor })
 }
 

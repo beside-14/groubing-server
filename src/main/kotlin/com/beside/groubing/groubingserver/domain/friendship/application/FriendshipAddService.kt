@@ -23,8 +23,7 @@ class FriendshipAddService(
         // 친구 신청 요청
         val memberToId = memberRepository.findAllById(listOf(inviterId, inviteeId)).associateBy { member -> member.id }
         val findMember: (Long) -> Member = { id -> memberToId[id] ?: throw MemberInputException("존재하지 않는 유저 입니다.") }
-        findMember(inviterId).addFriend(findMember(inviteeId))
-
-        // TODO("친구 요청 푸시 발송 기능 구현하기")
+        // 친구 저장하기
+        TODO("친구 요청 푸시 발송 기능 구현하기")
     }
 }
