@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.friendship.application
+package com.beside.groubing.groubingserver.domain.friendship.dao
 
 import com.beside.groubing.groubingserver.domain.friendship.domain.FriendshipStatus
 import com.beside.groubing.groubingserver.domain.friendship.domain.QFriendship.friendship

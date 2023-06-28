@@ -1,8 +1,8 @@
-package com.beside.groubing.groubingserver.domain.member.payload.response
+package com.beside.groubing.groubingserver.domain.friendship.payload.response
 
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 
-data class MemberDetailResponse(
+data class FriendResponse(
     val id: Long,
     val email: String,
     val nickname: String,

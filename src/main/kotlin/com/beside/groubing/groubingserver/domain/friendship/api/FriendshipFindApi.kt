@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.friendship.api
 
-import com.beside.groubing.groubingserver.domain.member.application.MemberFindFriendsService
-import com.beside.groubing.groubingserver.domain.member.payload.response.MemberDetailResponse
+import com.beside.groubing.groubingserver.domain.friendship.application.FriendshipFindService
+import com.beside.groubing.groubingserver.domain.friendship.payload.response.FriendResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.beside.groubing.groubingserver.global.response.PageResponse
 import org.springframework.data.domain.Pageable
@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/friendships")
 class FriendshipFindApi(
-    private val memberFindFriendsService: MemberFindFriendsService
+    private val friendshipFindService: FriendshipFindService
 ) {
     @GetMapping
     fun findFriends(
         @AuthenticationPrincipal memberId: Long,
         @RequestParam(required = false) nickname: String?,
         @PageableDefault pageable: Pageable
-    ): ApiResponse<PageResponse<MemberDetailResponse>> {
+    ): ApiResponse<PageResponse<FriendResponse>> {
         val response = when (nickname.isNullOrBlank()) {
-            true -> memberFindFriendsService.findById(memberId, pageable)
-            false -> memberFindFriendsService.findByIdAndNickname(memberId, pageable, nickname)
+            true -> friendshipFindService.findById(memberId, pageable)
+            false -> friendshipFindService.findByIdAndNickname(memberId, pageable, nickname)
         }
         return ApiResponse.OK(PageResponse(response))
     }

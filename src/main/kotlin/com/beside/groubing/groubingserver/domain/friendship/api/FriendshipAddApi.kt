@@ -1,10 +1,12 @@
 package com.beside.groubing.groubingserver.domain.friendship.api
 
 import com.beside.groubing.groubingserver.domain.friendship.application.FriendshipAddService
+import com.beside.groubing.groubingserver.domain.friendship.payload.request.FriendshipAddRequest
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -15,8 +17,10 @@ class FriendshipAddApi(
     @PostMapping
     fun add(
         @AuthenticationPrincipal inviterId: Long,
-        @RequestParam inviteeId: Long
+        @RequestBody
+        @Validated
+        request: FriendshipAddRequest
     ) {
-        friendshipAddService.add(inviterId, inviteeId)
+        friendshipAddService.add(inviterId, request.inviteeId)
     }
 }

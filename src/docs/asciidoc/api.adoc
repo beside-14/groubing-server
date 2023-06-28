@@ -20,44 +20,59 @@ Groubing 서비스 Backend API 문서
 회원 도메인과 관련된 API 입니다.
 
 [[member-login]]
-=== 로그인 API
+=== 로그인
 
 * link:member/LoginApi.html[로그인 API,window=_blank]
 
 [[member-signup]]
-=== 회원가입 API
+=== 회원가입
 
-* link:member/SignUpApi.html[회원가입 API,window=_blank]
+* link:member/SignUpApi.html[회원가입,window=_blank]
 
 [[member-email-find]]
 === 이메일 찾기
 
-* link:member/MemberEmailFind.html[이메일 찾기 API,window=_blank]
+* link:member/MemberEmailFind.html[이메일 찾기,window=_blank]
 
 [[member-password-reset]]
-=== 비밀번호 변경 API
+=== 비밀번호 변경
 
-* link:member/MemberPasswordReset.html[비밀번호 변경 API,window=_blank]
+* link:member/MemberPasswordReset.html[비밀번호 변경,window=_blank]
 
 [[member-nickname-edit]]
-=== 닉네임 변경 API
+=== 닉네임 변경
 
-* link:member/MemberNicknameEdit.html[닉네임 변경 API,window=_blank]
+* link:member/MemberNicknameEdit.html[닉네임 변경,window=_blank]
 
 [[member-profile-edit]]
 === 프로필 변경 API
 
-* link:member/MemberProfileEdit.html[프로필 변경 API,window=_blank]
+* link:member/MemberProfileEdit.html[프로필 변경,window=_blank]
 
 [[member-profile-delete]]
-=== 프로필 삭제 API
+=== 프로필 삭제
 
-* link:member/MemberProfileDelete.html[프로필 삭제 API,window=_blank]
+* link:member/MemberProfileDelete.html[프로필 삭제,window=_blank]
 
-[[member-friends-find]]
-=== 친구 목록 API
+[[friendship]]
+== 친구
 
-* link:member/MemberFriendsFind.html[친구 목록 / 닉네임 검색 API,window=_blank]
+친구 도메인과 관련된 API 입니다.
+
+[[friendship-find]]
+=== 친구 목록
+
+* link:friendship/FriendshipFind.html[친구 목록 / 닉네임 검색,window=_blank]
+
+[[friendship-add]]
+=== 친구 요청
+
+* link:friendship/FriendshipAdd.html[친구 요청,window=_blank]
+
+[[friendship-change-status]]
+=== 친구 요청 승낙 / 거부
+
+* link:friendship/FriendshipChangeStatus.html[친구 요청 승낙 / 거부,window=_blank]
 
 [[bingo]]
 == 빙고
@@ -93,4 +108,4 @@ Groubing 서비스 Backend API 문서
 === 빙고 아이템 업데이트
 
 * link:bingo/BingoItemUpdate.html[빙고 아이템 업데이트,window=_blank]
-* link:bingo/BingoItemComplete.html[빙고 아이템 완료/완료취소,window=_blank]
+* link:bingo/BingoItemComplete.html[빙고 아이템 완료 / 완료 취소,window=_blank]

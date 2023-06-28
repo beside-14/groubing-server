@@ -7,8 +7,8 @@ import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBodyWithPage
 import com.beside.groubing.groubingserver.docs.responseTypeWithPage
-import com.beside.groubing.groubingserver.domain.member.application.MemberFindFriendsService
-import com.beside.groubing.groubingserver.domain.member.payload.response.MemberDetailResponse
+import com.beside.groubing.groubingserver.domain.friendship.application.FriendshipFindService
+import com.beside.groubing.groubingserver.domain.friendship.payload.response.FriendResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.beside.groubing.groubingserver.global.response.PageResponse
@@ -36,14 +36,14 @@ import org.springframework.test.web.servlet.get
 class FriendshipFindApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
-    @MockkBean private val memberFindFriendsService: MemberFindFriendsService
+    @MockkBean private val friendshipFindService: FriendshipFindService
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
 
         When("현재 연결된 친구 목록을") {
             val friend = Arb.of(
-                MemberDetailResponse(
+                FriendResponse(
                     id = Arb.long(1L..100L).single(),
                     email = Arb.email(
                         Arb.string(5, 10, Codepoint.alphanumeric()),
@@ -54,18 +54,19 @@ class FriendshipFindApiTest(
                 )
             )
             val response = PageImpl(listOf(friend.single()))
-            every { memberFindFriendsService.findById(any(), any()) } returns response
+            every { friendshipFindService.findById(any(), any()) } returns response
 
             Then("조회한다.") {
                 mockMvc.get("/api/friendships") {
+                    header("Authorization", getHttpHeaderJwt(id))
                     contentType = MediaType.APPLICATION_JSON
                     accept = MediaType.APPLICATION_JSON
-                    header("Authorization", getHttpHeaderJwt(id))
                 }.andExpect {
                     status { isOk() }
                     content { json(mapper.writeValueAsString(ApiResponse.OK(PageResponse(response)))) }
                 }.andDocument(
-                    "member-friends-find",
+                    "friendship-find",
+                    requestParam("nickname" requestParam "검색할 닉네임" example "친구 유저의 닉네임" isOptional true),
                     responseBodyWithPage(
                         "id" responseTypeWithPage NUMBER means "유저 ID" example "1",
                         "email" responseTypeWithPage STRING means "유저 이메일" example "test@groubing.com",
@@ -79,7 +80,7 @@ class FriendshipFindApiTest(
         When("친구 목록에서 닉네임으로") {
             val nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single()
             val friend = Arb.of(
-                MemberDetailResponse(
+                FriendResponse(
                     id = Arb.long(1L..100L).single(),
                     email = Arb.email(
                         Arb.string(5, 10, Codepoint.alphanumeric()),
@@ -90,27 +91,18 @@ class FriendshipFindApiTest(
                 )
             )
             val response = PageImpl(listOf(friend.single()))
-            every { memberFindFriendsService.findByIdAndNickname(any(), any(), any()) } returns response
+            every { friendshipFindService.findByIdAndNickname(any(), any(), any()) } returns response
 
             Then("검색한다.") {
                 mockMvc.get("/api/friendships") {
                     param("nickname", nickname)
+                    header("Authorization", getHttpHeaderJwt(id))
                     contentType = MediaType.APPLICATION_JSON
                     accept = MediaType.APPLICATION_JSON
-                    header("Authorization", getHttpHeaderJwt(id))
                 }.andExpect {
                     status { isOk() }
                     content { json(mapper.writeValueAsString(ApiResponse.OK(PageResponse(response)))) }
-                }.andDocument(
-                    "member-friends-nickname-find",
-                    requestParam("nickname" requestParam "검색할 닉네임" example nickname),
-                    responseBodyWithPage(
-                        "id" responseTypeWithPage NUMBER means "유저 ID" example "1",
-                        "email" responseTypeWithPage STRING means "유저 이메일" example "test@groubing.com",
-                        "nickname" responseTypeWithPage STRING means "유저 닉네임" example "그루빙멤버",
-                        "profileUrl" responseTypeWithPage STRING means "프로필 이미지 URL" isOptional true
-                    )
-                )
+                }
             }
         }
     }
