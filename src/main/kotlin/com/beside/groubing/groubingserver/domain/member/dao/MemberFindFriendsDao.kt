@@ -3,9 +3,7 @@ package com.beside.groubing.groubingserver.domain.member.dao
 import com.beside.groubing.groubingserver.domain.friendship.domain.FriendshipStatus
 import com.beside.groubing.groubingserver.domain.friendship.domain.QFriendship.friendship
 import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.beside.groubing.groubingserver.domain.member.domain.QMember.member
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.group.GroupBy
 import com.querydsl.core.types.Predicate
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
@@ -32,26 +30,37 @@ class MemberFindFriendsDao(
     private fun find(
         id: Long,
         pageable: Pageable,
-        predicateFunc: ((BooleanBuilder) -> Predicate)? = null
+        predicateFunc: ((BooleanBuilder) -> BooleanBuilder)? = null
     ): Page<Member> {
-        val selectQuery = queryFactory.from(friendship)
-            .innerJoin(friendship.inviter, member).fetchJoin()
-            .innerJoin(friendship.invitee, member).fetchJoin()
+        val query = queryFactory.from(friendship)
+            .innerJoin(friendship.inviter).fetchJoin()
+            .innerJoin(friendship.invitee).fetchJoin()
+        var predicate = BooleanBuilder()
+            .and(friendship.inviter.id.eq(id).or(friendship.invitee.id.eq(id)))
+            .and(friendship.status.eq(FriendshipStatus.ACCEPT))
+
+        takeIf { predicateFunc != null }?.apply { predicate = predicateFunc!!.invoke(predicate) }
+
+        val friendships = query.select(friendship)
+            .where(predicate)
             .orderBy(friendship.createdDate.desc())
-        val pagingQuery = selectQuery.offset(pageable.offset).limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+        val inviters = friendships.map { friendship -> friendship.inviter }.filter { inviter -> inviter.id != id }
+        val invitees = friendships.map { friendship -> friendship.invitee }.filter { invitee -> invitee.id != id }
 
-        if (predicateFunc != null) {
-            val builder = BooleanBuilder()
-                .and(friendship.inviter.id.eq(id).or(friendship.invitee.id.eq(id)))
-                .and(friendship.status.eq(FriendshipStatus.ACCEPT))
-            val predicate = predicateFunc.invoke(builder)
-            selectQuery.where(predicate)
-            pagingQuery.where(predicate)
-        }
+        return PageImpl(inviters + invitees, pageable, countByTotal(predicate))
+    }
 
-        val inviters = pagingQuery.transform(GroupBy.groupBy(friendship.id).list(friendship.inviter))
-        val invitees = pagingQuery.transform(GroupBy.groupBy(friendship.id).list(friendship.invitee))
-        val friends = inviters.filter { inviter -> inviter.id != id } + invitees.filter { invitee -> invitee.id != id }
-        return PageImpl(friends, pageable, selectQuery.fetch().count().toLong())
+    private fun countByTotal(predicate: Predicate?): Long {
+        return queryFactory
+            .select(friendship.count())
+            .from(friendship)
+            .innerJoin(friendship.inviter)
+            .innerJoin(friendship.invitee)
+            .where(predicate)
+            .fetch()
+            .first()
     }
 }

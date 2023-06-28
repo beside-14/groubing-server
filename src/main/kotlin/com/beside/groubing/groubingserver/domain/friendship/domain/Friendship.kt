@@ -2,6 +2,7 @@ package com.beside.groubing.groubingserver.domain.friendship.domain
 
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -15,10 +16,10 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "FRIENDSHIP")
 class Friendship internal constructor(
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "INVITER_ID")
     val inviter: Member,
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "INVITEE_ID")
     val invitee: Member,
 ) : BaseEntity() {
