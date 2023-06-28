@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.member.dao
+package com.beside.groubing.groubingserver.domain.friendship.application
 
 import com.beside.groubing.groubingserver.domain.friendship.domain.FriendshipStatus
 import com.beside.groubing.groubingserver.domain.friendship.domain.QFriendship.friendship
@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 @Repository
-class MemberFindFriendsDao(
+class FriendshipFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
     fun findFriendsById(id: Long, pageable: Pageable): Page<Member> {

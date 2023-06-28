@@ -1,10 +1,9 @@
-package com.beside.groubing.groubingserver.domain.member.api
+package com.beside.groubing.groubingserver.domain.friendship.api
 
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
-import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBodyWithPage
 import com.beside.groubing.groubingserver.docs.responseTypeWithPage
@@ -29,15 +28,12 @@ import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.data.domain.PageImpl
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.get
 
 @ApiTest
-@WebMvcTest(controllers = [MemberFindFriendsApi::class])
-class MemberFindFriendsApiTest(
+@WebMvcTest(controllers = [FriendshipFindApi::class])
+class FriendshipFindApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
     @MockkBean private val memberFindFriendsService: MemberFindFriendsService
@@ -61,24 +57,22 @@ class MemberFindFriendsApiTest(
             every { memberFindFriendsService.findById(any(), any()) } returns response
 
             Then("조회한다.") {
-                mockMvc.perform(
-                    get("/api/members/{id}/friends", id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .header("Authorization", getHttpHeaderJwt(id))
-                ).andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(content().json(mapper.writeValueAsString(ApiResponse.OK(PageResponse(response)))))
-                    .andDocument(
-                        "member-friends-find",
-                        pathVariables("id" requestParam "유저 ID" example "1"),
-                        responseBodyWithPage(
-                            "id" responseTypeWithPage NUMBER means "유저 ID" example "1",
-                            "email" responseTypeWithPage STRING means "유저 이메일" example "test@groubing.com",
-                            "nickname" responseTypeWithPage STRING means "유저 닉네임" example "그루빙멤버",
-                            "profileUrl" responseTypeWithPage STRING means "프로필 이미지 URL" isOptional true,
-                        )
+                mockMvc.get("/api/friendships") {
+                    contentType = MediaType.APPLICATION_JSON
+                    accept = MediaType.APPLICATION_JSON
+                    header("Authorization", getHttpHeaderJwt(id))
+                }.andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(PageResponse(response)))) }
+                }.andDocument(
+                    "member-friends-find",
+                    responseBodyWithPage(
+                        "id" responseTypeWithPage NUMBER means "유저 ID" example "1",
+                        "email" responseTypeWithPage STRING means "유저 이메일" example "test@groubing.com",
+                        "nickname" responseTypeWithPage STRING means "유저 닉네임" example "그루빙멤버",
+                        "profileUrl" responseTypeWithPage STRING means "프로필 이미지 URL" isOptional true,
                     )
+                )
             }
         }
 
@@ -99,26 +93,24 @@ class MemberFindFriendsApiTest(
             every { memberFindFriendsService.findByIdAndNickname(any(), any(), any()) } returns response
 
             Then("검색한다.") {
-                mockMvc.perform(
-                    get("/api/members/{id}/friends", id)
-                        .param("nickname", nickname)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .header("Authorization", getHttpHeaderJwt(id))
-                ).andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(content().json(mapper.writeValueAsString(ApiResponse.OK(PageResponse(response)))))
-                    .andDocument(
-                        "member-friends-nickname-find",
-                        pathVariables("id" requestParam "유저 ID" example "1"),
-                        requestParam("nickname" requestParam "검색할 닉네임" example nickname),
-                        responseBodyWithPage(
-                            "id" responseTypeWithPage NUMBER means "유저 ID" example "1",
-                            "email" responseTypeWithPage STRING means "유저 이메일" example "test@groubing.com",
-                            "nickname" responseTypeWithPage STRING means "유저 닉네임" example "그루빙멤버",
-                            "profileUrl" responseTypeWithPage STRING means "프로필 이미지 URL" isOptional true
-                        )
+                mockMvc.get("/api/friendships") {
+                    param("nickname", nickname)
+                    contentType = MediaType.APPLICATION_JSON
+                    accept = MediaType.APPLICATION_JSON
+                    header("Authorization", getHttpHeaderJwt(id))
+                }.andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(PageResponse(response)))) }
+                }.andDocument(
+                    "member-friends-nickname-find",
+                    requestParam("nickname" requestParam "검색할 닉네임" example nickname),
+                    responseBodyWithPage(
+                        "id" responseTypeWithPage NUMBER means "유저 ID" example "1",
+                        "email" responseTypeWithPage STRING means "유저 이메일" example "test@groubing.com",
+                        "nickname" responseTypeWithPage STRING means "유저 닉네임" example "그루빙멤버",
+                        "profileUrl" responseTypeWithPage STRING means "프로필 이미지 URL" isOptional true
                     )
+                )
             }
         }
     }
