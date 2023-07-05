@@ -5,6 +5,8 @@ import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.request.ParameterDescriptor
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.partWithName
+import org.springframework.restdocs.request.RequestPartDescriptor
 import org.springframework.restdocs.snippet.IgnorableDescriptor
 
 open class CustomDescriptor<T : IgnorableDescriptor<T>>(
@@ -65,6 +67,7 @@ open class CustomDescriptor<T : IgnorableDescriptor<T>>(
         when {
             value && descriptor is FieldDescriptor -> descriptor.optional()
             value && descriptor is ParameterDescriptor -> descriptor.optional()
+            value && descriptor is RequestPartDescriptor -> descriptor.optional()
         }
         return this
     }
@@ -140,11 +143,24 @@ private fun createField(
     return CustomDescriptor(descriptor)
 }
 
-infix fun String.optional(optional: Boolean): CustomDescriptor<ParameterDescriptor> = createParameter(this, optional)
+infix fun String.requestParam(description: String): CustomDescriptor<ParameterDescriptor> =
+    createParameter(this, description)
 
-private fun createParameter(value: String, optional: Boolean): CustomDescriptor<ParameterDescriptor> {
-    val descriptor = parameterWithName(value).description("")
-    if (optional) descriptor.optional()
+private fun createParameter(value: String, description: String): CustomDescriptor<ParameterDescriptor> {
+    val descriptor = parameterWithName(value)
+        .attributes(RestDocsUtils.emptyExample(), RestDocsUtils.emptyFormat(), RestDocsUtils.emptyDefaultValue())
+        .description(description)
+
+    return CustomDescriptor(descriptor)
+}
+
+infix fun String.requestPart(description: String): CustomDescriptor<RequestPartDescriptor> =
+    createPart(this, description)
+
+private fun createPart(value: String, description: String): CustomDescriptor<RequestPartDescriptor> {
+    val descriptor = partWithName(value)
+        .attributes(RestDocsUtils.emptyExample(), RestDocsUtils.emptyFormat(), RestDocsUtils.emptyDefaultValue())
+        .description(description)
 
     return CustomDescriptor(descriptor)
 }

@@ -44,6 +44,16 @@ Groubing 서비스 Backend API 문서
 
 * link:member/MemberNicknameEdit.html[닉네임 변경 API,window=_blank]
 
+[[member-profile-edit]]
+=== 프로필 변경 API
+
+* link:member/MemberProfileEdit.html[프로필 변경 API,window=_blank]
+
+[[member-profile-delete]]
+=== 프로필 삭제 API
+
+* link:member/MemberProfileDelete.html[프로필 삭제 API,window=_blank]
+
 [[bingo]]
 == 빙고
 
@@ -76,5 +86,6 @@ Groubing 서비스 Backend API 문서
 
 [[bingo-item-update]]
 === 빙고 아이템 업데이트
+
 * link:bingo/BingoItemUpdate.html[빙고 아이템 업데이트,window=_blank]
 * link:bingo/BingoItemComplete.html[빙고 아이템 완료/완료취소,window=_blank]

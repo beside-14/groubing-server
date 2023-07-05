@@ -1,0 +1,4 @@
+[[member-profile-delete]]
+=== 프로필 삭제
+
+operation::member-profile-delete[snippets='path-parameters,http-request,http-response']

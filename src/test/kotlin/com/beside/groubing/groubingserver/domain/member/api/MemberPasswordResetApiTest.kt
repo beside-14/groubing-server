@@ -3,9 +3,9 @@ package com.beside.groubing.groubingserver.domain.member.api
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
-import com.beside.groubing.groubingserver.docs.optional
 import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestBody
+import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.domain.member.application.MemberPasswordResetService
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberPasswordResetRequest
@@ -54,7 +54,7 @@ class MemberPasswordResetApiTest(
                     .andDocument(
                         "member-password-reset",
                         pathVariables(
-                            "id" optional true means "회원 ID" example id.toString()
+                            "id" requestParam "회원 ID" example id.toString() isOptional true
                         ),
                         requestBody(
                             "password" requestType STRING means "유저 패스워드" example password formattedAs "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}"

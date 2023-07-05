@@ -6,9 +6,9 @@ import com.beside.groubing.groubingserver.docs.BOOLEAN
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
-import com.beside.groubing.groubingserver.docs.optional
 import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestBody
+import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
@@ -47,7 +47,11 @@ class BingoItemUpdateApiTest(
 
         When("데이터가 유효하다면") {
             mockMvc.perform(
-                RestDocumentationRequestBuilders.put("/api/bingo-boards/{id}/bingo-items/{bingoItemId}", aEmptyBingo.id, bingoItem.id)
+                RestDocumentationRequestBuilders.put(
+                    "/api/bingo-boards/{id}/bingo-items/{bingoItemId}",
+                    aEmptyBingo.id,
+                    bingoItem.id
+                )
                     .content(mapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -57,8 +61,8 @@ class BingoItemUpdateApiTest(
                 .andDocument(
                     "bingo-item-update",
                     pathVariables(
-                        "id" optional true means "빙고 ID" example "1",
-                        "bingoItemId" optional true means "빙고 아이템 ID" example "1"
+                        "id" requestParam "빙고 ID" example "1" isOptional true,
+                        "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
                     ),
                     requestBody(
                         "title" requestType STRING means "빙고 아이템 제목" example request.title,

@@ -3,8 +3,8 @@ package com.beside.groubing.groubingserver.domain.bingo.api
 import com.beside.groubing.groubingserver.aEnglishStudyBingoBoard
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.andDocument
-import com.beside.groubing.groubingserver.docs.optional
 import com.beside.groubing.groubingserver.docs.pathVariables
+import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemCompleteService
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
@@ -31,7 +31,11 @@ class BingoItemCompleteApiTest(
 
         When("완료 요청 시") {
             mockMvc.perform(
-                RestDocumentationRequestBuilders.patch("/api/bingo-boards/{id}/bingo-items/{bingoItemId}/complete", englishBingoBoard.id, bingoItem.id)
+                RestDocumentationRequestBuilders.patch(
+                    "/api/bingo-boards/{id}/bingo-items/{bingoItemId}/complete",
+                    englishBingoBoard.id,
+                    bingoItem.id
+                )
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header("Authorization", getHttpHeaderJwt(memberId))
@@ -40,8 +44,8 @@ class BingoItemCompleteApiTest(
                 .andDocument(
                     "bingo-item-complete",
                     pathVariables(
-                        "id" optional true means "빙고 ID" example "1",
-                        "bingoItemId" optional true means "빙고 아이템 ID" example "1"
+                        "id" requestParam "빙고 ID" example "1" isOptional true,
+                        "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
                     )
                 )
         }
@@ -49,7 +53,11 @@ class BingoItemCompleteApiTest(
         every { bingoItemCompleteService.cancelBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns Unit
         When("취소 요청 시") {
             mockMvc.perform(
-                RestDocumentationRequestBuilders.patch("/api/bingo-boards/{id}/bingo-items/{bingoItemId}/cancel", englishBingoBoard.id, bingoItem.id)
+                RestDocumentationRequestBuilders.patch(
+                    "/api/bingo-boards/{id}/bingo-items/{bingoItemId}/cancel",
+                    englishBingoBoard.id,
+                    bingoItem.id
+                )
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header("Authorization", getHttpHeaderJwt(memberId))
@@ -58,8 +66,8 @@ class BingoItemCompleteApiTest(
                 .andDocument(
                     "bingo-item-cancel",
                     pathVariables(
-                        "id" optional true means "빙고 ID" example "1",
-                        "bingoItemId" optional true means "빙고 아이템 ID" example "1"
+                        "id" requestParam "빙고 ID" example "1" isOptional true,
+                        "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
                     )
                 )
         }

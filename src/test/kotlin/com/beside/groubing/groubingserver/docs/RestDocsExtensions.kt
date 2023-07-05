@@ -10,6 +10,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.ParameterDescriptor
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.request.RequestDocumentation.requestParts
+import org.springframework.restdocs.request.RequestPartDescriptor
 import org.springframework.restdocs.snippet.Snippet
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.ResultActionsDsl
@@ -28,6 +30,10 @@ fun responseBody(vararg fields: CustomDescriptor<FieldDescriptor>): Snippet {
 
 fun pathVariables(vararg paths: CustomDescriptor<ParameterDescriptor>): Snippet =
     pathParameters(paths.map { it.descriptor as ParameterDescriptor })
+
+fun requestParts(vararg fields: CustomDescriptor<RequestPartDescriptor>): Snippet {
+    return requestParts(fields.map { it.descriptor as RequestPartDescriptor })
+}
 
 fun ResultActionsDsl.andDocument(identifier: String, vararg snippets: Snippet) {
     andDo {

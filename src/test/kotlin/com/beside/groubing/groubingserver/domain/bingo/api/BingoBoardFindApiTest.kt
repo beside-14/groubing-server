@@ -9,8 +9,8 @@ import com.beside.groubing.groubingserver.docs.ENUM
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
-import com.beside.groubing.groubingserver.docs.optional
 import com.beside.groubing.groubingserver.docs.pathVariables
+import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardFindService
@@ -61,7 +61,7 @@ class BingoBoardFindApiTest(
                 .andDocument(
                     "bingo-board-find",
                     pathVariables(
-                        "id" optional true means "빙고 ID" example "1"
+                        "id" requestParam "빙고 ID" example "1" isOptional true
                     ),
                     responseBody(
                         "id" responseType NUMBER means "빙고 ID" example "1",
