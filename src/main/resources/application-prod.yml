@@ -1,11 +1,12 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://118.67.142.31:3306/bside?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Seoul
-    username: bside
-    password: Bside-8-engine
+    #url: jdbc:mysql://118.67.142.31:3306/bside?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://10.41.14.153:3306/groubing?serverTimezone=Asia/Seoul
+    username: groubing_user
+    password: groubing975
