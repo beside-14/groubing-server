@@ -24,9 +24,12 @@ import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+
 
 @WebMvcTest(BingoBoardFindApi::class)
 @ApiTest
@@ -35,7 +38,9 @@ class BingoBoardFindApiTest(
     @MockkBean private val bingoBoardFindService: BingoBoardFindService
 ) : BehaviorSpec({
     Given("BingoBoardFindApi가 주어졌을 때") {
-        val memberId = 1L
+        val authentication: Authentication = SecurityContextHolder.getContext().authentication
+
+        val memberId = authentication.principal as Long
         val bingoBoardId = 1L
         val bingoBoard = aEnglishStudyBingoBoard()
         val member = aMember(memberId)

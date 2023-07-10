@@ -2,6 +2,8 @@ package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
+import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoLine
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import java.time.LocalDate
@@ -21,10 +23,38 @@ class BingoBoardOverviewResponse private constructor(
 
     val open: Boolean,
 
-    val bingoLines: List<BingoMapResponse.BingoLineResponse>,
+    val bingoLines: List<SimpleBingoLineResponse>,
 
     val totalCompleteCount: Int
 ) {
+    class SimpleBingoLineResponse private constructor(
+        val direction: Direction,
+
+        val bingoItems: List<SimpleBingoItemResponse>
+    ) {
+        companion object {
+            fun fromBingoLine(bingoLine: BingoLine, memberId: Long): SimpleBingoLineResponse {
+                return SimpleBingoLineResponse(
+                    direction = bingoLine.direction,
+                    bingoItems = bingoLine.bingoItems
+                        .map { SimpleBingoItemResponse.fromBingoItem(it, memberId) }
+                )
+            }
+        }
+    }
+    class SimpleBingoItemResponse private constructor(
+        val itemOrder: Int,
+        val complete: Boolean
+    ) {
+        companion object {
+            fun fromBingoItem(bingoItem: BingoItem, memberId: Long): SimpleBingoItemResponse {
+                return SimpleBingoItemResponse(
+                    itemOrder = bingoItem.itemOrder,
+                    complete = bingoItem.isCompleted(memberId)
+                )
+            }
+        }
+    }
     companion object {
         fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardOverviewResponse {
             val bingoMap = BingoMap(memberId, bingoBoard.size, bingoBoard.bingoItems)
@@ -37,7 +67,7 @@ class BingoBoardOverviewResponse private constructor(
                 groupType = bingoBoard.boardType,
                 open = bingoBoard.open,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
-                    .map { BingoMapResponse.BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
+                    .map { SimpleBingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
                 totalCompleteCount = bingoMap.calculateTotalCompleteCount()
             )
         }
