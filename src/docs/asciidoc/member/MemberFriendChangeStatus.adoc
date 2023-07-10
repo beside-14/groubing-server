@@ -1,0 +1,4 @@
+[[friendship-change-status]]
+=== 친구 요청 승낙 / 거부
+
+operation::friendship-change-status[snippets='http-request,path-parameters,request-fields,http-response']

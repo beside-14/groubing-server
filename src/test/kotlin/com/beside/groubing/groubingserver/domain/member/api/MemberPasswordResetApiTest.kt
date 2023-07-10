@@ -23,7 +23,7 @@ import io.mockk.justRun
 import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -45,7 +45,7 @@ class MemberPasswordResetApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
-                    RestDocumentationRequestBuilders.patch("/api/members/{id}/password", id)
+                    patch("/api/members/{id}/password", id)
                         .header("Authorization", getHttpHeaderJwt(id))
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ class MemberPasswordResetApiTest(
                     .andDocument(
                         "member-password-reset",
                         pathVariables(
-                            "id" requestParam "회원 ID" example id.toString() isOptional true
+                            "id" requestParam "유저 ID" example id.toString() isOptional true
                         ),
                         requestBody(
                             "password" requestType STRING means "유저 패스워드" example password formattedAs "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}"

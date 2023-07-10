@@ -3,7 +3,7 @@ package com.beside.groubing.groubingserver.global.response
 import org.springframework.data.domain.Page
 
 class PageResponse<T>(page: Page<T>) {
-    val contents: List<T>? = page.content
+    val contents: List<T> = page.content
 
     val totalElements: Long = page.totalElements
 
