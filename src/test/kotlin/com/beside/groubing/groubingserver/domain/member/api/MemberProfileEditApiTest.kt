@@ -64,7 +64,7 @@ class MemberProfileEditApiTest(
                     .andDocument(
                         "member-profile-edit",
                         pathVariables(
-                            "id" requestParam "회원 ID" example id.toString()
+                            "id" requestParam "유저 ID" example id.toString()
                         ),
                         requestParts(
                             "profile" requestPart "프로필 이미지 파일" formattedAs ".png / .jpeg / .jpg"

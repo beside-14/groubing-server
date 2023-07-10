@@ -1,4 +1,0 @@
-[[friendship-add]]
-=== 친구 요청
-
-operation::friendship-add[snippets='http-request,request-fields,http-response']

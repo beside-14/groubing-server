@@ -45,7 +45,7 @@ Groubing 서비스 Backend API 문서
 * link:member/MemberNicknameEdit.html[닉네임 변경,window=_blank]
 
 [[member-profile-edit]]
-=== 프로필 변경 API
+=== 프로필 변경
 
 * link:member/MemberProfileEdit.html[프로필 변경,window=_blank]
 
@@ -62,17 +62,34 @@ Groubing 서비스 Backend API 문서
 [[friendship-find]]
 === 친구 목록
 
-* link:friendship/FriendshipFind.html[친구 목록 / 닉네임 검색,window=_blank]
+* link:member/MemberFriendFind.html[친구 목록 / 닉네임 검색,window=_blank]
 
 [[friendship-add]]
 === 친구 요청
 
-* link:friendship/FriendshipAdd.html[친구 요청,window=_blank]
+* link:member/MemberFriendAdd.html[친구 요청,window=_blank]
 
 [[friendship-change-status]]
 === 친구 요청 승낙 / 거부
 
-* link:friendship/FriendshipChangeStatus.html[친구 요청 승낙 / 거부,window=_blank]
+* link:member/MemberFriendChangeStatus.html[친구 요청 승낙 / 거부,window=_blank]
+
+[[blocked-member]]
+== 회원 차단
+
+회원 차단 도메인과 관련된 API 입니다.
+
+[[member-blocked-list]]
+=== 차단 회원 목록
+
+* link:member/MemberBlockedList.html[차단 회원 목록 / 닉네임 검색,window=_blank]
+
+[[member-blocking]]
+=== 회원 차단 및 해제
+
+* link:member/MemberBlocking.html[회원 차단,window=_blank]
+
+* link:member/MemberUnblocking.html[회원 차단 해제,window=_blank]
 
 [[bingo]]
 == 빙고

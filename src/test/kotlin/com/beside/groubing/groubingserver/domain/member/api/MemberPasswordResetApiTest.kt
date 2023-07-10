@@ -54,7 +54,7 @@ class MemberPasswordResetApiTest(
                     .andDocument(
                         "member-password-reset",
                         pathVariables(
-                            "id" requestParam "회원 ID" example id.toString() isOptional true
+                            "id" requestParam "유저 ID" example id.toString() isOptional true
                         ),
                         requestBody(
                             "password" requestType STRING means "유저 패스워드" example password formattedAs "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}"
