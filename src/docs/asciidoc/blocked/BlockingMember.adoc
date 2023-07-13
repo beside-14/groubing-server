@@ -1,0 +1,4 @@
+[[member-blocking]]
+=== 회원 차단
+
+operation::blocking-member[snippets='http-request,request-fields,http-response']

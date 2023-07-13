@@ -1,0 +1,4 @@
+[[member-unblocking]]
+=== 회원 차단 해제
+
+operation::unblocking-member[snippets='http-request,path-parameters']

@@ -1,0 +1,4 @@
+[[friendship-find]]
+=== 친구 목록 조회
+
+operation::friend-find[snippets='http-request,query-parameters,http-response,response-fields,response-body']

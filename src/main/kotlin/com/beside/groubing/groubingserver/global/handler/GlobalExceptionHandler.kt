@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.global.handler
 
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
-import com.beside.groubing.groubingserver.domain.member.exception.FriendInputException
+import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.global.domain.file.exception.FileInfoInputException
 import com.beside.groubing.groubingserver.global.response.ApiResponseCode
