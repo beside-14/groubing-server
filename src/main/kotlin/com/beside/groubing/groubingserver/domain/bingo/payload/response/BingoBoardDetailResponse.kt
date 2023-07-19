@@ -17,9 +17,9 @@ class BingoBoardDetailResponse private constructor(
 
     val dDay: String,
 
-    val isStarted: Boolean,
+    val completed: Boolean,
 
-    val isFinished: Boolean,
+    val finished: Boolean,
 
     val bingoSize: Int,
 
@@ -39,8 +39,8 @@ class BingoBoardDetailResponse private constructor(
                 open = bingoBoard.open,
                 dDay = "D-${bingoBoard.calculateLeftDays()}",
                 memo = bingoBoard.memo,
-                isStarted = bingoBoard.isStarted(),
-                isFinished = bingoBoard.isFinished(),
+                completed = bingoBoard.isCompleted(),
+                finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,
                 bingoMap = BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(member.id), member.nickname),
                 otherBingoMaps = otherMembers

@@ -17,9 +17,9 @@ class BingoBoardResponse private constructor(
 
     val open: Boolean,
 
-    val isStarted: Boolean,
+    val completed: Boolean,
 
-    val isFinished: Boolean,
+    val finished: Boolean,
 
     val bingoSize: Int,
 
@@ -37,8 +37,8 @@ class BingoBoardResponse private constructor(
                 groupType = bingoBoard.boardType,
                 open = bingoBoard.open,
                 memo = bingoBoard.memo,
-                isStarted = bingoBoard.isStarted(),
-                isFinished = bingoBoard.isFinished(),
+                completed = bingoBoard.isCompleted(),
+                finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                     .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) }

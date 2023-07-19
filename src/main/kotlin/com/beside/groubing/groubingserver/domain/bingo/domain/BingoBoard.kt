@@ -74,7 +74,7 @@ class BingoBoard internal constructor(
         return bingoMembers.map { it.memberId }
     }
 
-    fun isStarted(): Boolean = period != null
+    fun isCompleted(): Boolean = period != null
 
     fun isFinished(): Boolean = calculateLeftDays() < 0
 
