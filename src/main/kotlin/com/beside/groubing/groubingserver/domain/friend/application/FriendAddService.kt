@@ -1,10 +1,8 @@
 package com.beside.groubing.groubingserver.domain.friend.application
 
-import com.beside.groubing.groubingserver.domain.blocked.dao.BlockedMemberExistDao
-import com.beside.groubing.groubingserver.domain.friend.dao.FriendExistDao
+import com.beside.groubing.groubingserver.domain.friend.dao.FriendValidateDao
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendRepository
-import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,18 +11,12 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class FriendAddService(
     private val friendRepository: FriendRepository,
-    private val friendExistDao: FriendExistDao,
-    private val blockedMemberExistDao: BlockedMemberExistDao,
+    private val friendValidateDao: FriendValidateDao,
     private val memberFindDao: MemberFindDao
 ) {
     fun add(inviterId: Long, inviteeId: Long) {
-        // 차단 여부 조회
-        val isBlocked = blockedMemberExistDao.existByRequesterOrTargetMember(inviterId, inviteeId)
-        if (isBlocked) throw FriendInputException("친구 신청이 불가능한 유저입니다.")
-
-        // 관계 존재 여부 조회
-        val hasFriendship = friendExistDao.existByInviterOrInvitee(inviterId, inviteeId)
-        if (hasFriendship) throw FriendInputException("친구 신청이 불가능한 유저입니다.")
+        // 차단 및 친구관계 검증
+        friendValidateDao.validate(inviterId, inviteeId)
 
         // 친구 신청 요청
         val memberMap = memberFindDao.findAllById(listOf(inviterId, inviteeId))
