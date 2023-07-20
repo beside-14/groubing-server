@@ -29,7 +29,7 @@ class BingoBoardOverviewResponse private constructor(
 
     val bingoLines: List<SimpleBingoLineResponse>,
 
-    val totalCompleteCount: Int
+    val totalBingoCount: Int
 ) {
     class SimpleBingoLineResponse private constructor(
         val direction: Direction,
@@ -74,7 +74,7 @@ class BingoBoardOverviewResponse private constructor(
                 finished = bingoBoard.isFinished(),
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                     .map { SimpleBingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
-                totalCompleteCount = bingoMap.calculateTotalCompleteCount()
+                totalBingoCount = bingoMap.calculateTotalBingoCount()
             )
         }
     }

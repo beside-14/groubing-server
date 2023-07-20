@@ -2,10 +2,15 @@ package com.beside.groubing.groubingserver.domain.bingo.api
 
 import com.beside.groubing.groubingserver.aEnglishStudyBingoBoard
 import com.beside.groubing.groubingserver.config.ApiTest
+import com.beside.groubing.groubingserver.docs.ARRAY
+import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestParam
+import com.beside.groubing.groubingserver.docs.responseBody
+import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemCompleteService
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoCalculatingResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -27,7 +32,15 @@ class BingoItemCompleteApiTest(
         val englishBingoBoard = aEnglishStudyBingoBoard()
         val memberId = 1L
         val bingoItem = englishBingoBoard.bingoItems[0]
-        every { bingoItemCompleteService.completeBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns Unit
+        val bingoCalculatingResponse = BingoCalculatingResponse.fromBingoMap(englishBingoBoard.makeBingoMap(memberId))
+        every { bingoItemCompleteService.completeBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoCalculatingResponse
+
+        val responseBody = responseBody(
+            "horizontalBingoIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
+            "verticalBingoIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
+            "diagonalBingoIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스",
+            "totalBingoCount" responseType NUMBER means "달성한 총 빙고 수"
+        )
 
         When("완료 요청 시") {
             mockMvc.perform(
@@ -46,11 +59,12 @@ class BingoItemCompleteApiTest(
                     pathVariables(
                         "id" requestParam "빙고 ID" example "1" isOptional true,
                         "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
-                    )
+                    ),
+                    responseBody
                 )
         }
 
-        every { bingoItemCompleteService.cancelBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns Unit
+        every { bingoItemCompleteService.cancelBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoCalculatingResponse
         When("취소 요청 시") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(
@@ -68,7 +82,8 @@ class BingoItemCompleteApiTest(
                     pathVariables(
                         "id" requestParam "빙고 ID" example "1" isOptional true,
                         "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
-                    )
+                    ),
+                    responseBody
                 )
         }
     }

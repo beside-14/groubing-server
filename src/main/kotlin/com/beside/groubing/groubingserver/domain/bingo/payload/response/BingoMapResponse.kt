@@ -9,13 +9,13 @@ class BingoMapResponse private constructor(
 
     val bingoLines: List<BingoLineResponse>,
 
-    val totalCompleteCount: Int,
+    val totalBingoCount: Int,
 
-    val horizontalCompleteLineIndexes: List<Int>,
+    val horizontalBingoIndexes: List<Int>,
 
-    val verticalCompleteLineIndexes: List<Int>,
+    val verticalBingoIndexes: List<Int>,
 
-    val diagonalCompleteLineIndexes: List<Int>
+    val diagonalBingoIndexes: List<Int>
 ){
     class BingoLineResponse private constructor(
         val direction: Direction,
@@ -39,10 +39,10 @@ class BingoMapResponse private constructor(
                 nickName = nickName,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                 .map { BingoLineResponse.fromBingoLine(it, bingoMap.memberId) },
-                totalCompleteCount = bingoMap.calculateTotalCompleteCount(),
-                horizontalCompleteLineIndexes = bingoMap.getCompleteLineIndexes(Direction.HORIZONTAL),
-                verticalCompleteLineIndexes = bingoMap.getCompleteLineIndexes(Direction.VERTICAL),
-                diagonalCompleteLineIndexes = bingoMap.getCompleteLineIndexes(Direction.DIAGONAL)
+                totalBingoCount = bingoMap.calculateTotalBingoCount(),
+                horizontalBingoIndexes = bingoMap.getBingoIndexes(Direction.HORIZONTAL),
+                verticalBingoIndexes = bingoMap.getBingoIndexes(Direction.VERTICAL),
+                diagonalBingoIndexes = bingoMap.getBingoIndexes(Direction.DIAGONAL)
             )
         }
     }

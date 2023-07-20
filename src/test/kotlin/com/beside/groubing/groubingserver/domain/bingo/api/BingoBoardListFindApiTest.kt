@@ -62,10 +62,12 @@ class BingoBoardListFindApiTest(
                         "[].goal" responseType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
                         "[].groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
                         "[].open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
+                        "[].completed" responseType BOOLEAN means "완성된 빙고 여부, `true` : 완성 빙고,`false` : 임시 빙고" example "false",
+                        "[].finished" responseType BOOLEAN means "빙고 기간 종료 여부, `true` : 종료,`false` : 진행 중" example "false",
                         "[].bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
                         "[].bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
                         "[].bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
-                        "[].totalCompleteCount" responseType NUMBER means "달성한 총 TODO 수"
+                        "[].totalBingoCount" responseType NUMBER means "달성한 총 빙고 수"
                     )
                 )
         }
