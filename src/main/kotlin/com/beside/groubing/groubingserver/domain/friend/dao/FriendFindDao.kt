@@ -19,7 +19,7 @@ class FriendFindDao(
     private val queryFactory: JPAQueryFactory,
     private val friendRepository: FriendRepository
 ) {
-    fun findByInviterOrInvitee(inviterId: Long, inviteeId: Long): List<Friend> {
+    fun findByFriendships(inviterId: Long, inviteeId: Long): List<Friend> {
         return queryFactory.selectFrom(friend)
             .where(
                 friend.inviter.id.eq(inviterId).and(friend.invitee.id.eq(inviteeId))

@@ -23,7 +23,7 @@ class BlockMemberService(
         blockedMemberExistDao.existByRequesterOrTargetMember(requesterId, targetMemberId)
 
         // 친구 여부 확인 > 친구인 경우 친구 관계 삭제
-        val friendships = friendFindDao.findByInviterOrInvitee(requesterId, targetMemberId)
+        val friendships = friendFindDao.findByFriendships(requesterId, targetMemberId)
         if (friendships.isNotEmpty()) friendRepository.deleteAll(friendships)
 
         // 차단 처리
