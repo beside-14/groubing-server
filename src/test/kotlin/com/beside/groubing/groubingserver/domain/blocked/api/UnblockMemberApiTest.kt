@@ -4,7 +4,7 @@ import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestParam
-import com.beside.groubing.groubingserver.domain.blocked.application.UnblockingMemberService
+import com.beside.groubing.groubingserver.domain.blocked.application.UnblockMemberService
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -19,17 +19,17 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ApiTest
-@WebMvcTest(controllers = [UnblockingMemberApi::class])
-class UnblockingMemberApiTest(
+@WebMvcTest(controllers = [UnblockMemberApi::class])
+class UnblockMemberApiTest(
     private val mockMvc: MockMvc,
-    @MockkBean private val unblockingMemberService: UnblockingMemberService
+    @MockkBean private val unblockMemberService: UnblockMemberService
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
         val userId = Arb.long(1L..100L).single()
 
         When("특정 유저를") {
-            justRun { unblockingMemberService.unblocking(any()) }
+            justRun { unblockMemberService.unblock(any()) }
 
             Then("차단 해제한다.") {
                 mockMvc.perform(
@@ -39,7 +39,7 @@ class UnblockingMemberApiTest(
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk)
                     .andDocument(
-                        "unblocking-member",
+                        "unblock-member",
                         pathVariables("id" requestParam "회원 차단 내역 ID" example id.toString())
                     )
             }

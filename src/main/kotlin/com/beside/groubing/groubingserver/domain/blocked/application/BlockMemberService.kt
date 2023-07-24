@@ -12,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class BlockingMemberService(
+class BlockMemberService(
     private val blockedMemberRepository: BlockedMemberRepository,
     private val friendRepository: FriendRepository,
     private val blockedMemberExistDao: BlockedMemberExistDao,
     private val friendFindDao: FriendFindDao,
     private val memberFindDao: MemberFindDao
 ) {
-    fun blocking(requesterId: Long, targetMemberId: Long) {
+    fun block(requesterId: Long, targetMemberId: Long) {
         // 차단 여부 확인
         val isBlocked = blockedMemberExistDao.existByRequesterOrTargetMember(requesterId, targetMemberId)
         if (isBlocked) throw BlockedMemberInputException("이미 차단 되었거나 차단이 불가능한 유저입니다.")

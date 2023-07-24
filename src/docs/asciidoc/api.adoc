@@ -84,12 +84,12 @@ Groubing 서비스 Backend API 문서
 
 * link:blocked/BlockedMemberFind.html[차단 회원 목록 / 닉네임 검색,window=_blank]
 
-[[member-blocking]]
+[[member-block]]
 === 회원 차단 및 해제
 
-* link:blocked/BlockingMember.html[회원 차단,window=_blank]
+* link:blocked/BlockMember.html[회원 차단,window=_blank]
 
-* link:blocked/UnblockingMember.html[회원 차단 해제,window=_blank]
+* link:blocked/UnblockMember.html[회원 차단 해제,window=_blank]
 
 [[bingo]]
 == 빙고

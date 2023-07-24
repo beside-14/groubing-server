@@ -6,10 +6,10 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class UnblockingMemberService(
+class UnblockMemberService(
     private val blockedMemberRepository: BlockedMemberRepository
 ) {
-    fun unblocking(id: Long) {
+    fun unblock(id: Long) {
         blockedMemberRepository.deleteById(id)
     }
 }

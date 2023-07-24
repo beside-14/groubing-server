@@ -5,7 +5,7 @@ import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.requestBody
 import com.beside.groubing.groubingserver.docs.requestType
-import com.beside.groubing.groubingserver.domain.blocked.application.BlockingMemberService
+import com.beside.groubing.groubingserver.domain.blocked.application.BlockMemberService
 import com.beside.groubing.groubingserver.domain.blocked.payload.request.BlockingMemberRequest
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -21,18 +21,18 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
 @ApiTest
-@WebMvcTest(controllers = [BlockingMemberApi::class])
-class BlockingMemberApiTest(
+@WebMvcTest(controllers = [BlockMemberApi::class])
+class BlockMemberApiTest(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper,
-    @MockkBean private val blockingMemberService: BlockingMemberService
+    @MockkBean private val blockMemberService: BlockMemberService
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
         val request = BlockingMemberRequest(Arb.long(1L..100L).single())
 
         When("특정 유저를") {
-            justRun { blockingMemberService.blocking(any(), any()) }
+            justRun { blockMemberService.block(any(), any()) }
 
             Then("차단한다.") {
                 mockMvc.post("/api/blocked-members") {
@@ -42,7 +42,7 @@ class BlockingMemberApiTest(
                     content = mapper.writeValueAsString(request)
                 }.andExpect { status { isOk() } }
                     .andDocument(
-                        "blocking-member",
+                        "block-member",
                         requestBody("targetMemberId" requestType NUMBER means "친구 요청할 유저 ID" example request.targetMemberId.toString())
                     )
             }
