@@ -3,7 +3,6 @@ package com.beside.groubing.groubingserver.domain.blocked.application
 import com.beside.groubing.groubingserver.domain.blocked.dao.BlockedMemberExistDao
 import com.beside.groubing.groubingserver.domain.blocked.domain.BlockedMember
 import com.beside.groubing.groubingserver.domain.blocked.domain.BlockedMemberRepository
-import com.beside.groubing.groubingserver.domain.blocked.exception.BlockedMemberInputException
 import com.beside.groubing.groubingserver.domain.friend.dao.FriendFindDao
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendRepository
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
@@ -21,8 +20,7 @@ class BlockMemberService(
 ) {
     fun block(requesterId: Long, targetMemberId: Long) {
         // 차단 여부 확인
-        val isBlocked = blockedMemberExistDao.existByRequesterOrTargetMember(requesterId, targetMemberId)
-        if (isBlocked) throw BlockedMemberInputException("이미 차단 되었거나 차단이 불가능한 유저입니다.")
+        blockedMemberExistDao.existByRequesterOrTargetMember(requesterId, targetMemberId)
 
         // 친구 여부 확인 > 친구인 경우 친구 관계 삭제
         val friendships = friendFindDao.findByInviterOrInvitee(requesterId, targetMemberId)
