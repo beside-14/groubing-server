@@ -19,13 +19,13 @@ class FriendFindApi(
 ) {
     @GetMapping
     fun findFriends(
-        @AuthenticationPrincipal inviterId: Long,
+        @AuthenticationPrincipal memberId: Long,
         @RequestParam(required = false) nickname: String?,
         @PageableDefault pageable: Pageable
     ): ApiResponse<PageResponse<FriendResponse>> {
         val response = when (nickname.isNullOrBlank()) {
-            true -> friendFindService.findById(inviterId, pageable)
-            false -> friendFindService.findByIdAndNickname(inviterId, pageable, nickname)
+            true -> friendFindService.findById(memberId, pageable)
+            false -> friendFindService.findByIdAndNickname(memberId, pageable, nickname)
         }
         return ApiResponse.OK(PageResponse(response))
     }

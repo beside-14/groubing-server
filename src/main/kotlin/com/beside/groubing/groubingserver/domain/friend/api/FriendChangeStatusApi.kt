@@ -18,7 +18,7 @@ class FriendChangeStatusApi(
 ) {
     @PatchMapping("/{id}")
     fun changeStatus(
-        @AuthenticationPrincipal inviterId: Long,
+        @AuthenticationPrincipal memberId: Long,
         @PathVariable id: Long,
         @RequestBody request: FriendChangeStatusRequest
     ) {

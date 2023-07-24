@@ -19,13 +19,13 @@ class BlockedMemberFindApi(
 ) {
     @GetMapping
     fun find(
-        @AuthenticationPrincipal requesterId: Long,
+        @AuthenticationPrincipal memberId: Long,
         @RequestParam(required = false) nickname: String?,
         @PageableDefault pageable: Pageable
     ): ApiResponse<PageResponse<BlockedMemberResponse>> {
         val response = when (nickname.isNullOrBlank()) {
-            true -> blockedMemberFindService.findById(requesterId, pageable)
-            false -> blockedMemberFindService.findByIdAndNickname(requesterId, pageable, nickname)
+            true -> blockedMemberFindService.findById(memberId, pageable)
+            false -> blockedMemberFindService.findByIdAndNickname(memberId, pageable, nickname)
         }
         return ApiResponse.OK(PageResponse(response))
     }

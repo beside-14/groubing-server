@@ -14,7 +14,7 @@ class UnblockingMemberApi(
 ) {
     @DeleteMapping("/{id}")
     fun unblocking(
-        @AuthenticationPrincipal requesterId: Long,
+        @AuthenticationPrincipal memberId: Long,
         @PathVariable id: Long
     ) {
         unblockingMemberService.unblocking(id)

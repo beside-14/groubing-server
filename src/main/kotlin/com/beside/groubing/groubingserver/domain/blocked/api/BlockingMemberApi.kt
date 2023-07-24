@@ -15,9 +15,9 @@ class BlockingMemberApi(
 ) {
     @PostMapping
     fun blocking(
-        @AuthenticationPrincipal requesterId: Long,
+        @AuthenticationPrincipal memberId: Long,
         @RequestBody request: BlockingMemberRequest
     ) {
-        blockingMemberService.blocking(requesterId, request.targetMemberId)
+        blockingMemberService.blocking(memberId, request.targetMemberId)
     }
 }

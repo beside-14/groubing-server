@@ -16,12 +16,12 @@ class FriendAddApi(
 ) {
     @PostMapping
     fun add(
-        @AuthenticationPrincipal inviterId: Long,
+        @AuthenticationPrincipal memberId: Long,
         @RequestBody
         @Validated
         request: FriendAddRequest
     ) {
-        friendAddService.add(inviterId, request.inviteeId)
+        friendAddService.add(memberId, request.inviteeId)
         // TODO("친구 요청 푸시 발송 기능 구현하기")
     }
 }
