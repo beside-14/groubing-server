@@ -13,7 +13,7 @@ class BingoItemUpdateService(
 ) {
     fun updateBingoItem(bingoBoardId: Long, bingoItemId: Long, memberId: Long, bingoItemUpdateCommand: BingoItemUpdateCommand): BingoItemResponse {
         val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
-        val updateBingoItem = bingoBoard.updateBingoItem(memberId, bingoItemId, bingoItemUpdateCommand)
+        val updateBingoItem = bingoBoard.updateBingoItem(memberId, bingoItemId, bingoItemUpdateCommand.title, bingoItemUpdateCommand.subTitle)
         return BingoItemResponse.fromBingoItem(updateBingoItem, memberId)
     }
 }
