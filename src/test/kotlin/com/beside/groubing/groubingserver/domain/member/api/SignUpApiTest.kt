@@ -40,7 +40,7 @@ class SignUpApiTest(
 
         When("올바른 정보로 회원가입 요청 시") {
             val token = JwtProvider.createToken(id, email, MemberRole.MEMBER)
-            val response = MemberResponse(id, email, token)
+            val response = MemberResponse(id, email, null, token)
             every { signUpService.signUp(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
@@ -59,6 +59,7 @@ class SignUpApiTest(
                     responseBody(
                         "id" responseType NUMBER means "유저 ID" example "1",
                         "email" responseType STRING means "유저 이메일" example "test@groubing.com",
+                        "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
                         "token" responseType STRING means "유저 JWT 토큰"
                     )
                 )

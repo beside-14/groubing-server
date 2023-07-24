@@ -37,7 +37,7 @@ class LoginApiTest(
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
-            val response = MemberResponse(1L, email, jwt)
+            val response = MemberResponse(1L, email, null, jwt)
             every { loginService.login(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
@@ -55,6 +55,7 @@ class LoginApiTest(
                     responseBody(
                         "id" responseType NUMBER means "유저 ID" example "1",
                         "email" responseType STRING means "유저 이메일" example "test@groubing.com",
+                        "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
                         "token" responseType STRING means "유저 JWT 토큰"
                     )
                 )
