@@ -10,14 +10,15 @@ class BlockedMemberExistDao(
     private val queryFactory: JPAQueryFactory
 ) {
     fun existByRequesterOrTargetMember(requesterId: Long, targetMemberId: Long) {
-        val result = queryFactory.select(blockedMember.count())
+        val result = queryFactory
+            .selectOne()
             .from(blockedMember)
             .where(
                 blockedMember.requester.id.eq(requesterId).and(blockedMember.targetMember.id.eq(targetMemberId)).or(
                     blockedMember.requester.id.eq(targetMemberId).and(blockedMember.targetMember.id.eq(requesterId))
                 )
             )
-            .fetchOne()
+            .fetchFirst()
 
         if (result != null && result > 0) throw BlockedMemberInputException("차단된 유저입니다.")
     }
