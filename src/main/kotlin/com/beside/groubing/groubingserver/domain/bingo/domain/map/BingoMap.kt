@@ -48,7 +48,7 @@ class BingoMap(
         }
     }
 
-    fun calculateTotalCompleteCount(): Int {
+    fun calculateTotalBingoCount(): Int {
         return bingoLines
             .filter { it.isBingo(memberId) }
             .size
@@ -59,7 +59,7 @@ class BingoMap(
             .filter { it.direction == direction }
     }
 
-    fun getCompleteLineIndexes(direction: Direction): List<Int> {
+    fun getBingoIndexes(direction: Direction): List<Int> {
         return getBingoLines(direction)
             .filter { it.isBingo(memberId) }
             .map { it.lineNumber - 1 }

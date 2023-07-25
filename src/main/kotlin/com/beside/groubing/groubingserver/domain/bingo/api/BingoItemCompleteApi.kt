@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemCompleteService
+import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoCalculatingResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PatchMapping
@@ -18,9 +19,9 @@ class BingoItemCompleteApi(
         @PathVariable id: Long,
         @PathVariable bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
-    ): ApiResponse<Unit> {
-        bingoItemCompleteService.completeBingoItem(id, bingoItemId, memberId)
-        return ApiResponse.OK(Unit)
+    ): ApiResponse<BingoCalculatingResponse> {
+        val bingoCalculatingResponse = bingoItemCompleteService.completeBingoItem(id, bingoItemId, memberId)
+        return ApiResponse.OK(bingoCalculatingResponse)
     }
 
     @PatchMapping("/{id}/bingo-items/{bingoItemId}/cancel")
@@ -28,8 +29,8 @@ class BingoItemCompleteApi(
         @PathVariable id: Long,
         @PathVariable bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
-    ): ApiResponse<Unit> {
-        bingoItemCompleteService.cancelBingoItem(id, bingoItemId, memberId)
-        return ApiResponse.OK(Unit)
+    ): ApiResponse<BingoCalculatingResponse> {
+        val bingoCalculatingResponse = bingoItemCompleteService.cancelBingoItem(id, bingoItemId, memberId)
+        return ApiResponse.OK(bingoCalculatingResponse)
     }
 }
