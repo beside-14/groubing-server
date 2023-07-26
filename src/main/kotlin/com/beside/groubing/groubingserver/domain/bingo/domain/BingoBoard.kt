@@ -8,6 +8,8 @@ import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -26,6 +28,7 @@ class BingoBoard internal constructor(
 
     var title: String,
 
+    @Enumerated(EnumType.STRING)
     val boardType: BingoBoardType,
 
     var open: Boolean,
@@ -47,7 +50,7 @@ class BingoBoard internal constructor(
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "BINGO_BOARD_ID")
-    var bingoItems: List<BingoItem>
+    val bingoItems: List<BingoItem>
 
 ) : BaseEntity() {
 
@@ -135,8 +138,8 @@ class BingoBoard internal constructor(
         if (isCompleted()) {
             throw BingoInputException("임시 빙고가 아니면 shuffle 할 수 없습니다. BingoBoard Id : $id")
         }
-        bingoItems = bingoItems.shuffled(Random)
-            .mapIndexed { index, bingoItem ->
+        bingoItems.shuffled(Random)
+            .forEachIndexed { index, bingoItem ->
                 bingoItem.apply { bingoItem.changeItemOrder(index + 1) }
             }
     }
