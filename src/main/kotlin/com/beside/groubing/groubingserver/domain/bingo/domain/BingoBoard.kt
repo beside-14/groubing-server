@@ -84,7 +84,7 @@ class BingoBoard internal constructor(
     fun isFinished(): Boolean = calculateLeftDays() < 0
 
     fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {
-        validateUpdateAuthority(memberId)
+        validateAuthority(memberId)
         val bingoItem = bingoItems.find { it.id == bingoItemId }
             ?: throw BingoIllegalStateException("해당 빙고를 수정할 권한이 없습니다.")
         bingoItem.updateBingoItem(
@@ -95,29 +95,29 @@ class BingoBoard internal constructor(
     }
 
     fun updateBase(memberId: Long, title: String, goal: Int, since: LocalDate, until: LocalDate) {
-        validateUpdateAuthority(memberId)
+        validateAuthority(memberId)
         this.title = title
         this.bingoGoal = BingoGoal.create(goal, bingoSize)
         this.period = BingoPeriod.create(since, until)
     }
 
     fun updateBingoMembersPeriod(memberId: Long, bingoMembers: List<Long>, since: LocalDate, until: LocalDate) {
-        validateUpdateAuthority(memberId)
+        validateAuthority(memberId)
         this.period = BingoPeriod.create(since, until)
         this.bingoMembers.addAll(bingoMembers.map { BingoMember.create(it) })
     }
 
     fun updateBingoMemo(memberId: Long, memo: String?) {
-        validateUpdateAuthority(memberId)
+        validateAuthority(memberId)
         this.memo = memo
     }
 
     fun updateBingoOpen(memberId: Long, open: Boolean) {
-        validateUpdateAuthority(memberId)
+        validateAuthority(memberId)
         this.open = open
     }
 
-    private fun validateUpdateAuthority(memberId: Long) {
+    fun validateAuthority(memberId: Long) {
         val bingoMember = bingoMembers.find { it.memberId == memberId }
             ?: throw BingoInputException("해당 그룹 빙고에 포함되지 않은 빙고 memberId입니다. bingoBoardId: $id, memberId: $memberId")
         if (!bingoMember.isLeader()) {

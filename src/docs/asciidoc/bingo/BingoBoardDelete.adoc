@@ -1,0 +1,2 @@
+=== 빙고 생성
+operation::delete-bingo[snippets='http-request,http-response']
