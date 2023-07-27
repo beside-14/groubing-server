@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.friend.api
 
 import com.beside.groubing.groubingserver.domain.friend.application.FriendAcceptService
-import com.beside.groubing.groubingserver.domain.friend.application.FriendDeleteService
+import com.beside.groubing.groubingserver.domain.friend.application.FriendRejectService
 import com.beside.groubing.groubingserver.domain.friend.payload.request.FriendChangeStatusRequest
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PatchMapping
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/friends")
 class FriendChangeStatusApi(
     private val friendAcceptService: FriendAcceptService,
-    private val friendDeleteService: FriendDeleteService
+    private val friendRejectService: FriendRejectService
 ) {
     @PatchMapping("/{id}")
     fun changeStatus(
@@ -25,7 +25,7 @@ class FriendChangeStatusApi(
         if (request.accept) {
             friendAcceptService.accept(id)
         } else {
-            friendDeleteService.delete(id)
+            friendRejectService.reject(id)
         }
     }
 }

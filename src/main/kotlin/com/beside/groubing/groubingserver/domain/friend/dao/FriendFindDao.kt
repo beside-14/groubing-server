@@ -28,9 +28,9 @@ class FriendFindDao(
     }
 
     fun findById(id: Long): Friend {
-        val friendship = friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
-        if (friendship.status.isAccept()) throw FriendInputException("이미 처리된 친구 요청입니다.")
-        return friendship
+        val friend = friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
+        if (friend.status.isAccept() || friend.status.isReject()) throw FriendInputException("이미 처리된 친구 요청입니다.")
+        return friend
     }
 
     fun findAllById(id: Long, pageable: Pageable): Page<Member> {
