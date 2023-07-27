@@ -12,13 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 class BlockedMemberFindService(
     private val blockedMemberFindDao: BlockedMemberFindDao
 ) {
-    fun findById(id: Long, pageable: Pageable): Page<BlockedMemberResponse> {
-        val friends = blockedMemberFindDao.findAllById(id, pageable)
-        return friends.map(::BlockedMemberResponse)
-    }
-
-    fun findByIdAndNickname(id: Long, pageable: Pageable, nickname: String): Page<BlockedMemberResponse> {
-        val friends = blockedMemberFindDao.findAllByIdAndNickname(id, pageable, nickname)
+    fun findById(id: Long): List<BlockedMemberResponse> {
+        val friends = blockedMemberFindDao.findAllById(id)
         return friends.map(::BlockedMemberResponse)
     }
 }

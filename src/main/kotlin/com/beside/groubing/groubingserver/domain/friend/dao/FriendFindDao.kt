@@ -7,11 +7,7 @@ import com.beside.groubing.groubingserver.domain.friend.domain.QFriend.friend
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.types.Predicate
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -33,23 +29,10 @@ class FriendFindDao(
         return friend
     }
 
-    fun findAllById(id: Long, pageable: Pageable): Page<Member> {
-        return find(id, pageable)
-    }
-
-    fun findAllByIdAndNickname(id: Long, pageable: Pageable, nickname: String): Page<Member> {
-        return find(id, pageable) { builder ->
-            builder.and(
-                friend.inviter.nickname.like("%$nickname%").or(friend.invitee.nickname.like("%$nickname%"))
-            )
-        }
-    }
-
-    private fun find(
+    fun findAllById(
         id: Long,
-        pageable: Pageable,
         predicateFunc: ((BooleanBuilder) -> BooleanBuilder)? = null
-    ): Page<Member> {
+    ): List<Member> {
         val query = queryFactory.from(friend)
             .innerJoin(friend.inviter).fetchJoin()
             .innerJoin(friend.invitee).fetchJoin()
@@ -62,23 +45,10 @@ class FriendFindDao(
         val friendships = query.select(friend)
             .where(predicate)
             .orderBy(friend.createdDate.desc())
-            .offset(pageable.offset)
-            .limit(pageable.pageSize.toLong())
             .fetch()
         val inviters = friendships.map { friendship -> friendship.inviter }.filter { inviter -> inviter.id != id }
         val invitees = friendships.map { friendship -> friendship.invitee }.filter { invitee -> invitee.id != id }
 
-        return PageImpl(inviters + invitees, pageable, countByTotal(predicate))
-    }
-
-    private fun countByTotal(predicate: Predicate?): Long {
-        return queryFactory
-            .select(friend.count())
-            .from(friend)
-            .innerJoin(friend.inviter)
-            .innerJoin(friend.invitee)
-            .where(predicate)
-            .fetch()
-            .first()
+        return inviters + invitees
     }
 }

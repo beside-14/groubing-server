@@ -6,11 +6,7 @@ import com.beside.groubing.groubingserver.domain.blocked.domain.QBlockedMember.b
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.types.Predicate
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -34,19 +30,10 @@ class BlockedMemberFindDao(
         return blockedMemberRepository.findById(id).orElseThrow { FriendInputException("차단 내역이 존재하지 않습니다.") }
     }
 
-    fun findAllById(id: Long, pageable: Pageable): Page<Member> {
-        return find(id, pageable)
-    }
-
-    fun findAllByIdAndNickname(id: Long, pageable: Pageable, nickname: String): Page<Member> {
-        return find(id, pageable) { builder -> builder.and(blockedMember.targetMember.nickname.like("%$nickname%")) }
-    }
-
-    private fun find(
+    fun findAllById(
         id: Long,
-        pageable: Pageable,
         predicateFunc: ((BooleanBuilder) -> BooleanBuilder)? = null
-    ): Page<Member> {
+    ): List<Member> {
         val query = queryFactory.from(blockedMember)
             .innerJoin(blockedMember.targetMember).fetchJoin()
         var predicate = BooleanBuilder()
@@ -54,24 +41,10 @@ class BlockedMemberFindDao(
 
         takeIf { predicateFunc != null }?.apply { predicate = predicateFunc!!.invoke(predicate) }
 
-        val blockedList = query.select(blockedMember)
+        return query.select(blockedMember)
             .where(predicate)
             .orderBy(blockedMember.createdDate.desc())
-            .offset(pageable.offset)
-            .limit(pageable.pageSize.toLong())
             .fetch()
             .map { blockedMember -> blockedMember.targetMember }
-
-        return PageImpl(blockedList, pageable, countByTotal(predicate))
-    }
-
-    private fun countByTotal(predicate: Predicate?): Long {
-        return queryFactory
-            .select(blockedMember.count())
-            .from(blockedMember)
-            .innerJoin(blockedMember.targetMember)
-            .where(predicate)
-            .fetch()
-            .first()
     }
 }

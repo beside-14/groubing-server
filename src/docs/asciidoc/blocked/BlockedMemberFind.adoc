@@ -1,4 +1,4 @@
 [[member-blocked-list]]
 === 차단 회원 목록 조회
 
-operation::blocked-member-find[snippets='http-request,query-parameters,http-response,response-fields,response-body']
+operation::blocked-member-find[snippets='http-request,http-response,response-fields,response-body']
