@@ -3,12 +3,13 @@ package com.beside.groubing.groubingserver.domain.bingo.domain
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoIllegalStateException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
-import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -16,6 +17,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
+import kotlin.random.Random
 
 @Entity
 @Table(name = "BINGO_BOARDS")
@@ -27,6 +29,7 @@ class BingoBoard internal constructor(
 
     var title: String,
 
+    @Enumerated(EnumType.STRING)
     val boardType: BingoBoardType,
 
     var open: Boolean,
@@ -74,17 +77,19 @@ class BingoBoard internal constructor(
         return bingoMembers.map { it.memberId }
     }
 
-    fun isCompleted(): Boolean = period != null
+    fun isCompleted(): Boolean {
+        return period != null && bingoItems.all { it.isUpdated() }
+    }
 
     fun isFinished(): Boolean = calculateLeftDays() < 0
 
-    fun updateBingoItem(memberId: Long, bingoItemId: Long, bingoItemUpdateCommand: BingoItemUpdateCommand): BingoItem {
+    fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {
         validateUpdateAuthority(memberId)
         val bingoItem = bingoItems.find { it.id == bingoItemId }
             ?: throw BingoIllegalStateException("해당 빙고를 수정할 권한이 없습니다.")
         bingoItem.updateBingoItem(
-            title = bingoItemUpdateCommand.title,
-            subTitle = bingoItemUpdateCommand.subTitle
+            title = title,
+            subTitle = subTitle
         )
         return bingoItem
     }
@@ -130,6 +135,16 @@ class BingoBoard internal constructor(
             ?.cancelBingoItem(memberId)
     }
 
+    fun shuffleBingoItems() {
+        if (isCompleted()) {
+            throw BingoInputException("임시 빙고가 아니면 shuffle 할 수 없습니다. BingoBoard Id : $id")
+        }
+        bingoItems.shuffled(Random)
+            .forEachIndexed { index, bingoItem ->
+                bingoItem.apply { bingoItem.changeItemOrder(index + 1) }
+            }
+    }
+
     companion object {
         fun create(
             memberId: Long,
@@ -149,3 +164,4 @@ class BingoBoard internal constructor(
         )
     }
 }
+

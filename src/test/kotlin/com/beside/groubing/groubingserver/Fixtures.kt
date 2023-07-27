@@ -39,74 +39,47 @@ fun aEmptyBingo(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Lo
         bingoSize = BingoSize.cache(3),
         boardType = bingoBoardType,
         open = true,
-        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map { BingoItem(id = it.toLong(), itemOrder = it) }
+        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map { BingoItem(id = it.toLong(), itemOrder = it % 9) }
     )
+}
+
+fun aTemporaryBingo(): BingoBoard {
+    val memberId = 1L
+    val bingoBoard = aEmptyBingo()
+    bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
+        val command = BingoItemUpdateCommand.createCommand("코딩공부 ${index + 1}", "2023년 ${index + 1}월달까지 코딩공부")
+        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id, title = command.title, subTitle = command.subTitle)
+    }
+    return bingoBoard
+}
+fun createBingoBoard(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Long, startItemId: Int, titlePrefix: String, bingoMembers: List<Long>, completedItems: List<Long>): BingoBoard {
+    val bingoBoard = aEmptyBingo(bingoBoardId, bingoBoardType, memberId, startItemId)
+    bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
+        val command = BingoItemUpdateCommand.createCommand("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
+        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id, title = command.title, subTitle = command.subTitle)
+    }
+
+    bingoBoard.updateBingoMembersPeriod(
+        memberId = memberId,
+        bingoMembers = bingoMembers,
+        since = LocalDate.now(),
+        until = LocalDate.now().plusDays(7)
+    )
+    completedItems.forEach { bingoBoard.completeBingoItem(it, memberId) }
+
+    return bingoBoard
 }
 
 fun aEnglishStudyBingoBoard(): BingoBoard {
-    val memberId = 1L
-    val bingoBoard = aEmptyBingo()
-
-    bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
-        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id,
-            BingoItemUpdateCommand.createCommand("영어공부 ${index + 1}", "2023년 ${index + 1}월달까지 영어공부"))
-    }
-
-    bingoBoard.updateBingoMembersPeriod(
-        memberId = memberId,
-        bingoMembers = listOf(2, 3, 7),
-        since = LocalDate.now(),
-        until = LocalDate.now().plusDays(7)
-    )
-
-    (1L..5L).forEach { bingoBoard.completeBingoItem(it, memberId) }
-    bingoBoard.completeBingoItem(7L, memberId)
-    bingoBoard.completeBingoItem(8L, memberId)
-
-    return bingoBoard
+    return createBingoBoard(2L, BingoBoardType.SINGLE, 1L, 1, "영어공부", listOf(2, 3, 7), listOf(1L, 2L, 3L, 4L, 5L, 7L, 8L))
 }
 
 fun aHealthBingoBoard(): BingoBoard {
-    val memberId = 1L
-    val bingoBoard = aEmptyBingo(bingoBoardId = 2L, BingoBoardType.SINGLE, memberId, 2)
-
-    bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
-        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id,
-            BingoItemUpdateCommand.createCommand("운동하기 ${index + 1}", "2023년 ${index + 1}월달까지 운동하기"))
-    }
-
-    bingoBoard.updateBingoMembersPeriod(
-        memberId = memberId,
-        bingoMembers = listOf(3, 6, 9),
-        since = LocalDate.now(),
-        until = LocalDate.now().plusDays(7)
-    )
-
-    (1L..7L).forEach { bingoBoard.completeBingoItem(it, memberId) }
-
-    return bingoBoard
+    return createBingoBoard(3L, BingoBoardType.SINGLE, 1L, 2, "운동하기", listOf(3, 6, 9), (1L..7L).toList())
 }
 
 fun aGameBingoBoard(): BingoBoard {
-    val memberId = 1L
-    val bingoBoard = aEmptyBingo(bingoBoardId = 3L, BingoBoardType.SINGLE, memberId, 3)
-
-    bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
-        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id,
-            BingoItemUpdateCommand.createCommand("게임하기 ${index + 1}", "2023년 ${index + 1}월달까지 게임하기"))
-    }
-
-    bingoBoard.updateBingoMembersPeriod(
-        memberId = memberId,
-        bingoMembers = listOf(2, 4, 10),
-        since = LocalDate.now(),
-        until = LocalDate.now().plusDays(7)
-    )
-
-    (1L..5L).forEach { bingoBoard.completeBingoItem(it, memberId) }
-    bingoBoard.completeBingoItem(7L, memberId)
-
-    return bingoBoard
+    return createBingoBoard(4L, BingoBoardType.SINGLE, 1L, 3, "게임하기", listOf(2, 4, 10), (1L..5L).toList() + 7L)
 }
 
 fun aMember(memberId: Long): Member {
