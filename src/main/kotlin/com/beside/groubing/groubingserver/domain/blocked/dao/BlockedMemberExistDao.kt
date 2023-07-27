@@ -13,11 +13,7 @@ class BlockedMemberExistDao(
         val result = queryFactory
             .selectOne()
             .from(blockedMember)
-            .where(
-                blockedMember.requester.id.eq(requesterId).and(blockedMember.targetMember.id.eq(targetMemberId)).or(
-                    blockedMember.requester.id.eq(targetMemberId).and(blockedMember.targetMember.id.eq(requesterId))
-                )
-            )
+            .where(blockedMember.requester.id.eq(requesterId).and(blockedMember.targetMember.id.eq(targetMemberId)))
             .fetchFirst()
 
         if (result != null && result > 0) throw BlockedMemberInputException("차단된 유저입니다.")
