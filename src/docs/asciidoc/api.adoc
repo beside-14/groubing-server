@@ -69,6 +69,11 @@ Groubing 서비스 Backend API 문서
 
 * link:bingo/BingoBoardCreate.html[빙고 생성,window=_blank]
 
+[[bingo-delete]]
+=== 빙고 삭제
+
+* link:bingo/BingoBoardDelete.html[빙고 삭제,window=_blank]
+
 [[bingo-find]]
 === 빙고 조회
 
