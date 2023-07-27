@@ -18,6 +18,7 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.time.LocalDate
 import kotlin.random.Random
+
 @Entity
 @Table(name = "BINGO_BOARDS")
 class BingoBoard internal constructor(
