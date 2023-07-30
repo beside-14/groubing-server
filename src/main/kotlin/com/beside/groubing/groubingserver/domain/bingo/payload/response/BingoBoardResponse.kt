@@ -4,7 +4,6 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoMapResponse.BingoLineResponse
 
 class BingoBoardResponse private constructor(
     val id: Long,

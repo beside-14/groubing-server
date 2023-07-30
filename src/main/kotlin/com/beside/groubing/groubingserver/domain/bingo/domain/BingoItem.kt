@@ -24,7 +24,7 @@ class BingoItem internal constructor(
 
     var imageUrl: String? = null,
 
-    val itemOrder: Int,
+    var itemOrder: Int,
 
     @ElementCollection
     @CollectionTable(name = "BINGO_COMPLETE_MEMBERS", joinColumns = [JoinColumn(name = "BINGO_ITEM_ID")])
@@ -45,6 +45,14 @@ class BingoItem internal constructor(
     fun updateBingoItem(title: String, subTitle: String?) {
         this.title = title
         this.subTitle = subTitle
+    }
+
+    fun changeItemOrder(itemOrder: Int) {
+        this.itemOrder = itemOrder
+    }
+
+    fun isUpdated(): Boolean {
+        return title != null
     }
 
     companion object {

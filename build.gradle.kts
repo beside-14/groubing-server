@@ -51,6 +51,9 @@ dependencies {
     // H2
     runtimeOnly("com.h2database:h2")
 
+    // p6spy
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
+
     // Test
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")

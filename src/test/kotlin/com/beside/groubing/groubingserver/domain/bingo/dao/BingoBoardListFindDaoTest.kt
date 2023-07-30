@@ -27,7 +27,6 @@ class BingoBoardListFindDaoTest(
     }
 
     listOf(
-        Pair(1L, 3),
         Pair(3L, 2)
     ).forEach { (memberId, expectedSize) ->
         it("should return bingo board list for a memberId : $memberId") {

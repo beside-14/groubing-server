@@ -3,6 +3,8 @@ package com.beside.groubing.groubingserver.domain.bingo.domain
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -18,6 +20,7 @@ class BingoMember private constructor(
 
     val memberId: Long,
 
+    @Enumerated(EnumType.STRING)
     val bingoMemberType: BingoMemberType
 ) : BaseEntity() {
 
