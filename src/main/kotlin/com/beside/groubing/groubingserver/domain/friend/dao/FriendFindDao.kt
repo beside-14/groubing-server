@@ -14,7 +14,7 @@ class FriendFindDao(
     private val queryFactory: JPAQueryFactory,
     private val friendRepository: FriendRepository
 ) {
-    fun findByFriendships(inviterId: Long, inviteeId: Long): List<Friend> {
+    fun findByFriends(inviterId: Long, inviteeId: Long): List<Friend> {
         return queryFactory.selectFrom(friend)
             .where(
                 friend.inviter.id.eq(inviterId).and(friend.invitee.id.eq(inviteeId))
@@ -23,13 +23,11 @@ class FriendFindDao(
     }
 
     fun findById(id: Long): Friend {
-        val friend = friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
-        if (friend.status.isAccept() || friend.status.isReject()) throw FriendInputException("이미 처리된 친구 요청입니다.")
-        return friend
+        return friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
     }
 
     fun findAllById(id: Long): List<Member> {
-        val friendships = queryFactory
+        val friends = queryFactory
             .selectFrom(friend)
             .innerJoin(friend.inviter).fetchJoin()
             .innerJoin(friend.invitee).fetchJoin()
@@ -37,8 +35,8 @@ class FriendFindDao(
             .orderBy(friend.createdDate.desc())
             .fetch()
 
-        val inviters = friendships.map { friendship -> friendship.inviter }.filter { inviter -> inviter.id != id }
-        val invitees = friendships.map { friendship -> friendship.invitee }.filter { invitee -> invitee.id != id }
+        val inviters = friends.map { friend -> friend.inviter }.filter { inviter -> inviter.id != id }
+        val invitees = friends.map { friend -> friend.invitee }.filter { invitee -> invitee.id != id }
 
         return inviters + invitees
     }

@@ -9,7 +9,7 @@ class FriendDeleteDao(
     private val friendRepository: FriendRepository
 ) {
     fun deleteAll(requesterId: Long, targetMemberId: Long) {
-        val friendships = friendFindDao.findByFriendships(requesterId, targetMemberId)
-        if (friendships.isNotEmpty()) friendRepository.deleteAll(friendships)
+        val friends = friendFindDao.findByFriends(requesterId, targetMemberId)
+        if (friends.isNotEmpty()) friendRepository.deleteAll(friends)
     }
 }

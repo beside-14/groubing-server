@@ -54,27 +54,27 @@ Groubing 서비스 Backend API 문서
 
 * link:member/MemberProfileDelete.html[프로필 삭제,window=_blank]
 
-[[friendship]]
+[[friend]]
 == 친구
 
 친구 도메인과 관련된 API 입니다.
 
-[[friendship-find]]
+[[friend-find]]
 === 친구 목록
 
 * link:friend/FriendFind.html[친구 목록 / 닉네임 검색,window=_blank]
 
-[[friendship-add]]
+[[friend-add]]
 === 친구 요청
 
 * link:friend/FriendAdd.html[친구 요청,window=_blank]
 
-[[friendship-accept]]
+[[friend-accept]]
 === 친구 요청 승낙
 
 * link:friend/FriendAccept.html[친구 요청 승낙,window=_blank]
 
-[[friendship-reject]]
+[[friend-reject]]
 === 친구 요청 거부
 
 * link:friend/FriendReject.html[친구 요청 거부,window=_blank]
