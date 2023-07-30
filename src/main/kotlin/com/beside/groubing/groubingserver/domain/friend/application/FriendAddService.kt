@@ -32,7 +32,7 @@ class FriendAddService(
             return
         }
 
-        friendValidateDao.validateAddFr¸iend(friends)
+        friendValidateDao.validateAddFriend(friends)
 
         val friend =
             friends.find { it.inviter.id == inviterId && it.invitee.id == inviteeId && it.status.isReject() }!!
