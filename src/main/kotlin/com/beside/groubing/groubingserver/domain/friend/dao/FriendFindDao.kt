@@ -6,7 +6,6 @@ import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 import com.beside.groubing.groubingserver.domain.friend.domain.QFriend.friend
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.querydsl.core.BooleanBuilder
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
@@ -29,23 +28,15 @@ class FriendFindDao(
         return friend
     }
 
-    fun findAllById(
-        id: Long,
-        predicateFunc: ((BooleanBuilder) -> BooleanBuilder)? = null
-    ): List<Member> {
-        val query = queryFactory.from(friend)
+    fun findAllById(id: Long): List<Member> {
+        val friendships = queryFactory
+            .selectFrom(friend)
             .innerJoin(friend.inviter).fetchJoin()
             .innerJoin(friend.invitee).fetchJoin()
-        var predicate = BooleanBuilder()
-            .and(friend.inviter.id.eq(id).or(friend.invitee.id.eq(id)))
-            .and(friend.status.eq(FriendStatus.ACCEPT))
-
-        takeIf { predicateFunc != null }?.apply { predicate = predicateFunc!!.invoke(predicate) }
-
-        val friendships = query.select(friend)
-            .where(predicate)
+            .where(friend.inviter.id.eq(id).or(friend.invitee.id.eq(id)).and(friend.status.eq(FriendStatus.ACCEPT)))
             .orderBy(friend.createdDate.desc())
             .fetch()
+
         val inviters = friendships.map { friendship -> friendship.inviter }.filter { inviter -> inviter.id != id }
         val invitees = friendships.map { friendship -> friendship.invitee }.filter { invitee -> invitee.id != id }
 

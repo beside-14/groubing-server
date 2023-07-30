@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.friend.dao
 
-import com.beside.groubing.groubingserver.domain.blocked.dao.BlockedMemberExistDao
+import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberValidateDao
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
 import com.beside.groubing.groubingserver.domain.friend.domain.QFriend.friend
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
@@ -9,12 +9,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class FriendValidateDao(
-    private val blockedMemberExistDao: BlockedMemberExistDao,
+    private val blockedMemberValidateDao: BlockedMemberValidateDao,
     private val queryFactory: JPAQueryFactory
 ) {
-
-    fun validate(inviterId: Long, inviteeId: Long): Friend? {
-        blockedMemberExistDao.existByRequesterOrTargetMember(inviterId, inviteeId)
+    fun validateAddFriend(inviterId: Long, inviteeId: Long): Friend? {
+        blockedMemberValidateDao.validateEachOther(inviterId, inviteeId)
 
         val friendships = queryFactory
             .selectFrom(friend)

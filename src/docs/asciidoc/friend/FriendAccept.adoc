@@ -1,0 +1,4 @@
+[[friendship-accept]]
+=== 친구 요청 승낙
+
+operation::friend-accept[snippets='http-request,path-parameters,http-response']

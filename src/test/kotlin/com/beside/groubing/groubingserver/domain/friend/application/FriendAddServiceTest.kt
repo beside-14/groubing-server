@@ -25,7 +25,7 @@ class FriendAddServiceTest(
         val inviteeId = Arb.long(1L..100L).single()
 
         When("수락하거나 대기 상태의 데이터가 존재하는 경우") {
-            every { friendValidateDao.validate(any(), any()) } throws FriendInputException("이미 친구이거나 친구 수락 대기 상태입니다.")
+            every { friendValidateDao.validateAddFriend(any(), any()) } throws FriendInputException("이미 친구이거나 친구 수락 대기 상태입니다.")
 
             Then("예외를 발생한다.") {
                 shouldThrow<FriendInputException> { friendAddService.add(inviterId, inviteeId) }

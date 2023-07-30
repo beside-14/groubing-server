@@ -17,7 +17,7 @@ class FriendAddService(
 ) {
     fun add(inviterId: Long, inviteeId: Long) {
         // 차단 및 친구관계 검증
-        var friendship = friendValidateDao.validate(inviterId, inviteeId)
+        var friendship = friendValidateDao.validateAddFriend(inviterId, inviteeId)
 
         when (friendship == null) {
             true -> {

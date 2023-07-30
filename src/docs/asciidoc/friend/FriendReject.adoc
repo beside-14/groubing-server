@@ -1,0 +1,4 @@
+[[friendship-reject]]
+=== 친구 요청 거부
+
+operation::friend-reject[snippets='http-request,path-parameters,http-response']

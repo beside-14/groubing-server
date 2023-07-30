@@ -69,10 +69,15 @@ Groubing 서비스 Backend API 문서
 
 * link:friend/FriendAdd.html[친구 요청,window=_blank]
 
-[[friendship-change-status]]
-=== 친구 요청 승낙 / 거부
+[[friendship-accept]]
+=== 친구 요청 승낙
 
-* link:friend/FriendChangeStatus.html[친구 요청 승낙 / 거부,window=_blank]
+* link:friend/FriendAccept.html[친구 요청 승낙,window=_blank]
+
+[[friendship-reject]]
+=== 친구 요청 거부
+
+* link:friend/FriendReject.html[친구 요청 거부,window=_blank]
 
 [[blocked-member]]
 == 회원 차단
@@ -82,14 +87,14 @@ Groubing 서비스 Backend API 문서
 [[blocked-member-find]]
 === 차단 회원 목록
 
-* link:blocked/BlockedMemberFind.html[차단 회원 목록 / 닉네임 검색,window=_blank]
+* link:blockedmember/BlockedMemberFind.html[차단 회원 목록 / 닉네임 검색,window=_blank]
 
 [[member-block]]
 === 회원 차단 및 해제
 
-* link:blocked/BlockMember.html[회원 차단,window=_blank]
+* link:blockedmember/BlockMember.html[회원 차단,window=_blank]
 
-* link:blocked/UnblockMember.html[회원 차단 해제,window=_blank]
+* link:blockedmember/UnblockMember.html[회원 차단 해제,window=_blank]
 
 [[bingo]]
 == 빙고
