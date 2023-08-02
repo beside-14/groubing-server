@@ -7,11 +7,14 @@ import org.springframework.stereotype.Repository
 @Repository
 class FriendValidateDao {
     fun validateAddFriend(friends: List<Friend>) {
-        val isFriend = friends.any { friend -> friend.status.isAccept() || friend.status.isPending() }
-        if (isFriend) throw FriendInputException("이미 친구이거나 친구 수락 대기 상태입니다.")
+        if (friends.any { friend -> !friend.status.isReject()}) {
+            throw FriendInputException("이미 등록된 친구이거나 친구 요청 대기 상태입니다.")
+        }
     }
 
-    fun validateStatus(friend: Friend) {
-        if (!friend.status.isPending()) throw FriendInputException("이미 처리된 친구 요청입니다.")
+    fun validateAcceptOrRejectFriend(friend: Friend) {
+        if (!friend.status.isPending()) {
+            throw FriendInputException("이미 등록된 친구이거나 친구 요청 상태가 아닙니다.")
+        }
     }
 }

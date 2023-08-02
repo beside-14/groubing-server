@@ -14,7 +14,7 @@ class FriendAcceptService(
 ) {
     fun accept(id: Long) {
         val friend = friendFindDao.findById(id)
-        friendValidateDao.validateStatus(friend)
+        friendValidateDao.validateAcceptOrRejectFriend(friend)
         friend.status = FriendStatus.ACCEPT
     }
 }
