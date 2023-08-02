@@ -17,6 +17,6 @@ class FriendAcceptApi(
         @AuthenticationPrincipal memberId: Long,
         @PathVariable id: Long
     ) {
-        friendAcceptService.accept(id)
+        friendAcceptService.accept(memberId = memberId, id = id)
     }
 }

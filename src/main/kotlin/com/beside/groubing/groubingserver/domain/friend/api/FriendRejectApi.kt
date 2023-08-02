@@ -17,6 +17,6 @@ class FriendRejectApi(
         @AuthenticationPrincipal memberId: Long,
         @PathVariable id: Long
     ) {
-        friendRejectService.reject(id)
+        friendRejectService.reject(memberId = memberId, id = id)
     }
 }

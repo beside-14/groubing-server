@@ -12,9 +12,9 @@ class FriendAcceptService(
     private val friendFindDao: FriendFindDao,
     private val friendValidateDao: FriendValidateDao
 ) {
-    fun accept(id: Long) {
+    fun accept(memberId: Long, id: Long) {
         val friend = friendFindDao.findById(id)
-        friendValidateDao.validateAcceptOrRejectFriend(friend)
+        friendValidateDao.validateAcceptOrRejectFriend(memberId = memberId, friend = friend)
         friend.status = FriendStatus.ACCEPT
     }
 }

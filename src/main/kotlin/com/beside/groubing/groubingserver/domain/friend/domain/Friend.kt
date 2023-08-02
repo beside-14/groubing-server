@@ -34,4 +34,8 @@ class Friend internal constructor(
             return Friend(inviter, invitee)
         }
     }
+
+    fun isInviter(memberId: Long): Boolean {
+        return inviter.id == memberId
+    }
 }
