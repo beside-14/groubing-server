@@ -17,6 +17,6 @@ class UnblockMemberApi(
         @AuthenticationPrincipal memberId: Long,
         @PathVariable id: Long
     ) {
-        unblockMemberService.unblock(id)
+        unblockMemberService.unblock(memberId, id)
     }
 }

@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.domain.blockedmember.dao
 
+import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMember
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.QBlockedMember.blockedMember
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -24,12 +25,19 @@ class BlockedMemberValidateDao(
     }
 
     fun validateEachOther(requesterId: Long, targetMemberId: Long) {
-        validate(isBlockedPredicate(requesterId, targetMemberId)
-            .or(isBlockedPredicate(targetMemberId, requesterId)), "내가 이미 차단했거나 상대방이 나를 차단했습니다.")
+        validate(
+            isBlockedPredicate(requesterId, targetMemberId)
+                .or(isBlockedPredicate(targetMemberId, requesterId)), "내가 이미 차단했거나 상대방이 나를 차단했습니다."
+        )
     }
 
     fun validateBlockMember(requesterId: Long, targetMemberId: Long) {
         validate(isBlockedPredicate(requesterId, targetMemberId), "이미 차단한 유저입니다.")
     }
 
+    fun validateUnblock(requesterId: Long, blockedMember: BlockedMember) {
+        if (!blockedMember.isBlockedMember(requesterId)) {
+            throw BlockedMemberInputException("차단을 해제할 권한이 없습니다.")
+        }
+    }
 }

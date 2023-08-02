@@ -32,4 +32,8 @@ class BlockedMember internal constructor(
             return BlockedMember(requester, targetMember)
         }
     }
+
+    fun isBlockedMember(memberId: Long): Boolean {
+        return requester.id == memberId
+    }
 }

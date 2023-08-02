@@ -29,7 +29,7 @@ class UnblockMemberApiTest(
         val userId = Arb.long(1L..100L).single()
 
         When("특정 유저를") {
-            justRun { unblockMemberService.unblock(any()) }
+            justRun { unblockMemberService.unblock(any(), any()) }
 
             Then("차단 해제한다.") {
                 mockMvc.perform(

@@ -31,7 +31,7 @@ class FriendRejectApiTest(
         When("친구 요청을") {
 
             Then("거절한다.") {
-                justRun { friendRejectService.reject(any()) }
+                justRun { friendRejectService.reject(any(), any()) }
 
                 mockMvc.perform(
                     patch("/api/friends/{id}/reject", id)
