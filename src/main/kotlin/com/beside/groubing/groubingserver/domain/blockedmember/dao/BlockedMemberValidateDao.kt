@@ -2,6 +2,7 @@ package com.beside.groubing.groubingserver.domain.blockedmember.dao
 
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.QBlockedMember.blockedMember
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
@@ -9,27 +10,26 @@ import org.springframework.stereotype.Repository
 class BlockedMemberValidateDao(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun validateEachOther(requesterId: Long, targetMemberId: Long) {
+    private fun isBlockedPredicate(requesterId: Long, targetMemberId: Long): BooleanExpression {
+        return blockedMember.requester.id.eq(requesterId).and(blockedMember.targetMember.id.eq(targetMemberId))
+    }
+
+    private fun validate(predicate: BooleanExpression, message: String) {
         val result = queryFactory
             .selectOne()
             .from(blockedMember)
-            .where(
-                blockedMember.requester.id.eq(requesterId).and(blockedMember.targetMember.id.eq(targetMemberId)).or(
-                    blockedMember.requester.id.eq(targetMemberId).and(blockedMember.targetMember.id.eq(requesterId))
-                )
-            )
+            .where(predicate)
             .fetchFirst()
+        if (result != null && result > 0) throw BlockedMemberInputException(message)
+    }
 
-        if (result != null && result > 0) throw BlockedMemberInputException("차단된 유저입니다.")
+    fun validateEachOther(requesterId: Long, targetMemberId: Long) {
+        validate(isBlockedPredicate(requesterId, targetMemberId)
+            .or(isBlockedPredicate(targetMemberId, requesterId)), "내가 이미 차단했거나 상대방이 나를 차단했습니다.")
     }
 
     fun validateBlockMember(requesterId: Long, targetMemberId: Long) {
-        val result = queryFactory
-            .selectOne()
-            .from(blockedMember)
-            .where(blockedMember.requester.id.eq(requesterId).and(blockedMember.targetMember.id.eq(targetMemberId)))
-            .fetchFirst()
-
-        if (result != null && result > 0) throw BlockedMemberInputException("차단된 유저입니다.")
+        validate(isBlockedPredicate(requesterId, targetMemberId), "이미 차단한 유저입니다.")
     }
+
 }
