@@ -3,6 +3,7 @@ package com.beside.groubing.groubingserver.domain.bingo.payload.response
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.member.domain.Member
+import java.time.LocalDate
 
 class BingoBoardDetailResponse private constructor(
     val id: Long,
@@ -16,6 +17,10 @@ class BingoBoardDetailResponse private constructor(
     val open: Boolean,
 
     val dDay: String,
+
+    val since: LocalDate?,
+
+    val until: LocalDate?,
 
     val completed: Boolean,
 
@@ -37,6 +42,8 @@ class BingoBoardDetailResponse private constructor(
                 goal = bingoBoard.goal,
                 groupType = bingoBoard.boardType,
                 open = bingoBoard.open,
+                since = bingoBoard.since,
+                until = bingoBoard.until,
                 dDay = "D-${bingoBoard.calculateLeftDays()}",
                 memo = bingoBoard.memo,
                 completed = bingoBoard.isCompleted(),

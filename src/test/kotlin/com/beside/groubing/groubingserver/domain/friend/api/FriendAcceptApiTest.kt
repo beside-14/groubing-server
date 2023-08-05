@@ -31,7 +31,7 @@ class FriendAcceptApiTest(
         When("친구 요청을") {
 
             Then("수락한다.") {
-                justRun { friendAcceptService.accept(any()) }
+                justRun { friendAcceptService.accept(any(), any()) }
 
                 mockMvc.perform(
                     patch("/api/friends/{id}/accept", id)
