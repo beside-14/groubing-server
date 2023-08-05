@@ -54,7 +54,7 @@ class MemberNicknameEditApiTest(
                     .andDocument(
                         "member-nickname-edit",
                         pathVariables(
-                            "id" requestParam "회원 ID" example id.toString() isOptional true
+                            "id" requestParam "유저 ID" example id.toString() isOptional true
                         ),
                         requestBody(
                             "nickname" requestType STRING means "닉네임" example nickname formattedAs "^[가-힣a-zA-Z0-9]{2,7}"

@@ -20,39 +20,81 @@ Groubing 서비스 Backend API 문서
 회원 도메인과 관련된 API 입니다.
 
 [[member-login]]
-=== 로그인 API
+=== 로그인
 
 * link:member/LoginApi.html[로그인 API,window=_blank]
 
 [[member-signup]]
-=== 회원가입 API
+=== 회원가입
 
-* link:member/SignUpApi.html[회원가입 API,window=_blank]
+* link:member/SignUpApi.html[회원가입,window=_blank]
 
 [[member-email-find]]
 === 이메일 찾기
 
-* link:member/MemberEmailFind.html[이메일 찾기 API,window=_blank]
+* link:member/MemberEmailFind.html[이메일 찾기,window=_blank]
 
 [[member-password-reset]]
-=== 비밀번호 변경 API
+=== 비밀번호 변경
 
-* link:member/MemberPasswordReset.html[비밀번호 변경 API,window=_blank]
+* link:member/MemberPasswordReset.html[비밀번호 변경,window=_blank]
 
 [[member-nickname-edit]]
-=== 닉네임 변경 API
+=== 닉네임 변경
 
-* link:member/MemberNicknameEdit.html[닉네임 변경 API,window=_blank]
+* link:member/MemberNicknameEdit.html[닉네임 변경,window=_blank]
 
 [[member-profile-edit]]
-=== 프로필 변경 API
+=== 프로필 변경
 
-* link:member/MemberProfileEdit.html[프로필 변경 API,window=_blank]
+* link:member/MemberProfileEdit.html[프로필 변경,window=_blank]
 
 [[member-profile-delete]]
-=== 프로필 삭제 API
+=== 프로필 삭제
 
-* link:member/MemberProfileDelete.html[프로필 삭제 API,window=_blank]
+* link:member/MemberProfileDelete.html[프로필 삭제,window=_blank]
+
+[[friend]]
+== 친구
+
+친구 도메인과 관련된 API 입니다.
+
+[[friend-find]]
+=== 친구 목록
+
+* link:friend/FriendFind.html[친구 목록 / 닉네임 검색,window=_blank]
+
+[[friend-add]]
+=== 친구 요청
+
+* link:friend/FriendAdd.html[친구 요청,window=_blank]
+
+[[friend-accept]]
+=== 친구 요청 승낙
+
+* link:friend/FriendAccept.html[친구 요청 승낙,window=_blank]
+
+[[friend-reject]]
+=== 친구 요청 거부
+
+* link:friend/FriendReject.html[친구 요청 거부,window=_blank]
+
+[[blocked-member]]
+== 회원 차단
+
+회원 차단 도메인과 관련된 API 입니다.
+
+[[blocked-member-find]]
+=== 차단 회원 목록
+
+* link:blockedmember/BlockedMemberFind.html[차단 회원 목록 / 닉네임 검색,window=_blank]
+
+[[member-block]]
+=== 회원 차단 및 해제
+
+* link:blockedmember/BlockMember.html[회원 차단,window=_blank]
+
+* link:blockedmember/UnblockMember.html[회원 차단 해제,window=_blank]
 
 [[bingo]]
 == 빙고
@@ -93,7 +135,8 @@ Groubing 서비스 Backend API 문서
 === 빙고 아이템 업데이트
 
 * link:bingo/BingoItemUpdate.html[빙고 아이템 업데이트,window=_blank]
-* link:bingo/BingoItemComplete.html[빙고 아이템 완료/완료취소,window=_blank]
+
+* link:bingo/BingoItemComplete.html[빙고 아이템 완료 / 완료 취소,window=_blank]
 
 [[bingo-item-shuffle]]
 === 빙고 아이템 섞기

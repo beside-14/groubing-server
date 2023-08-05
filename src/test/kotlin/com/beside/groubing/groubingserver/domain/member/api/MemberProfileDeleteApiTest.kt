@@ -36,7 +36,7 @@ class MemberProfileDeleteApiTest(
                     .andDocument(
                         "member-profile-delete",
                         pathVariables(
-                            "id" requestParam "회원 ID" example id.toString()
+                            "id" requestParam "유저 ID" example id.toString()
                         )
                     )
             }

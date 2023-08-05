@@ -6,10 +6,10 @@ plugins {
     id("org.springframework.boot") version "3.0.3"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
-    kotlin("jvm") version "1.8.10"
-    kotlin("plugin.spring") version "1.8.10"
-    kotlin("plugin.jpa") version "1.8.10"
-    kotlin("kapt") version "1.8.10"
+    kotlin("jvm") version "1.9.0"
+    kotlin("plugin.spring") version "1.9.0"
+    kotlin("plugin.jpa") version "1.9.0"
+    kotlin("kapt") version "1.9.0"
 }
 
 group = "com.beside.groubing"
@@ -116,6 +116,12 @@ tasks {
                 file("build/docs/asciidoc")
                 file("src/main/resources/static/docs")
             }
+        }
+        forkOptions {
+            jvmArgs(
+                "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+                "--add-opens", "java.base/java.io=ALL-UNNAMED"
+            )
         }
     }
 

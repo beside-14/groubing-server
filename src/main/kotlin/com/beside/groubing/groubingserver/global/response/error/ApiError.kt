@@ -6,9 +6,8 @@ import java.time.LocalDateTime
 class ApiError(
     val code: ApiResponseCode,
     e: Throwable,
-    message: String = code.message
+    val message: String = code.message
 ) {
-    val message: String = message
     val timestamp: LocalDateTime = LocalDateTime.now()
     val debugMessage: String = e.toString()
 }

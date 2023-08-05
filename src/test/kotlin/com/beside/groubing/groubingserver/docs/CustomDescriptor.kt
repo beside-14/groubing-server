@@ -105,7 +105,15 @@ infix fun <E : Enum<E>> String.requestType(enumFieldType: ENUM<E>): CustomDescri
  * ("data." prefix 추가)
  */
 infix fun String.responseType(docsFieldType: DocsFieldType): CustomDescriptor<FieldDescriptor> {
-    val field = createField(this.prefix(), docsFieldType.type, true)
+    return createResponseType(this.prefix(), docsFieldType)
+}
+
+infix fun String.responseTypeWithPage(docsFieldType: DocsFieldType): CustomDescriptor<FieldDescriptor> {
+    return createResponseType(this.prefixWithPage(), docsFieldType)
+}
+
+private fun createResponseType(prefix: String, docsFieldType: DocsFieldType): CustomDescriptor<FieldDescriptor> {
+    val field = createField(prefix, docsFieldType.type, true)
     when (docsFieldType) {
         is DATE -> field formattedAs RestDocsUtils.DATE_FORMAT
         is DATETIME -> field formattedAs RestDocsUtils.DATETIME_FORMAT
@@ -125,7 +133,14 @@ infix fun <E : Enum<E>> String.responseType(enumFieldType: ENUM<E>): CustomDescr
 }
 
 private fun String.prefix(): String {
-    val prefix = "data."
+    return createPrefix("data.")
+}
+
+private fun String.prefixWithPage(): String {
+    return createPrefix("data.contents[].")
+}
+
+private fun String.createPrefix(prefix: String): String {
     return if (!this.contains(prefix) && this != "code" && this != "message") prefix + this else this
 }
 
