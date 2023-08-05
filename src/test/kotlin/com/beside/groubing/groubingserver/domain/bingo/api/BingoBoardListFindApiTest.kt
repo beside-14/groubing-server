@@ -61,6 +61,7 @@ class BingoBoardListFindApiTest(
                         "[].until" responseType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd",
                         "[].goal" responseType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
                         "[].groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
+                        "[].bingoColorValue" responseType STRING means "빙고 Color" example "#B8B7FC" formattedAs "Blue : `#8BC0FC`, Orange: `#FCB179`, Red: `FF8282`, Green: `#55DEB5`, Purple : `#B8B7FC`",
                         "[].open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
                         "[].completed" responseType BOOLEAN means "완성된 빙고 여부, `true` : 완성 빙고,`false` : 임시 빙고" example "false",
                         "[].finished" responseType BOOLEAN means "빙고 기간 종료 여부, `true` : 종료,`false` : 진행 중" example "false",

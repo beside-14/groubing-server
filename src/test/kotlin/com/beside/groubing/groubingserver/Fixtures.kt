@@ -8,6 +8,7 @@ import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoColor
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoGoal
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMember
@@ -38,6 +39,7 @@ fun aEmptyBingo(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Lo
         bingoGoal = BingoGoal.create(3, BingoSize.cache(3)),
         bingoSize = BingoSize.cache(3),
         boardType = bingoBoardType,
+        bingoColor = BingoColor.makeRandomBingoColor(),
         open = true,
         bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map { BingoItem(id = it.toLong(), itemOrder = it % 9) }
     )

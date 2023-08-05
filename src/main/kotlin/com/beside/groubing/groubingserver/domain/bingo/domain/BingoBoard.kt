@@ -32,6 +32,9 @@ class BingoBoard internal constructor(
     @Enumerated(EnumType.STRING)
     val boardType: BingoBoardType,
 
+    @Enumerated(EnumType.STRING)
+    val bingoColor: BingoColor,
+
     var open: Boolean,
 
     var memo: String? = null,
@@ -73,8 +76,9 @@ class BingoBoard internal constructor(
         return BingoMap(memberId, size, bingoItems.sortedBy { it.itemOrder })
     }
 
-    fun getBingoMemberIds(): List<Long> {
-        return bingoMembers.map { it.memberId }
+    fun getOtherBingoMemberIds(memberId: Long): List<Long> {
+        return bingoMembers.filter { it.id != memberId }
+            .map { it.memberId }
     }
 
     fun isCompleted(): Boolean {
@@ -158,6 +162,7 @@ class BingoBoard internal constructor(
             boardType = boardType,
             open = open,
             bingoSize = BingoSize.cache(bingoSize),
+            bingoColor = BingoColor.makeRandomBingoColor(),
             bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
             bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
             bingoItems = (1..(bingoSize * bingoSize)).map { BingoItem.create(it) }

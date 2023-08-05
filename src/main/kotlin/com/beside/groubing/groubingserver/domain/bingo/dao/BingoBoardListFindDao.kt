@@ -13,6 +13,7 @@ class BingoBoardListFindDao(
         val bingoBoards = queryFactory.select(bingoBoard)
             .from(bingoBoard)
             .where(bingoBoard.bingoMembers.any().memberId.eq(memberId))
+            .orderBy(bingoBoard.lastModifiedDate.desc())
             .fetch()
         return bingoBoards.map { BingoBoardOverviewResponse.fromBingoBoard(it, memberId) }
     }

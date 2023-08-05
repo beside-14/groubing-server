@@ -21,6 +21,8 @@ class BingoBoardOverviewResponse private constructor(
 
     val groupType: BingoBoardType,
 
+    val bingoColorValue: String,
+
     val open: Boolean,
 
     val completed: Boolean,
@@ -69,6 +71,7 @@ class BingoBoardOverviewResponse private constructor(
                 until = bingoBoard.until,
                 goal = bingoBoard.goal,
                 groupType = bingoBoard.boardType,
+                bingoColorValue = bingoBoard.bingoColor.value,
                 open = bingoBoard.open,
                 completed = bingoBoard.isCompleted(),
                 finished = bingoBoard.isFinished(),
