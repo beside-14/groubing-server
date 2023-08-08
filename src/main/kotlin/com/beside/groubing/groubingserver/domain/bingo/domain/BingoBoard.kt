@@ -77,7 +77,7 @@ class BingoBoard internal constructor(
     }
 
     fun getOtherBingoMemberIds(memberId: Long): List<Long> {
-        return bingoMembers.filter { it.id != memberId }
+        return bingoMembers.filter { it.memberId != memberId }
             .map { it.memberId }
     }
 

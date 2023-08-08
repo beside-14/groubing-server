@@ -19,4 +19,10 @@ class MemberValidateDao(
             throw MemberInputException("이미 가입된 email 주소입니다.")
         }
     }
+
+    fun validateExistingMembers(ids: List<Long>) {
+        if (memberRepository.countByIdIn(ids) != ids.size) {
+            throw MemberInputException("입력된 ID 중 존재하지 않는 회원이 있습니다. memberIds:${ids}")
+        }
+    }
 }

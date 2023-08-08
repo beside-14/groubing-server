@@ -7,6 +7,7 @@ spring:
   h2:
     console:
       enabled: true
+      path: /console
   sql:
     init:
       dataLocations: classpath:data-local.sql

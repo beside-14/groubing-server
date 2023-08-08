@@ -4,7 +4,7 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import java.time.LocalDate
 
 class BingoBoardMembersPeriodUpdateCommand private constructor(
-    private val bingoMembers: List<Long>,
+    val bingoMembers: List<Long>,
     private val since: LocalDate,
     private val until: LocalDate
 ) {

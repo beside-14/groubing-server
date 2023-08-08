@@ -6,13 +6,16 @@ import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoar
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardOpenUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
+import com.beside.groubing.groubingserver.domain.member.dao.MemberValidateDao
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
 class BingoBoardUpdateService(
-    private val bingoBoardFindDao: BingoBoardFindDao
+    private val bingoBoardFindDao: BingoBoardFindDao,
+
+    private val memberValidateDao: MemberValidateDao
 ) {
     fun updateBase(bingoBoardId: Long, memberId: Long, baseUpdateCommand: BingoBoardBaseUpdateCommand): BingoBoardResponse {
         val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
@@ -21,6 +24,7 @@ class BingoBoardUpdateService(
     }
 
     fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, membersPeriodUpdateCommand: BingoBoardMembersPeriodUpdateCommand): BingoBoardResponse {
+        memberValidateDao.validateExistingMembers(membersPeriodUpdateCommand.bingoMembers)
         val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
         membersPeriodUpdateCommand.update(bingoBoard, memberId)
         return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)

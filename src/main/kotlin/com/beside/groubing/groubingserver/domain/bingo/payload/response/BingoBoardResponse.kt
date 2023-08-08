@@ -2,7 +2,6 @@ package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
-import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 
 class BingoBoardResponse private constructor(
@@ -28,7 +27,7 @@ class BingoBoardResponse private constructor(
 ) {
     companion object {
         fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardResponse {
-            val bingoMap = BingoMap(memberId, bingoBoard.size, bingoBoard.bingoItems)
+            val bingoMap = bingoBoard.makeBingoMap(memberId)
             return BingoBoardResponse(
                 id = bingoBoard.id,
                 title = bingoBoard.title,

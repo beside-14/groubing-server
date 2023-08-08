@@ -4,7 +4,6 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoLine
-import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import java.time.LocalDate
 
@@ -63,7 +62,7 @@ class BingoBoardOverviewResponse private constructor(
     }
     companion object {
         fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardOverviewResponse {
-            val bingoMap = BingoMap(memberId, bingoBoard.size, bingoBoard.bingoItems)
+            val bingoMap = bingoBoard.makeBingoMap(memberId)
             return BingoBoardOverviewResponse(
                 id = bingoBoard.id,
                 title = bingoBoard.title,
