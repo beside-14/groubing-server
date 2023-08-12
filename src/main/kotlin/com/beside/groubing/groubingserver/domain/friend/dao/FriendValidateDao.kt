@@ -6,8 +6,15 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class FriendValidateDao {
+
+    fun validateIsMe(inviterId: Long, inviteeId: Long) {
+        if (inviterId == inviteeId) {
+            throw FriendInputException("나 자신을 친구 요청할 수 없습니다.")
+        }
+    }
+
     fun validateAddFriend(friends: List<Friend>) {
-        if (friends.any { friend -> !friend.status.isReject()}) {
+        if (friends.any { friend -> !friend.status.isReject() }) {
             throw FriendInputException("이미 등록된 친구이거나 친구 요청 대기 상태입니다.")
         }
     }
