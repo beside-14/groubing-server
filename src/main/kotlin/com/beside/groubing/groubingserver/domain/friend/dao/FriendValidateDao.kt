@@ -20,7 +20,7 @@ class FriendValidateDao {
     }
 
     fun validateAcceptOrRejectFriend(memberId: Long, friend: Friend) {
-        if (!friend.isInviter(memberId)) {
+        if (!friend.isInvitee(memberId)) {
             throw FriendInputException("당사자가 아니면 친구 요청을 수락하거나 거절할 수 없습니다.")
         }
         if (!friend.status.isPending()) {
