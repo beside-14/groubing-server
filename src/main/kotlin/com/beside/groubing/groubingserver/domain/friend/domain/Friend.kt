@@ -23,7 +23,7 @@ class Friend internal constructor(
     val invitee: Member,
 ) : BaseEntity() {
     @Id
-    @Column(name = "FRIENDS_ID")
+    @Column(name = "FRIEND_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 
@@ -35,7 +35,7 @@ class Friend internal constructor(
         }
     }
 
-    fun isInviter(memberId: Long): Boolean {
-        return inviter.id == memberId
+    fun isInvitee(memberId: Long): Boolean {
+        return invitee.id == memberId
     }
 }

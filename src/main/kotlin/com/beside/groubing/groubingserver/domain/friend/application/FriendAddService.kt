@@ -20,6 +20,7 @@ class FriendAddService(
     private val friendRepository: FriendRepository
 ) {
     fun add(inviterId: Long, inviteeId: Long) {
+        friendValidateDao.validateIsMe(inviterId, inviteeId)
         blockedMemberValidateDao.validateEachOther(inviterId, inviteeId)
 
         val friends = friendFindDao.findByFriends(inviterId, inviteeId)
