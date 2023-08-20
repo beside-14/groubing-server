@@ -27,7 +27,7 @@ class FriendFindDao(
         return friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
     }
 
-    fun findAllByInviterIdOrInviteeId(memberId: Long): List<Member> {
+    fun findAllByInviterIdOrInviteeId(memberId: Long): Map<Long, Member> {
         val friends = queryFactory.selectFrom(friend)
             .innerJoin(friend.inviter).fetchJoin()
             .innerJoin(friend.invitee).fetchJoin()
@@ -38,8 +38,13 @@ class FriendFindDao(
             .orderBy(friend.createdDate.desc())
             .fetch()
 
-        val inviters = friends.map { friend -> friend.inviter }.filter { inviter -> inviter.id != memberId }
-        val invitees = friends.map { friend -> friend.invitee }.filter { invitee -> invitee.id != memberId }
+        val inviters =
+            friends.filter { friend -> friend.inviter.id != memberId }
+                .associate { friend -> friend.id to friend.inviter }
+
+        val invitees =
+            friends.filter { friend -> friend.invitee.id != memberId }
+                .associate { friend -> friend.id to friend.invitee }
 
         return inviters + invitees
     }

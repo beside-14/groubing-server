@@ -4,6 +4,8 @@ import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -27,6 +29,7 @@ class Friend internal constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 
+    @Enumerated(EnumType.STRING)
     var status: FriendStatus = FriendStatus.PENDING
 
     companion object {

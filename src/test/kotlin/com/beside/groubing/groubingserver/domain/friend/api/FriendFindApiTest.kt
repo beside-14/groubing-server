@@ -46,6 +46,7 @@ class FriendFindApiTest(
             val friend = Arb.of(
                 FriendResponse(
                     id = Arb.long(1L..100L).single(),
+                    memberId = Arb.long(1L..100L).single(),
                     email = Arb.email(
                         Arb.string(5, 10, Codepoint.alphanumeric()),
                         Arb.stringPattern("groubing\\.com")
@@ -68,7 +69,8 @@ class FriendFindApiTest(
                 }.andDocument(
                     "friend-find",
                     responseBody(
-                        "[].id" responseType NUMBER means "유저 ID" example "1",
+                        "[].id" responseType NUMBER means "친구 요청 ID" example "1",
+                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
                         "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
                         "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
                         "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,

@@ -4,6 +4,9 @@
 ==== 빙고 Base 업데이트
 operation::update-bingo-base[snippets='request-body,request-fields,http-request,http-response']
 
+==== 빙고 멤버,기간 업데이트
+operation::update-bingo-members-period[snippets='request-body,request-fields,http-request,http-response']
+
 ==== 빙고 Memo 업데이트
 operation::update-bingo-memo[snippets='request-body,request-fields,http-request,http-response']
 
