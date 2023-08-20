@@ -7,6 +7,8 @@ import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.friend.application.FriendFindService
+import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
+import com.beside.groubing.groubingserver.domain.friend.payload.response.FriendRequestResponse
 import com.beside.groubing.groubingserver.domain.friend.payload.response.FriendResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
@@ -17,6 +19,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
 import io.kotest.property.arbitrary.email
+import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.of
 import io.kotest.property.arbitrary.single
@@ -35,6 +38,7 @@ class FriendFindApiTest(
     private val mapper: ObjectMapper,
     @MockkBean private val friendFindService: FriendFindService
 ) : BehaviorSpec({
+
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
 
@@ -51,7 +55,7 @@ class FriendFindApiTest(
                 )
             )
             val response = listOf(friend.single())
-            every { friendFindService.findById(any()) } returns response
+            every { friendFindService.findAllByInviterIdOrInviteeId(any()) } returns response
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends") {
@@ -71,6 +75,27 @@ class FriendFindApiTest(
                     )
                 )
             }
+        }
+
+        When("최근 3개월 내 친구 요청 목록을") {
+            val friend = Arb.of(
+                FriendRequestResponse(
+                    id = Arb.long(1L..100L).single(),
+                    inviterId = Arb.long(1L..100L).single(),
+                    email = Arb.email(
+                        Arb.string(5, 10, Codepoint.alphanumeric()),
+                        Arb.stringPattern("groubing\\.com")
+                    ).single(),
+                    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
+                    profileUrl = null,
+                    status = Arb.enum<FriendStatus>().single()
+                )
+            )
+
+            Then("조회한다.") {
+
+            }
+
         }
     }
 })

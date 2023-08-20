@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.friend.api
 
 import com.beside.groubing.groubingserver.domain.friend.application.FriendFindService
+import com.beside.groubing.groubingserver.domain.friend.payload.response.FriendRequestResponse
 import com.beside.groubing.groubingserver.domain.friend.payload.response.FriendResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -17,7 +18,15 @@ class FriendFindApi(
     fun findFriends(
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<List<FriendResponse>> {
-        val response = friendFindService.findById(memberId)
+        val response = friendFindService.findAllByInviterIdOrInviteeId(memberId)
+        return ApiResponse.OK(response)
+    }
+
+    @GetMapping("/requests")
+    fun findFriendRequests(
+        @AuthenticationPrincipal memberId: Long
+    ): ApiResponse<List<FriendRequestResponse>> {
+        val response = friendFindService.findAllByInviterIdAndLastThreeMonths(memberId)
         return ApiResponse.OK(response)
     }
 }

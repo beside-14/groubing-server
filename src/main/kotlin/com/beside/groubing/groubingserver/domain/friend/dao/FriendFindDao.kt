@@ -8,6 +8,7 @@ import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputExc
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class FriendFindDao(
@@ -26,18 +27,33 @@ class FriendFindDao(
         return friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
     }
 
-    fun findAllById(id: Long): List<Member> {
-        val friends = queryFactory
-            .selectFrom(friend)
+    fun findAllByInviterIdOrInviteeId(memberId: Long): List<Member> {
+        val friends = queryFactory.selectFrom(friend)
             .innerJoin(friend.inviter).fetchJoin()
             .innerJoin(friend.invitee).fetchJoin()
-            .where(friend.inviter.id.eq(id).or(friend.invitee.id.eq(id)).and(friend.status.eq(FriendStatus.ACCEPT)))
+            .where(
+                friend.inviter.id.eq(memberId).or(friend.invitee.id.eq(memberId))
+                    .and(friend.status.eq(FriendStatus.ACCEPT))
+            )
             .orderBy(friend.createdDate.desc())
             .fetch()
 
-        val inviters = friends.map { friend -> friend.inviter }.filter { inviter -> inviter.id != id }
-        val invitees = friends.map { friend -> friend.invitee }.filter { invitee -> invitee.id != id }
+        val inviters = friends.map { friend -> friend.inviter }.filter { inviter -> inviter.id != memberId }
+        val invitees = friends.map { friend -> friend.invitee }.filter { invitee -> invitee.id != memberId }
 
         return inviters + invitees
+    }
+
+    fun findAllByInviteeIdAndLastThreeMonths(inviteeId: Long): List<Friend> {
+        val now = LocalDate.now()
+        val lastThreeMonths = now.minusMonths(3)
+        return queryFactory.selectFrom(friend)
+            .innerJoin(friend.invitee)
+            .where(
+                friend.invitee.id.eq(inviteeId)
+                    .and(friend.createdDate.between(lastThreeMonths.atTime(0, 0, 0, 0), now.atTime(23, 59, 59)))
+            )
+            .orderBy(friend.createdDate.desc())
+            .fetch()
     }
 }
