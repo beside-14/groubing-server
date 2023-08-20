@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.friend.api
 
 import com.beside.groubing.groubingserver.config.ApiTest
+import com.beside.groubing.groubingserver.docs.ENUM
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
@@ -80,10 +81,10 @@ class FriendFindApiTest(
         }
 
         When("최근 3개월 내 친구 요청 목록을") {
-            val friend = Arb.of(
+            val friendRequest = Arb.of(
                 FriendRequestResponse(
                     id = Arb.long(1L..100L).single(),
-                    inviterId = Arb.long(1L..100L).single(),
+                    memberId = Arb.long(1L..100L).single(),
                     email = Arb.email(
                         Arb.string(5, 10, Codepoint.alphanumeric()),
                         Arb.stringPattern("groubing\\.com")
@@ -94,10 +95,29 @@ class FriendFindApiTest(
                 )
             )
 
+            val response = listOf(friendRequest.single())
+            every { friendFindService.findAllByInviterIdAndLastThreeMonths(any()) } returns response
+
             Then("조회한다.") {
-
+                mockMvc.get("/api/friends/requests") {
+                    header("Authorization", getHttpHeaderJwt(id))
+                    contentType = MediaType.APPLICATION_JSON
+                    accept = MediaType.APPLICATION_JSON
+                }.andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                }.andDocument(
+                    "friend-find",
+                    responseBody(
+                        "[].id" responseType NUMBER means "친구 요청 ID" example "1",
+                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
+                        "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
+                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
+                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
+                        "[].status" responseType ENUM(FriendStatus::class) means "친구 요청 처리 상태" example "`PENDING` : 친구 요청 / `ACCEPT` : 수락 / `REJECT` : 거절",
+                    )
+                )
             }
-
         }
     }
 })
