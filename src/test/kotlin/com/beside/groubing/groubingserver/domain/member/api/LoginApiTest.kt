@@ -16,6 +16,11 @@ import com.beside.groubing.groubingserver.extension.getJwt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.Codepoint
+import io.kotest.property.arbitrary.alphanumeric
+import io.kotest.property.arbitrary.single
+import io.kotest.property.arbitrary.string
 import io.mockk.every
 import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -32,12 +37,13 @@ class LoginApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val email = "user1@gmail.com"
+        val nickname = Arb.string(codepoints = Codepoint.alphanumeric()).single()
         val password = "abcd1234"
         val request = LoginRequest(email, password)
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
-            val response = MemberResponse(1L, email, null, jwt)
+            val response = MemberResponse(1L, email, nickname, null, jwt)
             every { loginService.login(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
@@ -55,6 +61,7 @@ class LoginApiTest(
                     responseBody(
                         "id" responseType NUMBER means "유저 ID" example "1",
                         "email" responseType STRING means "유저 이메일" example "test@groubing.com",
+                        "nickname" responseType STRING means "유저 닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
                         "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
                         "token" responseType STRING means "유저 JWT 토큰"
                     )

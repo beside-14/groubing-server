@@ -24,6 +24,7 @@ class LoginService(
         return MemberResponse(
             member.id,
             member.email,
+            member.nickname,
             member.profile?.url,
             JwtProvider.createToken(member.id, member.email, member.role)
         )
