@@ -21,6 +21,6 @@ class MemberPasswordResetApi(
         @Validated
         request: MemberPasswordResetRequest
     ) {
-        memberPasswordResetService.reset(id, request.password)
+        memberPasswordResetService.reset(id, request.beforePassword, request.afterPassword)
     }
 }

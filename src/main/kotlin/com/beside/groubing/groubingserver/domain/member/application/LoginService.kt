@@ -5,7 +5,7 @@ import com.beside.groubing.groubingserver.domain.member.exception.MemberInputExc
 import com.beside.groubing.groubingserver.domain.member.payload.command.LoginCommand
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class LoginService(
     private val memberRepository: MemberRepository,
-    private val passwordEncoder: BCryptPasswordEncoder
+    private val passwordEncoder: PasswordEncoder
 ) {
     fun login(loginCommand: LoginCommand): MemberResponse {
         // 아이디가 존재하는지

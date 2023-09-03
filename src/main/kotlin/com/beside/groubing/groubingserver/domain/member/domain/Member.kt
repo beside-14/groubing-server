@@ -15,7 +15,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
 @Table(name = "MEMBERS")
@@ -41,7 +41,7 @@ class Member internal constructor(
     @JoinColumn(name = "PROFILE_ID")
     var profile: FileInfo? = null
 
-    fun matches(password: String, passwordEncoder: BCryptPasswordEncoder) {
+    fun matches(password: String, passwordEncoder: PasswordEncoder) {
         if (!passwordEncoder.matches(password, this.password)) {
             throw MemberInputException("비밀번호가 일치하지 않습니다.")
         }

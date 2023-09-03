@@ -23,7 +23,7 @@ import io.mockk.justRun
 import io.mockk.verify
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -37,11 +37,12 @@ class MemberPasswordResetApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(min = 1L, max = 100L).single()
-        val password = Arb.string(8, 20, codepoints = Codepoint.alphanumeric()).single()
-        val request = MemberPasswordResetRequest(password)
+        val beforePassword = Arb.string(8, 20, codepoints = Codepoint.alphanumeric()).single()
+        val afterPassword = Arb.string(8, 20, codepoints = Codepoint.alphanumeric()).single()
+        val request = MemberPasswordResetRequest(beforePassword, afterPassword)
 
         When("비밀번호를 변경하려고 하는 경우") {
-            justRun { memberPasswordResetService.reset(any(), any()) }
+            justRun { memberPasswordResetService.reset(any(), any(), any()) }
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
@@ -57,11 +58,12 @@ class MemberPasswordResetApiTest(
                             "id" requestParam "유저 ID" example id.toString() isOptional true
                         ),
                         requestBody(
-                            "password" requestType STRING means "유저 패스워드" example password formattedAs "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}"
+                            "beforePassword" requestType STRING means "이전에 사용한 패스워드" example beforePassword,
+                            "afterPassword" requestType STRING means "변경할 패스워드" example afterPassword formattedAs "^[a-zA-Z0-9!-/:-@\\[-_~]{8,20}"
                         )
                     )
 
-                verify(exactly = 1) { memberPasswordResetService.reset(any(), any()) }
+                verify(exactly = 1) { memberPasswordResetService.reset(any(), any(), any()) }
             }
         }
     }
