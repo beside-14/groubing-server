@@ -96,7 +96,7 @@ class FriendFindApiTest(
             )
 
             val response = listOf(friendRequest.single())
-            every { friendFindService.findAllByInviterIdAndLastThreeMonths(any()) } returns response
+            every { friendFindService.findAllByInviteeIdAndLastThreeMonths(any()) } returns response
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends/requests") {

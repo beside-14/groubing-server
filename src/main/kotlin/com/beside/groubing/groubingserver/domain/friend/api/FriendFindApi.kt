@@ -26,7 +26,7 @@ class FriendFindApi(
     fun findFriendRequests(
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<List<FriendRequestResponse>> {
-        val response = friendFindService.findAllByInviterIdAndLastThreeMonths(memberId)
+        val response = friendFindService.findAllByInviteeIdAndLastThreeMonths(memberId)
         return ApiResponse.OK(response)
     }
 }
