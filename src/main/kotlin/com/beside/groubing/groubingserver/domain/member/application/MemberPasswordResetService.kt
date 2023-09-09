@@ -11,9 +11,14 @@ class MemberPasswordResetService(
     private val memberFindDao: MemberFindDao,
     private val passwordEncoder: PasswordEncoder
 ) {
-    fun reset(id: Long, password: String) {
+    fun reset(
+        id: Long,
+        beforePassword: String,
+        afterPassword: String
+    ) {
         val member = memberFindDao.findExistingMemberById(id)
-        val encodedPassword = passwordEncoder.encode(password)
+        member.matches(beforePassword, passwordEncoder)
+        val encodedPassword = passwordEncoder.encode(afterPassword)
         member.editPassword(encodedPassword)
     }
 }

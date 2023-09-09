@@ -8,7 +8,6 @@ import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.long
@@ -16,7 +15,6 @@ import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.set
 import io.kotest.property.arbitrary.single
 import org.springframework.context.annotation.Import
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
 @LocalPersistenceTest
 @Import(QuerydslConfig::class, FriendFindDao::class)
@@ -26,31 +24,39 @@ class FriendFindDaoTest(
     private val memberRepository: MemberRepository
 ) : FunSpec({
 
-    var inviteeId: Long = 0L
+    var memberId: Long = 0L
 
     beforeEach {
-        val members = memberRepository.saveAll(
+        memberRepository.saveAllAndFlush(
             Arb.set(Arb.long(1L..100L).map { id -> aMember(id) }, 10..100)
                 .single()
         )
-        val friends = friendRepository.saveAllAndFlush(
-            (0..<members.size - 1).map { id ->
-                val friend = Friend.create(members[id], members[id + 1])
-                if (id % 2 == 0) friend.status = FriendStatus.ACCEPT
+        val members = memberRepository.findAll()
+        members.sortBy { member -> member.id }
+
+        friendRepository.saveAllAndFlush(
+            (0..<members.size - 1).map { i ->
+                val friend = Friend.create(members[i], members[i + 1])
+                if (members[i + 1].id % 2 == 0L) friend.status = FriendStatus.ACCEPT
                 friend
             }
         )
-        inviteeId = friends.filter { friend -> friend.status.isPending() }.random().invitee.id
+        val friends = friendRepository.findAll()
+        friends.sortBy { friend -> friend.id }
+
+        memberId = friends.filter { friend -> friend.status.isPending() }.random().invitee.id
     }
 
     test("수락한 친구 목록 조회") {
-        val friends = friendFindDao.findAllByInviterIdOrInviteeId(inviteeId)
-        if (inviteeId / 2 == 0L) friends.size shouldBe 1
-        else friends.size shouldBe 0
+        val allFriends = friendRepository.findAll()
+        allFriends.sortBy { friend -> friend.id }
+        allFriends.forEach { friend -> println("inviterId : ${friend.inviter.id} / inviteeId : ${friend.invitee.id} / status : ${friend.status}") }
+        val friends = friendFindDao.findAllByInviterIdOrInviteeId(memberId)
+        friends.size shouldBe 1
     }
 
     test("모든 친구 요청 목록 조회") {
-        val friendRequests = friendFindDao.findAllByInviteeIdAndLastThreeMonths(inviteeId)
+        val friendRequests = friendFindDao.findAllByInviteeIdAndLastThreeMonths(memberId)
         friendRequests.size shouldBe 1
     }
 })
