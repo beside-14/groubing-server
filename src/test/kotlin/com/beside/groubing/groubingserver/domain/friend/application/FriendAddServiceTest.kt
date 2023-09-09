@@ -41,7 +41,7 @@ class FriendAddServiceTest(
 ) : FunSpec({
 
     context("친구 요청 시") {
-        memberRepository.save(aMember(Arb.long(1L..10L).single()))
+        memberRepository.saveAll((1L..10L).map { aMember(it) })
         val members = memberRepository.findAll()
         val inviter = members.first()!!
         val invitee = members.last()!!
@@ -63,7 +63,7 @@ class FriendAddServiceTest(
         test("이미 친구인 경우") {
             val friend = Friend.create(inviter, invitee)
             friend.status = FriendStatus.ACCEPT
-            friendRepository.saveAndFlush(friend)
+            friendRepository.save(friend)
             shouldThrow<FriendInputException> { friendAddService.add(inviter.id, invitee.id) }
         }
 
@@ -72,12 +72,12 @@ class FriendAddServiceTest(
         }
 
         test("차단한 친구에게 요청하는 경우") {
-            blockedMemberRepository.saveAndFlush(BlockedMember.create(inviter, invitee))
+            blockedMemberRepository.save(BlockedMember.create(inviter, invitee))
             shouldThrow<BlockedMemberInputException> { friendAddService.add(inviter.id, invitee.id) }
         }
 
         test("상대방이 나를 차단한 경우") {
-            blockedMemberRepository.saveAndFlush(BlockedMember.create(invitee, inviter))
+            blockedMemberRepository.save(BlockedMember.create(invitee, inviter))
             shouldThrow<BlockedMemberInputException> { friendAddService.add(inviter.id, invitee.id) }
         }
     }
