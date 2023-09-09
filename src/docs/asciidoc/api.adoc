@@ -142,3 +142,13 @@ Groubing 서비스 Backend API 문서
 === 빙고 아이템 섞기
 
 * link:bingo/BingoItemShuffle.html[빙고 아이템 섞기,window=_blank]
+
+[[feed]]
+== 피드
+
+피드 도메인과 관련된 API 입니다.
+
+[[feed-list-find]]
+=== 피드 리스트 조회
+
+* link:feed/FeedFind.html[피드 리스트 조회,window=_blank]

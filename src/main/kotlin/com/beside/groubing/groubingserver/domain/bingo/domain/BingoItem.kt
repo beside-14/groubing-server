@@ -1,13 +1,13 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
-import jakarta.persistence.CollectionTable
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
-import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 
 @Entity
@@ -26,20 +26,23 @@ class BingoItem internal constructor(
 
     var itemOrder: Int,
 
-    @ElementCollection
-    @CollectionTable(name = "BINGO_COMPLETE_MEMBERS", joinColumns = [JoinColumn(name = "BINGO_ITEM_ID")])
-    val completeMembers: MutableSet<Long> = mutableSetOf()
+    @OneToMany(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "BINGO_ITEM_ID")
+    val completeMembers: MutableSet<BingoCompleteMember> = mutableSetOf()
 ) {
     fun isCompleted(memberId: Long): Boolean {
-        return completeMembers.contains(memberId)
+        return completeMembers.any { it.memberId == memberId }
     }
 
     fun completeBingoItem(memberId: Long) {
-        completeMembers.add(memberId)
+        if (isCompleted(memberId)) {
+            throw IllegalStateException("이미 Complete된 BingoItem입니다. bingoItemId: $id, memberId: $memberId")
+        }
+        completeMembers.add(BingoCompleteMember.create(memberId))
     }
 
     fun cancelBingoItem(memberId: Long) {
-        completeMembers.remove(memberId)
+        completeMembers.remove(completeMembers.find{ it.memberId == memberId})
     }
 
     fun updateBingoItem(title: String, subTitle: String?) {

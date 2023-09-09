@@ -54,7 +54,7 @@ fun aTemporaryBingo(): BingoBoard {
     }
     return bingoBoard
 }
-fun createBingoBoard(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Long, startItemId: Int, titlePrefix: String, bingoMembers: List<Long>, completedItems: List<Long>): BingoBoard {
+fun createBingoBoard(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Long, startItemId: Int, titlePrefix: String, bingoMembers: List<Long>): BingoBoard {
     val bingoBoard = aEmptyBingo(bingoBoardId, bingoBoardType, memberId, startItemId)
     bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
         val command = BingoItemUpdateCommand.createCommand("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
@@ -67,21 +67,20 @@ fun createBingoBoard(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberI
         since = LocalDate.now(),
         until = LocalDate.now().plusDays(7)
     )
-    completedItems.forEach { bingoBoard.completeBingoItem(it, memberId) }
 
     return bingoBoard
 }
 
 fun aEnglishStudyBingoBoard(): BingoBoard {
-    return createBingoBoard(2L, BingoBoardType.SINGLE, 1L, 1, "영어공부", listOf(2, 3, 7), listOf(1L, 2L, 3L, 4L, 5L, 7L, 8L))
+    return createBingoBoard(2L, BingoBoardType.GROUP, 1L, 1, "영어공부", listOf(2, 3, 7))
 }
 
 fun aHealthBingoBoard(): BingoBoard {
-    return createBingoBoard(3L, BingoBoardType.SINGLE, 1L, 2, "운동하기", listOf(3, 6, 9), (1L..7L).toList())
+    return createBingoBoard(3L, BingoBoardType.GROUP, 1L, 2, "운동하기", listOf(3, 6, 9))
 }
 
 fun aGameBingoBoard(): BingoBoard {
-    return createBingoBoard(4L, BingoBoardType.SINGLE, 1L, 3, "게임하기", listOf(2, 4, 10), (1L..5L).toList() + 7L)
+    return createBingoBoard(4L, BingoBoardType.GROUP, 1L, 3, "게임하기", listOf(2, 4, 10))
 }
 
 fun aMember(memberId: Long): Member {

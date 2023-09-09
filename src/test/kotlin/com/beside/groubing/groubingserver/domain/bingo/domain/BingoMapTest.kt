@@ -17,30 +17,30 @@ class BingoMapTest {
         assertEquals(0, bingoMap.calculateTotalBingoCount())
 
         // horizontal bingo
-        bingoItems[0].completeMembers.add(memberId)
-        bingoItems[1].completeMembers.add(memberId)
-        bingoItems[2].completeMembers.add(memberId)
+        bingoItems[0].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[1].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[2].completeMembers.add(BingoCompleteMember.create(memberId))
         assertEquals(1, bingoMap.calculateTotalBingoCount())
 
         // vertical bingo
-        bingoItems[3].completeMembers.add(memberId)
-        bingoItems[6].completeMembers.add(memberId)
+        bingoItems[3].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[6].completeMembers.add(BingoCompleteMember.create(memberId))
         assertEquals(2, bingoMap.calculateTotalBingoCount())
 
         // diagonal bingo
-        bingoItems[4].completeMembers.add(memberId)
-        bingoItems[8].completeMembers.add(memberId)
+        bingoItems[4].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[8].completeMembers.add(BingoCompleteMember.create(memberId))
         assertEquals(4, bingoMap.calculateTotalBingoCount())
 
         // all complete
-        bingoItems[1].completeMembers.add(memberId)
-        bingoItems[2].completeMembers.add(memberId)
-        bingoItems[3].completeMembers.add(memberId)
-        bingoItems[4].completeMembers.add(memberId)
-        bingoItems[5].completeMembers.add(memberId)
-        bingoItems[6].completeMembers.add(memberId)
-        bingoItems[7].completeMembers.add(memberId)
-        bingoItems[8].completeMembers.add(memberId)
+        bingoItems[1].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[2].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[3].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[4].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[5].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[6].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[7].completeMembers.add(BingoCompleteMember.create(memberId))
+        bingoItems[8].completeMembers.add(BingoCompleteMember.create(memberId))
         assertEquals(8, bingoMap.calculateTotalBingoCount())
     }
 }
