@@ -3,7 +3,7 @@ package com.beside.groubing.groubingserver.domain.bingo.domain
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoIllegalStateException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
-import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
+import com.beside.groubing.groubingserver.global.domain.jpa.BaseAggregateRoot
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
@@ -56,7 +56,7 @@ class BingoBoard internal constructor(
     @JoinColumn(name = "BINGO_BOARD_ID")
     val bingoItems: List<BingoItem>
 
-) : BaseEntity() {
+) : BaseAggregateRoot<BingoBoard>() {
 
     val size: Int
         get() = bingoSize.size
@@ -89,13 +89,16 @@ class BingoBoard internal constructor(
 
     fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {
         validateAuthority(memberId)
-        val bingoItem = bingoItems.find { it.id == bingoItemId }
-            ?: throw BingoIllegalStateException("해당 빙고를 수정할 권한이 없습니다.")
+        val bingoItem = findBingoItem(bingoItemId)
         bingoItem.updateBingoItem(
             title = title,
             subTitle = subTitle
         )
         return bingoItem
+    }
+
+    private fun findBingoItem(bingoItemId: Long): BingoItem {
+        return bingoItems.find { it.id == bingoItemId } ?: throw BingoIllegalStateException("입력된 빙고 아이템 아이디가 잘못 되었습니다. id : $bingoItemId")
     }
 
     fun updateBase(memberId: Long, title: String, goal: Int, since: LocalDate, until: LocalDate) {
@@ -130,13 +133,34 @@ class BingoBoard internal constructor(
     }
 
     fun completeBingoItem(bingoItemId: Long, memberId: Long) {
-        bingoItems.find { it.id == bingoItemId }
-            ?.completeBingoItem(memberId)
+        val bingoMap = makeBingoMap(memberId)
+        val beforeBingoCount = bingoMap.calculateTotalBingoCount()
+        findBingoItem(bingoItemId).completeBingoItem(memberId)
+        val afterBingoCount = bingoMap.calculateTotalBingoCount()
+        registerBingoItemCompleteEvent(afterBingoCount, beforeBingoCount, memberId)
+    }
+
+    private fun registerBingoItemCompleteEvent(afterBingoCount: Int, beforeBingoCount: Int, memberId: Long) {
+        if (afterBingoCount > beforeBingoCount) {
+            registerEvent(BingoItemCompleteEvent(bingoBoardId = id, bingoBoardTitle = title, totalBingoCount = afterBingoCount,
+                memberId = memberId))
+            return
+        }
+        if (bingoGoal.isGoal(afterBingoCount)) {
+            registerEvent(BingoCompleteEvent(bingoBoardId = id, bingoBoardTitle = title, memberId = memberId))
+        }
     }
 
     fun cancelBingoItem(bingoItemId: Long, memberId: Long) {
-        bingoItems.find { it.id == bingoItemId }
-            ?.cancelBingoItem(memberId)
+        val bingoMap = makeBingoMap(memberId)
+        val beforeBingoCount = bingoMap.calculateTotalBingoCount()
+        val bingoItem = findBingoItem(bingoItemId)
+        bingoItem.cancelBingoItem(memberId)
+        val afterBingoCount = bingoMap.calculateTotalBingoCount()
+        if (afterBingoCount < beforeBingoCount) {
+            registerEvent(BingoItemCancelEvent(bingoBoardId = id, bingoBoardTitle = title, bingoItemTitle = bingoItem.title!!,
+                memberId = memberId))
+        }
     }
 
     fun shuffleBingoItems() {
