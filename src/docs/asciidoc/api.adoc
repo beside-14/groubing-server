@@ -24,6 +24,16 @@ Groubing 서비스 Backend API 문서
 
 * link:member/LoginApi.html[로그인 API,window=_blank]
 
+[[member-social-login]]
+=== 소셜로그인
+
+* link:member/SocialLoginApi.html[소셜로그인 API,window=_blank]
+
+[[member-social-types]]
+=== 소셜로그인 타입
+
+* link:member/SocialTypeListFindApi.html[소셜로그인 타입 API,window=_blank]
+
 [[member-signup]]
 === 회원가입
 

@@ -15,6 +15,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import java.util.UUID
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
@@ -29,7 +30,10 @@ class Member internal constructor(
     nickname: String,
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
-    val role: MemberRole
+    val role: MemberRole,
+
+    @Enumerated(EnumType.STRING)
+    val memberType: MemberType
 ) : BaseEntity() {
     var password: String = password
         private set
@@ -72,7 +76,12 @@ class Member internal constructor(
 
     companion object {
         fun create(email: String, password: String, nickname: String, role: MemberRole): Member {
-            return Member(email = email, password = password, nickname = nickname, role = role)
+            return Member(email = email, password = password, nickname = nickname, role = role, memberType = MemberType.CLASSIC)
+        }
+
+        fun createSocialMember(email: String): Member {
+            return Member(email = email, password = "", nickname = "groubing_${UUID.randomUUID().toString().substring(0, 10)}",
+            role = MemberRole.MEMBER, memberType = MemberType.SOCIAL)
         }
     }
 }
