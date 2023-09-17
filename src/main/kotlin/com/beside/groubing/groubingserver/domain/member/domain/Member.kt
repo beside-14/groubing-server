@@ -15,7 +15,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import java.util.UUID
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
@@ -80,7 +79,7 @@ class Member internal constructor(
         }
 
         fun createSocialMember(email: String): Member {
-            return Member(email = email, password = "", nickname = "groubing_${UUID.randomUUID().toString().substring(0, 10)}",
+            return Member(email = email, password = "", nickname = "",
             role = MemberRole.MEMBER, memberType = MemberType.SOCIAL)
         }
     }

@@ -21,25 +21,21 @@ class SocialLoginService(
     private val memberFindDao: MemberFindDao
 ) {
     fun login(socialLoginCommand: SocialLoginCommand): SocialMemberResponse {
-        val (socialInfo, hasNickname) = findOrCreateSocialInfo(socialLoginCommand)
+        val socialInfo = findOrCreateSocialInfo(socialLoginCommand)
         val member = memberFindDao.findExistingMemberById(socialInfo.memberId)
-
-        return createSocialMemberResponse(member, hasNickname)
+        return createSocialMemberResponse(member = member, hasNickname = member.nickname.isNotBlank())
     }
 
-    private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): Pair<SocialInfo, Boolean> {
-        var hasNickname = true
-
+    private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): SocialInfo {
         val socialInfo = socialInfoRepository.findByEmailAndSocialType(
             socialLoginCommand.email,
             socialLoginCommand.socialType
         ).orElseGet {
             val member = memberRepository.save(Member.createSocialMember(socialLoginCommand.email))
-            hasNickname = false
+
             socialInfoRepository.save(SocialInfo(email = socialLoginCommand.email, socialType = socialLoginCommand.socialType, memberId = member.id))
         }
-
-        return Pair(socialInfo, hasNickname)
+        return socialInfo
     }
 
     private fun createSocialMemberResponse(member: Member, hasNickname: Boolean): SocialMemberResponse {
