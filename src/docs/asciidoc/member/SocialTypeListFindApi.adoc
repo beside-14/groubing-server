@@ -1,0 +1,5 @@
+[[social-type-list-find]]
+=== 소셜로그인
+
+operation::social-type-list-find[snippets='http-request,http-response,response-fields']
+

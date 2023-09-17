@@ -18,6 +18,7 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
@@ -84,7 +85,7 @@ fun aGameBingoBoard(): BingoBoard {
 }
 
 fun aMember(memberId: Long): Member {
-    return Member(id = memberId, email = "test${memberId}@gmail.com", "1234", "test${memberId}", role = MemberRole.MEMBER)
+    return Member(id = memberId, email = "test${memberId}@gmail.com", "1234", "test${memberId}", role = MemberRole.MEMBER, MemberType.CLASSIC)
 }
 
 val bingoBoardResponseSnippets = responseBody(

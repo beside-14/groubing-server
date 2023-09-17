@@ -7,6 +7,9 @@ import jakarta.persistence.Embeddable
 class BingoGoal private constructor(
     val goal: Int
 ) {
+    fun isGoal(bingoCount: Int): Boolean {
+        return bingoCount == goal
+    }
     companion object {
         fun create(goal: Int, bingoSize: BingoSize): BingoGoal {
             if (goal !in 1..bingoSize.getMaxGoal()) {

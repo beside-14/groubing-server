@@ -1,6 +1,7 @@
 [[feed-find]]
-=== 피드 목록 조회
+=== 전체 피드 목록 조회
 
 operation::feed-list-find[snippets='http-request,http-response,response-fields,response-body']
 
+=== 친구 피드 목록 조회
 operation::friend-feed-list-find[snippets='http-request,http-response,response-fields,response-body']
