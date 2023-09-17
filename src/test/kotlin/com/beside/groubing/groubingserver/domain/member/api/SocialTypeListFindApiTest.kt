@@ -5,7 +5,6 @@ import com.beside.groubing.groubingserver.docs.ARRAY
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
-import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import io.kotest.core.spec.style.FunSpec
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -19,13 +18,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 class SocialTypeListFindApiTest(
     private val mockMvc: MockMvc,
 ) : FunSpec({
-    val memberId = 1L
     test("Social Type 리스트 조회 Api") {
         mockMvc.perform(
             RestDocumentationRequestBuilders.get("/api/social-types")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", getHttpHeaderJwt(memberId))
         ).andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDocument(

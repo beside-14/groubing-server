@@ -54,6 +54,9 @@ dependencies {
     // p6spy
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
 
+    // FCM
+    implementation("com.google.firebase:firebase-admin:9.2.0")
+
     // Test
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
