@@ -1,5 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
+import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -18,7 +19,7 @@ class SocialInfo internal constructor(
     val socialType: SocialType,
 
     val memberId: Long
-) {
+): BaseEntity() {
     @Id
     @Column(name = "SOCIAL_INFO_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
