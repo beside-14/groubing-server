@@ -52,7 +52,7 @@ class FeedListFindApiTest(
             )
         )
 
-        every { feedListFindService.findAllFeeds() } returns feedResponses
+        every { feedListFindService.findAllFeeds(memberId) } returns feedResponses
 
 
         When("GET /api/feeds 요청이 들어왔을 때") {
