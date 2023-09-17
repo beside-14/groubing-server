@@ -84,11 +84,6 @@ class FeedListFindDaoTest(
     }
 
     test("피드 목록 조회") {
-        println("In findFeeds")
-        println("boardId: $englishBoardId")
-        println("boardId: $healthBoardId")
-        println("boardId: $gameBoardId")
-
         val englishBingoBoard = bingoBoardRepository.findById(englishBoardId).orElseThrow()
         englishBingoBoard.completeBingoItem(englishBingoBoard.bingoItems[0].id, members[0].id)
         englishBingoBoard.completeBingoItem(englishBingoBoard.bingoItems[1].id, members[0].id)
@@ -115,11 +110,6 @@ class FeedListFindDaoTest(
     }
 
     test("친구 피드 목록 조회") {
-        println("In findFriendFeeds")
-        println("boardId: $englishBoardId")
-        println("boardId: $healthBoardId")
-        println("boardId: $gameBoardId")
-
         val englishBingo = bingoBoardRepository.findById(englishBoardId).orElseThrow()
         englishBingo.completeBingoItem(englishBingo.bingoItems[2].id, englishBingo.bingoMembers[2].memberId)
         englishBingo.completeBingoItem(englishBingo.bingoItems[5].id, englishBingo.bingoMembers[2].memberId)
@@ -132,7 +122,7 @@ class FeedListFindDaoTest(
         gameBingo.completeBingoItem(gameBingo.bingoItems[6].id, gameBingo.bingoMembers[0].memberId)
         gameBingo.completeBingoItem(gameBingo.bingoItems[6].id, gameBingo.bingoMembers[1].memberId)
 
-        val feeds = feedListFindDao.findFeeds(friendIds = listOf(gameBingo.bingoMembers[0].memberId, gameBingo.bingoMembers[1].memberId, 4L))
+        val feeds = feedListFindDao.findFeeds(friendIds = listOf(gameBingo.bingoMembers[0].memberId, gameBingo.bingoMembers[1].memberId, 4L), isFriend = true)
         feeds.size shouldBe 2
         feeds[1].feedItems.size shouldBe 1
     }

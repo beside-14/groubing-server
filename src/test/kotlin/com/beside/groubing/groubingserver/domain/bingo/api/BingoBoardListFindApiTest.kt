@@ -10,6 +10,7 @@ import com.beside.groubing.groubingserver.docs.ENUM
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
+import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardListFindService
@@ -49,11 +50,15 @@ class BingoBoardListFindApiTest(
                 get("/api/bingo-boards")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
+                    .param("memberId", "1")
                     .header("Authorization", getHttpHeaderJwt(memberId))
             ).andDo(print())
                 .andExpect(status().isOk)
                 .andDocument(
                     "bingo-board-list-find",
+                    requestParam(
+                        "memberId" requestParam "멤버 ID" example "1"
+                    ),
                     responseBody(
                         "[].id" responseType NUMBER means "빙고 ID" example "1",
                         "[].title" responseType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}",

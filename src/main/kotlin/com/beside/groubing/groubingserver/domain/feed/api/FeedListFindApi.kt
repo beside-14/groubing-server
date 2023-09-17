@@ -17,8 +17,8 @@ class FeedListFindApi(
     private val friendFeedListFindService: FriendFeedListFindService
 ) {
     @GetMapping("/feeds")
-    fun findFeeds(): ApiResponse<List<FeedResponse>> {
-        return ApiResponse.OK(feedListFindService.findAllFeeds())
+    fun findFeeds(@AuthenticationPrincipal memberId: Long): ApiResponse<List<FeedResponse>> {
+        return ApiResponse.OK(feedListFindService.findAllFeeds(memberId))
     }
 
     @GetMapping("/friend-feeds")

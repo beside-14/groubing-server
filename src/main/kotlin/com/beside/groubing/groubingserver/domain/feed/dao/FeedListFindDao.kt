@@ -14,45 +14,48 @@ import org.springframework.stereotype.Repository
 class FeedListFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun findFeeds(friendIds: List<Long> = emptyList()): List<FeedResponse> {
-        val completeMemberIds = extract20BingoItemCompleteMemberIds(inMemberIds(friendIds))
+    fun findFeeds(friendIds: List<Long> = emptyList(), isFriend: Boolean = false): List<FeedResponse> {
+        val filter = if (isFriend) {
+            inMemberIds(friendIds)
+        } else {
+            notInMemberIds(friendIds)
+        }
+        val completeMemberIds = extract20BingoItemCompleteMemberIds(filter)
         val bingoItems = getBingoItems(completeMemberIds)
         val members = get20Members(completeMemberIds)
 
-        return members.map { member ->
-            FeedResponse.create(member,
-                bingoItems.filter {
-                    it.completeMembers.any { bingoCompleteMember -> bingoCompleteMember.memberId == member.id }
-                }.shuffled()
-                    .take(5)
-            )
-        }
+        return buildFeedResponses(members, bingoItems)
     }
 
-    private fun getBingoItems(completeMemberIds: List<Long>): MutableList<BingoItem> {
-        return queryFactory.selectFrom(bingoItem)
-            .where(bingoItem.completeMembers.any().memberId.`in`(completeMemberIds))
-            .fetch()
-    }
+    private fun inMemberIds(friendIds: List<Long>): BooleanExpression? =
+        friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.`in`(it) }
 
-    private fun extract20BingoItemCompleteMemberIds(inMemberIds: BooleanExpression?): List<Long> {
-        return queryFactory.selectDistinct(bingoCompleteMember.memberId)
+    private fun notInMemberIds(friendIds: List<Long>): BooleanExpression? =
+        friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.notIn(it) }
+
+    private fun extract20BingoItemCompleteMemberIds(filter: BooleanExpression?): List<Long> =
+        queryFactory.selectDistinct(bingoCompleteMember.memberId)
             .from(bingoCompleteMember)
-            .where(inMemberIds)
+            .where(filter)
             .limit(20)
             .fetch()
-    }
 
-    private fun get20Members(completeBingoMemberIds: List<Long>): List<Member> {
-        return queryFactory.selectFrom(member)
-            .where(member.id.`in`(completeBingoMemberIds))
+    private fun getBingoItems(completeMemberIds: List<Long>): MutableList<BingoItem> =
+        queryFactory.selectFrom(bingoItem)
+            .where(bingoItem.completeMembers.any().memberId.`in`(completeMemberIds))
             .fetch()
-    }
 
-    private fun inMemberIds(friendIds: List<Long>): BooleanExpression? {
-        if (friendIds.isEmpty()) {
-            return null
+    private fun get20Members(completeMemberIds: List<Long>): List<Member> =
+        queryFactory.selectFrom(member)
+            .where(member.id.`in`(completeMemberIds))
+            .fetch()
+
+    private fun buildFeedResponses(members: List<Member>, bingoItems: MutableList<BingoItem>): List<FeedResponse> =
+        members.map { member ->
+            val filteredBingoItems = bingoItems.filter {
+                it.completeMembers.any { bingoCompleteMember -> bingoCompleteMember.memberId == member.id }
+            }
+            FeedResponse.create(member, filteredBingoItems.shuffled().take(5))
         }
-        return bingoCompleteMember.memberId.`in`(friendIds)
-    }
 }
+
