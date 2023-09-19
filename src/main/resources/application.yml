@@ -1,8 +1,6 @@
 spring:
   jpa:
-    # Spring Boot 3.0.X False
     open-in-view: false
-    #Hibernate javax > jakarta
     properties:
       jakarta:
         persistence:

@@ -5,6 +5,8 @@ class BingoItemCompleteEvent(
 
     val memberId: Long,
 
+    val otherMemberIds: List<Long>,
+
     val bingoBoardTitle: String,
 
     val totalBingoCount: Int

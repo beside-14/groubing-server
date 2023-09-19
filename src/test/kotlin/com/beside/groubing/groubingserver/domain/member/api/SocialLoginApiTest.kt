@@ -37,9 +37,10 @@ class SocialLoginApiTest(
     @MockkBean private val socialLoginService: SocialLoginService
 ) : BehaviorSpec({
     Given("유저가") {
+        val id = "153262439"
         val email = "test@groubing.com"
         val nickname = Arb.string(codepoints = Codepoint.alphanumeric()).single()
-        val request = SocialLoginRequest(email, SocialType.KAKAO)
+        val request = SocialLoginRequest(id, email, SocialType.KAKAO)
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
@@ -55,6 +56,7 @@ class SocialLoginApiTest(
                 }.andDocument(
                     "member-social-login-success",
                     requestBody(
+                        "id" requestType STRING means "소셜 Oauth 고유 id" example id,
                         "email" requestType STRING means "유저 이메일" example email,
                         "socialType" requestType STRING means "소셜 타입" example "Kakao"
                     ),

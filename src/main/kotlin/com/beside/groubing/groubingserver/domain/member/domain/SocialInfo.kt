@@ -13,6 +13,8 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "SOCIAL_INFOS")
 class SocialInfo internal constructor(
+    val socialId: String,
+
     val email: String,
 
     @Enumerated(EnumType.STRING)

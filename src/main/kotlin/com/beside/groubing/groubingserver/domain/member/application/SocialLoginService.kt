@@ -27,12 +27,12 @@ class SocialLoginService(
     }
 
     private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): SocialInfo {
-        val socialInfo = socialInfoRepository.findByEmailAndSocialType(
-            socialLoginCommand.email,
+        val socialInfo = socialInfoRepository.findBySocialIdAndSocialType(
+            socialLoginCommand.id,
             socialLoginCommand.socialType
         ).orElseGet {
             val member = memberRepository.save(Member.createSocialMember(socialLoginCommand.email))
-            socialInfoRepository.save(SocialInfo(email = socialLoginCommand.email, socialType = socialLoginCommand.socialType, memberId = member.id))
+            socialInfoRepository.save(SocialInfo(socialId = socialLoginCommand.id, email = socialLoginCommand.email, socialType = socialLoginCommand.socialType, memberId = member.id))
         }
         return socialInfo
     }

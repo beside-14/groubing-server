@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface SocialInfoRepository : JpaRepository<SocialInfo, Long> {
 
-    fun findByEmailAndSocialType(email: String, socialType: SocialType): Optional<SocialInfo>
+    fun findBySocialIdAndSocialType(socialId: String, socialType: SocialType): Optional<SocialInfo>
 
 }
