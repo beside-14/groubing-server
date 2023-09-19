@@ -162,3 +162,13 @@ Groubing 서비스 Backend API 문서
 === 피드 리스트 조회
 
 * link:feed/FeedFind.html[피드 리스트 조회,window=_blank]
+
+[[notifications]]
+== 알림
+
+알림 도메인과 관련된 API 입니다.
+
+[[notification-list-find]]
+=== 알림 리스트 조회
+
+* link:notification/NotificationListFind.html[알림 리스트 조회,window=_blank]
