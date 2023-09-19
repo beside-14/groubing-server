@@ -143,11 +143,12 @@ class BingoBoard internal constructor(
     private fun registerBingoItemCompleteEvent(afterBingoCount: Int, beforeBingoCount: Int, memberId: Long) {
         if (afterBingoCount > beforeBingoCount) {
             registerEvent(BingoItemCompleteEvent(bingoBoardId = id, bingoBoardTitle = title, totalBingoCount = afterBingoCount,
-                memberId = memberId))
+                memberId = memberId, otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }))
             return
         }
         if (bingoGoal.isGoal(afterBingoCount)) {
-            registerEvent(BingoCompleteEvent(bingoBoardId = id, bingoBoardTitle = title, memberId = memberId))
+            registerEvent(BingoCompleteEvent(bingoBoardId = id, bingoBoardTitle = title,
+                memberId = memberId, otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }))
         }
     }
 
@@ -159,7 +160,7 @@ class BingoBoard internal constructor(
         val afterBingoCount = bingoMap.calculateTotalBingoCount()
         if (afterBingoCount < beforeBingoCount) {
             registerEvent(BingoItemCancelEvent(bingoBoardId = id, bingoBoardTitle = title, bingoItemTitle = bingoItem.title!!,
-                memberId = memberId))
+                memberId = memberId, otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }))
         }
     }
 

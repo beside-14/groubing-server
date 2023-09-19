@@ -5,6 +5,8 @@ class BingoItemCancelEvent(
 
     val memberId: Long,
 
+    val otherMemberIds: List<Long>,
+
     val bingoBoardTitle: String,
 
     val bingoItemTitle: String

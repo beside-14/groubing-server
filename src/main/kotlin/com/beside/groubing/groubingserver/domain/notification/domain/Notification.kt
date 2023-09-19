@@ -16,7 +16,7 @@ class Notification internal constructor(
     val memberId: Long,
 
     val message: String
-) : BaseEntity()
+): BaseEntity()
 {
     @Id
     @Column(name = "NOTIFICATION_ID")

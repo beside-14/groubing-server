@@ -5,5 +5,7 @@ class BingoCompleteEvent(
 
     val memberId: Long,
 
+    val otherMemberIds: List<Long>,
+
     val bingoBoardTitle: String
 )
