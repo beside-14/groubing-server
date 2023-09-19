@@ -15,6 +15,6 @@ class FeedListFindService(
 ) {
     fun findAllFeeds(memberId: Long): List<FeedResponse> {
         val friends = friendFindService.findAllByInviterIdOrInviteeId(memberId)
-        return feedListFindDao.findFeeds(friendIds = friends.map { it.memberId })
+        return feedListFindDao.findFeeds(friendIds = friends.map { it.memberId }.plus(memberId))
     }
 }
