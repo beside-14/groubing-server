@@ -70,7 +70,7 @@ class BingoBoard internal constructor(
     val until: LocalDate?
         get() = period?.until
 
-    fun calculateLeftDays(): Long = period?.calculateLeftDays() ?: 0L
+    fun calculateLeftDays(): Long = maxOf(0L, period?.calculateLeftDays() ?: 0L)
 
     fun makeBingoMap(memberId: Long): BingoMap {
         return BingoMap(memberId, size, bingoItems.sortedBy { it.itemOrder })

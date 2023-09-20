@@ -16,7 +16,7 @@ class BingoBoardDetailResponse private constructor(
 
     val open: Boolean,
 
-    val dDay: String,
+    val dDay: Long,
 
     val since: LocalDate?,
 
@@ -44,7 +44,7 @@ class BingoBoardDetailResponse private constructor(
                 open = bingoBoard.open,
                 since = bingoBoard.since,
                 until = bingoBoard.until,
-                dDay = "D-${bingoBoard.calculateLeftDays()}",
+                dDay = bingoBoard.calculateLeftDays(),
                 memo = bingoBoard.memo,
                 completed = bingoBoard.isCompleted(),
                 finished = bingoBoard.isFinished(),
