@@ -81,7 +81,7 @@ class BingoBoard internal constructor(
             .map { it.memberId }
     }
 
-    fun isCompleted(): Boolean {
+    fun isStarted(): Boolean {
         return period != null && bingoItems.all { it.isUpdated() }
     }
 
@@ -133,6 +133,9 @@ class BingoBoard internal constructor(
     }
 
     fun completeBingoItem(bingoItemId: Long, memberId: Long) {
+        if (!isStarted()) {
+            throw BingoIllegalStateException("아직 임시빙고 상태에서 빙고를 완성할 수 없습니다.")
+        }
         val bingoMap = makeBingoMap(memberId)
         val beforeBingoCount = bingoMap.calculateTotalBingoCount()
         findBingoItem(bingoItemId).completeBingoItem(memberId)
@@ -153,6 +156,9 @@ class BingoBoard internal constructor(
     }
 
     fun cancelBingoItem(bingoItemId: Long, memberId: Long) {
+        if (!isStarted()) {
+            throw BingoIllegalStateException("아직 임시빙고 상태에서 빙고를 취소할 수 없습니다.")
+        }
         val bingoMap = makeBingoMap(memberId)
         val beforeBingoCount = bingoMap.calculateTotalBingoCount()
         val bingoItem = findBingoItem(bingoItemId)
@@ -165,7 +171,7 @@ class BingoBoard internal constructor(
     }
 
     fun shuffleBingoItems() {
-        if (isCompleted()) {
+        if (isStarted()) {
             throw BingoInputException("임시 빙고가 아니면 shuffle 할 수 없습니다. BingoBoard Id : $id")
         }
         bingoItems.shuffled(Random)

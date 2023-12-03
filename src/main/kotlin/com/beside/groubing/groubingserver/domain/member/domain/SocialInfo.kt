@@ -15,7 +15,7 @@ import jakarta.persistence.Table
 class SocialInfo internal constructor(
     val socialId: String,
 
-    val email: String,
+    val email: String?,
 
     @Enumerated(EnumType.STRING)
     val socialType: SocialType,

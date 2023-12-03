@@ -72,7 +72,7 @@ class BingoBoardOverviewResponse private constructor(
                 groupType = bingoBoard.boardType,
                 bingoColorValue = bingoBoard.bingoColor.value,
                 open = bingoBoard.open,
-                completed = bingoBoard.isCompleted(),
+                completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)
                     .map { SimpleBingoLineResponse.fromBingoLine(it, bingoMap.memberId) },

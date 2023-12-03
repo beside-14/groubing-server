@@ -5,7 +5,7 @@ import com.beside.groubing.groubingserver.domain.member.domain.Member
 data class FriendResponse(
     val id: Long,
     val memberId: Long,
-    val email: String,
+    val email: String?,
     val nickname: String,
     val profileUrl: String?
 ) {

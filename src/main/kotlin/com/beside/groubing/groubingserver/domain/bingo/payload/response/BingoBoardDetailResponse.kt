@@ -46,7 +46,7 @@ class BingoBoardDetailResponse private constructor(
                 until = bingoBoard.until,
                 dDay = bingoBoard.calculateLeftDays(),
                 memo = bingoBoard.memo,
-                completed = bingoBoard.isCompleted(),
+                completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,
                 bingoMap = BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(member.id), member.nickname),

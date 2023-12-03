@@ -35,7 +35,7 @@ class BingoBoardResponse private constructor(
                 groupType = bingoBoard.boardType,
                 open = bingoBoard.open,
                 memo = bingoBoard.memo,
-                completed = bingoBoard.isCompleted(),
+                completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,
                 bingoLines = bingoMap.getBingoLines(Direction.HORIZONTAL)

@@ -5,4 +5,4 @@ import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 
 fun getHttpHeaderJwt(memberId: Long): String = "Bearer " + getJwt(memberId)
 
-fun getJwt(memberId: Long): String = JwtProvider.createToken(memberId, "test@groubing.com", MemberRole.MEMBER)
+fun getJwt(memberId: Long): String = JwtProvider.createToken(memberId, MemberRole.MEMBER)

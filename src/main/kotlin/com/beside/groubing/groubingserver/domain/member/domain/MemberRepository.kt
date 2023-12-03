@@ -8,6 +8,8 @@ interface MemberRepository : JpaRepository<Member, Long> {
 
     fun findByEmailAndMemberType(email: String, memberType: MemberType): Member?
 
+    fun findByFcmTokenNotNullAndNotificationReceiveIsTrue(): List<Member>
+
     fun existsByEmail(email: String): Boolean
 
     fun existsByNickname(nickname: String): Boolean

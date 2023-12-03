@@ -14,6 +14,10 @@ class MemberFindDao(
         return MemberMap(memberRepository.findAllById(ids))
     }
 
+    fun findPushNotificationMembers(ids: List<Long>): List<Member> {
+        return memberRepository.findByFcmTokenNotNullAndNotificationReceiveIsTrue()
+    }
+
     fun findExistingMemberById(id: Long): Member {
         return memberRepository.findById(id).orElseThrow { MemberInputException("존재하지 않는 유저 입니다.") }
     }

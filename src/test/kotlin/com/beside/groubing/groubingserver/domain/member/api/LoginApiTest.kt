@@ -39,7 +39,8 @@ class LoginApiTest(
         val email = "user1@gmail.com"
         val nickname = Arb.string(codepoints = Codepoint.alphanumeric()).single()
         val password = "abcd1234"
-        val request = LoginRequest(email, password)
+        val fcmToken = "cFypG01m0s:APA91bEETmrwFTfkpscX3_qpYx03NE"
+        val request = LoginRequest(email, password, fcmToken)
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
@@ -56,7 +57,8 @@ class LoginApiTest(
                     "member-login-success",
                     requestBody(
                         "email" requestType STRING means "유저 이메일" example "test@groubing.com",
-                        "password" requestType STRING means "유저 패스워드" example "Bside-14th"
+                        "password" requestType STRING means "유저 패스워드" example "Bside-14th",
+                        "fcmToken" requestType STRING means "FCM Token" example fcmToken
                     ),
                     responseBody(
                         "id" responseType NUMBER means "유저 ID" example "1",

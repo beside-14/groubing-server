@@ -4,7 +4,7 @@ import com.beside.groubing.groubingserver.domain.member.domain.Member
 
 data class BlockedMemberResponse(
     val id: Long,
-    val email: String,
+    val email: String?,
     val nickname: String,
     val profileUrl: String?
 ) {

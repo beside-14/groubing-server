@@ -6,13 +6,13 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.security.Key
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 class JwtProvider {
     companion object {
@@ -21,18 +21,17 @@ class JwtProvider {
         private val KEY: Key? = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET))
 
         private const val MEMBER_ID = "memberId"
-        private const val EMAIL = "email"
         private const val ROLE = "role"
 
-        fun createToken(memberId: Long, email: String, role: MemberRole): String {
+        fun createToken(memberId: Long, role: MemberRole): String {
             val issuedAt = LocalDateTime.now()
             val issuedDate = Date.from(issuedAt.atZone(ZoneId.systemDefault()).toInstant())
 
-            val expiration = LocalDateTime.now().plusHours(6)
+            val expiration = LocalDateTime.now().plusYears(1)
             val expirationDate = Date.from(expiration.atZone(ZoneId.systemDefault()).toInstant())
 
             val claims =
-                mapOf(MEMBER_ID to memberId, EMAIL to email, ROLE to role.name)
+                mapOf(MEMBER_ID to memberId, ROLE to role.name)
 
             return Jwts.builder()
                 .setClaims(claims)

@@ -57,7 +57,7 @@ class BingoBoardListFindApiTest(
                 .andDocument(
                     "bingo-board-list-find",
                     requestParam(
-                        "memberId" requestParam "멤버 ID" example "1"
+                        "memberId" requestParam "멤버 ID" example "1" isOptional true
                     ),
                     responseBody(
                         "[].id" responseType NUMBER means "빙고 ID" example "1",

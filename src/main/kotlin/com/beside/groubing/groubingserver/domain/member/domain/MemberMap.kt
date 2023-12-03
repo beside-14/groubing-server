@@ -3,7 +3,7 @@ package com.beside.groubing.groubingserver.domain.member.domain
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 
 class MemberMap(
-    members: List<Member>
+    val members: List<Member>
 ) {
     private val values: Map<Long, Member?> = members.associateBy { member -> member.id }
 

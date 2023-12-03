@@ -4,6 +4,6 @@ import com.beside.groubing.groubingserver.domain.member.domain.SocialType
 
 class SocialLoginCommand(
     val id: String,
-    val email: String,
+    val email: String?,
     val socialType: SocialType
 )

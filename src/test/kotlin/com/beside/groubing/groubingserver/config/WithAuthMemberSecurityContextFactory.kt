@@ -8,7 +8,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 class WithAuthMemberSecurityContextFactory : WithSecurityContextFactory<WithAuthMember> {
     override fun createSecurityContext(annotation: WithAuthMember): SecurityContext {
         val context = SecurityContextHolder.getContext()
-        val jwt = JwtProvider.createToken(annotation.id, annotation.email, annotation.role)
+        val jwt = JwtProvider.createToken(annotation.id, annotation.role)
         context.authentication = JwtProvider.getAuthentication(jwt)
         return context
     }

@@ -6,7 +6,7 @@ import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 data class FriendRequestResponse(
     val id: Long,
     val memberId: Long,
-    val email: String,
+    val email: String?,
     val nickname: String,
     val profileUrl: String?,
     val status: FriendStatus

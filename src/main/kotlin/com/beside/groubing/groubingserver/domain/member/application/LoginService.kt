@@ -22,12 +22,13 @@ class LoginService(
             ?: throw MemberInputException("존재하지 않는 이메일 입니다.: $loginCommand.email")
         // 패스워드가 일치하는지
         member.matches(loginCommand.password, passwordEncoder)
+        member.editFcmToken(loginCommand.fcmToken)
         return MemberResponse(
             member.id,
-            member.email,
+            member.email!!,
             member.nickname,
             member.profile?.url,
-            JwtProvider.createToken(member.id, member.email, member.role)
+            JwtProvider.createToken(member.id, member.role)
         )
     }
 }

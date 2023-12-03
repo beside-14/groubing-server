@@ -21,10 +21,10 @@ class SignUpService(
         memberValidateDao.validateDuplicateNickname(signUpCommand.nickname)
         // TODO(비속어 체크)
         val savedMember = memberRepository.save(memberMapper.toMember(signUpCommand))
-        val token = JwtProvider.createToken(savedMember.id, savedMember.email, savedMember.role)
+        val token = JwtProvider.createToken(savedMember.id,  savedMember.role)
         return MemberResponse(
             savedMember.id,
-            savedMember.email,
+            savedMember.email!!,
             savedMember.nickname,
             savedMember.profile?.url,
             token
