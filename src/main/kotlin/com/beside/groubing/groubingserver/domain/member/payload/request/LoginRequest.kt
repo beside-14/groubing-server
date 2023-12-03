@@ -12,8 +12,7 @@ data class LoginRequest(
     @field:NotBlank(message = "비밀번호를 입력해 주세요.")
     val password: String,
 
-    @field:NotBlank(message = "FCM Token을 입력해 주세요.")
-    val fcmToken: String
+    val fcmToken: String?
 ) {
     fun command() = LoginCommand(email, password, fcmToken)
 }

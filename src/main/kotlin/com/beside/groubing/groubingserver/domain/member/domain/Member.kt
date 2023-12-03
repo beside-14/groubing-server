@@ -61,7 +61,7 @@ class Member internal constructor(
         }
     }
 
-    fun editFcmToken(fcmToken: String) {
+    fun editFcmToken(fcmToken: String?) {
         this.fcmToken = fcmToken
     }
 
