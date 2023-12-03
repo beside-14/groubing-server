@@ -32,7 +32,14 @@ class SocialLoginService(
             socialLoginCommand.socialType
         ).orElseGet {
             val member = memberRepository.save(Member.createSocialMember(socialLoginCommand.email))
-            socialInfoRepository.save(SocialInfo(socialId = socialLoginCommand.id, email = socialLoginCommand.email, socialType = socialLoginCommand.socialType, memberId = member.id))
+            socialInfoRepository.save(
+                SocialInfo(
+                    socialId = socialLoginCommand.id,
+                    email = socialLoginCommand.email,
+                    socialType = socialLoginCommand.socialType,
+                    memberId = member.id
+                )
+            )
         }
         return socialInfo
     }
