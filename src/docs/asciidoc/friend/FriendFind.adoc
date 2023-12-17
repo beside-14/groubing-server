@@ -2,3 +2,6 @@
 === 친구 목록 조회
 
 operation::friend-find[snippets='http-request,http-response,response-fields,response-body']
+
+=== 친구 요청 목록 조회
+operation::friend-find-request[snippets='http-request,http-response,response-fields,response-body']

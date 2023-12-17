@@ -107,7 +107,7 @@ class FriendFindApiTest(
                     status { isOk() }
                     content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
                 }.andDocument(
-                    "friend-find",
+                    "friend-find-request",
                     responseBody(
                         "[].id" responseType NUMBER means "친구 요청 ID" example "1",
                         "[].memberId" responseType NUMBER means "유저 ID" example "1",
