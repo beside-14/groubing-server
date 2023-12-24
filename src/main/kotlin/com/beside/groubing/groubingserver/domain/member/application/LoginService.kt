@@ -23,7 +23,6 @@ class LoginService(
         // 패스워드가 일치하는지
         member.matches(loginCommand.password, passwordEncoder)
         member.editFcmToken(loginCommand.fcmToken)
-        println("FcmToken : ${loginCommand.fcmToken}")
         return MemberResponse(
             member.id,
             member.email!!,
