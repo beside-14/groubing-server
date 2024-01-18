@@ -29,8 +29,9 @@ class FileDownloadApi(
     fun downloadBingoItemImage(
         @PathVariable fileName: String
     ): ResponseEntity<Resource> {
+        val root = System.getProperty("user.home")
         return ResponseEntity.ok()
             .contentType(FileProvider.getContentType(fileName))
-            .body(UrlResource("/groubing/bingoitem/$fileName"))
+            .body(UrlResource("$root/groubing/bingoitem/$fileName"))
     }
 }
