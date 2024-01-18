@@ -4,6 +4,7 @@ import com.beside.groubing.groubingserver.global.domain.file.application.FileInf
 import com.beside.groubing.groubingserver.global.domain.file.application.FileProvider
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -31,7 +32,7 @@ class FileDownloadApi(
     ): ResponseEntity<Resource> {
         val root = System.getProperty("user.home")
         return ResponseEntity.ok()
-            .contentType(FileProvider.getContentType(fileName))
+            .contentType(MediaType.IMAGE_PNG)
             .body(UrlResource("$root/groubing/bingoitem/$fileName"))
     }
 }
