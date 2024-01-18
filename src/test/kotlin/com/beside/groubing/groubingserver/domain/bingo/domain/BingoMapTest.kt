@@ -9,7 +9,7 @@ class BingoMapTest {
     @Test
     fun `Test calculateTotalBingoCount`() {
         val bingoSize = 3
-        val bingoItems = (0 until (bingoSize * bingoSize)).map { BingoItem.create(it) }
+        val bingoItems = (0 until (bingoSize * bingoSize)).map { BingoItem.create(it, imageUrl = "g") }
         val memberId = 1L
         val bingoMap = BingoMap(memberId, bingoSize, bingoItems)
 

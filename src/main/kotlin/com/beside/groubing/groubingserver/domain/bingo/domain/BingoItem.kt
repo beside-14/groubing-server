@@ -22,7 +22,7 @@ class BingoItem internal constructor(
 
     var subTitle: String? = null,
 
-    var imageUrl: String? = null,
+    var imageUrl: String,
 
     var itemOrder: Int,
 
@@ -30,6 +30,13 @@ class BingoItem internal constructor(
     @JoinColumn(name = "BINGO_ITEM_ID")
     val completeMembers: MutableSet<BingoCompleteMember> = mutableSetOf()
 ) {
+    fun getImageUrl(memberId: Long): String {
+        if (isCompleted(memberId)) {
+            return "${imageUrl}_complete$EXTENSION"
+        }
+        return "$imageUrl$EXTENSION"
+    }
+
     fun isCompleted(memberId: Long): Boolean {
         return completeMembers.any { it.memberId == memberId }
     }
@@ -59,8 +66,10 @@ class BingoItem internal constructor(
     }
 
     companion object {
-        fun create(itemOrder: Int): BingoItem {
-            return BingoItem(itemOrder = itemOrder)
+        const val EXTENSION = ".png"
+
+        fun create(itemOrder: Int, imageUrl: String): BingoItem {
+            return BingoItem(itemOrder = itemOrder, imageUrl = imageUrl)
         }
     }
 }

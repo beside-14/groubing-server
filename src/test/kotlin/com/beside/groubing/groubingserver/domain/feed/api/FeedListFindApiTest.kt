@@ -35,10 +35,10 @@ class FeedListFindApiTest(
     Given("FeedListFindApi가 주어졌을 때") {
         val memberId = 1L
 
-        val healthBingoItems = (1..5).map { BingoItem.create(it) }
+        val healthBingoItems = (1..5).map { BingoItem.create(it, imageUrl = "g") }
         healthBingoItems.forEach { it.updateBingoItem(title = "운동하기${it.itemOrder}", subTitle = "운동하기 subTitle${it.itemOrder}") }
 
-        val gameBingoItems = (1..5).map { BingoItem.create(it) }
+        val gameBingoItems = (1..5).map { BingoItem.create(it, imageUrl = "g") }
         gameBingoItems.forEach { it.updateBingoItem(title = "게임하기${it.itemOrder}", subTitle = "게임하기 subTitle${it.itemOrder}") }
 
         val feedResponses = listOf(

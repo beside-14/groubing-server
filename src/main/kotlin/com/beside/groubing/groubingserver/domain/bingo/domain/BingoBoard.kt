@@ -188,16 +188,23 @@ class BingoBoard internal constructor(
             boardType: BingoBoardType,
             open: Boolean,
             bingoSize: Int
-        ): BingoBoard = BingoBoard(
-            title = title,
-            boardType = boardType,
-            open = open,
-            bingoSize = BingoSize.cache(bingoSize),
-            bingoColor = BingoColor.makeRandomBingoColor(),
-            bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
-            bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
-            bingoItems = (1..(bingoSize * bingoSize)).map { BingoItem.create(it) }
-        )
+        ): BingoBoard {
+            val bingoItemAlphabets = listOf(
+                "g", "r", "o", "u", "b", "i", "n", "o2", "i2",
+                "g", "r", "o", "u", "b", "i", "n"
+            )
+            val numberRange = bingoItemAlphabets.shuffled().toMutableList()
+            return BingoBoard(
+                title = title,
+                boardType = boardType,
+                open = open,
+                bingoSize = BingoSize.cache(bingoSize),
+                bingoColor = BingoColor.makeRandomBingoColor(),
+                bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
+                bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
+                bingoItems = (1..(bingoSize * bingoSize)).map { BingoItem.create(it, imageUrl = numberRange.removeAt(0)) }
+            )
+        }
     }
 }
 

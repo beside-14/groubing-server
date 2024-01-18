@@ -33,6 +33,11 @@ fun aEmptyBingo(): BingoBoard {
 }
 
 fun aEmptyBingo(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Long, startItemId: Int): BingoBoard {
+    val bingoItemAlphabets = listOf(
+        "g", "r", "o", "u", "b", "i", "n", "o2", "i2",
+        "g", "r", "o", "u", "b", "i", "n"
+    )
+    val numberRange = bingoItemAlphabets.shuffled().toMutableList()
     return BingoBoard(
         id = bingoBoardId,
         bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
@@ -42,7 +47,7 @@ fun aEmptyBingo(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Lo
         boardType = bingoBoardType,
         bingoColor = BingoColor.makeRandomBingoColor(),
         open = true,
-        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map { BingoItem(id = it.toLong(), itemOrder = it % 9) }
+        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map { BingoItem(id = it.toLong(), itemOrder = it % 9, imageUrl = numberRange.removeAt(0)) }
     )
 }
 

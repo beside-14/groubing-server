@@ -16,7 +16,7 @@ class BingoItemResponse private constructor(
                 id = bingoItem.id,
                 title = bingoItem.title,
                 subTitle = bingoItem.subTitle,
-                imageUrl = bingoItem.imageUrl,
+                imageUrl = bingoItem.getImageUrl(memberId),
                 complete = bingoItem.isCompleted(memberId),
                 itemOrder = bingoItem.itemOrder
             )
