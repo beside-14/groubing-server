@@ -23,6 +23,7 @@ class SocialLoginService(
     fun login(socialLoginCommand: SocialLoginCommand): SocialMemberResponse {
         val socialInfo = findOrCreateSocialInfo(socialLoginCommand)
         val member = memberFindDao.findExistingMemberById(socialInfo.memberId)
+        member.editFcmToken(socialLoginCommand.fcmToken)
         return createSocialMemberResponse(member = member, hasNickname = member.nickname.isNotBlank())
     }
 

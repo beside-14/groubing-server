@@ -21,6 +21,8 @@ class FcmNotiService(
             .build()
 
         val message = Message.builder()
+            .putData("screenType", fcmNotiRequestDto.screenType.name)
+            .putData("dataId", fcmNotiRequestDto.dataId.toString())
             .setToken(fcmNotiRequestDto.fcmToken)
             .setNotification(notification)
             .build()

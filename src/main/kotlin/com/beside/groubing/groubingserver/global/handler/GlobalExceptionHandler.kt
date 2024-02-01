@@ -9,6 +9,7 @@ import com.beside.groubing.groubingserver.global.response.ApiResponseCode
 import com.beside.groubing.groubingserver.global.response.error.ApiError
 import com.google.firebase.messaging.FirebaseMessagingException
 import org.hibernate.exception.ConstraintViolationException
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -91,6 +92,13 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(FirebaseMessagingException::class)
     fun handle(e: FirebaseMessagingException): ResponseEntity<ApiError> {
+        val apiError = ApiError(ApiResponseCode.SERVER_ERROR, e)
+        return ResponseEntity(apiError, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    @ExceptionHandler(Exception::class)
+    fun handleException(e: Exception): ResponseEntity<ApiError> {
+        log.error("handleException", e)
         val apiError = ApiError(ApiResponseCode.SERVER_ERROR, e)
         return ResponseEntity(apiError, HttpStatus.INTERNAL_SERVER_ERROR)
     }

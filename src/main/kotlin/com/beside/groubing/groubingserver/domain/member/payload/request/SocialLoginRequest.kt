@@ -12,7 +12,9 @@ data class SocialLoginRequest(
     val email: String?,
 
     @field:NotNull(message = "소셜 타입을 전달해 주세요.")
-    val socialType: SocialType
+    val socialType: SocialType,
+
+    val fcmToken: String?
 ) {
-    fun command() = SocialLoginCommand(id, email, socialType)
+    fun command() = SocialLoginCommand(id, email, socialType, fcmToken)
 }

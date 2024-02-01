@@ -30,7 +30,7 @@ class BingoItemCompleteEventHandler(
             message = message)
         )
         val members = memberFindDao.findPushNotificationMembers(event.otherMemberIds)
-        sendPushNotification(members = members, message = message)
+        sendPushNotification(members = members, message = message, bingoBoardId = event.bingoBoardId)
     }
 
     @Async
@@ -42,7 +42,7 @@ class BingoItemCompleteEventHandler(
             message = message)
         )
         val members = memberFindDao.findPushNotificationMembers(event.otherMemberIds)
-        sendPushNotification(members = members, message = message)
+        sendPushNotification(members = members, message = message, bingoBoardId = event.bingoBoardId)
     }
 
     @Async
@@ -54,16 +54,18 @@ class BingoItemCompleteEventHandler(
             message = message)
         )
         val members = memberFindDao.findPushNotificationMembers(event.otherMemberIds)
-        sendPushNotification(members = members, message = message)
+        sendPushNotification(members = members, message = message, bingoBoardId = event.bingoBoardId)
     }
 
-    private fun sendPushNotification(members: List<Member>, message: String) {
+    private fun sendPushNotification(members: List<Member>, message: String, bingoBoardId: Long) {
         fcmNotiService.sendNotificationMessage(
             members.map { 
                 FcmNotiRequestDto(
                     fcmToken = it.fcmToken!!,
                     title = "GROUBING 알림",
-                    message = message
+                    message = message,
+                    screenType = ScreenType.BINGO_BOARD,
+                    dataId = bingoBoardId
                 )
             }
         )
