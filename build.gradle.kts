@@ -54,6 +54,9 @@ dependencies {
     // p6spy
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
 
+    // Kotlin-Logging
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+
     // FCM
     implementation("com.google.firebase:firebase-admin:9.2.0")
 
