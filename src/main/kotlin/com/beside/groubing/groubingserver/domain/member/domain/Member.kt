@@ -51,7 +51,7 @@ class Member internal constructor(
     var notificationReceive: Boolean = true
         private set
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "PROFILE_ID")
     var profile: FileInfo? = null
 
