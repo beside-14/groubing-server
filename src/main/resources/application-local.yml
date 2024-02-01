@@ -2,17 +2,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    show-sql: true
+    show-sql: false
     defer-datasource-initialization: true
   h2:
     console:
-      enabled: true
+      enabled: false
       path: /console
   datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3316/groubing?serverTimezone=Asia/Seoul
-#    username: root
-#    password: 1234
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://localhost:3316/groubing?serverTimezone=Asia/Seoul
+    #    username: root
+    #    password: 1234
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:groubing
     username: sa
