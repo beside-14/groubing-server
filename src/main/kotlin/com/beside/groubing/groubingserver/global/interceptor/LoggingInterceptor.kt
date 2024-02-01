@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import mu.KLogging
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -17,6 +18,7 @@ class LoggingInterceptor(
     companion object : KLogging()
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        logger.info { "=====================================================================================" }
         logger.info {
             "Request  >>> ${request.method} ${request.requestURI} ${request.contentType} ${
                 objectMapper.writeValueAsString(
@@ -34,16 +36,19 @@ class LoggingInterceptor(
         ex: Exception?
     ) {
         val responseWrapper = response as ContentCachingResponseWrapper
-        logger.info {
-            "Response >>> ${request.method} ${request.requestURI} ${responseWrapper.contentType} ${
-                HttpStatus.valueOf(
-                    responseWrapper.status
-                )
-            } ${
-                String(
-                    responseWrapper.contentAsByteArray
-                )
-            }"
+        val contentType = responseWrapper.contentType
+        val status = HttpStatus.valueOf(responseWrapper.status)
+        val responseBody = String(responseWrapper.contentAsByteArray)
+
+        if (contentType !== MediaType.IMAGE_JPEG_VALUE && contentType !== MediaType.IMAGE_PNG_VALUE) {
+            logger.info {
+                "Response >>> ${request.method} ${request.requestURI} ${contentType} $status ${responseBody}"
+            }
+        } else {
+            logger.info {
+                "Response >>> ${request.method} ${request.requestURI} $contentType $status"
+            }
         }
+        logger.info { "=====================================================================================" }
     }
 }
