@@ -27,7 +27,8 @@ class SocialLoginServiceTest : BehaviorSpec({
             every { mockSocialInfoRepository.findBySocialIdAndSocialType(any(), any()) } returns Optional.ofNullable(existingSocialInfo)
         }
 
-        fun createSocialLoginCommand(id: String, email: String, socialType: SocialType) = SocialLoginCommand(id, email, socialType)
+        val fcmToken = "cFypG01m0s:APA91bEETmrwFTfkpscX3_qpYx03NE"
+        fun createSocialLoginCommand(id: String, email: String, socialType: SocialType) = SocialLoginCommand(id, email, socialType, fcmToken)
         fun createMember(id: Long, email: String) = Member(id, email, "", "nickname", MemberRole.MEMBER, MemberType.SOCIAL)
 
         When("이미 존재하는 사용자로 로그인하는 경우") {
