@@ -40,9 +40,9 @@ class LoggingInterceptor(
         val status = HttpStatus.valueOf(responseWrapper.status)
         val responseBody = String(responseWrapper.contentAsByteArray)
 
-        if (contentType !== MediaType.IMAGE_JPEG_VALUE && contentType !== MediaType.IMAGE_PNG_VALUE) {
+        if (MediaType.APPLICATION_JSON_VALUE == contentType) {
             logger.info {
-                "Response >>> ${request.method} ${request.requestURI} ${contentType} $status ${responseBody}"
+                "Response >>> ${request.method} ${request.requestURI} $contentType $status $responseBody"
             }
         } else {
             logger.info {
