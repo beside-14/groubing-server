@@ -18,6 +18,10 @@ class BingoBoardDetailResponse private constructor(
 
     val dDay: Long,
 
+    val memo: String?,
+
+    val isLeader: Boolean,
+
     val since: LocalDate?,
 
     val until: LocalDate?,
@@ -28,14 +32,16 @@ class BingoBoardDetailResponse private constructor(
 
     val bingoSize: Int,
 
-    val memo: String?,
-
     val bingoMap: BingoMapResponse,
 
     val otherBingoMaps: List<BingoMapResponse>
 ) {
     companion object {
-        fun fromBingoBoard(bingoBoard: BingoBoard, member: Member, otherMembers: List<Member>): BingoBoardDetailResponse {
+        fun fromBingoBoard(
+            bingoBoard: BingoBoard,
+            member: Member,
+            otherMembers: List<Member>
+        ): BingoBoardDetailResponse {
             return BingoBoardDetailResponse(
                 id = bingoBoard.id,
                 title = bingoBoard.title,
@@ -46,6 +52,7 @@ class BingoBoardDetailResponse private constructor(
                 until = bingoBoard.until,
                 dDay = bingoBoard.calculateLeftDays(),
                 memo = bingoBoard.memo,
+                isLeader = bingoBoard.isLeader(member.id),
                 completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,

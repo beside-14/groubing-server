@@ -22,6 +22,8 @@ class BingoBoardOverviewResponse private constructor(
 
     val bingoColorValue: String,
 
+    val isLeader: Boolean,
+
     val open: Boolean,
 
     val completed: Boolean,
@@ -47,6 +49,7 @@ class BingoBoardOverviewResponse private constructor(
             }
         }
     }
+
     class SimpleBingoItemResponse private constructor(
         val itemOrder: Int,
         val complete: Boolean
@@ -60,6 +63,7 @@ class BingoBoardOverviewResponse private constructor(
             }
         }
     }
+
     companion object {
         fun fromBingoBoard(bingoBoard: BingoBoard, memberId: Long): BingoBoardOverviewResponse {
             val bingoMap = bingoBoard.makeBingoMap(memberId)
@@ -71,6 +75,7 @@ class BingoBoardOverviewResponse private constructor(
                 goal = bingoBoard.goal,
                 groupType = bingoBoard.boardType,
                 bingoColorValue = bingoBoard.bingoColor.value,
+                isLeader = bingoBoard.isLeader(memberId),
                 open = bingoBoard.open,
                 completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),

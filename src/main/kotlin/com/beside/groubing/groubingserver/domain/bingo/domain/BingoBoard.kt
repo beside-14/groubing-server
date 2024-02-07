@@ -98,7 +98,8 @@ class BingoBoard internal constructor(
     }
 
     private fun findBingoItem(bingoItemId: Long): BingoItem {
-        return bingoItems.find { it.id == bingoItemId } ?: throw BingoIllegalStateException("입력된 빙고 아이템 아이디가 잘못 되었습니다. id : $bingoItemId")
+        return bingoItems.find { it.id == bingoItemId }
+            ?: throw BingoIllegalStateException("입력된 빙고 아이템 아이디가 잘못 되었습니다. id : $bingoItemId")
     }
 
     fun updateBase(memberId: Long, title: String, goal: Int, since: LocalDate, until: LocalDate) {
@@ -145,13 +146,20 @@ class BingoBoard internal constructor(
 
     private fun registerBingoItemCompleteEvent(afterBingoCount: Int, beforeBingoCount: Int, memberId: Long) {
         if (afterBingoCount > beforeBingoCount) {
-            registerEvent(BingoItemCompleteEvent(bingoBoardId = id, bingoBoardTitle = title, totalBingoCount = afterBingoCount,
-                memberId = memberId, otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }))
+            registerEvent(BingoItemCompleteEvent(bingoBoardId = id,
+                bingoBoardTitle = title,
+                totalBingoCount = afterBingoCount,
+                memberId = memberId,
+                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            )
             return
         }
         if (bingoGoal.isGoal(afterBingoCount)) {
-            registerEvent(BingoCompleteEvent(bingoBoardId = id, bingoBoardTitle = title,
-                memberId = memberId, otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }))
+            registerEvent(BingoCompleteEvent(bingoBoardId = id,
+                bingoBoardTitle = title,
+                memberId = memberId,
+                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            )
         }
     }
 
@@ -165,8 +173,12 @@ class BingoBoard internal constructor(
         bingoItem.cancelBingoItem(memberId)
         val afterBingoCount = bingoMap.calculateTotalBingoCount()
         if (afterBingoCount < beforeBingoCount) {
-            registerEvent(BingoItemCancelEvent(bingoBoardId = id, bingoBoardTitle = title, bingoItemTitle = bingoItem.title!!,
-                memberId = memberId, otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }))
+            registerEvent(BingoItemCancelEvent(bingoBoardId = id,
+                bingoBoardTitle = title,
+                bingoItemTitle = bingoItem.title!!,
+                memberId = memberId,
+                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            )
         }
     }
 
@@ -178,6 +190,10 @@ class BingoBoard internal constructor(
             .forEachIndexed { index, bingoItem ->
                 bingoItem.apply { bingoItem.changeItemOrder(index + 1) }
             }
+    }
+
+    fun isLeader(memberId: Long): Boolean {
+        return bingoMembers.any { bingoMember -> bingoMember.memberId == memberId && bingoMember.isLeader() }
     }
 
     companion object {
@@ -202,9 +218,15 @@ class BingoBoard internal constructor(
                 bingoColor = BingoColor.makeRandomBingoColor(),
                 bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
                 bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
-                bingoItems = (1..(bingoSize * bingoSize)).map { BingoItem.create(it, imageUrl = numberRange.removeAt(0)) }
+                bingoItems = (1..(bingoSize * bingoSize)).map {
+                    BingoItem.create(
+                        it,
+                        imageUrl = numberRange.removeAt(0)
+                    )
+                }
             )
         }
     }
 }
+
 

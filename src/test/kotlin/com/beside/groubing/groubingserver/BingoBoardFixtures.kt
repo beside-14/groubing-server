@@ -47,7 +47,13 @@ fun aEmptyBingo(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Lo
         boardType = bingoBoardType,
         bingoColor = BingoColor.makeRandomBingoColor(),
         open = true,
-        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map { BingoItem(id = it.toLong(), itemOrder = it % 9, imageUrl = numberRange.removeAt(0)) }
+        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map {
+            BingoItem(
+                id = it.toLong(),
+                itemOrder = it % 9,
+                imageUrl = numberRange.removeAt(0)
+            )
+        }
     )
 }
 
@@ -56,15 +62,34 @@ fun aTemporaryBingo(): BingoBoard {
     val bingoBoard = aEmptyBingo()
     bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
         val command = BingoItemUpdateCommand.createCommand("코딩공부 ${index + 1}", "2023년 ${index + 1}월달까지 코딩공부")
-        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id, title = command.title, subTitle = command.subTitle)
+        bingoBoard.updateBingoItem(
+            memberId = memberId,
+            bingoItemId = bingoItem.id,
+            title = command.title,
+            subTitle = command.subTitle
+        )
     }
     return bingoBoard
 }
-fun createBingoBoard(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Long, startItemId: Int, titlePrefix: String, bingoMembers: List<Long>): BingoBoard {
+
+fun createBingoBoard(
+    bingoBoardId: Long,
+    bingoBoardType: BingoBoardType,
+    memberId: Long,
+    startItemId: Int,
+    titlePrefix: String,
+    bingoMembers: List<Long>
+): BingoBoard {
     val bingoBoard = aEmptyBingo(bingoBoardId, bingoBoardType, memberId, startItemId)
     bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
-        val command = BingoItemUpdateCommand.createCommand("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
-        bingoBoard.updateBingoItem(memberId = memberId, bingoItemId = bingoItem.id, title = command.title, subTitle = command.subTitle)
+        val command =
+            BingoItemUpdateCommand.createCommand("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
+        bingoBoard.updateBingoItem(
+            memberId = memberId,
+            bingoItemId = bingoItem.id,
+            title = command.title,
+            subTitle = command.subTitle
+        )
     }
 
     bingoBoard.updateBingoMembersPeriod(
@@ -90,7 +115,14 @@ fun aGameBingoBoard(): BingoBoard {
 }
 
 fun aMember(memberId: Long): Member {
-    return Member(id = memberId, email = "test${memberId}@gmail.com", "1234", "test${memberId}", role = MemberRole.MEMBER, MemberType.CLASSIC)
+    return Member(
+        id = memberId,
+        email = "test${memberId}@gmail.com",
+        "1234",
+        "test${memberId}",
+        role = MemberRole.MEMBER,
+        MemberType.CLASSIC
+    )
 }
 
 val bingoBoardResponseSnippets = responseBody(
@@ -104,6 +136,7 @@ val bingoBoardResponseSnippets = responseBody(
     "finished" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 종료, `false` : 빙고 진행 중",
     "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
     "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
+    "isLeader" responseType BOOLEAN means "해당 빙고 리더 여부 `true` : 리더,`false` : 멤버" example "true",
     "bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
     "bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
     "bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
@@ -114,7 +147,8 @@ val bingoBoardResponseSnippets = responseBody(
 )
 
 fun aMember(
-    email: String = Arb.email(Arb.string(5, 10, Codepoint.alphanumeric()), Arb.stringPattern("groubing\\.com")).single(),
+    email: String = Arb.email(Arb.string(5, 10, Codepoint.alphanumeric()), Arb.stringPattern("groubing\\.com"))
+        .single(),
     password: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single(),
     nickname: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single()
 ): Member {

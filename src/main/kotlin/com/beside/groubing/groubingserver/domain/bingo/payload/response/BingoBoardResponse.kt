@@ -23,6 +23,8 @@ class BingoBoardResponse private constructor(
 
     val memo: String?,
 
+    val isLeader: Boolean,
+
     val bingoLines: List<BingoLineResponse>
 ) {
     companion object {
@@ -35,6 +37,7 @@ class BingoBoardResponse private constructor(
                 groupType = bingoBoard.boardType,
                 open = bingoBoard.open,
                 memo = bingoBoard.memo,
+                isLeader = bingoBoard.isLeader(memberId),
                 completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,

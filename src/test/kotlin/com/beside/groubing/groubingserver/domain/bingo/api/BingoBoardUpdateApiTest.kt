@@ -23,12 +23,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
-import java.time.LocalDate
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.snippet.Snippet
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.patch
+import java.time.LocalDate
 
 @ApiTest
 @WebMvcTest(controllers = [BingoBoardUpdateApi::class])
@@ -48,8 +48,10 @@ class BingoBoardUpdateApiTest(
             since = LocalDate.now(),
             until = LocalDate.now().plusDays(7)
         )
-        aEmptyBingo.updateBase(memberId, bingoBoardBaseUpdateRequest.title, bingoBoardBaseUpdateRequest.goal,
-            bingoBoardBaseUpdateRequest.since, bingoBoardBaseUpdateRequest.until)
+        aEmptyBingo.updateBase(
+            memberId, bingoBoardBaseUpdateRequest.title, bingoBoardBaseUpdateRequest.goal,
+            bingoBoardBaseUpdateRequest.since, bingoBoardBaseUpdateRequest.until
+        )
         val baseUpdatedResponse = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
         every { bingoBoardUpdateService.updateBase(id, memberId, any()) } returns baseUpdatedResponse
 
@@ -127,7 +129,13 @@ class BingoBoardUpdateApiTest(
             bingoBoardMembersPeriodUpdateRequest.until
         )
         val bingoMembersPeriodUpdatedResponse = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
-        every { bingoBoardUpdateService.updateMembersPeriod(id, memberId, any()) } returns bingoMembersPeriodUpdatedResponse
+        every {
+            bingoBoardUpdateService.updateMembersPeriod(
+                id,
+                memberId,
+                any()
+            )
+        } returns bingoMembersPeriodUpdatedResponse
         When("빙고멤버, 기간 업데이트 시") {
             checkUpdateResponse(
                 mockMvc,
