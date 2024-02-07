@@ -65,8 +65,8 @@ class Member internal constructor(
         this.fcmToken = fcmToken
     }
 
-    fun deleteFcmToken() {
-        this.fcmToken = null
+    fun editNotificationReceive(notificationReceive: Boolean) {
+        this.notificationReceive = notificationReceive
     }
 
     fun editNickname(nickname: String) {
