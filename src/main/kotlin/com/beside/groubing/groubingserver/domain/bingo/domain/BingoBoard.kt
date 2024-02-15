@@ -39,6 +39,8 @@ class BingoBoard internal constructor(
 
     var memo: String? = null,
 
+    var active: Boolean = true,
+
     @Embedded
     private val bingoSize: BingoSize,
 
@@ -194,6 +196,10 @@ class BingoBoard internal constructor(
 
     fun isLeader(memberId: Long): Boolean {
         return bingoMembers.any { bingoMember -> bingoMember.memberId == memberId && bingoMember.isLeader() }
+    }
+
+    fun delete() {
+        this.active = false
     }
 
     companion object {

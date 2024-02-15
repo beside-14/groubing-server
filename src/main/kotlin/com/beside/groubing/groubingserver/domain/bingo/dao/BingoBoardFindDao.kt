@@ -10,7 +10,7 @@ class BingoBoardFindDao(
     private val bingoBoardRepository: BingoBoardRepository
 ) {
     fun findById(id: Long): BingoBoard {
-        return bingoBoardRepository.findById(id)
-            .orElseThrow{ BingoInputException("존재하지 않는 BingoBoard Id입니다. : $id") }
+        return bingoBoardRepository.findByIdAndActiveIsTrue(id)
+            .orElseThrow { BingoInputException("존재하지 않는 BingoBoard Id입니다. : $id") }
     }
 }

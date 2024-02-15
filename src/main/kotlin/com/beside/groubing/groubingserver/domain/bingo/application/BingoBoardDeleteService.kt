@@ -14,6 +14,7 @@ class BingoBoardDeleteService(
     fun deleteBingoBoard(memberId: Long, boardId: Long) {
         val bingoBoard = bingoBoardFindDao.findById(boardId)
         bingoBoard.validateAuthority(memberId)
-        bingoBoardRepository.delete(bingoBoard)
+        bingoBoard.delete()
+        bingoBoardRepository.save(bingoBoard)
     }
 }
