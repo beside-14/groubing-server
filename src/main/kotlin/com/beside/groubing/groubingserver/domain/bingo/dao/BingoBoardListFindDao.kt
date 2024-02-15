@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.dao
 
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoBoard.bingoBoard
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardOverviewResponse
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository
 class BingoBoardListFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun findBingoBoardList(memberId: Long): List<BingoBoardOverviewResponse> {
-        val bingoBoards = queryFactory.select(bingoBoard)
+    fun findBingoBoardList(memberId: Long): List<BingoBoard> {
+        return queryFactory.select(bingoBoard)
             .from(bingoBoard)
             .where(
                 bingoBoard.bingoMembers
@@ -19,6 +19,5 @@ class BingoBoardListFindDao(
             )
             .orderBy(bingoBoard.lastModifiedDate.desc())
             .fetch()
-        return bingoBoards.map { BingoBoardOverviewResponse.fromBingoBoard(it, memberId) }
     }
 }

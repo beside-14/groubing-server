@@ -10,8 +10,13 @@ import org.springframework.transaction.annotation.Transactional
 class BingoBoardListFindService(
     private val bingoBoardListFindDao: BingoBoardListFindDao
 ) {
-    fun findBingoBoardList(memberId: Long): List<BingoBoardOverviewResponse> {
-        return bingoBoardListFindDao.findBingoBoardList(memberId)
+    fun findBingoBoardList(memberId: Long, loginMemberId: Long): List<BingoBoardOverviewResponse> {
+        var bingoBoards = bingoBoardListFindDao.findBingoBoardList(memberId)
+        if (memberId != loginMemberId) {
+            bingoBoards =
+                bingoBoards.filter { bingoBoard -> !bingoBoard.isLeader(loginMemberId) && bingoBoard.isStarted() }
+        }
+        return bingoBoards.map { BingoBoardOverviewResponse.fromBingoBoard(it, memberId) }
     }
 }
 

@@ -36,6 +36,7 @@ class BingoBoardListFindApiTest(
 ) : BehaviorSpec({
     Given("BingoBoardListFindApi가 주어졌을 때") {
         val memberId = 1L
+        val loginMemberId = 2L
 
         val bingoBoardOverviewResponses = listOf(
             BingoBoardOverviewResponse.fromBingoBoard(aEnglishStudyBingoBoard(), memberId),
@@ -43,7 +44,12 @@ class BingoBoardListFindApiTest(
             BingoBoardOverviewResponse.fromBingoBoard(aGameBingoBoard(), memberId)
         )
 
-        every { bingoBoardListFindService.findBingoBoardList(memberId) } returns bingoBoardOverviewResponses
+        every {
+            bingoBoardListFindService.findBingoBoardList(
+                memberId,
+                loginMemberId
+            )
+        } returns bingoBoardOverviewResponses
 
         When("GET /api/bingo-boards 요청이 들어왔을 때") {
             mockMvc.perform(
@@ -51,7 +57,7 @@ class BingoBoardListFindApiTest(
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .param("memberId", "1")
-                    .header("Authorization", getHttpHeaderJwt(memberId))
+                    .header("Authorization", getHttpHeaderJwt(loginMemberId))
             ).andDo(print())
                 .andExpect(status().isOk)
                 .andDocument(

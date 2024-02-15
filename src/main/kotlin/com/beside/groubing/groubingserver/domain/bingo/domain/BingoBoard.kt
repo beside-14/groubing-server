@@ -202,6 +202,12 @@ class BingoBoard internal constructor(
         this.active = false
     }
 
+    fun validateNotLeaderAndDraft(memberId: Long) {
+        if (!isLeader(memberId) && !isStarted()) {
+            throw BingoInputException("접근할 수 없는 빙고보드입니다.")
+        }
+    }
+
     companion object {
         fun create(
             memberId: Long,
