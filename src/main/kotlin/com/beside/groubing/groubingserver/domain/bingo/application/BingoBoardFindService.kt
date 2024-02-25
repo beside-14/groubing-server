@@ -16,6 +16,7 @@ class BingoBoardFindService(
 ) {
     fun findBingoBoard(memberId: Long, boardId: Long): BingoBoardDetailResponse {
         val bingoBoard = bingoBoardFindDao.findById(boardId)
+        bingoBoard.validateNotLeaderAndDraft(memberId)
         val otherMembers = memberRepository.findAllById(bingoBoard.getOtherBingoMemberIds(memberId))
         val member = memberFindDao.findExistingMemberById(memberId)
         return BingoBoardDetailResponse.fromBingoBoard(bingoBoard, member, otherMembers)
