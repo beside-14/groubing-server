@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
 import com.beside.groubing.groubingserver.config.ApiTest
+import com.beside.groubing.groubingserver.docs.BOOLEAN
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
@@ -61,7 +62,8 @@ class SignUpApiTest(
                         "email" responseType STRING means "유저 이메일" example "test@groubing.com",
                         "nickname" responseType STRING means "유저 닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
                         "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
-                        "token" responseType STRING means "유저 JWT 토큰"
+                        "token" responseType STRING means "유저 JWT 토큰",
+                        "notificationReceive" responseType BOOLEAN means "알림 수신 여부" example "true" formattedAs "true|false"
                     )
                 )
 

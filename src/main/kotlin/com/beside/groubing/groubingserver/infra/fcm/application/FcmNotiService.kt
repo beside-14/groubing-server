@@ -26,7 +26,6 @@ class FcmNotiService(
             .setToken(fcmNotiRequestDto.fcmToken)
             .setNotification(notification)
             .build()
-        println("message: $message, fcmToken: ${fcmNotiRequestDto.fcmToken}, title: ${fcmNotiRequestDto.message}")
         firebaseMessaging.send(message)
     }
 }

@@ -57,12 +57,16 @@ class BingoBoardFindApiTest(
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header("Authorization", getHttpHeaderJwt(memberId))
+                    .param("memberId", memberId.toString())
             ).andDo(print())
                 .andExpect(status().isOk)
                 .andDocument(
                     "bingo-board-find",
                     pathVariables(
                         "id" requestParam "빙고 ID" example "1" isOptional true
+                    ),
+                    requestParam(
+                        "memberId" requestParam "회원 ID" example "1"
                     ),
                     responseBody(
                         "id" responseType NUMBER means "빙고 ID" example "1",
