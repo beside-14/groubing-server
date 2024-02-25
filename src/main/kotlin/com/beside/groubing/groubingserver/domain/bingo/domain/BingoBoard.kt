@@ -212,8 +212,8 @@ class BingoBoard internal constructor(
             bingoSize: Int
         ): BingoBoard {
             val bingoItemAlphabets = listOf(
-                "g", "r", "o", "u", "b", "i", "n", "o2", "i2",
-                "g", "r", "o", "u", "b", "i", "n"
+                "g", "r", "o", "u", "b", "i", "n",
+                "b2", "b3", "g2", "i2", "i3", "n2", "o2", "r2", "u2"
             )
             val numberRange = bingoItemAlphabets.shuffled().toMutableList()
             return BingoBoard(

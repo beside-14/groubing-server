@@ -3,10 +3,10 @@ package com.beside.groubing.groubingserver.domain.bingo.api
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardFindService
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardDetailResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -15,7 +15,7 @@ class BingoBoardFindApi(
     private val bingoBoardFindService: BingoBoardFindService
 ) {
     @GetMapping("/{id}")
-    fun getBingoBoard(@AuthenticationPrincipal memberId: Long, @PathVariable id: Long): ApiResponse<BingoBoardDetailResponse> {
+    fun getBingoBoard(@RequestParam memberId: Long, @PathVariable id: Long): ApiResponse<BingoBoardDetailResponse> {
         val bingoBoardDetailResponse = bingoBoardFindService.findBingoBoard(memberId, id)
         return ApiResponse.OK(bingoBoardDetailResponse)
     }
