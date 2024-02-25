@@ -40,7 +40,7 @@ class SignUpApiTest(
 
         When("올바른 정보로 회원가입 요청 시") {
             val token = JwtProvider.createToken(id, MemberRole.MEMBER)
-            val response = MemberResponse(id, email, nickname, null, token)
+            val response = MemberResponse(id, email, nickname, null, token, true)
             every { signUpService.signUp(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {

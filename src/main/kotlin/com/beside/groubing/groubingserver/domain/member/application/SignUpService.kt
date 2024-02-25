@@ -27,7 +27,8 @@ class SignUpService(
             savedMember.email!!,
             savedMember.nickname,
             savedMember.profile?.url,
-            token
+            token,
+            savedMember.notificationReceive
         )
     }
 }

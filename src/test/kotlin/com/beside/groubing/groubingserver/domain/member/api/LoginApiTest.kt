@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
 import com.beside.groubing.groubingserver.config.ApiTest
+import com.beside.groubing.groubingserver.docs.BOOLEAN
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
@@ -44,7 +45,7 @@ class LoginApiTest(
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
-            val response = MemberResponse(1L, email, nickname, null, jwt)
+            val response = MemberResponse(1L, email, nickname, null, jwt, true)
             every { loginService.login(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {
@@ -65,7 +66,8 @@ class LoginApiTest(
                         "email" responseType STRING means "유저 이메일" example "test@groubing.com",
                         "nickname" responseType STRING means "유저 닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
                         "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
-                        "token" responseType STRING means "유저 JWT 토큰"
+                        "token" responseType STRING means "유저 JWT 토큰",
+                        "notificationReceive" responseType BOOLEAN means "알림 수신 여부" example "true" formattedAs "true|false"
                     )
                 )
 

@@ -5,5 +5,6 @@ data class MemberResponse(
     val email: String,
     val nickname: String,
     val profileUrl: String?,
-    val token: String
+    val token: String,
+    val notificationReceive: Boolean
 )
