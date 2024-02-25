@@ -3,10 +3,12 @@ package com.beside.groubing.groubingserver.domain.bingo.domain
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 
@@ -28,7 +30,11 @@ class BingoItem internal constructor(
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "BINGO_ITEM_ID")
-    val completeMembers: MutableSet<BingoCompleteMember> = mutableSetOf()
+    val completeMembers: MutableSet<BingoCompleteMember> = mutableSetOf(),
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BINGO_BOARD_ID")
+    val bingoBoard: BingoBoard? = null
 ) {
     fun getImageUrl(memberId: Long): String {
         if (isCompleted(memberId)) {
@@ -49,7 +55,7 @@ class BingoItem internal constructor(
     }
 
     fun cancelBingoItem(memberId: Long) {
-        completeMembers.remove(completeMembers.find{ it.memberId == memberId})
+        completeMembers.remove(completeMembers.find { it.memberId == memberId })
     }
 
     fun updateBingoItem(title: String, subTitle: String?) {

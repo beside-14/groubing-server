@@ -42,7 +42,11 @@ class FeedListFindDao(
 
     private fun getBingoItems(completeMemberIds: List<Long>): MutableList<BingoItem> =
         queryFactory.selectFrom(bingoItem)
-            .where(bingoItem.completeMembers.any().memberId.`in`(completeMemberIds))
+            .where(
+                bingoItem.completeMembers.any().memberId.`in`(completeMemberIds)
+                    .and(bingoItem.bingoBoard.active.eq(true))
+                    .and(bingoItem.bingoBoard.period.isNotNull)
+            )
             .fetch()
 
     private fun get20Members(completeMemberIds: List<Long>): List<Member> =
