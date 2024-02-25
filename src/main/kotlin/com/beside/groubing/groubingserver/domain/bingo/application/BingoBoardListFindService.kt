@@ -14,7 +14,7 @@ class BingoBoardListFindService(
         var bingoBoards = bingoBoardListFindDao.findBingoBoardList(memberId)
         if (memberId != loginMemberId) {
             bingoBoards =
-                bingoBoards.filter { bingoBoard -> !bingoBoard.isLeader(loginMemberId) && bingoBoard.isStarted() }
+                bingoBoards.filter { bingoBoard -> bingoBoard.isStarted() }
         }
         return bingoBoards.map { BingoBoardOverviewResponse.fromBingoBoard(it, memberId) }
     }
