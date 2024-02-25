@@ -25,6 +25,7 @@ class FeedListFindDao(
         val members = get20Members(completeMemberIds)
 
         return buildFeedResponses(members, bingoItems)
+            .filter { it.feedItems.isNotEmpty() }
     }
 
     private fun inMemberIds(friendIds: List<Long>): BooleanExpression? =
@@ -46,6 +47,7 @@ class FeedListFindDao(
                 bingoItem.completeMembers.any().memberId.`in`(completeMemberIds)
                     .and(bingoItem.bingoBoard.active.eq(true))
                     .and(bingoItem.bingoBoard.period.isNotNull)
+                    .and(bingoItem.bingoBoard.open.isTrue)
             )
             .fetch()
 
