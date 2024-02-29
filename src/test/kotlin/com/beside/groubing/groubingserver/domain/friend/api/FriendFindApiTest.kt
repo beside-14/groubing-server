@@ -80,7 +80,7 @@ class FriendFindApiTest(
             }
         }
 
-        When("최근 3개월 내 친구 요청 목록을") {
+        When("초대받은 친구 요청 목록을") {
             val friendRequest = Arb.of(
                 FriendRequestResponse(
                     id = Arb.long(1L..100L).single(),
@@ -96,10 +96,50 @@ class FriendFindApiTest(
             )
 
             val response = listOf(friendRequest.single())
-            every { friendFindService.findAllByInviteeIdAndLastThreeMonths(any()) } returns response
+            every { friendFindService.findAllByInviteeId(any()) } returns response
 
             Then("조회한다.") {
-                mockMvc.get("/api/friends/requests") {
+                mockMvc.get("/api/friends/received-requests") {
+                    header("Authorization", getHttpHeaderJwt(id))
+                    contentType = MediaType.APPLICATION_JSON
+                    accept = MediaType.APPLICATION_JSON
+                }.andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                }.andDocument(
+                    "friend-find-request",
+                    responseBody(
+                        "[].id" responseType NUMBER means "친구 요청 ID" example "1",
+                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
+                        "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
+                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
+                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
+                        "[].status" responseType ENUM(FriendStatus::class) means "친구 요청 처리 상태" example "`PENDING` : 친구 요청 / `ACCEPT` : 수락 / `REJECT` : 거절",
+                    )
+                )
+            }
+        }
+
+        When("초대한 친구 요청 중 대기 상태인 목록을") {
+            val friendRequest = Arb.of(
+                FriendRequestResponse(
+                    id = Arb.long(1L..100L).single(),
+                    memberId = Arb.long(1L..100L).single(),
+                    email = Arb.email(
+                        Arb.string(5, 10, Codepoint.alphanumeric()),
+                        Arb.stringPattern("groubing\\.com")
+                    ).single(),
+                    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
+                    profileUrl = null,
+                    status = Arb.enum<FriendStatus>().single()
+                )
+            )
+
+            val response = listOf(friendRequest.single())
+            every { friendFindService.findAllByInviterIdAndStatusIsPending(any()) } returns response
+
+            Then("조회한다.") {
+                mockMvc.get("/api/friends/send-requests") {
                     header("Authorization", getHttpHeaderJwt(id))
                     contentType = MediaType.APPLICATION_JSON
                     accept = MediaType.APPLICATION_JSON

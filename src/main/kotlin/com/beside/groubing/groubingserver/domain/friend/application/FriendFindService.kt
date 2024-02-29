@@ -16,8 +16,13 @@ class FriendFindService(
         return friends.map(::FriendResponse)
     }
 
-    fun findAllByInviteeIdAndLastThreeMonths(inviteeId: Long): List<FriendRequestResponse> {
+    fun findAllByInviteeId(inviteeId: Long): List<FriendRequestResponse> {
         val friendRequestList = friendFindDao.findAllByInviteeId(inviteeId)
         return friendRequestList.map(::FriendRequestResponse)
+    }
+
+    fun findAllByInviterIdAndStatusIsPending(inviterId: Long): List<FriendRequestResponse> {
+        val friendRequestList = friendFindDao.findAllByInviterId(inviterId)
+        return friendRequestList.filter { it.status.isPending() }.map(::FriendRequestResponse)
     }
 }

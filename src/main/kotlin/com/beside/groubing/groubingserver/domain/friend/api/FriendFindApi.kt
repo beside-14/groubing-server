@@ -22,11 +22,19 @@ class FriendFindApi(
         return ApiResponse.OK(response)
     }
 
-    @GetMapping("/requests")
-    fun findFriendRequests(
+    @GetMapping("/received-requests")
+    fun findFriendReceivedRequests(
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<List<FriendRequestResponse>> {
-        val response = friendFindService.findAllByInviteeIdAndLastThreeMonths(memberId)
+        val response = friendFindService.findAllByInviteeId(memberId)
+        return ApiResponse.OK(response)
+    }
+
+    @GetMapping("/send-requests")
+    fun findFriendSendRequests(
+        @AuthenticationPrincipal memberId: Long
+    ): ApiResponse<List<FriendRequestResponse>> {
+        val response = friendFindService.findAllByInviterIdAndStatusIsPending(memberId)
         return ApiResponse.OK(response)
     }
 }

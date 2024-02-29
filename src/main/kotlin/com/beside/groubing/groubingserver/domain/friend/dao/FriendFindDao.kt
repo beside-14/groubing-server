@@ -55,4 +55,12 @@ class FriendFindDao(
             .orderBy(friend.createdDate.desc())
             .fetch()
     }
+
+    fun findAllByInviterId(inviterId: Long): List<Friend> {
+        return queryFactory.selectFrom(friend)
+            .innerJoin(friend.inviter)
+            .where(friend.inviter.id.eq(inviterId))
+            .orderBy(friend.createdDate.desc())
+            .fetch()
+    }
 }
