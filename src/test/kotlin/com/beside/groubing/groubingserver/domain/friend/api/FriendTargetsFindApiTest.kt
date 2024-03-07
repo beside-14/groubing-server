@@ -35,7 +35,7 @@ class FriendTargetsFindApiTest(
             every { friendTargetsFindService.findFriendTargets(1L) } returns response
 
             Then("전체 유저 목록을 nickname 오름차순으로 정렬하여 리턴한다.") {
-                mockMvc.get("/api/members") {
+                mockMvc.get("/api/friends/targets") {
                     contentType = MediaType.APPLICATION_JSON
                 }.andExpect {
                     status {
