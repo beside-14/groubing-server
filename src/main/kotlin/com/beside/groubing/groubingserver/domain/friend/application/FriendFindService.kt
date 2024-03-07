@@ -18,11 +18,11 @@ class FriendFindService(
 
     fun findAllByInviteeId(inviteeId: Long): List<FriendRequestResponse> {
         val friendRequestList = friendFindDao.findAllByInviteeId(inviteeId)
-        return friendRequestList.map(::FriendRequestResponse)
+        return friendRequestList.filter { it.status.isPending() }.map { FriendRequestResponse.forReceived(it) }
     }
 
     fun findAllByInviterIdAndStatusIsPending(inviterId: Long): List<FriendRequestResponse> {
         val friendRequestList = friendFindDao.findAllByInviterId(inviterId)
-        return friendRequestList.filter { it.status.isPending() }.map(::FriendRequestResponse)
+        return friendRequestList.filter { it.status.isPending() }.map { FriendRequestResponse.forSend(it) }
     }
 }
