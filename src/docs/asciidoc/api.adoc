@@ -64,11 +64,6 @@ Groubing 서비스 Backend API 문서
 
 * link:member/MemberProfileDelete.html[프로필 삭제,window=_blank]
 
-[[member-all-find]]
-=== 전체 멤버 조회(친구 추가용 API)
-
-* link:member/MemberAllFind.html[전체 멤버 조회,window=_blank]
-
 
 [[friend]]
 == 친구
@@ -89,6 +84,12 @@ Groubing 서비스 Backend API 문서
 === 친구 요청 승낙
 
 * link:friend/FriendAccept.html[친구 요청 승낙,window=_blank]
+
+[[friend-targets-find]]
+=== 친구 타겟 리스트 조회(친구 추가용 API)
+
+* link:friend/FriendTargetsFind.html[친구 타겟 리스트 조회,window=_blank]
+
 
 [[friend-reject]]
 === 친구 요청 거부

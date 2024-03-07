@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.member.api
+package com.beside.groubing.groubingserver.domain.friend.api
 
 import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.NUMBER
@@ -6,7 +6,7 @@ import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
-import com.beside.groubing.groubingserver.domain.member.application.MemberAllFindService
+import com.beside.groubing.groubingserver.domain.friend.application.FriendTargetsFindService
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberFindResponse
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -17,10 +17,10 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
 @ApiTest
-@WebMvcTest(controllers = [MemberAllFindApi::class])
-class MemberAllFindApiTest(
+@WebMvcTest(controllers = [FriendTargetsFindApi::class])
+class FriendTargetsFindApiTest(
     private val mockMvc: MockMvc,
-    @MockkBean private val memberAllFindService: MemberAllFindService
+    @MockkBean private val friendTargetsFindService: FriendTargetsFindService
 ) : BehaviorSpec({
     Given("유저가") {
         When("유저 검색을 위해 검색 창에 들어왔을 경우") {
@@ -32,7 +32,7 @@ class MemberAllFindApiTest(
                     profileUrl = null
                 )
             }
-            every { memberAllFindService.findAllMembers() } returns response
+            every { friendTargetsFindService.findFriendTargets(1L) } returns response
 
             Then("전체 유저 목록을 nickname 오름차순으로 정렬하여 리턴한다.") {
                 mockMvc.get("/api/members") {
@@ -42,7 +42,7 @@ class MemberAllFindApiTest(
                         isOk()
                     }
                 }.andDocument(
-                    "member-all-find",
+                    "friend-target-find",
                     responseBody(
                         "[].memberId" responseType NUMBER means "유저 ID" example "1",
                         "[].email" responseType STRING means "유저 이메일" example "groubing1@daum.net",

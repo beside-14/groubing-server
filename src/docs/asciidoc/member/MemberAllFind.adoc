@@ -1,4 +1,0 @@
-[[member-all-find]]
-=== 전체 member 목록 찾기
-
-operation::member-all-find[snippets='http-request,response-fields,response-body,http-response']

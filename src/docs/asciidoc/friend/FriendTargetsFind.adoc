@@ -1,0 +1,4 @@
+[[friend-targets-find]]
+=== 친구 타겟 목록 찾기
+
+operation::friend-target-find[snippets='http-request,response-fields,response-body,http-response']
