@@ -71,6 +71,10 @@ class BingoItem internal constructor(
         return title != null
     }
 
+    fun getBingoCompleteMember(memberId: Long): BingoCompleteMember? {
+        return this.completeMembers.find { completeMember -> completeMember.memberId == memberId }
+    }
+
     companion object {
         const val EXTENSION = ".png"
 

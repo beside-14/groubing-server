@@ -17,7 +17,13 @@ class BingoCompleteMember private constructor(
     val id: Long = 0L,
 
     val memberId: Long,
+
+    var active: Boolean = true
 ) : BaseEntity() {
+
+    fun inactive() {
+        active = false
+    }
 
     companion object {
         fun create(memberId: Long): BingoCompleteMember {

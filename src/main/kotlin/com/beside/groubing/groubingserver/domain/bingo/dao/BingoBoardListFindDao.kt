@@ -15,6 +15,7 @@ class BingoBoardListFindDao(
             .where(
                 bingoBoard.bingoMembers
                     .any().memberId.eq(memberId)
+                    .and(bingoBoard.bingoMembers.any().active.isTrue)
                     .and(bingoBoard.active.isTrue)
             )
             .orderBy(bingoBoard.lastModifiedDate.desc())
