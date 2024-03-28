@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.feed.api
 
 import com.beside.groubing.groubingserver.config.ApiTest
+import com.beside.groubing.groubingserver.docs.BOOLEAN
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
@@ -69,7 +70,9 @@ class FeedListFindApiTest(
                         "[].memberId" responseType NUMBER means "Feed Member ID" example "1",
                         "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
                         "[].profile" responseType STRING means "프로필 이미지 URL" isOptional true,
-                        "[].feedItems[].title" responseType STRING means "빙고 Item Title" example "토익 만점 받기"
+                        "[].feedItems[].title" responseType STRING means "빙고 Item Title" example "토익 만점 받기",
+                        "[].isFriendRequestReceived" responseType BOOLEAN means "나에게 친구요청을 보낸 사람 여부" example true.toString(),
+                        "[].isFriendRequestSend" responseType BOOLEAN means "내가 친구요청을 보낸 사람 여부" example false.toString()
                     )
                 )
         }
@@ -90,7 +93,9 @@ class FeedListFindApiTest(
                         "[].memberId" responseType NUMBER means "Feed Member ID" example "1",
                         "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
                         "[].profile" responseType STRING means "프로필 이미지 URL" isOptional true,
-                        "[].feedItems[].title" responseType STRING means "빙고 Item Title" example "토익 만점 받기"
+                        "[].feedItems[].title" responseType STRING means "빙고 Item Title" example "토익 만점 받기",
+                        "[].isFriendRequestReceived" responseType BOOLEAN means "나에게 친구요청을 보낸 사람 여부" example true.toString(),
+                        "[].isFriendRequestSend" responseType BOOLEAN means "내가 친구요청을 보낸 사람 여부" example false.toString()
                     )
                 )
         }

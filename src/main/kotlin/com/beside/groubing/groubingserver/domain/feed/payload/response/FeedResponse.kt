@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.feed.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
+import com.beside.groubing.groubingserver.domain.friend.domain.Friend
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 
 class FeedResponse private constructor(
@@ -10,9 +11,18 @@ class FeedResponse private constructor(
 
     val profile: String?,
 
-    val feedItems: List<FeedItemDto>
+    val feedItems: List<FeedItemDto>,
 )
 {
+    var isFriendRequestReceived: Boolean = false
+
+    var isFriendRequestSend: Boolean = false
+
+    fun checkFriendRequest(friendRequestReceivedList: List<Friend>, friendRequestSendList: List<Friend>) {
+        isFriendRequestReceived = friendRequestReceivedList.any { it.inviter.id == memberId }
+        isFriendRequestSend = friendRequestSendList.any { it.invitee.id == memberId }
+    }
+
     class FeedItemDto private constructor(
         val title: String
     ) {
