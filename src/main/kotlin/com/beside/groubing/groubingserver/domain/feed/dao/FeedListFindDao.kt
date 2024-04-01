@@ -29,10 +29,12 @@ class FeedListFindDao(
     }
 
     private fun inMemberIds(friendIds: List<Long>): BooleanExpression? =
-        friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.`in`(it) }
+        friendIds.takeIf { it.isNotEmpty() }
+            ?.let { bingoCompleteMember.memberId.`in`(it).and(bingoCompleteMember.active.isTrue) }
 
     private fun notInMemberIds(friendIds: List<Long>): BooleanExpression? =
-        friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.notIn(it) }
+        friendIds.takeIf { it.isNotEmpty() }
+            ?.let { bingoCompleteMember.memberId.notIn(it).and(bingoCompleteMember.active.isTrue) }
 
     private fun extract20BingoItemCompleteMemberIds(filter: BooleanExpression?): List<Long> =
         queryFactory.selectDistinct(bingoCompleteMember.memberId)

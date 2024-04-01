@@ -79,7 +79,7 @@ class BingoBoard internal constructor(
     }
 
     fun getOtherBingoMemberIds(memberId: Long): List<Long> {
-        return bingoMembers.filter { it.memberId != memberId && it.active }
+        return bingoMembers.filter { it.memberId != memberId || it.active }
             .map { it.memberId }
     }
 
