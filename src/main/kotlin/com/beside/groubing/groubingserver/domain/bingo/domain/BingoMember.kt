@@ -21,11 +21,17 @@ class BingoMember private constructor(
     val memberId: Long,
 
     @Enumerated(EnumType.STRING)
-    val bingoMemberType: BingoMemberType
+    val bingoMemberType: BingoMemberType,
+
+    var active: Boolean = true
 ) : BaseEntity() {
 
     fun isLeader(): Boolean {
         return bingoMemberType.isLeader()
+    }
+
+    fun inactive() {
+        this.active = false;
     }
 
     companion object {

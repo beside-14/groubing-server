@@ -29,7 +29,7 @@ class FeedListFindDao(
     }
 
     private fun inMemberIds(friendIds: List<Long>): BooleanExpression? =
-         bingoCompleteMember.memberId.`in`(friendIds)
+        friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.`in`(it) }
 
     private fun notInMemberIds(friendIds: List<Long>): BooleanExpression? =
         friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.notIn(it) }

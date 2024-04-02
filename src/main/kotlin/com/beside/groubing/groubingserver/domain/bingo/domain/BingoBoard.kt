@@ -79,7 +79,7 @@ class BingoBoard internal constructor(
     }
 
     fun getOtherBingoMemberIds(memberId: Long): List<Long> {
-        return bingoMembers.filter { it.memberId != memberId }
+        return bingoMembers.filter { it.memberId != memberId || it.active }
             .map { it.memberId }
     }
 
@@ -169,9 +169,27 @@ class BingoBoard internal constructor(
     }
 
     fun validateNotLeaderAndDraft(memberId: Long) {
-        if (!isLeader(memberId) && !isStarted()) {
+        if (!isLeader(memberId) && !isStarted() && getBingoMember(memberId).active) {
             throw BingoInputException("접근할 수 없는 빙고보드입니다.")
         }
+    }
+
+    fun inactiveByMemberId(memberId: Long) {
+        val bingoMember = getBingoMember(memberId)
+        bingoMember.inactive()
+
+        val completeMembers = getBingoCompleteMember(memberId)
+        completeMembers.forEach { completeMember -> completeMember?.inactive() }
+
+    }
+
+    private fun getBingoMember(memberId: Long): BingoMember {
+        return bingoMembers.find { bingoMember -> bingoMember.memberId == memberId }
+            ?: throw BingoIllegalStateException("해당 빙고보드에 포함되지 않는 회원입니다.")
+    }
+
+    private fun getBingoCompleteMember(memberId: Long): List<BingoCompleteMember?> {
+        return bingoItems.map { bingoItem -> bingoItem.getBingoCompleteMember(memberId) }
     }
 
     companion object {
