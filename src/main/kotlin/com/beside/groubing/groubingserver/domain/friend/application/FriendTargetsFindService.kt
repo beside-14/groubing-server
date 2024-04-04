@@ -25,6 +25,6 @@ class FriendTargetsFindService(
             .filter { member -> member.id !in friendRequestReceivedList.map { it.inviter.id } }
             .filter { member -> member.id !in friendRequestSendList.map { it.invitee.id } }
             .map { MemberFindResponse(it) }
+            .filter { it.memberId != myMemberId }
     }
-
 }
