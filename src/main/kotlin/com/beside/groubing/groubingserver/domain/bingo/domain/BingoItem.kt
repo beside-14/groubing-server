@@ -36,6 +36,12 @@ class BingoItem internal constructor(
     @JoinColumn(name = "BINGO_BOARD_ID")
     val bingoBoard: BingoBoard? = null
 ) {
+    var colorCode: String = "2787c9"
+
+    fun initItemColorCode(colorCode: String) {
+        this.colorCode = colorCode
+    }
+
     fun getImageUrl(memberId: Long): String {
         if (isCompleted(memberId)) {
             return "${imageUrl}_complete$EXTENSION"

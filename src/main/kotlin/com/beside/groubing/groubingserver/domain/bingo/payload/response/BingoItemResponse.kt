@@ -8,6 +8,7 @@ class BingoItemResponse private constructor(
     val subTitle: String?,
     val imageUrl: String?,
     val itemOrder: Int,
+    val colorCode: String,
     val complete: Boolean
 ) {
     companion object {
@@ -18,7 +19,8 @@ class BingoItemResponse private constructor(
                 subTitle = bingoItem.subTitle,
                 imageUrl = bingoItem.getImageUrl(memberId),
                 complete = bingoItem.isCompleted(memberId),
-                itemOrder = bingoItem.itemOrder
+                itemOrder = bingoItem.itemOrder,
+                colorCode = bingoItem.colorCode
             )
         }
     }

@@ -60,6 +60,46 @@ class BingoBoard internal constructor(
 
 ) : BaseAggregateRoot<BingoBoard>() {
 
+    init {
+        val bingoItemColors = mutableListOf(
+            "#2787C9", "#F18FA2", "#E75097", "#FFD643", "#B6B4DB", "#00AAB3", "#00A783", "#85BCE7", "#F6A973"
+        )
+
+        // 모든 칸에 대한 색상 할당을 위한 셔플
+        val positions = (bingoItems.indices).shuffled()
+        positions.take(9).forEachIndexed { index, pos ->
+            bingoItems[pos].initItemColorCode(bingoItemColors[index])
+        }
+
+        // 나머지 칸에 대한 색상 할당
+        positions.drop(9).forEach { pos ->
+            val possibleColors = bingoItemColors.filter { color ->
+                !getNeighbors(pos).contains(color)
+            }
+            bingoItems[pos].initItemColorCode(possibleColors.random())
+        }
+    }
+
+    private fun getNeighbors(pos: Int): List<String?> {
+        val neighbors = mutableListOf<String?>()
+        val row = pos / size
+        val col = pos % size
+
+        for (i in -1..1) {
+            for (j in -1..1) {
+                if (i == 0 && j == 0) continue
+                val newRow = row + i
+                val newCol = col + j
+                val newIndex = newRow * size + newCol
+                if (newRow in 0 until size && newCol in 0 until size) {
+                    neighbors.add(bingoItems[newIndex].colorCode)
+                }
+            }
+        }
+        return neighbors
+    }
+
+
     val size: Int
         get() = bingoSize.size
 
@@ -205,6 +245,7 @@ class BingoBoard internal constructor(
                 "g", "r", "o", "u", "b", "i", "n",
                 "b2", "b3", "g2", "i2", "i3", "n2", "o2", "r2", "u2"
             )
+
             val numberRange = bingoItemAlphabets.shuffled().toMutableList()
             return BingoBoard(
                 title = title,

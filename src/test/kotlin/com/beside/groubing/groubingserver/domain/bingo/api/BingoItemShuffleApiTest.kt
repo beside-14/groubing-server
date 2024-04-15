@@ -66,6 +66,7 @@ class BingoItemShuffleApiTest(
                         "[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
                         "[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
                         "[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
+                        "[].bingoItems[].colorCode" responseType STRING means "빙고 아이템 Color Code" example "#F6A973"
                     )
                 )
         }

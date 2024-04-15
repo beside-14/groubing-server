@@ -74,7 +74,8 @@ class BingoItemUpdateApiTest(
                         "subTitle" responseType STRING means "빙고 아이템 제목 상세" example "8월까지 끝내기",
                         "imageUrl" responseType STRING means "빙고 아이템 이미지 Url" example "http://10.0.40.246/item1.svg",
                         "itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3",
-                        "complete" responseType BOOLEAN means "빙고 아이템 완료 여부" example "true"
+                        "complete" responseType BOOLEAN means "빙고 아이템 완료 여부" example "true",
+                        "colorCode" responseType STRING means "빙고 아이템 Color Code" example "#F6A973"
                     )
                 )
         }
