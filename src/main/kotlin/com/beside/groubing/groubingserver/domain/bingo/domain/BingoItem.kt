@@ -36,7 +36,7 @@ class BingoItem internal constructor(
     @JoinColumn(name = "BINGO_BOARD_ID")
     val bingoBoard: BingoBoard? = null
 ) {
-    var colorCode: String = "2787c9"
+    var colorCode: String = "#2787C9"
 
     fun initItemColorCode(colorCode: String) {
         this.colorCode = colorCode
