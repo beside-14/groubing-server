@@ -65,14 +65,14 @@ class BingoBoard internal constructor(
             "#2787C9", "#F18FA2", "#E75097", "#FFD643", "#B6B4DB", "#00AAB3", "#00A783", "#85BCE7", "#F6A973"
         )
 
-        // 모든 칸에 대한 색상 할당을 위한 셔플
+        // bingoItemColors size만큼의 칸에 대한 색상 할당을 위한 셔플
         val positions = (bingoItems.indices).shuffled()
-        positions.take(9).forEachIndexed { index, pos ->
+        positions.take(bingoItemColors.size).forEachIndexed { index, pos ->
             bingoItems[pos].initItemColorCode(bingoItemColors[index])
         }
 
         // 나머지 칸에 대한 색상 할당
-        positions.drop(9).forEach { pos ->
+        positions.drop(bingoItemColors.size).forEach { pos ->
             val possibleColors = bingoItemColors.filter { color ->
                 !getNeighbors(pos).contains(color)
             }
