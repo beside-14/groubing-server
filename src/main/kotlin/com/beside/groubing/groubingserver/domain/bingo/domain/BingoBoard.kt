@@ -1,6 +1,9 @@
 package com.beside.groubing.groubingserver.domain.bingo.domain
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.BingoMap
+import com.beside.groubing.groubingserver.domain.bingo.event.BingoCompleteEvent
+import com.beside.groubing.groubingserver.domain.bingo.event.BingoLineCancelEvent
+import com.beside.groubing.groubingserver.domain.bingo.event.BingoLineCompleteEvent
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoIllegalStateException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseAggregateRoot
@@ -179,15 +182,49 @@ class BingoBoard internal constructor(
         if (!isStarted()) {
             throw BingoIllegalStateException("아직 임시빙고 상태에서 빙고를 완성할 수 없습니다.")
         }
+        val bingoMap = makeBingoMap(memberId)
+        val beforeBingoCount = bingoMap.calculateTotalBingoCount()
         findBingoItem(bingoItemId).completeBingoItem(memberId)
+        val afterBingoCount = bingoMap.calculateTotalBingoCount()
+        registerBingoItemCompleteEvent(afterBingoCount, beforeBingoCount, memberId)
+    }
+
+    private fun registerBingoItemCompleteEvent(afterBingoCount: Int, beforeBingoCount: Int, memberId: Long) {
+        if (afterBingoCount > beforeBingoCount) {
+            registerEvent(BingoLineCompleteEvent(bingoBoardId = id,
+                bingoBoardTitle = title,
+                totalBingoCount = afterBingoCount,
+                memberId = memberId,
+                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            )
+            return
+        }
+        if (bingoGoal.isGoal(afterBingoCount)) {
+            registerEvent(BingoCompleteEvent(bingoBoardId = id,
+                bingoBoardTitle = title,
+                memberId = memberId,
+                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            )
+        }
     }
 
     fun cancelBingoItem(bingoItemId: Long, memberId: Long) {
         if (!isStarted()) {
             throw BingoIllegalStateException("아직 임시빙고 상태에서 빙고를 취소할 수 없습니다.")
         }
+        val bingoMap = makeBingoMap(memberId)
+        val beforeBingoCount = bingoMap.calculateTotalBingoCount()
         val bingoItem = findBingoItem(bingoItemId)
         bingoItem.cancelBingoItem(memberId)
+        val afterBingoCount = bingoMap.calculateTotalBingoCount()
+        if (afterBingoCount < beforeBingoCount) {
+            registerEvent(BingoLineCancelEvent(bingoBoardId = id,
+                bingoBoardTitle = title,
+                bingoItemTitle = bingoItem.title!!,
+                memberId = memberId,
+                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            )
+        }
     }
 
     fun shuffleBingoItems() {
