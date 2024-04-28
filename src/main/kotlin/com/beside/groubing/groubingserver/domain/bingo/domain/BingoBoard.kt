@@ -64,22 +64,27 @@ class BingoBoard internal constructor(
 ) : BaseAggregateRoot<BingoBoard>() {
 
     init {
+        initBingoItemColor()
+    }
+
+    private fun initBingoItemColor() {
         val bingoItemColors = mutableListOf(
             "#2787C9", "#F18FA2", "#E75097", "#FFD643", "#B6B4DB", "#00AAB3", "#00A783", "#85BCE7", "#F6A973"
-        )
+        ).shuffled()
 
-        // bingoItemColors size만큼의 칸에 대한 색상 할당을 위한 셔플
-        val positions = (bingoItems.indices).shuffled()
-        positions.take(bingoItemColors.size).forEachIndexed { index, pos ->
-            bingoItems[pos].initItemColorCode(bingoItemColors[index])
+        bingoItems.sortedBy { it.itemOrder }
+            .take(bingoItemColors.size)
+            .forEachIndexed { index, bingoItem ->
+            bingoItem.initItemColorCode(bingoItemColors[index])
         }
 
-        // 나머지 칸에 대한 색상 할당
-        positions.drop(bingoItemColors.size).forEach { pos ->
+        bingoItems.sortedBy { it.itemOrder }
+            .drop(bingoItemColors.size)
+            .forEach { bingoItem ->
             val possibleColors = bingoItemColors.filter { color ->
-                !getNeighbors(pos).contains(color)
+                !getNeighbors(bingoItem.itemOrder - 1).contains(color)
             }
-            bingoItems[pos].initItemColorCode(possibleColors.random())
+            bingoItem.initItemColorCode(possibleColors.random())
         }
     }
 
@@ -95,7 +100,8 @@ class BingoBoard internal constructor(
                 val newCol = col + j
                 val newIndex = newRow * size + newCol
                 if (newRow in 0 until size && newCol in 0 until size) {
-                    neighbors.add(bingoItems[newIndex].colorCode)
+                    val neighborBingoItem = bingoItems.first { it.itemOrder == newIndex + 1 }
+                    neighbors.add(neighborBingoItem.colorCode)
                 }
             }
         }
@@ -233,8 +239,9 @@ class BingoBoard internal constructor(
         }
         bingoItems.shuffled(Random)
             .forEachIndexed { index, bingoItem ->
-                bingoItem.apply { bingoItem.changeItemOrder(index + 1) }
+                bingoItem.changeItemOrder(index + 1)
             }
+        initBingoItemColor()
     }
 
     fun isLeader(memberId: Long): Boolean {
