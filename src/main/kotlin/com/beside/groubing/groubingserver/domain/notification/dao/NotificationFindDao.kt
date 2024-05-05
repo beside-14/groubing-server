@@ -16,7 +16,7 @@ class NotificationFindDao(
             notification.bingoBoardId,
             notification.memberId,
             notification.message,
-            member.profile.url
+            member.profile.fileName
         ))
             .from(notification)
             .join(member).on(notification.memberId.eq(member.id))

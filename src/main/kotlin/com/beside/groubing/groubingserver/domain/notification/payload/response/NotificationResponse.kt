@@ -18,7 +18,7 @@ class NotificationResponse(
                 bingoBoardId = notification.bingoBoardId,
                 memberId = notification.memberId,
                 message = notification.message,
-                profileUrl = notification.profileUrl
+                profileUrl = "/api/files/${notification.profileUrl}"
             )
         }
     }
