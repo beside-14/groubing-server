@@ -22,8 +22,7 @@ class FileInfo private constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 
-    val url: String
-        get() = "/api/files/$fileName"
+    val url: String = "/api/files/$fileName"
 
     fun getAbsolutePath(): Path {
         val root = System.getProperty("user.home")
