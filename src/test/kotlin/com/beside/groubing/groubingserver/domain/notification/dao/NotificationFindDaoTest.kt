@@ -66,6 +66,6 @@ class NotificationFindDaoTest(
         )
 
         notifications.size shouldBe 8
-        notifications.first { it.memberId == 2L }.profileUrl shouldBe "/api/files/profile2.jpg"
+        notifications.first { it.memberId == 2L }.profileUrl shouldBe "profile2.jpg"
     }
 })
