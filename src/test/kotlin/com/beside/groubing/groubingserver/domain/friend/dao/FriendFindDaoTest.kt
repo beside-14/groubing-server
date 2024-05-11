@@ -9,11 +9,6 @@ import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.property.Arb
-import io.kotest.property.arbitrary.long
-import io.kotest.property.arbitrary.map
-import io.kotest.property.arbitrary.set
-import io.kotest.property.arbitrary.single
 import org.springframework.context.annotation.Import
 
 @LocalPersistenceTest
@@ -27,14 +22,11 @@ class FriendFindDaoTest(
     var memberId: Long = 0L
 
     beforeEach {
-        memberRepository.saveAllAndFlush(
-            Arb.set(Arb.long(1L..100L).map { id -> aMember(id) }, 10..100)
-                .single()
-        )
+        memberRepository.saveAll((1L..100L).map { aMember(it) })
         val members = memberRepository.findAll()
         members.sortBy { member -> member.id }
 
-        friendRepository.saveAllAndFlush(
+        friendRepository.saveAll(
             (0..<members.size - 1).map { i ->
                 val friend = Friend.create(members[i], members[i + 1])
                 if (members[i + 1].id % 2 == 0L) friend.status = FriendStatus.ACCEPT
