@@ -15,9 +15,11 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import org.hibernate.annotations.Where
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
+@Where(clause = "active = true")
 @Table(name = "MEMBERS")
 class Member internal constructor(
     @Id
@@ -51,7 +53,7 @@ class Member internal constructor(
     var notificationReceive: Boolean = true
         private set
 
-    var active: Boolean = false
+    var active: Boolean = true
         private set
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)

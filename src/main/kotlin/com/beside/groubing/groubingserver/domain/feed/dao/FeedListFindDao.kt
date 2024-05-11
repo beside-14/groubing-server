@@ -29,10 +29,11 @@ class FeedListFindDao(
     }
 
     private fun inMemberIds(friendIds: List<Long>): BooleanExpression? =
-        bingoCompleteMember.memberId.`in`(friendIds)
+        bingoCompleteMember.memberId.`in`(friendIds).and(bingoCompleteMember.active.isTrue)
 
     private fun notInMemberIds(friendIds: List<Long>): BooleanExpression? =
-        friendIds.takeIf { it.isNotEmpty() }?.let { bingoCompleteMember.memberId.notIn(it) }
+        friendIds.takeIf { it.isNotEmpty() }
+            ?.let { bingoCompleteMember.memberId.notIn(it).and(bingoCompleteMember.active.isTrue) }
 
     private fun extract20BingoItemCompleteMemberIds(filter: BooleanExpression?): List<Long> =
         queryFactory.selectDistinct(bingoCompleteMember.memberId)
@@ -45,7 +46,7 @@ class FeedListFindDao(
         queryFactory.selectFrom(bingoItem)
             .where(
                 bingoItem.completeMembers.any().memberId.`in`(completeMemberIds)
-                    .and(bingoItem.bingoBoard.active.eq(true))
+                    .and(bingoItem.bingoBoard.active.isTrue)
                     .and(bingoItem.bingoBoard.period.isNotNull)
                     .and(bingoItem.bingoBoard.open.isTrue)
             )
@@ -53,13 +54,13 @@ class FeedListFindDao(
 
     private fun get20Members(completeMemberIds: List<Long>): List<Member> =
         queryFactory.selectFrom(member)
-            .where(member.id.`in`(completeMemberIds))
+            .where(member.id.`in`(completeMemberIds).and(member.active.isTrue))
             .fetch()
 
     private fun buildFeedResponses(members: List<Member>, bingoItems: MutableList<BingoItem>): List<FeedResponse> =
         members.map { member ->
             val filteredBingoItems = bingoItems.filter {
-                it.completeMembers.any { bingoCompleteMember -> bingoCompleteMember.memberId == member.id }
+                it.completeMembers.any { bingoCompleteMember -> bingoCompleteMember.memberId == member.id && bingoCompleteMember.active }
             }
             FeedResponse.create(member, filteredBingoItems.shuffled().take(5))
         }
