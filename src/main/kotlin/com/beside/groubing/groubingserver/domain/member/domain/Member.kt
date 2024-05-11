@@ -51,6 +51,9 @@ class Member internal constructor(
     var notificationReceive: Boolean = true
         private set
 
+    var active: Boolean = false
+        private set
+
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "PROFILE_ID")
     var profile: FileInfo? = null
@@ -95,14 +98,30 @@ class Member internal constructor(
         this.profile = null
     }
 
+    fun withdrawal() {
+        if (!this.active) {
+            throw IllegalStateException("이미 탈퇴한 회원입니다.")
+        }
+
+        this.active = false;
+    }
+
     companion object {
         fun create(email: String, password: String, nickname: String, role: MemberRole): Member {
-            return Member(email = email, password = password, nickname = nickname, role = role, memberType = MemberType.CLASSIC)
+            return Member(
+                email = email,
+                password = password,
+                nickname = nickname,
+                role = role,
+                memberType = MemberType.CLASSIC
+            )
         }
 
         fun createSocialMember(email: String?): Member {
-            return Member(email = email, password = "", nickname = "",
-            role = MemberRole.MEMBER, memberType = MemberType.SOCIAL)
+            return Member(
+                email = email, password = "", nickname = "",
+                role = MemberRole.MEMBER, memberType = MemberType.SOCIAL
+            )
         }
     }
 }
