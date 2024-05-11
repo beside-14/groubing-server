@@ -27,6 +27,7 @@ class Member internal constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
+    @Column(name = "EMAIL", unique = true)
     val email: String?,
 
     password: String,
@@ -44,6 +45,7 @@ class Member internal constructor(
     var password: String = password
         private set
 
+    @Column(name = "NICKNAME", unique = true)
     var nickname: String = nickname
         private set
 
