@@ -4,8 +4,9 @@ import com.beside.groubing.groubingserver.aMember
 import com.beside.groubing.groubingserver.config.QuerydslConfig
 import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberValidateDao
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMember
-import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMemberRepository
+import com.beside.groubing.groubingserver.domain.blockedmember.domain.port.BlockedMemberRepository
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
+import com.beside.groubing.groubingserver.domain.blockedmember.repository.BlockedMemberRepositoryAdapter
 import com.beside.groubing.groubingserver.domain.friend.dao.FriendFindDao
 import com.beside.groubing.groubingserver.domain.friend.dao.FriendValidateDao
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
@@ -29,6 +30,7 @@ import org.springframework.context.annotation.Import
     FriendAddService::class,
     FriendAcceptService::class,
     BlockedMemberValidateDao::class,
+    BlockedMemberRepositoryAdapter::class,
     FriendValidateDao::class,
     FriendFindDao::class,
     MemberFindDao::class
@@ -72,12 +74,12 @@ class FriendAddServiceTest(
         }
 
         test("차단한 친구에게 요청하는 경우") {
-            blockedMemberRepository.save(BlockedMember.create(inviter, invitee))
+            blockedMemberRepository.save(BlockedMember.create(inviter.id, invitee.id))
             shouldThrow<BlockedMemberInputException> { friendAddService.add(inviter.id, invitee.id) }
         }
 
         test("상대방이 나를 차단한 경우") {
-            blockedMemberRepository.save(BlockedMember.create(invitee, inviter))
+            blockedMemberRepository.save(BlockedMember.create(invitee.id, inviter.id))
             shouldThrow<BlockedMemberInputException> { friendAddService.add(inviter.id, invitee.id) }
         }
     }
