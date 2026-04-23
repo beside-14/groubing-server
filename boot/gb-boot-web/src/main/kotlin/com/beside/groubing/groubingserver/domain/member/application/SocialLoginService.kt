@@ -4,7 +4,6 @@ import com.beside.groubing.groubingserver.domain.auth.application.command.Social
 import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
 import com.beside.groubing.groubingserver.domain.auth.domain.port.SocialInfoRepository
 import com.beside.groubing.groubingserver.domain.auth.domain.port.TokenManager
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.domain.NewMember
@@ -26,7 +25,7 @@ class SocialLoginService(
         val socialInfo = findOrCreateSocialInfo(socialLoginCommand)
         val member = memberQueryRepository.findById(socialInfo.memberId)
         val updated = memberCommandRepository.update(member.withFcmToken(socialLoginCommand.fcmToken))
-        return toResponse(updated, hasNickname = updated.nickname.isNotBlank())
+        return SocialMemberResponse.of(updated, tokenManager.generateAccessToken(updated.id, updated.role.name))
     }
 
     private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): SocialInfo {
@@ -53,13 +52,4 @@ class SocialLoginService(
             )
         }
     }
-
-    private fun toResponse(member: Member, hasNickname: Boolean): SocialMemberResponse = SocialMemberResponse(
-        id = member.id,
-        email = member.email,
-        nickname = member.nickname,
-        profileUrl = member.profileUrl,
-        token = tokenManager.generateAccessToken(memberId = member.id, role = member.role.name),
-        hasNickname = hasNickname
-    )
 }

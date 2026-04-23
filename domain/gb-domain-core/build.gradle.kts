@@ -3,8 +3,9 @@ plugins {
 }
 
 dependencies {
-    // 순수 도메인 모듈 — JPA/QueryDSL/Spring Web 의존 없음.
-    // 트랜잭션이나 이벤트 퍼블리싱 등이 필요해지면 spring-tx / spring-context 를 추가한다.
+    // 도메인 컴포넌트(@Component)와 @Transactional 사용을 위해 Spring Boot / Spring TX 를 노출한다.
+    api("org.springframework.boot:spring-boot-starter")
+    api("org.springframework:spring-tx")
 }
 
 tasks.bootJar { enabled = false }
