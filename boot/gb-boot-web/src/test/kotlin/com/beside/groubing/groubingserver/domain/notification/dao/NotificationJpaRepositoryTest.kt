@@ -1,44 +1,17 @@
 package com.beside.groubing.groubingserver.domain.notification.dao
 
-import com.beside.groubing.groubingserver.aMember
-import com.beside.groubing.groubingserver.config.QuerydslConfig
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.domain.notification.entity.NotificationEntity
 import com.beside.groubing.groubingserver.domain.notification.repository.NotificationJpaRepository
-import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import org.springframework.context.annotation.Import
+import org.springframework.data.domain.PageRequest
 
 @LocalPersistenceTest
-@Import(QuerydslConfig::class, NotificationFindDao::class)
-class NotificationFindDaoTest(
-    private val memberRepository: MemberRepository,
-
-    private val notificationJpaRepository: NotificationJpaRepository,
-
-    private val notificationFindDao: NotificationFindDao
+class NotificationJpaRepositoryTest(
+    private val notificationJpaRepository: NotificationJpaRepository
 ) : FunSpec({
     beforeEach {
-        memberRepository.saveAll(
-            (1L..50L).map { aMember(it) }
-        )
-
-        val member1 = memberRepository.findById(1L).get()
-        member1.profile = FileInfo.create(
-            directory = "file/profile",
-            fileName = "profile1.jpg",
-            originalName = "profile1.jpg",
-        )
-
-        val member2 = memberRepository.findById(2L).get()
-        member2.profile = FileInfo.create(
-            directory = "file/profile",
-            fileName = "profile2.jpg",
-            originalName = "profile2.jpg",
-        )
-
         notificationJpaRepository.saveAll(
             listOf(
                 NotificationEntity(bingoBoardId = 1L, memberId = 1L, message = "alarm1-1"),
@@ -60,12 +33,12 @@ class NotificationFindDaoTest(
     }
 
     test("Notification 정상 조회 테스트") {
-        val notifications = notificationFindDao.findNotifications(
+        val notificationsPage = notificationJpaRepository.findByBingoBoardIdInAndMemberIdNotOrderByCreatedDateDesc(
             bingoBoardIds = listOf(1L, 2L, 4L, 5L, 6L),
-            myMemberId = 1L
+            memberId = 1L,
+            pageable = PageRequest.of(1, 3)
         )
-
-        notifications.size shouldBe 8
-        notifications.first { it.memberId == 2L }.profileUrl shouldBe "profile2.jpg"
+        notificationsPage.totalPages shouldBe 3
+        notificationsPage.content.last().message shouldBe "alarm1-4"
     }
 })

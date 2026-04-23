@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.notification.payload.response
 
-import com.beside.groubing.groubingserver.domain.notification.domain.NotificationWithMemberProfile
+import com.beside.groubing.groubingserver.domain.notification.dao.NotificationWithMemberProfile
 
 class NotificationResponse(
     val bingoBoardId: Long,

@@ -1,9 +1,7 @@
 package com.beside.groubing.groubingserver.domain.notification.dao
 
 import com.beside.groubing.groubingserver.domain.member.domain.QMember.member
-import com.beside.groubing.groubingserver.domain.notification.domain.NotificationWithMemberProfile
-import com.beside.groubing.groubingserver.domain.notification.domain.QNotification.notification
-import com.beside.groubing.groubingserver.domain.notification.domain.QNotificationWithMemberProfile
+import com.beside.groubing.groubingserver.domain.notification.entity.QNotificationEntity.notificationEntity
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 
@@ -14,17 +12,17 @@ class NotificationFindDao(
     fun findNotifications(bingoBoardIds: List<Long>, myMemberId: Long): List<NotificationWithMemberProfile> {
         return queryFactory.select(
             QNotificationWithMemberProfile(
-                notification.bingoBoardId,
-                notification.memberId,
-                notification.message,
+                notificationEntity.bingoBoardId,
+                notificationEntity.memberId,
+                notificationEntity.message,
                 member.profile.fileName
             )
         )
-            .from(notification)
-            .join(member).on(notification.memberId.eq(member.id))
+            .from(notificationEntity)
+            .join(member).on(notificationEntity.memberId.eq(member.id))
             .leftJoin(member.profile)
-            .where(notification.bingoBoardId.`in`(bingoBoardIds).and(member.active.isTrue))
-            .orderBy(notification.createdDate.desc())
+            .where(notificationEntity.bingoBoardId.`in`(bingoBoardIds).and(member.active.isTrue))
+            .orderBy(notificationEntity.createdDate.desc())
             .fetch()
             .filter { it.memberId != myMemberId }
             .take(30)

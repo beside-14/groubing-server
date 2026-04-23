@@ -5,7 +5,7 @@ import com.beside.groubing.groubingserver.domain.bingo.event.BingoLineCancelEven
 import com.beside.groubing.groubingserver.domain.bingo.event.BingoLineCompleteEvent
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
 import com.beside.groubing.groubingserver.domain.notification.domain.Notification
-import com.beside.groubing.groubingserver.domain.notification.domain.NotificationRepository
+import com.beside.groubing.groubingserver.domain.notification.domain.port.NotificationRepository
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
@@ -23,8 +23,8 @@ class BingoEventHandler(
     fun handle(event: BingoLineCompleteEvent) {
         val member = memberFindDao.findExistingMemberById(event.memberId)
         val message = "${member.nickname}님이 ${event.bingoBoardTitle} 빙고를 ${event.totalBingoCount} 빙고 달성했어요!"
-        notificationRepository.save(Notification(bingoBoardId = event.bingoBoardId, memberId = event.memberId,
-            message = message)
+        notificationRepository.save(
+            Notification.create(bingoBoardId = event.bingoBoardId, memberId = event.memberId, message = message)
         )
     }
 
@@ -33,8 +33,8 @@ class BingoEventHandler(
     fun handle(event: BingoLineCancelEvent) {
         val member = memberFindDao.findExistingMemberById(event.memberId)
         val message = "${member.nickname}님이 ${event.bingoBoardTitle} 빙고에서 달성한 빙고 중 ${event.bingoItemTitle} 빙고 아이템을 취소했어요."
-        notificationRepository.save(Notification(bingoBoardId = event.bingoBoardId, memberId = event.memberId,
-            message = message)
+        notificationRepository.save(
+            Notification.create(bingoBoardId = event.bingoBoardId, memberId = event.memberId, message = message)
         )
     }
 
@@ -43,8 +43,8 @@ class BingoEventHandler(
     fun handle(event: BingoCompleteEvent) {
         val member = memberFindDao.findExistingMemberById(event.memberId)
         val message = "${member.nickname}님이 ${event.bingoBoardTitle} 빙고의 목표 빙고 수를 달성했어요!"
-        notificationRepository.save(Notification(bingoBoardId = event.bingoBoardId, memberId = event.memberId,
-            message = message)
+        notificationRepository.save(
+            Notification.create(bingoBoardId = event.bingoBoardId, memberId = event.memberId, message = message)
         )
     }
 }

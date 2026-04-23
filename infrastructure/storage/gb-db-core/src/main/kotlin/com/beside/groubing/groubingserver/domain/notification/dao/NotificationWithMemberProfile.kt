@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.notification.domain
+package com.beside.groubing.groubingserver.domain.notification.dao
 
 import com.querydsl.core.annotations.QueryProjection
 

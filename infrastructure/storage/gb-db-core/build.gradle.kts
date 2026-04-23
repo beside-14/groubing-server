@@ -5,6 +5,9 @@ plugins {
 apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
 
 dependencies {
+    // 순수 도메인 모델 / 포트 인터페이스
+    api(project(":domain:gb-domain-core"))
+
     // 엔티티는 boot-web(그리고 추후 domain) 에 남기 때문에 JPA / QueryDSL API 는 api 로 노출한다.
     api("org.springframework.boot:spring-boot-starter-data-jpa")
     api("com.querydsl:querydsl-jpa:5.1.0:jakarta")

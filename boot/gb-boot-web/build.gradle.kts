@@ -21,6 +21,9 @@ dependencies {
     kapt("jakarta.annotation:jakarta.annotation-api")
     kapt("jakarta.persistence:jakarta.persistence-api")
 
+    // Domain
+    implementation(project(":domain:gb-domain-core"))
+
     // Infrastructure
     implementation(project(":infrastructure:storage:gb-db-core"))
     implementation(project(":infrastructure:support:gb-jwt-core"))

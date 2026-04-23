@@ -8,7 +8,7 @@ import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.notification.application.NotificationListFindService
-import com.beside.groubing.groubingserver.domain.notification.domain.NotificationWithMemberProfile
+import com.beside.groubing.groubingserver.domain.notification.dao.NotificationWithMemberProfile
 import com.beside.groubing.groubingserver.domain.notification.payload.response.NotificationResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
