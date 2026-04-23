@@ -39,7 +39,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 
     // FCM
-    implementation("com.google.firebase:firebase-admin:9.2.0")
+    implementation(project(":infrastructure:support:gb-fcm-sender"))
 
     // Test
     testImplementation("org.springframework.security:spring-security-test")
