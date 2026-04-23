@@ -4,8 +4,8 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoCompleteMember.bingoCompleteMember
 import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoItem.bingoItem
 import com.beside.groubing.groubingserver.domain.feed.payload.response.FeedResponse
-import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.beside.groubing.groubingserver.domain.member.domain.QMember.member
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
+import com.beside.groubing.groubingserver.domain.member.entity.QMemberEntity.memberEntity
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -52,12 +52,12 @@ class FeedListFindDao(
             )
             .fetch()
 
-    private fun get20Members(completeMemberIds: List<Long>): List<Member> =
-        queryFactory.selectFrom(member)
-            .where(member.id.`in`(completeMemberIds).and(member.active.isTrue))
+    private fun get20Members(completeMemberIds: List<Long>): List<MemberEntity> =
+        queryFactory.selectFrom(memberEntity)
+            .where(memberEntity.id.`in`(completeMemberIds).and(memberEntity.active.isTrue))
             .fetch()
 
-    private fun buildFeedResponses(members: List<Member>, bingoItems: MutableList<BingoItem>): List<FeedResponse> =
+    private fun buildFeedResponses(members: List<MemberEntity>, bingoItems: MutableList<BingoItem>): List<FeedResponse> =
         members.map { member ->
             val filteredBingoItems = bingoItems.filter {
                 it.completeMembers.any { bingoCompleteMember -> bingoCompleteMember.memberId == member.id && bingoCompleteMember.active }

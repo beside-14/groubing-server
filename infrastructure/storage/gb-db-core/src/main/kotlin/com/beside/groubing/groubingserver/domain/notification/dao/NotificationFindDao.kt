@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.notification.dao
 
-import com.beside.groubing.groubingserver.domain.member.domain.QMember.member
+import com.beside.groubing.groubingserver.domain.member.entity.QMemberEntity.memberEntity as member
 import com.beside.groubing.groubingserver.domain.notification.entity.QNotificationEntity.notificationEntity
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component

@@ -14,7 +14,7 @@ import com.beside.groubing.groubingserver.domain.friend.domain.FriendRepository
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
+import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.assertions.throwables.shouldThrow
@@ -38,7 +38,7 @@ import org.springframework.context.annotation.Import
 class FriendAddServiceTest(
     private val friendAddService: FriendAddService,
     private val friendRepository: FriendRepository,
-    private val memberRepository: MemberRepository,
+    private val memberRepository: MemberJpaRepository,
     private val blockedMemberRepository: BlockedMemberRepository
 ) : FunSpec({
 

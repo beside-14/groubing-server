@@ -6,7 +6,7 @@ import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMem
 import com.beside.groubing.groubingserver.domain.blockedmember.entity.BlockedMemberEntity
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
 import com.beside.groubing.groubingserver.domain.blockedmember.repository.BlockedMemberJpaRepository
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
+import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Import
 class BlockedMemberValidateDaoTest(
     private val blockedMemberValidateDao: BlockedMemberValidateDao,
     private val blockedMemberJpaRepository: BlockedMemberJpaRepository,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberJpaRepository
 ) : FunSpec({
     beforeEach {
         val members =

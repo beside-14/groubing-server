@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.friend.domain
 
-import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -19,10 +19,10 @@ import jakarta.persistence.Table
 class Friend constructor(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INVITER_ID")
-    val inviter: Member,
+    val inviter: MemberEntity,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INVITEE_ID")
-    val invitee: Member,
+    val invitee: MemberEntity,
 ) : BaseEntity() {
     @Id
     @Column(name = "FRIEND_ID")
@@ -33,7 +33,7 @@ class Friend constructor(
     var status: FriendStatus = FriendStatus.PENDING
 
     companion object {
-        fun create(inviter: Member, invitee: Member): Friend {
+        fun create(inviter: MemberEntity, invitee: MemberEntity): Friend {
             return Friend(inviter, invitee)
         }
     }

@@ -1,7 +1,9 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
+import com.beside.groubing.groubingserver.domain.auth.domain.port.PasswordEncryptor
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
-import org.springframework.security.crypto.password.PasswordEncoder
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
+import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -9,16 +11,14 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class MemberPasswordResetService(
     private val memberFindDao: MemberFindDao,
-    private val passwordEncoder: PasswordEncoder
+    private val memberCommandRepository: MemberCommandRepository,
+    private val passwordEncryptor: PasswordEncryptor
 ) {
-    fun reset(
-        id: Long,
-        beforePassword: String,
-        afterPassword: String
-    ) {
+    fun reset(id: Long, beforePassword: String, afterPassword: String) {
         val member = memberFindDao.findExistingMemberById(id)
-        member.matches(beforePassword, passwordEncoder)
-        val encodedPassword = passwordEncoder.encode(afterPassword)
-        member.editPassword(encodedPassword)
+        if (!passwordEncryptor.matches(beforePassword, member.password)) {
+            throw MemberInputException("비밀번호가 일치하지 않습니다.")
+        }
+        memberCommandRepository.update(member.withPassword(passwordEncryptor.encode(afterPassword)))
     }
 }

@@ -3,11 +3,15 @@ package com.beside.groubing.groubingserver.domain.member.application
 import com.beside.groubing.groubingserver.domain.auth.application.command.SocialLoginCommand
 import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
 import com.beside.groubing.groubingserver.domain.auth.domain.port.SocialInfoRepository
-import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
+import com.beside.groubing.groubingserver.domain.auth.domain.port.TokenManager
 import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
+import com.beside.groubing.groubingserver.domain.member.domain.NewMember
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
+import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.response.SocialMemberResponse
-import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,16 +19,16 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class SocialLoginService(
     private val socialInfoRepository: SocialInfoRepository,
-
-    private val memberRepository: MemberRepository,
-
-    private val memberFindDao: MemberFindDao
+    private val memberCommandRepository: MemberCommandRepository,
+    private val memberQueryRepository: MemberQueryRepository,
+    private val tokenManager: TokenManager
 ) {
     fun login(socialLoginCommand: SocialLoginCommand): SocialMemberResponse {
         val socialInfo = findOrCreateSocialInfo(socialLoginCommand)
-        val member = memberFindDao.findExistingMemberById(socialInfo.memberId)
-        member.editFcmToken(socialLoginCommand.fcmToken)
-        return createSocialMemberResponse(member = member, hasNickname = member.nickname.isNotBlank())
+        val member = memberQueryRepository.findById(socialInfo.memberId)
+            ?: throw MemberInputException("존재하지 않는 유저 입니다.")
+        val updated = memberCommandRepository.update(member.withFcmToken(socialLoginCommand.fcmToken))
+        return toResponse(updated, hasNickname = updated.nickname.isNotBlank())
     }
 
     private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): SocialInfo {
@@ -32,7 +36,15 @@ class SocialLoginService(
             socialLoginCommand.id,
             socialLoginCommand.socialType
         ) ?: run {
-            val member = memberRepository.save(Member.createSocialMember(socialLoginCommand.email))
+            val member = memberCommandRepository.save(
+                NewMember(
+                    email = socialLoginCommand.email,
+                    password = "",
+                    nickname = "",
+                    role = MemberRole.MEMBER,
+                    memberType = MemberType.SOCIAL
+                )
+            )
             socialInfoRepository.save(
                 SocialInfo.create(
                     socialId = socialLoginCommand.id,
@@ -44,14 +56,12 @@ class SocialLoginService(
         }
     }
 
-    private fun createSocialMemberResponse(member: Member, hasNickname: Boolean): SocialMemberResponse {
-        return SocialMemberResponse(
-            id = member.id,
-            email = member.email,
-            nickname = member.nickname,
-            profileUrl = member.profile?.url,
-            token = JwtProvider.createToken(memberId = member.id, role = member.role.name),
-            hasNickname = hasNickname
-        )
-    }
+    private fun toResponse(member: Member, hasNickname: Boolean): SocialMemberResponse = SocialMemberResponse(
+        id = member.id,
+        email = member.email,
+        nickname = member.nickname,
+        profileUrl = member.profileUrl,
+        token = tokenManager.generateAccessToken(memberId = member.id, role = member.role.name),
+        hasNickname = hasNickname
+    )
 }

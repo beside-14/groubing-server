@@ -2,7 +2,7 @@ package com.beside.groubing.groubingserver.domain.friend.payload.response
 
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
-import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 
 data class FriendRequestResponse(
     val id: Long,
@@ -12,7 +12,7 @@ data class FriendRequestResponse(
     val profileUrl: String?,
     val status: FriendStatus
 ) {
-    private constructor(id: Long, status: FriendStatus, member: Member) : this(
+    private constructor(id: Long, status: FriendStatus, member: MemberEntity) : this(
         id,
         member.id,
         member.email,

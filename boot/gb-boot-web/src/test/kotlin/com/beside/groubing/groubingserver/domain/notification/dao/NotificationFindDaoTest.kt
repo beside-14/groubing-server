@@ -2,7 +2,7 @@ package com.beside.groubing.groubingserver.domain.notification.dao
 
 import com.beside.groubing.groubingserver.aMember
 import com.beside.groubing.groubingserver.config.QuerydslConfig
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
+import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.groubingserver.domain.notification.entity.NotificationEntity
 import com.beside.groubing.groubingserver.domain.notification.repository.NotificationJpaRepository
 import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import
 @LocalPersistenceTest
 @Import(QuerydslConfig::class, NotificationFindDao::class)
 class NotificationFindDaoTest(
-    private val memberRepository: MemberRepository,
+    private val memberRepository: MemberJpaRepository,
 
     private val notificationJpaRepository: NotificationJpaRepository,
 

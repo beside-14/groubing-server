@@ -2,7 +2,7 @@ package com.beside.groubing.groubingserver.domain.feed.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
-import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 
 class FeedResponse private constructor(
     val memberId: Long,
@@ -34,7 +34,7 @@ class FeedResponse private constructor(
     }
 
     companion object {
-        fun create(member: Member, bingoItems: List<BingoItem>): FeedResponse {
+        fun create(member: MemberEntity, bingoItems: List<BingoItem>): FeedResponse {
             return FeedResponse(memberId = member.id, nickname = member.nickname, profile = member.profile?.url,
                 feedItems = bingoItems.map { FeedItemDto.create(it) }
             )

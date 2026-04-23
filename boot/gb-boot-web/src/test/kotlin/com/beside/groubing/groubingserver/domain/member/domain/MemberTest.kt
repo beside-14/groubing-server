@@ -1,6 +1,5 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
-import com.beside.groubing.groubingserver.aMember
 import io.kotest.core.spec.style.ExpectSpec
 import io.kotest.matchers.shouldBe
 
@@ -10,16 +9,27 @@ class MemberTest : ExpectSpec({
             val oldEmail = "testtesttesttest@groubing.com"
             val newEmail = "testtest********@groubing.com"
             val member = aMember(email = oldEmail)
-            val replaceEmail = member.maskEmail()
-            replaceEmail shouldBe newEmail
+            member.maskEmail() shouldBe newEmail
         }
 
         expect("username 의 길이가 홀수인 경우") {
             val oldEmail = "testtesttesttes@groubing.com"
             val newEmail = "testtes********@groubing.com"
             val member = aMember(email = oldEmail)
-            val replaceEmail = member.maskEmail()
-            replaceEmail shouldBe newEmail
+            member.maskEmail() shouldBe newEmail
         }
     }
 })
+
+private fun aMember(email: String): Member = Member(
+    id = 0L,
+    email = email,
+    password = "1234",
+    nickname = "tester",
+    role = MemberRole.MEMBER,
+    memberType = MemberType.CLASSIC,
+    fcmToken = null,
+    notificationReceive = true,
+    active = true,
+    profileUrl = null
+)

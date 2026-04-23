@@ -11,8 +11,9 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.feed.application.FeedListFindService
 import com.beside.groubing.groubingserver.domain.feed.application.FriendFeedListFindService
 import com.beside.groubing.groubingserver.domain.feed.payload.response.FeedResponse
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -44,11 +45,23 @@ class FeedListFindApiTest(
 
         val feedResponses = listOf(
             FeedResponse.create(
-                member = Member.create(nickname = "홀맨친구", email = "holeman79@nate.com", password = "1234", role = MemberRole.MEMBER),
+                member = MemberEntity(
+                    email = "holeman79@nate.com",
+                    password = "1234",
+                    nickname = "홀맨친구",
+                    role = MemberRole.MEMBER,
+                    memberType = MemberType.CLASSIC
+                ),
                 bingoItems = healthBingoItems
             ),
             FeedResponse.create(
-                member = Member.create(nickname = "슈뢰딩거", email = "gather@naver.com", password = "1234", role = MemberRole.MEMBER),
+                member = MemberEntity(
+                    email = "gather@naver.com",
+                    password = "1234",
+                    nickname = "슈뢰딩거",
+                    role = MemberRole.MEMBER,
+                    memberType = MemberType.CLASSIC
+                ),
                 bingoItems = gameBingoItems
             )
         )

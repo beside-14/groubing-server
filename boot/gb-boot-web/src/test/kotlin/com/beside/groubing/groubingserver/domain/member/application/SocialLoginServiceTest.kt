@@ -4,11 +4,12 @@ import com.beside.groubing.groubingserver.domain.auth.application.command.Social
 import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
 import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
 import com.beside.groubing.groubingserver.domain.auth.domain.port.SocialInfoRepository
-import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
+import com.beside.groubing.groubingserver.domain.auth.domain.port.TokenManager
 import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -16,19 +17,39 @@ import io.mockk.mockk
 
 class SocialLoginServiceTest : BehaviorSpec({
     val mockSocialInfoRepository = mockk<SocialInfoRepository>()
-    val mockMemberRepository = mockk<MemberRepository>()
-    val mockMemberFindDao = mockk<MemberFindDao>()
-    val socialLoginService = SocialLoginService(mockSocialInfoRepository, mockMemberRepository, mockMemberFindDao)
+    val mockMemberCommandRepository = mockk<MemberCommandRepository>()
+    val mockMemberQueryRepository = mockk<MemberQueryRepository>()
+    val mockTokenManager = mockk<TokenManager>()
+    val socialLoginService = SocialLoginService(
+        mockSocialInfoRepository,
+        mockMemberCommandRepository,
+        mockMemberQueryRepository,
+        mockTokenManager
+    )
 
     Given("SocialLoginService가 주어졌을 때") {
         fun prepareMock(existingMember: Member, existingSocialInfo: SocialInfo? = null) {
-            every { mockMemberFindDao.findExistingMemberById(any()) } returns existingMember
+            every { mockMemberQueryRepository.findById(any()) } returns existingMember
+            every { mockMemberCommandRepository.update(any()) } returns existingMember
             every { mockSocialInfoRepository.findBySocialIdAndSocialType(any(), any()) } returns existingSocialInfo
+            every { mockTokenManager.generateAccessToken(any(), any()) } returns "token"
         }
 
         val fcmToken = "cFypG01m0s:APA91bEETmrwFTfkpscX3_qpYx03NE"
-        fun createSocialLoginCommand(id: String, email: String, socialType: SocialType) = SocialLoginCommand(id, email, socialType, fcmToken)
-        fun createMember(id: Long, email: String) = Member(id, email, "", "nickname", MemberRole.MEMBER, MemberType.SOCIAL)
+        fun createSocialLoginCommand(id: String, email: String, socialType: SocialType) =
+            SocialLoginCommand(id, email, socialType, fcmToken)
+        fun createMember(id: Long, email: String) = Member(
+            id = id,
+            email = email,
+            password = "",
+            nickname = "nickname",
+            role = MemberRole.MEMBER,
+            memberType = MemberType.SOCIAL,
+            fcmToken = null,
+            notificationReceive = true,
+            active = true,
+            profileUrl = null
+        )
 
         When("이미 존재하는 사용자로 로그인하는 경우") {
             val memberId = 1L
@@ -54,7 +75,7 @@ class SocialLoginServiceTest : BehaviorSpec({
 
             prepareMock(newMember)
             every { mockSocialInfoRepository.save(any()) } returns SocialInfo.of(0L, socialId, email, SocialType.KAKAO, memberId)
-            every { mockMemberRepository.save(any()) } returns newMember
+            every { mockMemberCommandRepository.save(any()) } returns newMember
 
             val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))
 

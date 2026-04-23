@@ -12,6 +12,6 @@ class MemberFindResponse(
         memberId = member.id,
         email = member.email,
         nickname = member.nickname,
-        profileUrl = member.profile?.url
+        profileUrl = member.profileUrl
     )
 }

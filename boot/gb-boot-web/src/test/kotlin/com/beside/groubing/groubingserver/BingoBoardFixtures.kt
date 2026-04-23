@@ -16,9 +16,9 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoMemberType
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoSize
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
@@ -114,14 +114,14 @@ fun aGameBingoBoard(): BingoBoard {
     return createBingoBoard(4L, BingoBoardType.GROUP, 1L, 3, "게임하기", listOf(2, 4, 10))
 }
 
-fun aMember(memberId: Long): Member {
-    return Member(
+fun aMember(memberId: Long): MemberEntity {
+    return MemberEntity(
         id = memberId,
         email = "test${memberId}@gmail.com",
-        "1234",
-        "test${memberId}",
+        password = "1234",
+        nickname = "test${memberId}",
         role = MemberRole.MEMBER,
-        MemberType.CLASSIC
+        memberType = MemberType.CLASSIC
     )
 }
 
@@ -152,11 +152,12 @@ fun aMember(
         .single(),
     password: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single(),
     nickname: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single()
-): Member {
-    return Member.create(
+): MemberEntity {
+    return MemberEntity(
         email = email,
         password = password,
         nickname = nickname,
-        role = MemberRole.MEMBER
+        role = MemberRole.MEMBER,
+        memberType = MemberType.CLASSIC
     )
 }

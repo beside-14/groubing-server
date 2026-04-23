@@ -5,7 +5,7 @@ import com.beside.groubing.groubingserver.domain.friend.domain.FriendRepository
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 import com.beside.groubing.groubingserver.domain.friend.domain.QFriend.friend
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
-import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
@@ -27,7 +27,7 @@ class FriendFindDao(
         return friendRepository.findById(id).orElseThrow { FriendInputException("존재하지 않는 친구 요청입니다.") }
     }
 
-    fun findAllByInviterIdOrInviteeId(memberId: Long): Map<Long, Member> {
+    fun findAllByInviterIdOrInviteeId(memberId: Long): Map<Long, MemberEntity> {
         val isActive = friend.inviter.active.isTrue.and(friend.invitee.active.isTrue)
         val isAccept = friend.status.eq(FriendStatus.ACCEPT)
         val isInviter = friend.inviter.id.eq(memberId)

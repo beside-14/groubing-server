@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.blockedmember.dao
 
 import com.beside.groubing.groubingserver.domain.blockedmember.entity.QBlockedMemberEntity.blockedMemberEntity
-import com.beside.groubing.groubingserver.domain.member.domain.QMember.member
+import com.beside.groubing.groubingserver.domain.member.entity.QMemberEntity.memberEntity as member
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 

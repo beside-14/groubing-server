@@ -5,7 +5,7 @@ import com.beside.groubing.groubingserver.config.QuerydslConfig
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendRepository
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
+import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import
 class FriendFindDaoTest(
     private val friendFindDao: FriendFindDao,
     private val friendRepository: FriendRepository,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberJpaRepository
 ) : FunSpec({
 
     var memberId: Long = 0L

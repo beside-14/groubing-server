@@ -6,8 +6,8 @@ import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardRepository
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
-import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
+import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
+import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import
 class FeedListFindDaoTest(
     private val feedListFindDao: FeedListFindDao,
 
-    private val memberRepository: MemberRepository,
+    private val memberRepository: MemberJpaRepository,
 
     private val bingoBoardRepository: BingoBoardRepository
 ) : FunSpec({
@@ -29,7 +29,7 @@ class FeedListFindDaoTest(
     var healthBoardId = 2L
     var gameBoardId = 3L
 
-    var members: List<Member> = listOf()
+    var members: List<MemberEntity> = listOf()
 
     beforeEach {
         memberRepository.saveAll(
