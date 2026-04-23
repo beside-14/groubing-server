@@ -10,7 +10,6 @@ import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.domain.NewMember
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
-import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.response.SocialMemberResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,7 +25,6 @@ class SocialLoginService(
     fun login(socialLoginCommand: SocialLoginCommand): SocialMemberResponse {
         val socialInfo = findOrCreateSocialInfo(socialLoginCommand)
         val member = memberQueryRepository.findById(socialInfo.memberId)
-            ?: throw MemberInputException("존재하지 않는 유저 입니다.")
         val updated = memberCommandRepository.update(member.withFcmToken(socialLoginCommand.fcmToken))
         return toResponse(updated, hasNickname = updated.nickname.isNotBlank())
     }

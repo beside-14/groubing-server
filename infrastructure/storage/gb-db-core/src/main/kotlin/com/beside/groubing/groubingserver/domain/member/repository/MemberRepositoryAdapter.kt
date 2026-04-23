@@ -18,26 +18,23 @@ class MemberRepositoryAdapter(
     }
 
     override fun update(member: Member): Member {
-        val entity = memberJpaRepository.findById(member.id)
-            .orElseThrow { MemberInputException("존재하지 않는 유저 입니다.") }
+        val entity = findEntityById(member.id)
         entity.applyChanges(member)
         return entity.toDomain()
     }
 
-    override fun findById(id: Long): Member? {
-        return memberJpaRepository.findById(id).map { it.toDomain() }.orElse(null)
+    override fun findById(id: Long): Member {
+        return findEntityById(id).toDomain()
     }
 
-    override fun findByEmail(email: String): Member? {
+    override fun findByEmail(email: String): Member {
         return memberJpaRepository.findByEmail(email)?.toDomain()
+            ?: throw MemberInputException("존재하지 않는 유저 입니다.")
     }
 
-    override fun findByEmailAndMemberType(email: String, memberType: MemberType): Member? {
+    override fun findByEmailAndMemberType(email: String, memberType: MemberType): Member {
         return memberJpaRepository.findByEmailAndMemberType(email, memberType)?.toDomain()
-    }
-
-    override fun findPushRecipients(): List<Member> {
-        return memberJpaRepository.findByFcmTokenNotNullAndNotificationReceiveIsTrue().map { it.toDomain() }
+            ?: throw MemberInputException("존재하지 않는 이메일 입니다.: $email")
     }
 
     override fun existsByEmail(email: String): Boolean {
@@ -50,5 +47,11 @@ class MemberRepositoryAdapter(
 
     override fun countByIdIn(ids: Collection<Long>): Int {
         return memberJpaRepository.countByIdIn(ids)
+    }
+
+    private fun findEntityById(id: Long): MemberEntity {
+        return memberJpaRepository.findById(id).orElseThrow {
+            MemberInputException("존재하지 않는 유저 입니다.")
+        }
     }
 }

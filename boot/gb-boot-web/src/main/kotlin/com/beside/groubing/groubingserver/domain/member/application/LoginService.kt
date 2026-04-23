@@ -21,7 +21,6 @@ class LoginService(
 ) {
     fun login(loginCommand: LoginCommand): MemberResponse {
         val member = memberQueryRepository.findByEmailAndMemberType(loginCommand.email, MemberType.CLASSIC)
-            ?: throw MemberInputException("존재하지 않는 이메일 입니다.: ${loginCommand.email}")
         if (!passwordEncryptor.matches(loginCommand.password, member.password)) {
             throw MemberInputException("비밀번호가 일치하지 않습니다.")
         }

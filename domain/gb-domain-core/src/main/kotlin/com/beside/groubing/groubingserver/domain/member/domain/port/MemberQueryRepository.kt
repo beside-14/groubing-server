@@ -4,13 +4,11 @@ import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 
 interface MemberQueryRepository {
-    fun findById(id: Long): Member?
+    fun findById(id: Long): Member
 
-    fun findByEmail(email: String): Member?
+    fun findByEmail(email: String): Member
 
-    fun findByEmailAndMemberType(email: String, memberType: MemberType): Member?
-
-    fun findPushRecipients(): List<Member>
+    fun findByEmailAndMemberType(email: String, memberType: MemberType): Member
 
     fun existsByEmail(email: String): Boolean
 
