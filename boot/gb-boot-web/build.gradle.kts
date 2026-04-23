@@ -47,6 +47,10 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
+    // Config modules
+    runtimeOnly(project(":config:gb-config-yaml-importer"))
+    runtimeOnly(project(":config:gb-config-logging"))
+
     // AsciiDocs
     val asciidoctorExt: Configuration by configurations.creating
     asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
