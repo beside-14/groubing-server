@@ -12,28 +12,18 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Spring
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    // QueryDSL
-    implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
+    // QueryDSL Q-클래스는 여전히 이 모듈의 엔티티들에서 생성되어야 한다.
     kapt("com.querydsl:querydsl-apt:5.1.0:jakarta")
     kapt("jakarta.annotation:jakarta.annotation-api")
     kapt("jakarta.persistence:jakarta.persistence-api")
 
-    // JWT
+    // Infrastructure
+    implementation(project(":infrastructure:storage:gb-db-core"))
     implementation(project(":infrastructure:support:gb-jwt-core"))
-
-    // MySql
-    runtimeOnly("com.mysql:mysql-connector-j")
-
-    // H2
-    runtimeOnly("com.h2database:h2")
-
-    // p6spy
-    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.2")
 
     // Kotlin-Logging
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
