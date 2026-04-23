@@ -51,7 +51,7 @@ class SocialLoginService(
             email = member.email,
             nickname = member.nickname,
             profileUrl = member.profile?.url,
-            token = JwtProvider.createToken(memberId = member.id, role = member.role),
+            token = JwtProvider.createToken(memberId = member.id, role = member.role.name),
             hasNickname = hasNickname
         )
     }

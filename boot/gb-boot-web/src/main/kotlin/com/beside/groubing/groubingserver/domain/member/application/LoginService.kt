@@ -28,7 +28,7 @@ class LoginService(
             member.email!!,
             member.nickname,
             member.profile?.url,
-            JwtProvider.createToken(member.id, member.role),
+            JwtProvider.createToken(member.id, member.role.name),
             member.notificationReceive
         )
     }

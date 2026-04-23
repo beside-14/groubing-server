@@ -24,7 +24,7 @@ class SignUpService(
         // TODO(비속어 체크)
         try {
             val savedMember = memberRepository.save(memberMapper.toMember(signUpCommand))
-            val token = JwtProvider.createToken(savedMember.id, savedMember.role)
+            val token = JwtProvider.createToken(savedMember.id, savedMember.role.name)
             return MemberResponse(
                 savedMember.id,
                 savedMember.email!!,

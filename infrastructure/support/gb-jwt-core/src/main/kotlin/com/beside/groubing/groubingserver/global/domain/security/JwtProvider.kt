@@ -1,6 +1,5 @@
 package com.beside.groubing.groubingserver.global.domain.security
 
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -23,7 +22,7 @@ class JwtProvider {
         private const val MEMBER_ID = "memberId"
         private const val ROLE = "role"
 
-        fun createToken(memberId: Long, role: MemberRole): String {
+        fun createToken(memberId: Long, role: String): String {
             val issuedAt = LocalDateTime.now()
             val issuedDate = Date.from(issuedAt.atZone(ZoneId.systemDefault()).toInstant())
 
@@ -31,7 +30,7 @@ class JwtProvider {
             val expirationDate = Date.from(expiration.atZone(ZoneId.systemDefault()).toInstant())
 
             val claims =
-                mapOf(MEMBER_ID to memberId, ROLE to role.name)
+                mapOf(MEMBER_ID to memberId, ROLE to role)
 
             return Jwts.builder()
                 .setClaims(claims)
