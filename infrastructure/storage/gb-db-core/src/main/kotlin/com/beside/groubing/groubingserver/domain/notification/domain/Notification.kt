@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "NOTIFICATIONS")
-class Notification internal constructor(
+class Notification constructor(
     val bingoBoardId: Long,
 
     val memberId: Long,

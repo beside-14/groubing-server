@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Entity
 @Where(clause = "active = true")
 @Table(name = "MEMBERS")
-class Member internal constructor(
+class Member constructor(
     @Id
     @Column(name = "MEMBER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

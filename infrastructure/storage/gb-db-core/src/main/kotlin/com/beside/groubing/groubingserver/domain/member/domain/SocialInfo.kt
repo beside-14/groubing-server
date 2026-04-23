@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "SOCIAL_INFOS")
-class SocialInfo internal constructor(
+class SocialInfo constructor(
     val socialId: String,
 
     val email: String?,

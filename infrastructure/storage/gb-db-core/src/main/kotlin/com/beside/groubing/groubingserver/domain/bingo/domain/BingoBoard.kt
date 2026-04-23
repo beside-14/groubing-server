@@ -24,7 +24,7 @@ import kotlin.random.Random
 
 @Entity
 @Table(name = "BINGO_BOARDS")
-class BingoBoard internal constructor(
+class BingoBoard constructor(
     @Id
     @Column(name = "BINGO_BOARD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
