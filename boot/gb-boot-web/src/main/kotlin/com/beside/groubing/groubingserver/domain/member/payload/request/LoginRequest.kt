@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.payload.request
 
-import com.beside.groubing.groubingserver.domain.member.payload.command.LoginCommand
+import com.beside.groubing.groubingserver.domain.auth.application.command.LoginCommand
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 

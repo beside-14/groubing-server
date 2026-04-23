@@ -1,0 +1,20 @@
+package com.beside.groubing.groubingserver.domain.auth.repository
+
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
+import com.beside.groubing.groubingserver.domain.auth.domain.port.SocialInfoRepository
+import com.beside.groubing.groubingserver.domain.auth.entity.SocialInfoEntity
+import org.springframework.stereotype.Repository
+
+@Repository
+class SocialInfoRepositoryAdapter(
+    private val socialInfoJpaRepository: SocialInfoJpaRepository
+) : SocialInfoRepository {
+    override fun save(socialInfo: SocialInfo): SocialInfo {
+        return socialInfoJpaRepository.save(SocialInfoEntity.from(socialInfo)).toDomain()
+    }
+
+    override fun findBySocialIdAndSocialType(socialId: String, socialType: SocialType): SocialInfo? {
+        return socialInfoJpaRepository.findBySocialIdAndSocialType(socialId, socialType)?.toDomain()
+    }
+}

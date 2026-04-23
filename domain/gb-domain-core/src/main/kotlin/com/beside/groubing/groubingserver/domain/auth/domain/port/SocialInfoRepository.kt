@@ -1,0 +1,10 @@
+package com.beside.groubing.groubingserver.domain.auth.domain.port
+
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
+
+interface SocialInfoRepository {
+    fun save(socialInfo: SocialInfo): SocialInfo
+
+    fun findBySocialIdAndSocialType(socialId: String, socialType: SocialType): SocialInfo?
+}

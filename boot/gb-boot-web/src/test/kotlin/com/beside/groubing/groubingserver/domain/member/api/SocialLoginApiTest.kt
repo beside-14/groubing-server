@@ -10,7 +10,7 @@ import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.member.application.SocialLoginService
-import com.beside.groubing.groubingserver.domain.member.domain.SocialType
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
 import com.beside.groubing.groubingserver.domain.member.payload.request.SocialLoginRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.SocialMemberResponse
 import com.beside.groubing.groubingserver.extension.getJwt

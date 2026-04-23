@@ -1,4 +1,6 @@
 dependencies {
+    implementation(project(":domain:gb-domain-core"))
+
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
 

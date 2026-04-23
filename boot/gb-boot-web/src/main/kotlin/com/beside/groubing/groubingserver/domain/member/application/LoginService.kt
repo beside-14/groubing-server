@@ -3,7 +3,7 @@ package com.beside.groubing.groubingserver.domain.member.application
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
-import com.beside.groubing.groubingserver.domain.member.payload.command.LoginCommand
+import com.beside.groubing.groubingserver.domain.auth.application.command.LoginCommand
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 import org.springframework.security.crypto.password.PasswordEncoder

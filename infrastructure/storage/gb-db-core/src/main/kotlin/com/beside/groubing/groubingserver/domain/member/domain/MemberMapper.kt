@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.domain
 
-import com.beside.groubing.groubingserver.domain.member.payload.command.SignUpCommand
+import com.beside.groubing.groubingserver.domain.auth.application.command.SignUpCommand
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 

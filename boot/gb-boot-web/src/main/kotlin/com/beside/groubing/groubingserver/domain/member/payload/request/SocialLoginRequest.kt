@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.member.payload.request
 
-import com.beside.groubing.groubingserver.domain.member.domain.SocialType
-import com.beside.groubing.groubingserver.domain.member.payload.command.SocialLoginCommand
+import com.beside.groubing.groubingserver.domain.auth.application.command.SocialLoginCommand
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 

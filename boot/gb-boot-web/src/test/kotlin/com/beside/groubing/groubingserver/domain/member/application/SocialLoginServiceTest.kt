@@ -1,19 +1,18 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
+import com.beside.groubing.groubingserver.domain.auth.application.command.SocialLoginCommand
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
+import com.beside.groubing.groubingserver.domain.auth.domain.port.SocialInfoRepository
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
-import com.beside.groubing.groubingserver.domain.member.domain.SocialInfo
-import com.beside.groubing.groubingserver.domain.member.domain.SocialInfoRepository
-import com.beside.groubing.groubingserver.domain.member.domain.SocialType
-import com.beside.groubing.groubingserver.domain.member.payload.command.SocialLoginCommand
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import java.util.Optional
 
 class SocialLoginServiceTest : BehaviorSpec({
     val mockSocialInfoRepository = mockk<SocialInfoRepository>()
@@ -24,7 +23,7 @@ class SocialLoginServiceTest : BehaviorSpec({
     Given("SocialLoginService가 주어졌을 때") {
         fun prepareMock(existingMember: Member, existingSocialInfo: SocialInfo? = null) {
             every { mockMemberFindDao.findExistingMemberById(any()) } returns existingMember
-            every { mockSocialInfoRepository.findBySocialIdAndSocialType(any(), any()) } returns Optional.ofNullable(existingSocialInfo)
+            every { mockSocialInfoRepository.findBySocialIdAndSocialType(any(), any()) } returns existingSocialInfo
         }
 
         val fcmToken = "cFypG01m0s:APA91bEETmrwFTfkpscX3_qpYx03NE"
@@ -36,7 +35,7 @@ class SocialLoginServiceTest : BehaviorSpec({
             val socialId = "153262439"
             val email = "email@example.com"
             val existingMember = createMember(memberId, email)
-            val existingSocialInfo = SocialInfo(socialId, email, SocialType.KAKAO, memberId)
+            val existingSocialInfo = SocialInfo.of(0L, socialId, email, SocialType.KAKAO, memberId)
 
             prepareMock(existingMember, existingSocialInfo)
             val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))
@@ -54,7 +53,7 @@ class SocialLoginServiceTest : BehaviorSpec({
             val newMember = createMember(memberId, email)
 
             prepareMock(newMember)
-            every { mockSocialInfoRepository.save(any()) } returns SocialInfo(socialId, email, SocialType.KAKAO, memberId)
+            every { mockSocialInfoRepository.save(any()) } returns SocialInfo.of(0L, socialId, email, SocialType.KAKAO, memberId)
             every { mockMemberRepository.save(any()) } returns newMember
 
             val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))

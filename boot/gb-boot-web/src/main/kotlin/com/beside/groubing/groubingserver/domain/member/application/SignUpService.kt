@@ -4,7 +4,7 @@ import com.beside.groubing.groubingserver.domain.member.dao.MemberValidateDao
 import com.beside.groubing.groubingserver.domain.member.domain.MemberMapper
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
-import com.beside.groubing.groubingserver.domain.member.payload.command.SignUpCommand
+import com.beside.groubing.groubingserver.domain.auth.application.command.SignUpCommand
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 import org.springframework.dao.DataIntegrityViolationException

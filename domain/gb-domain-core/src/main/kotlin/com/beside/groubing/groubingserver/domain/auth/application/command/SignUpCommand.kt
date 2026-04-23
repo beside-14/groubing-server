@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.member.payload.command
+package com.beside.groubing.groubingserver.domain.auth.application.command
 
 class SignUpCommand(
     val email: String,

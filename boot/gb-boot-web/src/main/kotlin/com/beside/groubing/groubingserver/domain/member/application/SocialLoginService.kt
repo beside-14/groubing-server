@@ -1,11 +1,11 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
+import com.beside.groubing.groubingserver.domain.auth.application.command.SocialLoginCommand
+import com.beside.groubing.groubingserver.domain.auth.domain.SocialInfo
+import com.beside.groubing.groubingserver.domain.auth.domain.port.SocialInfoRepository
 import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
 import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRepository
-import com.beside.groubing.groubingserver.domain.member.domain.SocialInfo
-import com.beside.groubing.groubingserver.domain.member.domain.SocialInfoRepository
-import com.beside.groubing.groubingserver.domain.member.payload.command.SocialLoginCommand
 import com.beside.groubing.groubingserver.domain.member.payload.response.SocialMemberResponse
 import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 import org.springframework.stereotype.Service
@@ -28,13 +28,13 @@ class SocialLoginService(
     }
 
     private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): SocialInfo {
-        val socialInfo = socialInfoRepository.findBySocialIdAndSocialType(
+        return socialInfoRepository.findBySocialIdAndSocialType(
             socialLoginCommand.id,
             socialLoginCommand.socialType
-        ).orElseGet {
+        ) ?: run {
             val member = memberRepository.save(Member.createSocialMember(socialLoginCommand.email))
             socialInfoRepository.save(
-                SocialInfo(
+                SocialInfo.create(
                     socialId = socialLoginCommand.id,
                     email = socialLoginCommand.email,
                     socialType = socialLoginCommand.socialType,
@@ -42,7 +42,6 @@ class SocialLoginService(
                 )
             )
         }
-        return socialInfo
     }
 
     private fun createSocialMemberResponse(member: Member, hasNickname: Boolean): SocialMemberResponse {
