@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
-import com.beside.groubing.groubingserver.global.domain.file.application.FileProvider
+import com.beside.groubing.groubingserver.global.domain.file.application.FileStorage
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,6 +12,6 @@ class MemberProfileDeleteService(
 ) {
     fun delete(id: Long) {
         val previousProfile = memberCommandRepository.deleteProfile(id)
-        previousProfile?.let { FileProvider.delete(it) }
+        previousProfile?.let { FileStorage.delete(it) }
     }
 }

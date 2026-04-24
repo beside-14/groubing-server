@@ -2,6 +2,7 @@ package com.beside.groubing.groubingserver.domain.member.api
 
 import com.beside.groubing.groubingserver.domain.member.application.MemberProfileEditService
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberProfileResponse
+import com.beside.groubing.groubingserver.global.domain.file.application.FileProvider
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,8 +21,8 @@ class MemberProfileEditApi(
         @PathVariable id: Long,
         @RequestPart profile: MultipartFile
     ): ApiResponse<MemberProfileResponse> {
-        val profileUrl = memberProfileEditService.edit(id, profile)
-        val response = MemberProfileResponse(profileUrl)
-        return ApiResponse.OK(response)
+        val newProfile = FileProvider.upload(profile)
+        val profileUrl = memberProfileEditService.edit(id, newProfile)
+        return ApiResponse.OK(MemberProfileResponse(profileUrl))
     }
 }

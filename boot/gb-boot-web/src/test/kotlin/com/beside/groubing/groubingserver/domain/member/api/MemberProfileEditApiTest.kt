@@ -12,6 +12,7 @@ import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.member.application.MemberProfileEditService
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberProfileResponse
 import com.beside.groubing.groubingserver.extension.multipart
+import com.beside.groubing.groubingserver.global.domain.file.application.FileProvider
 import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -21,6 +22,8 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpMethod
@@ -42,6 +45,9 @@ class MemberProfileEditApiTest(
     private val mapper: ObjectMapper,
     @MockkBean private val memberProfileEditService: MemberProfileEditService
 ) : BehaviorSpec({
+    beforeSpec { mockkObject(FileProvider.Companion) }
+    afterSpec { unmockkObject(FileProvider.Companion) }
+
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
         val imageData = "Test image data".toByteArray()
@@ -51,6 +57,7 @@ class MemberProfileEditApiTest(
         val fileInfo = FileInfo.create("/groubing", fileName, profile.originalFilename)
 
         When("새로운 프로필 이미지를 등록하는 경우") {
+            every { FileProvider.upload(any()) } returns fileInfo
             every { memberProfileEditService.edit(any(), any()) } returns fileInfo.url
             val response = MemberProfileResponse(fileInfo.url)
 
