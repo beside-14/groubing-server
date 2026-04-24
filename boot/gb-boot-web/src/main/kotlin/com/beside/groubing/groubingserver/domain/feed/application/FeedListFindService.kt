@@ -15,12 +15,13 @@ class FeedListFindService(
 
 ) {
     fun findAllFeeds(myMemberId: Long): List<FeedResponse> {
-        val friends = friendFindDao.findAllByInviterIdOrInviteeId(myMemberId)
-        val findFeeds = feedListFindDao.findFeeds(friendIds = friends.values.map { it.id }
-            .plus(myMemberId))
-        val friendRequestReceivedList = friendFindDao.findAllByInviteeId(myMemberId)
+        val acceptedFriends = friendFindDao.findAllAcceptedOf(myMemberId)
+        val findFeeds = feedListFindDao.findFeeds(
+            friendIds = acceptedFriends.map { it.memberId }.plus(myMemberId)
+        )
+        val friendRequestReceivedList = friendFindDao.findAllReceivedBy(myMemberId)
             .filter { !it.status.isReject() }
-        val friendRequestSendList = friendFindDao.findAllByInviterId(myMemberId)
+        val friendRequestSendList = friendFindDao.findAllSentBy(myMemberId)
             .filter { !it.status.isReject() }
         findFeeds.map { it.checkFriendRequest(friendRequestReceivedList, friendRequestSendList) }
         return findFeeds

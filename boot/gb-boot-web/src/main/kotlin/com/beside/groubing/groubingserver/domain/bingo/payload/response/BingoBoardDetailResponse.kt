@@ -2,7 +2,7 @@ package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
-import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
+import com.beside.groubing.groubingserver.domain.member.domain.Member
 import java.time.LocalDate
 
 class BingoBoardDetailResponse private constructor(
@@ -39,8 +39,8 @@ class BingoBoardDetailResponse private constructor(
     companion object {
         fun fromBingoBoard(
             bingoBoard: BingoBoard,
-            member: MemberEntity,
-            otherMembers: List<MemberEntity>
+            member: Member,
+            otherMembers: List<Member>
         ): BingoBoardDetailResponse {
             return BingoBoardDetailResponse(
                 id = bingoBoard.id,
@@ -63,4 +63,3 @@ class BingoBoardDetailResponse private constructor(
         }
     }
 }
-

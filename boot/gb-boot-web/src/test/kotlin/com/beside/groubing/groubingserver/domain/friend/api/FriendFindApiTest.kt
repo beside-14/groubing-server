@@ -57,7 +57,7 @@ class FriendFindApiTest(
                 )
             )
             val response = listOf(friend.single())
-            every { friendFindService.findAllByInviterIdOrInviteeId(any()) } returns response
+            every { friendFindService.findAllAcceptedOf(any()) } returns response
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends") {
@@ -96,7 +96,7 @@ class FriendFindApiTest(
             )
 
             val response = listOf(friendRequest.single())
-            every { friendFindService.findAllByInviteeId(any()) } returns response
+            every { friendFindService.findAllReceivedPendingBy(any()) } returns response
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends/received-requests") {
@@ -136,7 +136,7 @@ class FriendFindApiTest(
             )
 
             val response = listOf(friendRequest.single())
-            every { friendFindService.findAllByInviterIdAndStatusIsPending(any()) } returns response
+            every { friendFindService.findAllSentPendingBy(any()) } returns response
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends/send-requests") {

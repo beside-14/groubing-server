@@ -10,6 +10,10 @@ interface MemberQueryRepository {
 
     fun findByEmailAndMemberType(email: String, memberType: MemberType): Member
 
+    fun findAllSortedByNickname(): List<Member>
+
+    fun findAllByIdIn(ids: Collection<Long>): List<Member>
+
     fun existsByEmail(email: String): Boolean
 
     fun existsByNickname(nickname: String): Boolean

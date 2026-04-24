@@ -7,15 +7,15 @@ import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMem
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.port.BlockedMemberRepository
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
 import com.beside.groubing.groubingserver.domain.blockedmember.repository.BlockedMemberRepositoryAdapter
-import com.beside.groubing.groubingserver.domain.friend.dao.FriendFindDao
-import com.beside.groubing.groubingserver.domain.friend.dao.FriendValidateDao
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
-import com.beside.groubing.groubingserver.domain.friend.domain.FriendRepository
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
+import com.beside.groubing.groubingserver.domain.friend.entity.FriendEntity
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
-import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
-import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
+import com.beside.groubing.groubingserver.domain.friend.repository.FriendJpaRepository
+import com.beside.groubing.groubingserver.domain.friend.repository.FriendRepositoryAdapter
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
+import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
+import com.beside.groubing.groubingserver.domain.member.repository.MemberRepositoryAdapter
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
@@ -28,16 +28,14 @@ import org.springframework.context.annotation.Import
 @Import(
     QuerydslConfig::class,
     FriendAddService::class,
-    FriendAcceptService::class,
+    FriendRepositoryAdapter::class,
+    MemberRepositoryAdapter::class,
     BlockedMemberValidateDao::class,
-    BlockedMemberRepositoryAdapter::class,
-    FriendValidateDao::class,
-    FriendFindDao::class,
-    MemberFindDao::class
+    BlockedMemberRepositoryAdapter::class
 )
 class FriendAddServiceTest(
     private val friendAddService: FriendAddService,
-    private val friendRepository: FriendRepository,
+    private val friendJpaRepository: FriendJpaRepository,
     private val memberRepository: MemberJpaRepository,
     private val blockedMemberRepository: BlockedMemberRepository
 ) : FunSpec({
@@ -63,9 +61,9 @@ class FriendAddServiceTest(
         }
 
         test("이미 친구인 경우") {
-            val friend = Friend.create(inviter, invitee)
-            friend.status = FriendStatus.ACCEPT
-            friendRepository.save(friend)
+            val entity = FriendEntity(inviterId = inviter.id, inviteeId = invitee.id)
+            entity.applyStatus(Friend.of(0L, inviter.id, invitee.id, FriendStatus.ACCEPT))
+            friendJpaRepository.save(entity)
             shouldThrow<FriendInputException> { friendAddService.add(inviter.id, invitee.id) }
         }
 

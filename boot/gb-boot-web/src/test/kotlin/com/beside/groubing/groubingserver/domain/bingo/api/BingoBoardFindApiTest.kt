@@ -44,8 +44,8 @@ class BingoBoardFindApiTest(
         val memberId = authentication.principal as Long
         val bingoBoardId = 1L
         val bingoBoard = aEnglishStudyBingoBoard()
-        val member = aMember(memberId)
-        val otherMembers = (2L..5L).map { aMember(it) }
+        val member = aMember(memberId).toDomain()
+        val otherMembers = (2L..5L).map { aMember(it).toDomain() }
 
         val bingoBoardResponse = BingoBoardDetailResponse.fromBingoBoard(bingoBoard, member, otherMembers)
 

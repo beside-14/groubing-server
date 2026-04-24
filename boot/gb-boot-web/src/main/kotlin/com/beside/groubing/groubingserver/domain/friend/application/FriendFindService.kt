@@ -7,22 +7,23 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 class FriendFindService(
     private val friendFindDao: FriendFindDao
 ) {
-    fun findAllByInviterIdOrInviteeId(memberId: Long): List<FriendResponse> {
-        val friends = friendFindDao.findAllByInviterIdOrInviteeId(memberId)
-        return friends.map(::FriendResponse)
+    fun findAllAcceptedOf(memberId: Long): List<FriendResponse> {
+        return friendFindDao.findAllAcceptedOf(memberId).map(FriendResponse::of)
     }
 
-    fun findAllByInviteeId(inviteeId: Long): List<FriendRequestResponse> {
-        val friendRequestList = friendFindDao.findAllByInviteeId(inviteeId)
-        return friendRequestList.filter { it.status.isPending() }.map { FriendRequestResponse.forReceived(it) }
+    fun findAllReceivedPendingBy(inviteeId: Long): List<FriendRequestResponse> {
+        return friendFindDao.findAllReceivedBy(inviteeId)
+            .filter { it.status.isPending() }
+            .map(FriendRequestResponse::of)
     }
 
-    fun findAllByInviterIdAndStatusIsPending(inviterId: Long): List<FriendRequestResponse> {
-        val friendRequestList = friendFindDao.findAllByInviterId(inviterId)
-        return friendRequestList.filter { it.status.isPending() }.map { FriendRequestResponse.forSend(it) }
+    fun findAllSentPendingBy(inviterId: Long): List<FriendRequestResponse> {
+        return friendFindDao.findAllSentBy(inviterId)
+            .filter { it.status.isPending() }
+            .map(FriendRequestResponse::of)
     }
 }

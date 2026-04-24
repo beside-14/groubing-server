@@ -7,6 +7,7 @@ import com.beside.groubing.groubingserver.domain.member.domain.port.MemberComman
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
 import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -35,6 +36,15 @@ class MemberRepositoryAdapter(
     override fun findByEmailAndMemberType(email: String, memberType: MemberType): Member {
         return memberJpaRepository.findByEmailAndMemberType(email, memberType)?.toDomain()
             ?: throw MemberInputException("존재하지 않는 이메일 입니다.: $email")
+    }
+
+    override fun findAllSortedByNickname(): List<Member> {
+        return memberJpaRepository.findAll(Sort.by(Sort.Direction.ASC, "nickname"))
+            .map { it.toDomain() }
+    }
+
+    override fun findAllByIdIn(ids: Collection<Long>): List<Member> {
+        return memberJpaRepository.findAllById(ids).map { it.toDomain() }
     }
 
     override fun existsByEmail(email: String): Boolean {
