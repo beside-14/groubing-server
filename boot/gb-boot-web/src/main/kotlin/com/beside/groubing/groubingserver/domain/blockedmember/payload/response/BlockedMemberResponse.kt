@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.blockedmember.payload.response
 
-import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberTargetInfo
+import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMemberTarget
 
 data class BlockedMemberResponse(
     val id: Long,
@@ -9,12 +9,12 @@ data class BlockedMemberResponse(
     val profileUrl: String?
 ) {
     companion object {
-        fun create(info: BlockedMemberTargetInfo): BlockedMemberResponse {
+        fun of(target: BlockedMemberTarget): BlockedMemberResponse {
             return BlockedMemberResponse(
-                id = info.id,
-                email = info.email,
-                nickname = info.nickname,
-                profileUrl = info.profileFileName?.let { "/api/files/$it" }
+                id = target.id,
+                email = target.email,
+                nickname = target.nickname,
+                profileUrl = target.profileFileName?.let { "/api/files/$it" }
             )
         }
     }

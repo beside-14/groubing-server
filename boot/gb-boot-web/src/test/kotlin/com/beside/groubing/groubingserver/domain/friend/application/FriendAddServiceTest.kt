@@ -2,6 +2,7 @@ package com.beside.groubing.groubingserver.domain.friend.application
 
 import com.beside.groubing.groubingserver.aMember
 import com.beside.groubing.groubingserver.config.QuerydslConfig
+import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberFindDao
 import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberValidateDao
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMember
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.port.BlockedMemberRepository
@@ -31,7 +32,8 @@ import org.springframework.context.annotation.Import
     FriendRepositoryAdapter::class,
     MemberRepositoryAdapter::class,
     BlockedMemberValidateDao::class,
-    BlockedMemberRepositoryAdapter::class
+    BlockedMemberRepositoryAdapter::class,
+    BlockedMemberFindDao::class
 )
 class FriendAddServiceTest(
     private val friendAddService: FriendAddService,

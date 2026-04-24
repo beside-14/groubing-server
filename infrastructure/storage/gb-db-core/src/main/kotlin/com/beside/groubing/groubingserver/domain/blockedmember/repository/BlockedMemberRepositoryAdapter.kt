@@ -1,6 +1,8 @@
 package com.beside.groubing.groubingserver.domain.blockedmember.repository
 
+import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberFindDao
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMember
+import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMemberTarget
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.port.BlockedMemberRepository
 import com.beside.groubing.groubingserver.domain.blockedmember.entity.BlockedMemberEntity
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
@@ -8,7 +10,8 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class BlockedMemberRepositoryAdapter(
-    private val blockedMemberJpaRepository: BlockedMemberJpaRepository
+    private val blockedMemberJpaRepository: BlockedMemberJpaRepository,
+    private val blockedMemberFindDao: BlockedMemberFindDao
 ) : BlockedMemberRepository {
     override fun save(blockedMember: BlockedMember): BlockedMember {
         return blockedMemberJpaRepository.save(BlockedMemberEntity.from(blockedMember)).toDomain()
@@ -26,5 +29,16 @@ class BlockedMemberRepositoryAdapter(
 
     override fun existsByRequesterIdAndTargetMemberId(requesterId: Long, targetMemberId: Long): Boolean {
         return blockedMemberJpaRepository.existsByRequesterIdAndTargetMemberId(requesterId, targetMemberId)
+    }
+
+    override fun findAllRequestedBy(requesterId: Long): List<BlockedMemberTarget> {
+        return blockedMemberFindDao.findAllRequestedBy(requesterId).map {
+            BlockedMemberTarget(
+                id = it.id,
+                email = it.email,
+                nickname = it.nickname,
+                profileFileName = it.profileFileName
+            )
+        }
     }
 }

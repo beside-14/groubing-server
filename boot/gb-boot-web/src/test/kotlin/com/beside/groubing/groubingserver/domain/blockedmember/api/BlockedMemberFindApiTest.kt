@@ -7,6 +7,7 @@ import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.blockedmember.application.BlockedMemberFindService
+import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMemberTarget
 import com.beside.groubing.groubingserver.domain.blockedmember.payload.response.BlockedMemberResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.beside.groubing.groubingserver.global.response.ApiResponse
@@ -18,7 +19,6 @@ import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
 import io.kotest.property.arbitrary.email
 import io.kotest.property.arbitrary.long
-import io.kotest.property.arbitrary.of
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.stringPattern
@@ -39,19 +39,18 @@ class BlockedMemberFindApiTest(
         val id = Arb.long(1L..100L).single()
 
         When("현재 차단된 회원 목록을") {
-            val friend = Arb.of(
-                BlockedMemberResponse(
-                    id = Arb.long(1L..100L).single(),
-                    email = Arb.email(
-                        Arb.string(5, 10, Codepoint.alphanumeric()),
-                        Arb.stringPattern("groubing\\.com")
-                    ).single(),
-                    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
-                    profileUrl = null
-                )
+            val target = BlockedMemberTarget(
+                id = Arb.long(1L..100L).single(),
+                email = Arb.email(
+                    Arb.string(5, 10, Codepoint.alphanumeric()),
+                    Arb.stringPattern("groubing\\.com")
+                ).single(),
+                nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
+                profileFileName = null
             )
-            val response = listOf(friend.single())
-            every { blockedMemberFindService.findById(any()) } returns response
+            val serviceResult = listOf(target)
+            val expectedResponse = serviceResult.map(BlockedMemberResponse::of)
+            every { blockedMemberFindService.findById(any()) } returns serviceResult
 
             Then("조회한다.") {
                 mockMvc.get("/api/blocked-members") {
@@ -60,7 +59,7 @@ class BlockedMemberFindApiTest(
                     accept = MediaType.APPLICATION_JSON
                 }.andExpect {
                     status { isOk() }
-                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(expectedResponse))) }
                 }.andDocument(
                     "blocked-member-find",
                     responseBody(

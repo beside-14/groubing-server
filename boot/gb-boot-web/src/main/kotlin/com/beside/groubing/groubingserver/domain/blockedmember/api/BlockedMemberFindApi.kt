@@ -20,7 +20,7 @@ class BlockedMemberFindApi(
         @AuthenticationPrincipal memberId: Long,
         @PageableDefault pageable: Pageable
     ): ApiResponse<List<BlockedMemberResponse>> {
-        val response = blockedMemberFindService.findById(memberId)
+        val response = blockedMemberFindService.findById(memberId).map(BlockedMemberResponse::of)
         return ApiResponse.OK(response)
     }
 }
