@@ -9,6 +9,9 @@ import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.auth.application.MemberEmailFindService
+import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberEmailFindRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberEmailFindResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
@@ -43,8 +46,20 @@ class MemberEmailFindApiTest(
         val request = MemberEmailFindRequest(email)
 
         When("비밀번호를 찾기 위해 이메일을 입력한 경우") {
-            val response = MemberEmailFindResponse(id, email)
-            every { memberEmailFindService.find(any()) } returns response
+            val member = Member(
+                id = id,
+                email = email,
+                password = "",
+                nickname = "",
+                role = MemberRole.MEMBER,
+                memberType = MemberType.CLASSIC,
+                fcmToken = null,
+                notificationReceive = true,
+                active = true,
+                profileUrl = null
+            )
+            val response = MemberEmailFindResponse.of(member)
+            every { memberEmailFindService.find(any()) } returns member
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.post("/api/members/find-email") {

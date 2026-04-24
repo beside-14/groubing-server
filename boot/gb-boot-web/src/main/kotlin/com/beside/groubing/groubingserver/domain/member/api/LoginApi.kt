@@ -21,7 +21,7 @@ class LoginApi(
         @Validated
         request: LoginRequest
     ): ApiResponse<MemberResponse> {
-        val loginResponse = loginService.login(request.command())
-        return ApiResponse.OK(loginResponse)
+        val authenticatedMember = loginService.login(request.command())
+        return ApiResponse.OK(MemberResponse.of(authenticatedMember))
     }
 }

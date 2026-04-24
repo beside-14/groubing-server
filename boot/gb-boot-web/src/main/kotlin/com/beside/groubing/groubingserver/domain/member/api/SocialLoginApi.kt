@@ -21,7 +21,7 @@ class SocialLoginApi(
         @Validated
         request: SocialLoginRequest
     ): ApiResponse<SocialMemberResponse> {
-        val loginResponse = socialLoginService.login(request.command())
-        return ApiResponse.OK(loginResponse)
+        val authenticatedMember = socialLoginService.login(request.command())
+        return ApiResponse.OK(SocialMemberResponse.of(authenticatedMember))
     }
 }

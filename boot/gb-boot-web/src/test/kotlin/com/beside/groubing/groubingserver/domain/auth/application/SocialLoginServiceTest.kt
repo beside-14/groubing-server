@@ -62,8 +62,8 @@ class SocialLoginServiceTest : BehaviorSpec({
             val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))
 
             Then("이미 존재하는 유저 정보가 반환") {
-                result.id shouldBe memberId
-                result.email shouldBe email
+                result.member.id shouldBe memberId
+                result.member.email shouldBe email
             }
         }
 
@@ -80,8 +80,8 @@ class SocialLoginServiceTest : BehaviorSpec({
             val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))
 
             Then("새로 가입된 유저 정보가 반환") {
-                result.id shouldBe memberId
-                result.email shouldBe email
+                result.member.id shouldBe memberId
+                result.member.email shouldBe email
             }
         }
     }

@@ -10,9 +10,12 @@ import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.auth.application.SocialLoginService
+import com.beside.groubing.groubingserver.domain.auth.domain.AuthenticatedMember
 import com.beside.groubing.groubingserver.domain.auth.domain.SocialType
+import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.payload.request.SocialLoginRequest
-import com.beside.groubing.groubingserver.domain.member.payload.response.SocialMemberResponse
 import com.beside.groubing.groubingserver.extension.getJwt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -45,8 +48,19 @@ class SocialLoginApiTest(
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
-            val response = SocialMemberResponse(id = 1L, email = email, nickname = nickname, profileUrl = null, token = jwt, hasNickname = false)
-            every { socialLoginService.login(any()) } returns response
+            val member = Member(
+                id = 1L,
+                email = email,
+                password = "",
+                nickname = nickname,
+                role = MemberRole.MEMBER,
+                memberType = MemberType.SOCIAL,
+                fcmToken = fcmToken,
+                notificationReceive = true,
+                active = true,
+                profileUrl = null
+            )
+            every { socialLoginService.login(any()) } returns AuthenticatedMember(member, jwt)
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.post("/api/members/social-login") {

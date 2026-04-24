@@ -10,10 +10,12 @@ import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.auth.application.SignUpService
+import com.beside.groubing.groubingserver.domain.auth.domain.AuthenticatedMember
+import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
-import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.global.domain.security.JwtProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -41,15 +43,19 @@ class SignUpApiTest(
 
         When("올바른 정보로 회원가입 요청 시") {
             val token = JwtProvider.createToken(id, MemberRole.MEMBER.name)
-            val response = MemberResponse(
+            val member = Member(
                 id = id,
                 email = email,
+                password = "",
                 nickname = nickname,
-                profileUrl = null,
-                token = token,
-                notificationReceive = true
+                role = MemberRole.MEMBER,
+                memberType = MemberType.CLASSIC,
+                fcmToken = null,
+                notificationReceive = true,
+                active = true,
+                profileUrl = null
             )
-            every { signUpService.signUp(any()) } returns response
+            every { signUpService.signUp(any()) } returns AuthenticatedMember(member, token)
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.post("/api/members") {

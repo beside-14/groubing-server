@@ -21,7 +21,7 @@ class SignUpApi(
         @Validated
         request: SignUpRequest
     ): ApiResponse<MemberResponse> {
-        val loginResponse = signUpService.signUp(request.command())
-        return ApiResponse.OK(loginResponse)
+        val authenticatedMember = signUpService.signUp(request.command())
+        return ApiResponse.OK(MemberResponse.of(authenticatedMember))
     }
 }

@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.payload.response
 
-import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.auth.domain.AuthenticatedMember
 
 data class SocialMemberResponse(
     val id: Long,
@@ -11,13 +11,16 @@ data class SocialMemberResponse(
     val hasNickname: Boolean
 ) {
     companion object {
-        fun of(member: Member, token: String): SocialMemberResponse = SocialMemberResponse(
-            id = member.id,
-            email = member.email,
-            nickname = member.nickname,
-            profileUrl = member.profileUrl,
-            token = token,
-            hasNickname = member.nickname.isNotBlank()
-        )
+        fun of(authenticatedMember: AuthenticatedMember): SocialMemberResponse {
+            val member = authenticatedMember.member
+            return SocialMemberResponse(
+                id = member.id,
+                email = member.email,
+                nickname = member.nickname,
+                profileUrl = member.profileUrl,
+                token = authenticatedMember.accessToken,
+                hasNickname = member.nickname.isNotBlank()
+            )
+        }
     }
 }
