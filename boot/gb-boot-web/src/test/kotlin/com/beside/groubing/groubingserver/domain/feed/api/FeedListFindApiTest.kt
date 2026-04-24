@@ -9,10 +9,7 @@ import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.feed.application.FeedListFindService
 import com.beside.groubing.groubingserver.domain.feed.application.FriendFeedListFindService
-import com.beside.groubing.groubingserver.domain.feed.payload.response.FeedResponse
-import com.beside.groubing.groubingserver.domain.member.domain.Member
-import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
-import com.beside.groubing.groubingserver.domain.member.domain.MemberType
+import com.beside.groubing.groubingserver.domain.feed.domain.FeedEntry
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -36,44 +33,26 @@ class FeedListFindApiTest(
     Given("FeedListFindApi가 주어졌을 때") {
         val memberId = 1L
 
-        val healthTitles = (1..5).map { "운동하기$it" }
-        val gameTitles = (1..5).map { "게임하기$it" }
-
-        val feedResponses = listOf(
-            FeedResponse.of(
-                member = Member(
-                    id = 2L,
-                    email = "holeman79@nate.com",
-                    password = "1234",
-                    nickname = "홀맨친구",
-                    role = MemberRole.MEMBER,
-                    memberType = MemberType.CLASSIC,
-                    fcmToken = null,
-                    notificationReceive = true,
-                    active = true,
-                    profileUrl = null
-                ),
-                itemTitles = healthTitles
+        val feedEntries = listOf(
+            FeedEntry(
+                memberId = 2L,
+                nickname = "홀맨친구",
+                profileUrl = null,
+                itemTitles = (1..5).map { "운동하기$it" },
+                isFriendRequestReceived = false,
+                isFriendRequestSent = false
             ),
-            FeedResponse.of(
-                member = Member(
-                    id = 3L,
-                    email = "gather@naver.com",
-                    password = "1234",
-                    nickname = "슈뢰딩거",
-                    role = MemberRole.MEMBER,
-                    memberType = MemberType.CLASSIC,
-                    fcmToken = null,
-                    notificationReceive = true,
-                    active = true,
-                    profileUrl = null
-                ),
-                itemTitles = gameTitles
+            FeedEntry(
+                memberId = 3L,
+                nickname = "슈뢰딩거",
+                profileUrl = null,
+                itemTitles = (1..5).map { "게임하기$it" },
+                isFriendRequestReceived = false,
+                isFriendRequestSent = false
             )
         )
 
-        every { feedListFindService.findAllFeeds(memberId) } returns feedResponses
-
+        every { feedListFindService.findAllFeeds(memberId) } returns feedEntries
 
         When("GET /api/feeds 요청이 들어왔을 때") {
             mockMvc.perform(
@@ -96,7 +75,7 @@ class FeedListFindApiTest(
                 )
         }
 
-        every { friendFeedListFindService.findFriendFeeds(memberId) } returns feedResponses
+        every { friendFeedListFindService.findFriendFeeds(memberId) } returns feedEntries
 
         When("GET /api/friend-feeds 요청이 들어왔을 때") {
             mockMvc.perform(

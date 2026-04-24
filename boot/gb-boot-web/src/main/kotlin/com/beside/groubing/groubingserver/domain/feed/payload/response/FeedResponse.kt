@@ -1,7 +1,6 @@
 package com.beside.groubing.groubingserver.domain.feed.payload.response
 
-import com.beside.groubing.groubingserver.domain.friend.dao.FriendMemberInfo
-import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.feed.domain.FeedEntry
 
 class FeedResponse private constructor(
     val memberId: Long,
@@ -11,28 +10,21 @@ class FeedResponse private constructor(
     val profile: String?,
 
     val feedItems: List<FeedItemDto>,
+
+    val isFriendRequestReceived: Boolean,
+
+    val isFriendRequestSend: Boolean
 ) {
-    var isFriendRequestReceived: Boolean = false
-
-    var isFriendRequestSend: Boolean = false
-
-    fun checkFriendRequest(
-        friendRequestReceivedList: List<FriendMemberInfo>,
-        friendRequestSendList: List<FriendMemberInfo>
-    ) {
-        isFriendRequestReceived = friendRequestReceivedList.any { it.memberId == memberId }
-        isFriendRequestSend = friendRequestSendList.any { it.memberId == memberId }
-    }
-
     class FeedItemDto(val title: String)
 
     companion object {
-        fun of(member: Member, itemTitles: List<String>): FeedResponse =
-            FeedResponse(
-                memberId = member.id,
-                nickname = member.nickname,
-                profile = member.profileUrl,
-                feedItems = itemTitles.map { FeedItemDto(it) }
-            )
+        fun of(entry: FeedEntry): FeedResponse = FeedResponse(
+            memberId = entry.memberId,
+            nickname = entry.nickname,
+            profile = entry.profileUrl,
+            feedItems = entry.itemTitles.map { FeedItemDto(it) },
+            isFriendRequestReceived = entry.isFriendRequestReceived,
+            isFriendRequestSend = entry.isFriendRequestSent
+        )
     }
 }
