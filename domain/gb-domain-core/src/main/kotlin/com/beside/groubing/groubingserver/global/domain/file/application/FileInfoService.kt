@@ -1,7 +1,7 @@
 package com.beside.groubing.groubingserver.global.domain.file.application
 
+import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
 import com.beside.groubing.groubingserver.global.domain.file.domain.port.FileInfoQueryRepository
-import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 class FileInfoService(
     private val fileInfoQueryRepository: FileInfoQueryRepository
 ) {
-    fun findByFileName(fileName: String): Resource {
-        val fileInfo = fileInfoQueryRepository.findByFileName(fileName)
-        return FileProvider.find(fileInfo)
+    fun findByFileName(fileName: String): FileInfo {
+        return fileInfoQueryRepository.findByFileName(fileName)
     }
 }
