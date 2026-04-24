@@ -66,6 +66,7 @@ tasks {
         configurations("asciidoctorExt")
         inputs.dir(snippetsDir)
         dependsOn(test)
+        baseDirFollowsSourceFile()
         doFirst {
             delete {
                 file("build/docs/asciidoc")
