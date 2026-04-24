@@ -18,10 +18,10 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.Where
+import org.hibernate.annotations.SQLRestriction
 
 @Entity
-@Where(clause = "active = true")
+@SQLRestriction("active = true")
 @Table(name = "MEMBERS")
 class MemberEntity(
     @Id
