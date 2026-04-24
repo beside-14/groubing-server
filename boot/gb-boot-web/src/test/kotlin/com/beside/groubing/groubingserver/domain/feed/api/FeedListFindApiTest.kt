@@ -7,13 +7,12 @@ import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.feed.application.FeedListFindService
 import com.beside.groubing.groubingserver.domain.feed.application.FriendFeedListFindService
 import com.beside.groubing.groubingserver.domain.feed.payload.response.FeedResponse
+import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
-import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -37,32 +36,39 @@ class FeedListFindApiTest(
     Given("FeedListFindApi가 주어졌을 때") {
         val memberId = 1L
 
-        val healthBingoItems = (1..5).map { BingoItem.create(it, imageUrl = "g") }
-        healthBingoItems.forEach { it.updateBingoItem(title = "운동하기${it.itemOrder}", subTitle = "운동하기 subTitle${it.itemOrder}") }
-
-        val gameBingoItems = (1..5).map { BingoItem.create(it, imageUrl = "g") }
-        gameBingoItems.forEach { it.updateBingoItem(title = "게임하기${it.itemOrder}", subTitle = "게임하기 subTitle${it.itemOrder}") }
+        val healthTitles = (1..5).map { "운동하기$it" }
+        val gameTitles = (1..5).map { "게임하기$it" }
 
         val feedResponses = listOf(
-            FeedResponse.create(
-                member = MemberEntity(
+            FeedResponse.of(
+                member = Member(
+                    id = 2L,
                     email = "holeman79@nate.com",
                     password = "1234",
                     nickname = "홀맨친구",
                     role = MemberRole.MEMBER,
-                    memberType = MemberType.CLASSIC
+                    memberType = MemberType.CLASSIC,
+                    fcmToken = null,
+                    notificationReceive = true,
+                    active = true,
+                    profileUrl = null
                 ),
-                bingoItems = healthBingoItems
+                itemTitles = healthTitles
             ),
-            FeedResponse.create(
-                member = MemberEntity(
+            FeedResponse.of(
+                member = Member(
+                    id = 3L,
                     email = "gather@naver.com",
                     password = "1234",
                     nickname = "슈뢰딩거",
                     role = MemberRole.MEMBER,
-                    memberType = MemberType.CLASSIC
+                    memberType = MemberType.CLASSIC,
+                    fcmToken = null,
+                    notificationReceive = true,
+                    active = true,
+                    profileUrl = null
                 ),
-                bingoItems = gameBingoItems
+                itemTitles = gameTitles
             )
         )
 

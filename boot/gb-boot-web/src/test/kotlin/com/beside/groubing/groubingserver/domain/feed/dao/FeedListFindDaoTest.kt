@@ -10,13 +10,13 @@ import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 import org.springframework.context.annotation.Import
 
 @LocalPersistenceTest
 @Import(QuerydslConfig::class, FeedListFindDao::class)
-
 class FeedListFindDaoTest(
     private val feedListFindDao: FeedListFindDao,
 
@@ -32,10 +32,7 @@ class FeedListFindDaoTest(
     var members: List<MemberEntity> = listOf()
 
     beforeEach {
-        memberRepository.saveAll(
-            (1L..50L).map { aMember(it) }
-        )
-
+        memberRepository.saveAll((1L..50L).map { aMember(it) })
         members = memberRepository.findAll()
 
         val savedEnglishBoard = bingoBoardRepository.save(BingoBoard.create(members[0].id, "영어", 3, BingoBoardType.GROUP, true, 3))
@@ -83,7 +80,7 @@ class FeedListFindDaoTest(
         gameBoardId = savedGameBoard.id
     }
 
-    test("피드 목록 조회") {
+    test("최근 완료자 memberId 목록 조회") {
         val englishBingoBoard = bingoBoardRepository.findById(englishBoardId).orElseThrow()
         englishBingoBoard.completeBingoItem(englishBingoBoard.bingoItems[0].id, members[0].id)
         englishBingoBoard.completeBingoItem(englishBingoBoard.bingoItems[1].id, members[0].id)
@@ -96,34 +93,36 @@ class FeedListFindDaoTest(
 
         val gameBingo = bingoBoardRepository.findById(gameBoardId).orElseThrow()
         gameBingo.completeBingoItem(gameBingo.bingoItems[0].id, members[0].id)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[2].id, members[0].id)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[3].id, members[0].id)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[5].id, members[0].id)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[6].id, members[0].id)
         gameBingo.completeBingoItem(gameBingo.bingoItems[6].id, gameBingo.bingoMembers[1].memberId)
 
-        val feeds = feedListFindDao.findFeeds()
-        feeds.size shouldBe 3
-        feeds[0].feedItems.size shouldBe 5
-        feeds[1].feedItems.size shouldBe 2
-        feeds[2].feedItems.size shouldBe 1
+        val completerIds = feedListFindDao.findRecentCompleterMemberIds(emptyList(), isFriend = false)
+        completerIds shouldContainExactlyInAnyOrder listOf(
+            members[0].id,
+            healthBingo.bingoMembers[2].memberId,
+            gameBingo.bingoMembers[1].memberId
+        )
     }
 
-    test("친구 피드 목록 조회") {
-        val englishBingo = bingoBoardRepository.findById(englishBoardId).orElseThrow()
-        englishBingo.completeBingoItem(englishBingo.bingoItems[2].id, englishBingo.bingoMembers[2].memberId)
-        englishBingo.completeBingoItem(englishBingo.bingoItems[5].id, englishBingo.bingoMembers[2].memberId)
-
+    test("친구 필터 — 친구의 완료 내역만 조회") {
         val gameBingo = bingoBoardRepository.findById(gameBoardId).orElseThrow()
-        gameBingo.completeBingoItem(gameBingo.bingoItems[0].id, gameBingo.bingoMembers[0].memberId)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[2].id, gameBingo.bingoMembers[0].memberId)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[3].id, gameBingo.bingoMembers[0].memberId)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[5].id, gameBingo.bingoMembers[0].memberId)
-        gameBingo.completeBingoItem(gameBingo.bingoItems[6].id, gameBingo.bingoMembers[0].memberId)
+        gameBingo.completeBingoItem(gameBingo.bingoItems[0].id, members[0].id)
         gameBingo.completeBingoItem(gameBingo.bingoItems[6].id, gameBingo.bingoMembers[1].memberId)
 
-        val feeds = feedListFindDao.findFeeds(friendIds = listOf(gameBingo.bingoMembers[0].memberId, gameBingo.bingoMembers[1].memberId, 4L), isFriend = true)
-        feeds.size shouldBe 2
-        feeds[1].feedItems.size shouldBe 1
+        val completerIds = feedListFindDao.findRecentCompleterMemberIds(
+            memberIds = listOf(gameBingo.bingoMembers[1].memberId),
+            isFriend = true
+        )
+        completerIds shouldContainExactlyInAnyOrder listOf(gameBingo.bingoMembers[1].memberId)
+    }
+
+    test("완료된 빙고 아이템 projection 조회") {
+        val englishBingoBoard = bingoBoardRepository.findById(englishBoardId).orElseThrow()
+        englishBingoBoard.completeBingoItem(englishBingoBoard.bingoItems[0].id, members[0].id)
+        englishBingoBoard.completeBingoItem(englishBingoBoard.bingoItems[1].id, members[0].id)
+
+        val items = feedListFindDao.findCompletedFeedItems(listOf(members[0].id))
+        items.size shouldBe 2
+        items.forEach { it.memberId shouldBe members[0].id }
+        items.map { it.title } shouldContainExactlyInAnyOrder listOf("영어 1", "영어 2")
     }
 })

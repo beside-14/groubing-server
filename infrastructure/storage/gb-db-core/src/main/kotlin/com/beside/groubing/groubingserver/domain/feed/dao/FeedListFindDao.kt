@@ -1,11 +1,7 @@
 package com.beside.groubing.groubingserver.domain.feed.dao
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoCompleteMember.bingoCompleteMember
 import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoItem.bingoItem
-import com.beside.groubing.groubingserver.domain.feed.payload.response.FeedResponse
-import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
-import com.beside.groubing.groubingserver.domain.member.entity.QMemberEntity.memberEntity
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -14,55 +10,42 @@ import org.springframework.stereotype.Repository
 class FeedListFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun findFeeds(friendIds: List<Long> = emptyList(), isFriend: Boolean = false): List<FeedResponse> {
-        val filter = if (isFriend) {
-            inMemberIds(friendIds)
-        } else {
-            notInMemberIds(friendIds)
-        }
-        val completeMemberIds = extract20BingoItemCompleteMemberIds(filter)
-        val bingoItems = getBingoItems(completeMemberIds)
-        val members = get20Members(completeMemberIds)
-
-        return buildFeedResponses(members, bingoItems)
-            .filter { it.feedItems.isNotEmpty() }
-    }
-
-    private fun inMemberIds(friendIds: List<Long>): BooleanExpression? =
-        bingoCompleteMember.memberId.`in`(friendIds).and(bingoCompleteMember.active.isTrue)
-
-    private fun notInMemberIds(friendIds: List<Long>): BooleanExpression? =
-        friendIds.takeIf { it.isNotEmpty() }
-            ?.let { bingoCompleteMember.memberId.notIn(it).and(bingoCompleteMember.active.isTrue) }
-
-    private fun extract20BingoItemCompleteMemberIds(filter: BooleanExpression?): List<Long> =
-        queryFactory.selectDistinct(bingoCompleteMember.memberId)
+    fun findRecentCompleterMemberIds(memberIds: List<Long>, isFriend: Boolean): List<Long> {
+        val filter = if (isFriend) inFilter(memberIds) else notInFilter(memberIds)
+        return queryFactory.selectDistinct(bingoCompleteMember.memberId)
             .from(bingoCompleteMember)
             .where(filter)
-            .limit(20)
+            .limit(MAX_COMPLETERS)
             .fetch()
+    }
 
-    private fun getBingoItems(completeMemberIds: List<Long>): MutableList<BingoItem> =
-        queryFactory.selectFrom(bingoItem)
+    fun findCompletedFeedItems(memberIds: List<Long>): List<FeedItemInfo> {
+        if (memberIds.isEmpty()) return emptyList()
+        return queryFactory.select(
+            QFeedItemInfo(bingoCompleteMember.memberId, bingoItem.title)
+        )
+            .from(bingoItem)
+            .innerJoin(bingoItem.completeMembers, bingoCompleteMember)
             .where(
-                bingoItem.completeMembers.any().memberId.`in`(completeMemberIds)
+                bingoCompleteMember.memberId.`in`(memberIds)
+                    .and(bingoCompleteMember.active.isTrue)
+                    .and(bingoItem.title.isNotNull)
                     .and(bingoItem.bingoBoard.active.isTrue)
                     .and(bingoItem.bingoBoard.period.isNotNull)
                     .and(bingoItem.bingoBoard.open.isTrue)
             )
             .fetch()
+    }
 
-    private fun get20Members(completeMemberIds: List<Long>): List<MemberEntity> =
-        queryFactory.selectFrom(memberEntity)
-            .where(memberEntity.id.`in`(completeMemberIds).and(memberEntity.active.isTrue))
-            .fetch()
+    private fun inFilter(memberIds: List<Long>): BooleanExpression? =
+        memberIds.takeIf { it.isNotEmpty() }
+            ?.let { bingoCompleteMember.memberId.`in`(it).and(bingoCompleteMember.active.isTrue) }
 
-    private fun buildFeedResponses(members: List<MemberEntity>, bingoItems: MutableList<BingoItem>): List<FeedResponse> =
-        members.map { member ->
-            val filteredBingoItems = bingoItems.filter {
-                it.completeMembers.any { bingoCompleteMember -> bingoCompleteMember.memberId == member.id && bingoCompleteMember.active }
-            }
-            FeedResponse.create(member, filteredBingoItems.shuffled().take(5))
-        }
+    private fun notInFilter(memberIds: List<Long>): BooleanExpression? =
+        memberIds.takeIf { it.isNotEmpty() }
+            ?.let { bingoCompleteMember.memberId.notIn(it).and(bingoCompleteMember.active.isTrue) }
+
+    companion object {
+        private const val MAX_COMPLETERS = 20L
+    }
 }
-
