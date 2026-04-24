@@ -1,8 +1,8 @@
 package com.beside.groubing.groubingserver.domain.bingo.dao
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
-import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoBoard.bingoBoard
-import com.beside.groubing.groubingserver.domain.bingo.domain.QBingoMember.bingoMember
+import com.beside.groubing.groubingserver.domain.bingo.entity.BingoBoardEntity
+import com.beside.groubing.groubingserver.domain.bingo.entity.QBingoBoardEntity.bingoBoardEntity
+import com.beside.groubing.groubingserver.domain.bingo.entity.QBingoMemberEntity.bingoMemberEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -11,20 +11,18 @@ import org.springframework.stereotype.Repository
 class BingoBoardListFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun findBingoBoardList(memberId: Long): List<BingoBoard> {
-        val qBingoBoBoard = bingoBoard
-        val qBingoMember = bingoMember
+    fun findBingoBoardList(memberId: Long): List<BingoBoardEntity> {
         val predicate = BooleanBuilder()
             .and(
-                qBingoBoBoard.active.isTrue
-                    .and(qBingoMember.active.isTrue)
-                    .and(qBingoMember.memberId.eq(memberId))
+                bingoBoardEntity.active.isTrue
+                    .and(bingoMemberEntity.active.isTrue)
+                    .and(bingoMemberEntity.memberId.eq(memberId))
             ).value
 
-        return queryFactory.selectFrom(qBingoBoBoard)
-            .innerJoin(qBingoBoBoard.bingoMembers, qBingoMember)
+        return queryFactory.selectFrom(bingoBoardEntity)
+            .innerJoin(bingoBoardEntity.bingoMembers, bingoMemberEntity)
             .where(predicate)
-            .orderBy(qBingoBoBoard.lastModifiedDate.desc())
+            .orderBy(bingoBoardEntity.lastModifiedDate.desc())
             .fetch()
     }
 }

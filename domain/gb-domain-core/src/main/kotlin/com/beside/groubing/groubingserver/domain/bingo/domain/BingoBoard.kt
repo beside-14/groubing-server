@@ -6,68 +6,54 @@ import com.beside.groubing.groubingserver.domain.bingo.event.BingoLineCancelEven
 import com.beside.groubing.groubingserver.domain.bingo.event.BingoLineCompleteEvent
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoIllegalStateException
 import com.beside.groubing.groubingserver.domain.bingo.exception.BingoInputException
-import com.beside.groubing.groubingserver.global.domain.jpa.BaseAggregateRoot
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Embedded
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
 import java.time.LocalDate
 import kotlin.random.Random
 
-@Entity
-@Table(name = "BINGO_BOARDS")
-class BingoBoard constructor(
-    @Id
-    @Column(name = "BINGO_BOARD_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L,
-
-    var title: String,
-
-    @Enumerated(EnumType.STRING)
+class BingoBoard private constructor(
+    val id: Long,
+    title: String,
     val boardType: BingoBoardType,
-
-    @Enumerated(EnumType.STRING)
     val bingoColor: BingoColor,
-
-    var open: Boolean,
-
-    var memo: String? = null,
-
-    var active: Boolean = true,
-
-    @Embedded
-    private val bingoSize: BingoSize,
-
-    @Embedded
-    private var bingoGoal: BingoGoal,
-
-    @Embedded
-    private var period: BingoPeriod? = null,
-
-    @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "BINGO_BOARD_ID")
+    open: Boolean,
+    memo: String?,
+    active: Boolean,
+    val bingoSize: BingoSize,
+    bingoGoal: BingoGoal,
+    period: BingoPeriod?,
     val bingoMembers: MutableList<BingoMember>,
-
-    @OneToMany(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "BINGO_BOARD_ID")
     val bingoItems: List<BingoItem>
+) {
+    var title: String = title
+        private set
 
-) : BaseAggregateRoot<BingoBoard>() {
+    var open: Boolean = open
+        private set
 
-    init {
-        initBingoItemColor()
+    var memo: String? = memo
+        private set
+
+    var active: Boolean = active
+        private set
+
+    var bingoGoal: BingoGoal = bingoGoal
+        private set
+
+    var period: BingoPeriod? = period
+        private set
+
+    private val domainEvents: MutableList<Any> = mutableListOf()
+
+    fun pullEvents(): List<Any> {
+        val events = domainEvents.toList()
+        domainEvents.clear()
+        return events
     }
 
-    private fun initBingoItemColor() {
+    private fun registerEvent(event: Any) {
+        domainEvents.add(event)
+    }
+
+    fun initBingoItemColor() {
         val bingoItemColors = mutableListOf(
             "#2787C9", "#F18FA2", "#E75097", "#FFD643", "#B6B4DB", "#00AAB3", "#00A783", "#85BCE7", "#F6A973"
         ).shuffled()
@@ -75,17 +61,17 @@ class BingoBoard constructor(
         bingoItems.sortedBy { it.itemOrder }
             .take(bingoItemColors.size)
             .forEachIndexed { index, bingoItem ->
-            bingoItem.initItemColorCode(bingoItemColors[index])
-        }
+                bingoItem.initItemColorCode(bingoItemColors[index])
+            }
 
         bingoItems.sortedBy { it.itemOrder }
             .drop(bingoItemColors.size)
             .forEach { bingoItem ->
-            val possibleColors = bingoItemColors.filter { color ->
-                !getNeighbors(bingoItem.itemOrder - 1).contains(color)
+                val possibleColors = bingoItemColors.filter { color ->
+                    !getNeighbors(bingoItem.itemOrder - 1).contains(color)
+                }
+                bingoItem.initItemColorCode(possibleColors.random())
             }
-            bingoItem.initItemColorCode(possibleColors.random())
-        }
     }
 
     private fun getNeighbors(pos: Int): List<String?> {
@@ -107,7 +93,6 @@ class BingoBoard constructor(
         }
         return neighbors
     }
-
 
     val size: Int
         get() = bingoSize.size
@@ -141,10 +126,7 @@ class BingoBoard constructor(
     fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {
         validateAuthority(memberId)
         val bingoItem = findBingoItem(bingoItemId)
-        bingoItem.updateBingoItem(
-            title = title,
-            subTitle = subTitle
-        )
+        bingoItem.updateBingoItem(title = title, subTitle = subTitle)
         return bingoItem
     }
 
@@ -197,19 +179,25 @@ class BingoBoard constructor(
 
     private fun registerBingoItemCompleteEvent(afterBingoCount: Int, beforeBingoCount: Int, memberId: Long) {
         if (afterBingoCount > beforeBingoCount) {
-            registerEvent(BingoLineCompleteEvent(bingoBoardId = id,
-                bingoBoardTitle = title,
-                totalBingoCount = afterBingoCount,
-                memberId = memberId,
-                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            registerEvent(
+                BingoLineCompleteEvent(
+                    bingoBoardId = id,
+                    bingoBoardTitle = title,
+                    totalBingoCount = afterBingoCount,
+                    memberId = memberId,
+                    otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }
+                )
             )
             return
         }
         if (bingoGoal.isGoal(afterBingoCount)) {
-            registerEvent(BingoCompleteEvent(bingoBoardId = id,
-                bingoBoardTitle = title,
-                memberId = memberId,
-                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            registerEvent(
+                BingoCompleteEvent(
+                    bingoBoardId = id,
+                    bingoBoardTitle = title,
+                    memberId = memberId,
+                    otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }
+                )
             )
         }
     }
@@ -224,11 +212,14 @@ class BingoBoard constructor(
         bingoItem.cancelBingoItem(memberId)
         val afterBingoCount = bingoMap.calculateTotalBingoCount()
         if (afterBingoCount < beforeBingoCount) {
-            registerEvent(BingoLineCancelEvent(bingoBoardId = id,
-                bingoBoardTitle = title,
-                bingoItemTitle = bingoItem.title!!,
-                memberId = memberId,
-                otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId })
+            registerEvent(
+                BingoLineCancelEvent(
+                    bingoBoardId = id,
+                    bingoBoardTitle = title,
+                    bingoItemTitle = bingoItem.title!!,
+                    memberId = memberId,
+                    otherMemberIds = bingoMembers.filter { it.memberId != memberId }.map { it.memberId }
+                )
             )
         }
     }
@@ -263,8 +254,7 @@ class BingoBoard constructor(
         bingoMember.inactive()
 
         val completeMembers = getBingoCompleteMember(memberId)
-        completeMembers.forEach { completeMember -> completeMember?.inactive() }
-
+        completeMembers.forEach { it?.inactive() }
     }
 
     private fun getBingoMember(memberId: Long): BingoMember {
@@ -277,6 +267,11 @@ class BingoBoard constructor(
     }
 
     companion object {
+        private val BINGO_ITEM_ALPHABETS = listOf(
+            "g", "r", "o", "u", "b", "i", "n",
+            "b2", "b3", "g2", "i2", "i3", "n2", "o2", "r2", "u2"
+        )
+
         fun create(
             memberId: Long,
             title: String,
@@ -285,29 +280,56 @@ class BingoBoard constructor(
             open: Boolean,
             bingoSize: Int
         ): BingoBoard {
-            val bingoItemAlphabets = listOf(
-                "g", "r", "o", "u", "b", "i", "n",
-                "b2", "b3", "g2", "i2", "i3", "n2", "o2", "r2", "u2"
-            )
-
-            val numberRange = bingoItemAlphabets.shuffled().toMutableList()
-            return BingoBoard(
+            val numberRange = BINGO_ITEM_ALPHABETS.shuffled().toMutableList()
+            val size = BingoSize.cache(bingoSize)
+            val board = BingoBoard(
+                id = 0L,
                 title = title,
                 boardType = boardType,
-                open = open,
-                bingoSize = BingoSize.cache(bingoSize),
                 bingoColor = BingoColor.makeRandomBingoColor(),
-                bingoGoal = BingoGoal.create(goal, BingoSize.cache(bingoSize)),
+                open = open,
+                memo = null,
+                active = true,
+                bingoSize = size,
+                bingoGoal = BingoGoal.create(goal, size),
+                period = null,
                 bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
                 bingoItems = (1..(bingoSize * bingoSize)).map {
-                    BingoItem.create(
-                        it,
-                        imageUrl = numberRange.removeAt(0)
-                    )
+                    BingoItem.create(itemOrder = it, imageUrl = numberRange.removeAt(0))
                 }
+            )
+            board.initBingoItemColor()
+            return board
+        }
+
+        fun of(
+            id: Long,
+            title: String,
+            boardType: BingoBoardType,
+            bingoColor: BingoColor,
+            open: Boolean,
+            memo: String?,
+            active: Boolean,
+            bingoSize: BingoSize,
+            bingoGoal: BingoGoal,
+            period: BingoPeriod?,
+            bingoMembers: MutableList<BingoMember>,
+            bingoItems: List<BingoItem>
+        ): BingoBoard {
+            return BingoBoard(
+                id = id,
+                title = title,
+                boardType = boardType,
+                bingoColor = bingoColor,
+                open = open,
+                memo = memo,
+                active = active,
+                bingoSize = bingoSize,
+                bingoGoal = bingoGoal,
+                period = period,
+                bingoMembers = bingoMembers,
+                bingoItems = bingoItems
             )
         }
     }
 }
-
-

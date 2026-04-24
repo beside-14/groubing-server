@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
-import com.beside.groubing.groubingserver.domain.bingo.dao.BingoBoardListFindDao
+import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardOverviewResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -8,15 +8,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class BingoBoardListFindService(
-    private val bingoBoardListFindDao: BingoBoardListFindDao
+    private val bingoBoardQueryRepository: BingoBoardQueryRepository
 ) {
     fun findBingoBoardList(memberId: Long, loginMemberId: Long): List<BingoBoardOverviewResponse> {
-        var bingoBoards = bingoBoardListFindDao.findBingoBoardList(memberId)
+        var bingoBoards = bingoBoardQueryRepository.findAllOf(memberId)
         if (memberId != loginMemberId) {
-            bingoBoards =
-                bingoBoards.filter { bingoBoard -> bingoBoard.isStarted() }
+            bingoBoards = bingoBoards.filter { it.isStarted() }
         }
         return bingoBoards.map { BingoBoardOverviewResponse.fromBingoBoard(it, memberId) }
     }
 }
-

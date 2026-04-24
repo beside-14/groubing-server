@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
-import com.beside.groubing.groubingserver.domain.bingo.dao.BingoBoardFindDao
+import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardCommandRepository
+import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardBaseUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMembersPeriodUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
@@ -14,32 +15,37 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class BingoBoardUpdateService(
-    private val bingoBoardFindDao: BingoBoardFindDao,
+    private val bingoBoardQueryRepository: BingoBoardQueryRepository,
+    private val bingoBoardCommandRepository: BingoBoardCommandRepository,
     private val memberQueryRepository: MemberQueryRepository
 ) {
-    fun updateBase(bingoBoardId: Long, memberId: Long, baseUpdateCommand: BingoBoardBaseUpdateCommand): BingoBoardResponse {
-        val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
-        baseUpdateCommand.update(bingoBoard, memberId)
-        return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+    fun updateBase(bingoBoardId: Long, memberId: Long, command: BingoBoardBaseUpdateCommand): BingoBoardResponse {
+        val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
+        command.update(bingoBoard, memberId)
+        val updated = bingoBoardCommandRepository.update(bingoBoard)
+        return BingoBoardResponse.fromBingoBoard(updated, memberId)
     }
 
-    fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, membersPeriodUpdateCommand: BingoBoardMembersPeriodUpdateCommand): BingoBoardResponse {
-        validateExistingMembers(membersPeriodUpdateCommand.bingoMembers)
-        val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
-        membersPeriodUpdateCommand.update(bingoBoard, memberId)
-        return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+    fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, command: BingoBoardMembersPeriodUpdateCommand): BingoBoardResponse {
+        validateExistingMembers(command.bingoMembers)
+        val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
+        command.update(bingoBoard, memberId)
+        val updated = bingoBoardCommandRepository.update(bingoBoard)
+        return BingoBoardResponse.fromBingoBoard(updated, memberId)
     }
 
-    fun updateMemo(bingoBoardId: Long, memberId: Long, memoUpdateCommand: BingoBoardMemoUpdateCommand): BingoBoardResponse {
-        val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
-        memoUpdateCommand.update(bingoBoard, memberId)
-        return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+    fun updateMemo(bingoBoardId: Long, memberId: Long, command: BingoBoardMemoUpdateCommand): BingoBoardResponse {
+        val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
+        command.update(bingoBoard, memberId)
+        val updated = bingoBoardCommandRepository.update(bingoBoard)
+        return BingoBoardResponse.fromBingoBoard(updated, memberId)
     }
 
-    fun updateOpen(bingoBoardId: Long, memberId: Long, openUpdateCommand: BingoBoardOpenUpdateCommand): BingoBoardResponse {
-        val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
-        openUpdateCommand.update(bingoBoard, memberId)
-        return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+    fun updateOpen(bingoBoardId: Long, memberId: Long, command: BingoBoardOpenUpdateCommand): BingoBoardResponse {
+        val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
+        command.update(bingoBoard, memberId)
+        val updated = bingoBoardCommandRepository.update(bingoBoard)
+        return BingoBoardResponse.fromBingoBoard(updated, memberId)
     }
 
     private fun validateExistingMembers(memberIds: List<Long>) {
