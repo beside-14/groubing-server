@@ -4,7 +4,7 @@ import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.beside.groubing.groubingserver.domain.member.domain.NewMember
-import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
+import com.beside.groubing.groubingserver.global.domain.file.entity.FileInfoEntity
 import com.beside.groubing.groubingserver.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -61,7 +61,7 @@ class MemberEntity(
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "PROFILE_ID")
-    var profile: FileInfo? = null
+    var profile: FileInfoEntity? = null
 
     fun applyChanges(member: Member) {
         this.password = member.password
@@ -71,7 +71,7 @@ class MemberEntity(
         this.active = member.active
     }
 
-    fun editProfile(profile: FileInfo) {
+    fun editProfile(profile: FileInfoEntity) {
         this.profile = profile
     }
 
@@ -89,7 +89,7 @@ class MemberEntity(
         fcmToken = fcmToken,
         notificationReceive = notificationReceive,
         active = active,
-        profileUrl = profile?.url
+        profileUrl = profile?.toDomain()?.url
     )
 
     companion object {

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartException
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -32,18 +33,21 @@ class FileProvider {
         }
 
         fun delete(fileInfo: FileInfo) {
-            Files.deleteIfExists(fileInfo.getAbsolutePath())
+            Files.deleteIfExists(absolutePath(fileInfo))
         }
 
         fun find(fileInfo: FileInfo): Resource {
-            val path = fileInfo.getAbsolutePath()
-            return UrlResource(path.toUri())
+            return UrlResource(absolutePath(fileInfo).toUri())
         }
 
         fun getContentType(fileName: String): MediaType {
             val fileFormat = StringUtils.getFilenameExtension(fileName)
             if (IMAGE_FORMAT[0].equals(fileFormat, ignoreCase = true)) return MediaType.IMAGE_PNG
             return MediaType.IMAGE_JPEG
+        }
+
+        private fun absolutePath(fileInfo: FileInfo): Path {
+            return Paths.get("$root/${fileInfo.directory}", fileInfo.fileName)
         }
 
         private fun validateFormat(file: MultipartFile) {

@@ -7,6 +7,8 @@ import com.beside.groubing.groubingserver.domain.member.domain.port.MemberComman
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
 import com.beside.groubing.groubingserver.domain.member.entity.MemberEntity
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
+import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
+import com.beside.groubing.groubingserver.global.domain.file.entity.FileInfoEntity
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 
@@ -22,6 +24,20 @@ class MemberRepositoryAdapter(
         val entity = findEntityById(member.id)
         entity.applyChanges(member)
         return entity.toDomain()
+    }
+
+    override fun editProfile(memberId: Long, newProfile: FileInfo): FileInfo? {
+        val entity = findEntityById(memberId)
+        val previous = entity.profile?.toDomain()
+        entity.editProfile(FileInfoEntity.from(newProfile))
+        return previous
+    }
+
+    override fun deleteProfile(memberId: Long): FileInfo? {
+        val entity = findEntityById(memberId)
+        val previous = entity.profile?.toDomain()
+        entity.deleteProfile()
+        return previous
     }
 
     override fun findById(id: Long): Member {

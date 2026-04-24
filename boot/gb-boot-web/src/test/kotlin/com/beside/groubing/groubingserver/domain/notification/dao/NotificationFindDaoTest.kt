@@ -6,6 +6,7 @@ import com.beside.groubing.groubingserver.domain.member.repository.MemberJpaRepo
 import com.beside.groubing.groubingserver.domain.notification.entity.NotificationEntity
 import com.beside.groubing.groubingserver.domain.notification.repository.NotificationJpaRepository
 import com.beside.groubing.groubingserver.global.domain.file.domain.FileInfo
+import com.beside.groubing.groubingserver.global.domain.file.entity.FileInfoEntity
 import com.beside.groubing.groubingserver.persistence.LocalPersistenceTest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -26,17 +27,21 @@ class NotificationFindDaoTest(
         )
 
         val member1 = memberRepository.findById(1L).get()
-        member1.profile = FileInfo.create(
-            directory = "file/profile",
-            fileName = "profile1.jpg",
-            originalName = "profile1.jpg",
+        member1.profile = FileInfoEntity.from(
+            FileInfo.create(
+                directory = "file/profile",
+                fileName = "profile1.jpg",
+                originalName = "profile1.jpg",
+            )
         )
 
         val member2 = memberRepository.findById(2L).get()
-        member2.profile = FileInfo.create(
-            directory = "file/profile",
-            fileName = "profile2.jpg",
-            originalName = "profile2.jpg",
+        member2.profile = FileInfoEntity.from(
+            FileInfo.create(
+                directory = "file/profile",
+                fileName = "profile2.jpg",
+                originalName = "profile2.jpg",
+            )
         )
 
         notificationJpaRepository.saveAll(
