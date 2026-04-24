@@ -3,13 +3,13 @@ package com.beside.groubing.groubingserver.domain.friend.application
 import com.beside.groubing.groubingserver.aMember
 import com.beside.groubing.groubingserver.config.QuerydslConfig
 import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberFindDao
-import com.beside.groubing.groubingserver.domain.blockedmember.dao.BlockedMemberValidateDao
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.BlockedMember
 import com.beside.groubing.groubingserver.domain.blockedmember.domain.port.BlockedMemberRepository
 import com.beside.groubing.groubingserver.domain.blockedmember.exception.BlockedMemberInputException
 import com.beside.groubing.groubingserver.domain.blockedmember.repository.BlockedMemberRepositoryAdapter
 import com.beside.groubing.groubingserver.domain.friend.domain.Friend
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
+import com.beside.groubing.groubingserver.domain.friend.dao.FriendFindDao
 import com.beside.groubing.groubingserver.domain.friend.entity.FriendEntity
 import com.beside.groubing.groubingserver.domain.friend.exception.FriendInputException
 import com.beside.groubing.groubingserver.domain.friend.repository.FriendJpaRepository
@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Import
     QuerydslConfig::class,
     FriendAddService::class,
     FriendRepositoryAdapter::class,
+    FriendFindDao::class,
     MemberRepositoryAdapter::class,
-    BlockedMemberValidateDao::class,
     BlockedMemberRepositoryAdapter::class,
     BlockedMemberFindDao::class
 )

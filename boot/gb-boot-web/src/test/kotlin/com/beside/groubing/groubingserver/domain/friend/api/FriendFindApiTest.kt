@@ -8,6 +8,7 @@ import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.friend.application.FriendFindService
+import com.beside.groubing.groubingserver.domain.friend.domain.FriendMember
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 import com.beside.groubing.groubingserver.domain.friend.payload.response.FriendRequestResponse
 import com.beside.groubing.groubingserver.domain.friend.payload.response.FriendResponse
@@ -20,9 +21,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
 import io.kotest.property.arbitrary.email
-import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.long
-import io.kotest.property.arbitrary.of
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.stringPattern
@@ -44,20 +43,10 @@ class FriendFindApiTest(
         val id = Arb.long(1L..100L).single()
 
         When("현재 연결된 친구 목록을") {
-            val friend = Arb.of(
-                FriendResponse(
-                    id = Arb.long(1L..100L).single(),
-                    memberId = Arb.long(1L..100L).single(),
-                    email = Arb.email(
-                        Arb.string(5, 10, Codepoint.alphanumeric()),
-                        Arb.stringPattern("groubing\\.com")
-                    ).single(),
-                    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
-                    profileUrl = null
-                )
-            )
-            val response = listOf(friend.single())
-            every { friendFindService.findAllAcceptedOf(any()) } returns response
+            val friendMember = aFriendMember(FriendStatus.ACCEPT)
+            val serviceResult = listOf(friendMember)
+            val expectedResponse = serviceResult.map(FriendResponse::of)
+            every { friendFindService.findAllAcceptedOf(any()) } returns serviceResult
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends") {
@@ -66,7 +55,7 @@ class FriendFindApiTest(
                     accept = MediaType.APPLICATION_JSON
                 }.andExpect {
                     status { isOk() }
-                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(expectedResponse))) }
                 }.andDocument(
                     "friend-find",
                     responseBody(
@@ -81,22 +70,10 @@ class FriendFindApiTest(
         }
 
         When("초대받은 친구 요청 목록을") {
-            val friendRequest = Arb.of(
-                FriendRequestResponse(
-                    id = Arb.long(1L..100L).single(),
-                    memberId = Arb.long(1L..100L).single(),
-                    email = Arb.email(
-                        Arb.string(5, 10, Codepoint.alphanumeric()),
-                        Arb.stringPattern("groubing\\.com")
-                    ).single(),
-                    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
-                    profileUrl = null,
-                    status = Arb.enum<FriendStatus>().single()
-                )
-            )
-
-            val response = listOf(friendRequest.single())
-            every { friendFindService.findAllReceivedPendingBy(any()) } returns response
+            val friendMember = aFriendMember(FriendStatus.PENDING)
+            val serviceResult = listOf(friendMember)
+            val expectedResponse = serviceResult.map(FriendRequestResponse::of)
+            every { friendFindService.findAllReceivedPendingBy(any()) } returns serviceResult
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends/received-requests") {
@@ -105,7 +82,7 @@ class FriendFindApiTest(
                     accept = MediaType.APPLICATION_JSON
                 }.andExpect {
                     status { isOk() }
-                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(expectedResponse))) }
                 }.andDocument(
                     "friend-find-request",
                     responseBody(
@@ -121,22 +98,10 @@ class FriendFindApiTest(
         }
 
         When("초대한 친구 요청 중 대기 상태인 목록을") {
-            val friendRequest = Arb.of(
-                FriendRequestResponse(
-                    id = Arb.long(1L..100L).single(),
-                    memberId = Arb.long(1L..100L).single(),
-                    email = Arb.email(
-                        Arb.string(5, 10, Codepoint.alphanumeric()),
-                        Arb.stringPattern("groubing\\.com")
-                    ).single(),
-                    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
-                    profileUrl = null,
-                    status = Arb.enum<FriendStatus>().single()
-                )
-            )
-
-            val response = listOf(friendRequest.single())
-            every { friendFindService.findAllSentPendingBy(any()) } returns response
+            val friendMember = aFriendMember(FriendStatus.PENDING)
+            val serviceResult = listOf(friendMember)
+            val expectedResponse = serviceResult.map(FriendRequestResponse::of)
+            every { friendFindService.findAllSentPendingBy(any()) } returns serviceResult
 
             Then("조회한다.") {
                 mockMvc.get("/api/friends/send-requests") {
@@ -145,7 +110,7 @@ class FriendFindApiTest(
                     accept = MediaType.APPLICATION_JSON
                 }.andExpect {
                     status { isOk() }
-                    content { json(mapper.writeValueAsString(ApiResponse.OK(response))) }
+                    content { json(mapper.writeValueAsString(ApiResponse.OK(expectedResponse))) }
                 }.andDocument(
                     "friend-find-request",
                     responseBody(
@@ -161,3 +126,15 @@ class FriendFindApiTest(
         }
     }
 })
+
+private fun aFriendMember(status: FriendStatus): FriendMember = FriendMember(
+    friendId = Arb.long(1L..100L).single(),
+    memberId = Arb.long(1L..100L).single(),
+    email = Arb.email(
+        Arb.string(5, 10, Codepoint.alphanumeric()),
+        Arb.stringPattern("groubing\\.com")
+    ).single(),
+    nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
+    profileFileName = null,
+    status = status
+)

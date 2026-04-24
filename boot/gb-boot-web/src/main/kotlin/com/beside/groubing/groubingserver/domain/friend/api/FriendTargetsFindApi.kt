@@ -15,7 +15,7 @@ class FriendTargetsFindApi(
 ) {
     @GetMapping("/targets")
     fun findAllMembers(@AuthenticationPrincipal loginMemberId: Long): ApiResponse<List<MemberFindResponse>> {
-        val memberFindResponses = friendTargetsFindService.findFriendTargets(loginMemberId)
-        return ApiResponse.OK(memberFindResponses)
+        val response = friendTargetsFindService.findFriendTargets(loginMemberId).map(::MemberFindResponse)
+        return ApiResponse.OK(response)
     }
 }

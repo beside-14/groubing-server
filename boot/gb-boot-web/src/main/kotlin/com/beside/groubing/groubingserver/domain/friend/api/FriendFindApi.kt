@@ -18,7 +18,7 @@ class FriendFindApi(
     fun findFriends(
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<List<FriendResponse>> {
-        val response = friendFindService.findAllAcceptedOf(memberId)
+        val response = friendFindService.findAllAcceptedOf(memberId).map(FriendResponse::of)
         return ApiResponse.OK(response)
     }
 
@@ -26,7 +26,7 @@ class FriendFindApi(
     fun findFriendReceivedRequests(
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<List<FriendRequestResponse>> {
-        val response = friendFindService.findAllReceivedPendingBy(memberId)
+        val response = friendFindService.findAllReceivedPendingBy(memberId).map(FriendRequestResponse::of)
         return ApiResponse.OK(response)
     }
 
@@ -34,7 +34,7 @@ class FriendFindApi(
     fun findFriendSendRequests(
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<List<FriendRequestResponse>> {
-        val response = friendFindService.findAllSentPendingBy(memberId)
+        val response = friendFindService.findAllSentPendingBy(memberId).map(FriendRequestResponse::of)
         return ApiResponse.OK(response)
     }
 }

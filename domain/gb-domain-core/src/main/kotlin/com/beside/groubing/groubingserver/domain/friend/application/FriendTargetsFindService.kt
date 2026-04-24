@@ -1,8 +1,8 @@
 package com.beside.groubing.groubingserver.domain.friend.application
 
-import com.beside.groubing.groubingserver.domain.friend.dao.FriendFindDao
+import com.beside.groubing.groubingserver.domain.friend.domain.port.FriendQueryRepository
+import com.beside.groubing.groubingserver.domain.member.domain.Member
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
-import com.beside.groubing.groubingserver.domain.member.payload.response.MemberFindResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -10,15 +10,15 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class FriendTargetsFindService(
     private val memberQueryRepository: MemberQueryRepository,
-    private val friendFindDao: FriendFindDao
+    private val friendQueryRepository: FriendQueryRepository
 ) {
-    fun findFriendTargets(myMemberId: Long): List<MemberFindResponse> {
+    fun findFriendTargets(myMemberId: Long): List<Member> {
         val members = memberQueryRepository.findAllSortedByNickname()
-        val receivedCounterparts = friendFindDao.findAllReceivedBy(myMemberId)
+        val receivedCounterparts = friendQueryRepository.findAllReceivedBy(myMemberId)
             .filter { !it.status.isReject() }
             .map { it.memberId }
             .toSet()
-        val sentCounterparts = friendFindDao.findAllSentBy(myMemberId)
+        val sentCounterparts = friendQueryRepository.findAllSentBy(myMemberId)
             .filter { !it.status.isReject() }
             .map { it.memberId }
             .toSet()
@@ -27,6 +27,5 @@ class FriendTargetsFindService(
             .filter { it.id !in receivedCounterparts }
             .filter { it.id !in sentCounterparts }
             .filter { it.id != myMemberId }
-            .map(::MemberFindResponse)
     }
 }

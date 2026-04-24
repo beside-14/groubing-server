@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.friend.payload.response
 
-import com.beside.groubing.groubingserver.domain.friend.dao.FriendMemberInfo
+import com.beside.groubing.groubingserver.domain.friend.domain.FriendMember
 import com.beside.groubing.groubingserver.domain.friend.domain.FriendStatus
 
 data class FriendRequestResponse(
@@ -12,13 +12,13 @@ data class FriendRequestResponse(
     val status: FriendStatus
 ) {
     companion object {
-        fun of(info: FriendMemberInfo): FriendRequestResponse = FriendRequestResponse(
-            id = info.friendId,
-            memberId = info.memberId,
-            email = info.email,
-            nickname = info.nickname,
-            profileUrl = info.profileFileName?.let { "/api/files/$it" },
-            status = info.status
+        fun of(friendMember: FriendMember): FriendRequestResponse = FriendRequestResponse(
+            id = friendMember.friendId,
+            memberId = friendMember.memberId,
+            email = friendMember.email,
+            nickname = friendMember.nickname,
+            profileUrl = friendMember.profileFileName?.let { "/api/files/$it" },
+            status = friendMember.status
         )
     }
 }

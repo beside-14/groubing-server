@@ -1,13 +1,15 @@
 package com.beside.groubing.groubingserver.domain.friend.api
 
-import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.docs.NUMBER
 import com.beside.groubing.groubingserver.docs.STRING
 import com.beside.groubing.groubingserver.docs.andDocument
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
+import com.beside.groubing.groubingserver.config.ApiTest
 import com.beside.groubing.groubingserver.domain.friend.application.FriendTargetsFindService
-import com.beside.groubing.groubingserver.domain.member.payload.response.MemberFindResponse
+import com.beside.groubing.groubingserver.domain.member.domain.Member
+import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
+import com.beside.groubing.groubingserver.domain.member.domain.MemberType
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
@@ -24,15 +26,21 @@ class FriendTargetsFindApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         When("유저 검색을 위해 검색 창에 들어왔을 경우") {
-            val response = (1..10).map {
-                MemberFindResponse(
-                    memberId = it.toLong(),
+            val members = (1..10).map {
+                Member(
+                    id = it.toLong(),
                     email = "groubing$it@daum.net",
+                    password = "1234",
                     nickname = "groubing$it",
+                    role = MemberRole.MEMBER,
+                    memberType = MemberType.CLASSIC,
+                    fcmToken = null,
+                    notificationReceive = true,
+                    active = true,
                     profileUrl = null
                 )
             }
-            every { friendTargetsFindService.findFriendTargets(1L) } returns response
+            every { friendTargetsFindService.findFriendTargets(1L) } returns members
 
             Then("전체 유저 목록을 nickname 오름차순으로 정렬하여 리턴한다.") {
                 mockMvc.get("/api/friends/targets") {
