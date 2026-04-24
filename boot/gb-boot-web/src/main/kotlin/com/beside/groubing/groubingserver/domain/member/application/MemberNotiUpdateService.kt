@@ -1,14 +1,14 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
-import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
 class MemberNotiUpdateService(
-    private val memberFindDao: MemberFindDao,
+    private val memberQueryRepository: MemberQueryRepository,
     private val memberCommandRepository: MemberCommandRepository
 ) {
     fun onNotification(memberId: Long) {
@@ -20,7 +20,7 @@ class MemberNotiUpdateService(
     }
 
     private fun updateReceive(memberId: Long, receive: Boolean) {
-        val member = memberFindDao.findExistingMemberById(memberId)
+        val member = memberQueryRepository.findById(memberId)
         memberCommandRepository.update(member.withNotificationReceive(receive))
     }
 }

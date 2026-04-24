@@ -6,7 +6,8 @@ import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoar
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardOpenUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
-import com.beside.groubing.groubingserver.domain.member.dao.MemberValidateDao
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
+import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -14,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class BingoBoardUpdateService(
     private val bingoBoardFindDao: BingoBoardFindDao,
-
-    private val memberValidateDao: MemberValidateDao
+    private val memberQueryRepository: MemberQueryRepository
 ) {
     fun updateBase(bingoBoardId: Long, memberId: Long, baseUpdateCommand: BingoBoardBaseUpdateCommand): BingoBoardResponse {
         val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
@@ -24,7 +24,7 @@ class BingoBoardUpdateService(
     }
 
     fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, membersPeriodUpdateCommand: BingoBoardMembersPeriodUpdateCommand): BingoBoardResponse {
-        memberValidateDao.validateExistingMembers(membersPeriodUpdateCommand.bingoMembers)
+        validateExistingMembers(membersPeriodUpdateCommand.bingoMembers)
         val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
         membersPeriodUpdateCommand.update(bingoBoard, memberId)
         return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
@@ -40,5 +40,11 @@ class BingoBoardUpdateService(
         val bingoBoard = bingoBoardFindDao.findById(bingoBoardId)
         openUpdateCommand.update(bingoBoard, memberId)
         return BingoBoardResponse.fromBingoBoard(bingoBoard, memberId)
+    }
+
+    private fun validateExistingMembers(memberIds: List<Long>) {
+        if (memberQueryRepository.countByIdIn(memberIds) != memberIds.size) {
+            throw MemberInputException("입력된 ID 중 존재하지 않는 회원이 있습니다. memberIds:$memberIds")
+        }
     }
 }
