@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.notification.payload.response
 
-import com.beside.groubing.groubingserver.domain.notification.dao.NotificationWithMemberProfile
+import com.beside.groubing.groubingserver.domain.notification.domain.NotificationItem
 
 class NotificationResponse(
     val bingoBoardId: Long,
@@ -10,15 +10,14 @@ class NotificationResponse(
     val message: String,
 
     val profileUrl: String?
-)
-{
+) {
     companion object {
-        fun create(notification: NotificationWithMemberProfile): NotificationResponse {
+        fun of(item: NotificationItem): NotificationResponse {
             return NotificationResponse(
-                bingoBoardId = notification.bingoBoardId,
-                memberId = notification.memberId,
-                message = notification.message,
-                profileUrl = "/api/files/${notification.profileUrl}"
+                bingoBoardId = item.bingoBoardId,
+                memberId = item.memberId,
+                message = item.message,
+                profileUrl = item.profileFileName?.let { "/api/files/$it" }
             )
         }
     }

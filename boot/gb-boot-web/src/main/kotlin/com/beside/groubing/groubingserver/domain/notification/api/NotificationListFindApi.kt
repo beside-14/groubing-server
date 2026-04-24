@@ -15,7 +15,7 @@ class NotificationListFindApi(
 ) {
     @GetMapping
     fun findNotifications(@AuthenticationPrincipal memberId: Long): ApiResponse<List<NotificationResponse>> {
-        val notifications = notificationListFindService.findNotifications(memberId)
-        return ApiResponse.OK(notifications)
+        val responses = notificationListFindService.findNotifications(memberId).map(NotificationResponse::of)
+        return ApiResponse.OK(responses)
     }
 }

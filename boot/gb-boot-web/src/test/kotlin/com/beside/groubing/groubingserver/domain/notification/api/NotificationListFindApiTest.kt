@@ -8,8 +8,7 @@ import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.notification.application.NotificationListFindService
-import com.beside.groubing.groubingserver.domain.notification.dao.NotificationWithMemberProfile
-import com.beside.groubing.groubingserver.domain.notification.payload.response.NotificationResponse
+import com.beside.groubing.groubingserver.domain.notification.domain.NotificationItem
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -30,22 +29,16 @@ class NotificationListFindApiTest(
     Given("NotificationListFindApi가 주어졌을 때") {
         val memberId = 200L
 
-        val notificationResponses = listOf(
-            NotificationResponse.create(
-                NotificationWithMemberProfile(bingoBoardId = 1L, memberId = 100L,
-                    message = "holeman79님이 운동하기 빙고를 3 빙고 달성했어요!", profileUrl = null)
-            ),
-            NotificationResponse.create(
-                NotificationWithMemberProfile(bingoBoardId = 2L, memberId = 101L,
-                    message = "awaji님이 이직 준비하기 빙고의 목표 빙고 수를 달성했어요!", profileUrl = "file/profile/profile1.jpg")
-            ),
-            NotificationResponse.create(
-                NotificationWithMemberProfile(bingoBoardId = 3L, memberId = 102L,
-                    message = "푸른바다님이 코딩 공부하기 빙고에서 달성한 빙고 중 스프링 api 강의듣기 빙고 아이템을 취소했어요.", profileUrl = "file/profile/profile2.jpg")
-            )
+        val notificationItems = listOf(
+            NotificationItem(bingoBoardId = 1L, memberId = 100L,
+                message = "holeman79님이 운동하기 빙고를 3 빙고 달성했어요!", profileFileName = null),
+            NotificationItem(bingoBoardId = 2L, memberId = 101L,
+                message = "awaji님이 이직 준비하기 빙고의 목표 빙고 수를 달성했어요!", profileFileName = "file/profile/profile1.jpg"),
+            NotificationItem(bingoBoardId = 3L, memberId = 102L,
+                message = "푸른바다님이 코딩 공부하기 빙고에서 달성한 빙고 중 스프링 api 강의듣기 빙고 아이템을 취소했어요.", profileFileName = "file/profile/profile2.jpg")
         )
 
-        every { notificationListFindService.findNotifications(memberId) } returns notificationResponses
+        every { notificationListFindService.findNotifications(memberId) } returns notificationItems
 
         When("GET /api/notifications 요청이 들어왔을 때") {
             mockMvc.perform(
