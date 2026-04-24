@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
-import com.beside.groubing.groubingserver.domain.member.application.MemberEmailFindService
+import com.beside.groubing.groubingserver.domain.auth.application.MemberEmailFindService
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberEmailFindRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberEmailFindResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse

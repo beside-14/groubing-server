@@ -1,4 +1,4 @@
-package com.beside.groubing.groubingserver.domain.member.application
+package com.beside.groubing.groubingserver.domain.auth.application
 
 import com.beside.groubing.groubingserver.domain.auth.application.command.LoginCommand
 import com.beside.groubing.groubingserver.domain.auth.domain.PasswordVerifier

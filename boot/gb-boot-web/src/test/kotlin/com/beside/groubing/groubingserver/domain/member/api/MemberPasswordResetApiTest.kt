@@ -7,7 +7,7 @@ import com.beside.groubing.groubingserver.docs.pathVariables
 import com.beside.groubing.groubingserver.docs.requestBody
 import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.requestType
-import com.beside.groubing.groubingserver.domain.member.application.MemberPasswordResetService
+import com.beside.groubing.groubingserver.domain.auth.application.MemberPasswordResetService
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberPasswordResetRequest
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.fasterxml.jackson.databind.ObjectMapper

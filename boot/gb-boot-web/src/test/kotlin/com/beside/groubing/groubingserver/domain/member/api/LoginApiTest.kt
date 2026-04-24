@@ -9,7 +9,7 @@ import com.beside.groubing.groubingserver.docs.requestBody
 import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
-import com.beside.groubing.groubingserver.domain.member.application.LoginService
+import com.beside.groubing.groubingserver.domain.auth.application.LoginService
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.LoginRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse

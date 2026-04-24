@@ -8,7 +8,7 @@ import com.beside.groubing.groubingserver.docs.requestBody
 import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
-import com.beside.groubing.groubingserver.domain.member.application.MemberEmailFindService
+import com.beside.groubing.groubingserver.domain.auth.application.MemberEmailFindService
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberEmailFindRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberEmailFindResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse

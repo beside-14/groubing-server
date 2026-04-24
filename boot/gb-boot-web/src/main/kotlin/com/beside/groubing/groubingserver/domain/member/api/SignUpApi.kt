@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
-import com.beside.groubing.groubingserver.domain.member.application.SignUpService
+import com.beside.groubing.groubingserver.domain.auth.application.SignUpService
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.MemberResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse

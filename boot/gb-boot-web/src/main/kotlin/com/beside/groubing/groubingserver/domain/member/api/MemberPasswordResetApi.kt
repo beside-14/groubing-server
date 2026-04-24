@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
-import com.beside.groubing.groubingserver.domain.member.application.MemberPasswordResetService
+import com.beside.groubing.groubingserver.domain.auth.application.MemberPasswordResetService
 import com.beside.groubing.groubingserver.domain.member.payload.request.MemberPasswordResetRequest
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PatchMapping

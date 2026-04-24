@@ -9,7 +9,7 @@ import com.beside.groubing.groubingserver.docs.requestBody
 import com.beside.groubing.groubingserver.docs.requestType
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
-import com.beside.groubing.groubingserver.domain.member.application.SignUpService
+import com.beside.groubing.groubingserver.domain.auth.application.SignUpService
 import com.beside.groubing.groubingserver.domain.member.domain.MemberRole
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import com.beside.groubing.groubingserver.domain.member.payload.request.SignUpRequest
@@ -41,7 +41,14 @@ class SignUpApiTest(
 
         When("올바른 정보로 회원가입 요청 시") {
             val token = JwtProvider.createToken(id, MemberRole.MEMBER.name)
-            val response = MemberResponse(id, email, nickname, null, token, true)
+            val response = MemberResponse(
+                id = id,
+                email = email,
+                nickname = nickname,
+                profileUrl = null,
+                token = token,
+                notificationReceive = true
+            )
             every { signUpService.signUp(any()) } returns response
 
             Then("성공 응답을 리턴한다.") {

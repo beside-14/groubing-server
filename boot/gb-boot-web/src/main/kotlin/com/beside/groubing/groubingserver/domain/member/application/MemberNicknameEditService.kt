@@ -1,21 +1,22 @@
 package com.beside.groubing.groubingserver.domain.member.application
 
-import com.beside.groubing.groubingserver.domain.member.dao.MemberFindDao
-import com.beside.groubing.groubingserver.domain.member.dao.MemberValidateDao
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberCommandRepository
+import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
+import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MemberNicknameEditService(
-    private val memberFindDao: MemberFindDao,
-    private val memberValidateDao: MemberValidateDao,
+    private val memberQueryRepository: MemberQueryRepository,
     private val memberCommandRepository: MemberCommandRepository
 ) {
     @Transactional
     fun edit(id: Long, nickname: String) {
-        memberValidateDao.validateDuplicateNickname(nickname)
-        val member = memberFindDao.findExistingMemberById(id)
+        if (memberQueryRepository.existsByNickname(nickname)) {
+            throw MemberInputException("이미 사용 중인 닉네임 입니다.")
+        }
+        val member = memberQueryRepository.findById(id)
         memberCommandRepository.update(member.withNickname(nickname))
     }
 }

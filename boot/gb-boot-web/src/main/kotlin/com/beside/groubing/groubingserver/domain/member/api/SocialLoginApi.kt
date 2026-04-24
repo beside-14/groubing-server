@@ -1,6 +1,6 @@
 package com.beside.groubing.groubingserver.domain.member.api
 
-import com.beside.groubing.groubingserver.domain.member.application.SocialLoginService
+import com.beside.groubing.groubingserver.domain.auth.application.SocialLoginService
 import com.beside.groubing.groubingserver.domain.member.payload.request.SocialLoginRequest
 import com.beside.groubing.groubingserver.domain.member.payload.response.SocialMemberResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
