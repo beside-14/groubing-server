@@ -6,6 +6,6 @@ class BingoBoardOpenUpdateRequest(
     val open: Boolean
 ) {
     fun command(): BingoBoardOpenUpdateCommand {
-        return BingoBoardOpenUpdateCommand.createCommand(open)
+        return BingoBoardOpenUpdateCommand.of(open)
     }
 }

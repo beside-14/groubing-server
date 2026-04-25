@@ -23,7 +23,7 @@ class BingoBoardCreateServiceTest(
     Given("신규 빙고 생성 시") {
         val memberId = Arb.long().single()
         val bingoSize = Arb.int(3..4).single()
-        val command = BingoBoardCreateCommand.createCommand(
+        val command = BingoBoardCreateCommand.of(
             memberId = memberId,
             title = Arb.string().single(),
             goal = Arb.int(1..bingoSize).single(),

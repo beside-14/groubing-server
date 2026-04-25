@@ -15,7 +15,7 @@ class BingoBoardListFindApi(
     private val bingoBoardListFindService: BingoBoardListFindService
 ) {
     @GetMapping
-    fun getBingoBoard(
+    fun findAll(
         @RequestParam memberId: Long,
         @AuthenticationPrincipal loginMemberId: Long
     ): ApiResponse<List<BingoBoardOverviewResponse>> {

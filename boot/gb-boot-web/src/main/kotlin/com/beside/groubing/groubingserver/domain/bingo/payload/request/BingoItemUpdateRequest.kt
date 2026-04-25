@@ -12,5 +12,5 @@ class BingoItemUpdateRequest(
     val subTitle: String?
 ) {
     fun command(): BingoItemUpdateCommand =
-        BingoItemUpdateCommand.createCommand(title, subTitle)
+        BingoItemUpdateCommand.of(title, subTitle)
 }

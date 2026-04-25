@@ -18,7 +18,8 @@ import java.util.UUID
 class FileProvider {
     companion object {
         private val root = System.getProperty("user.home")
-        private val IMAGE_FORMAT = listOf("png", "jpeg", "jpg")
+        private const val PNG_FORMAT = "png"
+        private val IMAGE_FORMAT = listOf(PNG_FORMAT, "jpeg", "jpg")
 
         fun upload(file: MultipartFile): FileInfo {
             validateFormat(file)
@@ -37,7 +38,7 @@ class FileProvider {
 
         fun getContentType(fileName: String): MediaType {
             val fileFormat = StringUtils.getFilenameExtension(fileName)
-            if (IMAGE_FORMAT[0].equals(fileFormat, ignoreCase = true)) return MediaType.IMAGE_PNG
+            if (PNG_FORMAT.equals(fileFormat, ignoreCase = true)) return MediaType.IMAGE_PNG
             return MediaType.IMAGE_JPEG
         }
 

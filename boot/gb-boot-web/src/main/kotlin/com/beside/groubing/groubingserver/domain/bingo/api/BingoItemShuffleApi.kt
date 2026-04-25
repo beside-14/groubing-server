@@ -16,7 +16,7 @@ class BingoItemShuffleApi(
     private val bingoItemShuffleService: BingoItemShuffleService
 ) {
     @PutMapping("/{id}/bingo-items")
-    fun updateBingoItem(
+    fun shuffle(
         @PathVariable id: Long,
         @AuthenticationPrincipal memberId: Long,
     ): ApiResponse<List<BingoLineResponse>> {

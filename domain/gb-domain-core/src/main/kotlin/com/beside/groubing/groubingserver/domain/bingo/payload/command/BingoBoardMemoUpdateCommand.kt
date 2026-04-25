@@ -10,7 +10,7 @@ class BingoBoardMemoUpdateCommand private constructor(
     }
 
     companion object {
-        fun createCommand(
+        fun of(
             memo: String?
         ): BingoBoardMemoUpdateCommand {
             return BingoBoardMemoUpdateCommand(memo)

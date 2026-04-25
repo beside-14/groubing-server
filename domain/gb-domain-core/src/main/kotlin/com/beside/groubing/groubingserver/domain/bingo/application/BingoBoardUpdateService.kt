@@ -1,14 +1,13 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardMembersValidator
 import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardBaseUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMembersPeriodUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardOpenUpdateCommand
-import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
-import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 class BingoBoardUpdateService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val bingoBoardCommandRepository: BingoBoardCommandRepository,
-    private val memberQueryRepository: MemberQueryRepository
+    private val bingoBoardMembersValidator: BingoBoardMembersValidator
 ) {
     fun updateBase(bingoBoardId: Long, memberId: Long, command: BingoBoardBaseUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
@@ -26,7 +25,7 @@ class BingoBoardUpdateService(
     }
 
     fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, command: BingoBoardMembersPeriodUpdateCommand): BingoBoard {
-        validateExistingMembers(command.bingoMembers)
+        bingoBoardMembersValidator.validate(command.bingoMembers)
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
         return bingoBoardCommandRepository.update(bingoBoard)
@@ -42,11 +41,5 @@ class BingoBoardUpdateService(
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
         return bingoBoardCommandRepository.update(bingoBoard)
-    }
-
-    private fun validateExistingMembers(memberIds: List<Long>) {
-        if (memberQueryRepository.countByIdIn(memberIds) != memberIds.size) {
-            throw MemberInputException("입력된 ID 중 존재하지 않는 회원이 있습니다. memberIds:$memberIds")
-        }
     }
 }

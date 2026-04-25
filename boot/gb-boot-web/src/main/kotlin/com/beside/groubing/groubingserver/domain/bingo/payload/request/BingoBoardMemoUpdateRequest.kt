@@ -8,6 +8,6 @@ class BingoBoardMemoUpdateRequest(
     val memo: String?
 ) {
     fun command(): BingoBoardMemoUpdateCommand {
-        return BingoBoardMemoUpdateCommand.createCommand(memo)
+        return BingoBoardMemoUpdateCommand.of(memo)
     }
 }

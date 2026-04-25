@@ -106,7 +106,7 @@ private fun prepareBoard(
     val board = BingoBoard.create(ownerId, titlePrefix, 3, BingoBoardType.GROUP, true, 3)
     val saved = adapter.save(board)
     saved.bingoItems.forEachIndexed { index, bingoItem ->
-        val command = BingoItemUpdateCommand.createCommand("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
+        val command = BingoItemUpdateCommand.of("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
         saved.updateBingoItem(ownerId, bingoItem.id, command.title, command.subTitle)
     }
     saved.updateBingoMembersPeriod(

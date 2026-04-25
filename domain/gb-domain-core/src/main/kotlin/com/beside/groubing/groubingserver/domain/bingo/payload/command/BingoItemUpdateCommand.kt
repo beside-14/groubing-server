@@ -5,7 +5,7 @@ class BingoItemUpdateCommand private constructor(
     val subTitle: String?
 ) {
     companion object {
-        fun createCommand(
+        fun of(
             title: String,
             subTitle: String?
         ): BingoItemUpdateCommand =

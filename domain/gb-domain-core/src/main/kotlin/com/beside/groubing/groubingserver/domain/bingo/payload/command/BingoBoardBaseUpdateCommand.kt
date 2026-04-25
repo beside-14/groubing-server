@@ -14,7 +14,7 @@ class BingoBoardBaseUpdateCommand private constructor(
     }
 
     companion object {
-        fun createCommand(
+        fun of(
             title: String,
             goal: Int,
             since: LocalDate,

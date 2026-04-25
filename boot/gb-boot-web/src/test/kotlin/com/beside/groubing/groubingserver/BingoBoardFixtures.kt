@@ -69,7 +69,7 @@ fun aTemporaryBingo(): BingoBoard {
     val memberId = 1L
     val bingoBoard = aEmptyBingo()
     bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
-        val command = BingoItemUpdateCommand.createCommand("코딩공부 ${index + 1}", "2023년 ${index + 1}월달까지 코딩공부")
+        val command = BingoItemUpdateCommand.of("코딩공부 ${index + 1}", "2023년 ${index + 1}월달까지 코딩공부")
         bingoBoard.updateBingoItem(
             memberId = memberId,
             bingoItemId = bingoItem.id,
@@ -91,7 +91,7 @@ fun createBingoBoard(
     val bingoBoard = aEmptyBingo(bingoBoardId, bingoBoardType, memberId, startItemId)
     bingoBoard.bingoItems.forEachIndexed { index, bingoItem ->
         val command =
-            BingoItemUpdateCommand.createCommand("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
+            BingoItemUpdateCommand.of("$titlePrefix ${index + 1}", "2023년 ${index + 1}월달까지 $titlePrefix")
         bingoBoard.updateBingoItem(
             memberId = memberId,
             bingoItemId = bingoItem.id,

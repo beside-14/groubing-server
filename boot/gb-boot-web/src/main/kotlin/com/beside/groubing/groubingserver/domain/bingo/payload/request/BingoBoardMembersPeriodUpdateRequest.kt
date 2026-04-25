@@ -15,6 +15,6 @@ class BingoBoardMembersPeriodUpdateRequest(
     val until: LocalDate
 ) {
     fun command(): BingoBoardMembersPeriodUpdateCommand {
-        return BingoBoardMembersPeriodUpdateCommand.createCommand(bingoMembers, since, until)
+        return BingoBoardMembersPeriodUpdateCommand.of(bingoMembers, since, until)
     }
 }

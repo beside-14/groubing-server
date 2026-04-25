@@ -13,7 +13,7 @@ class BingoBoardMembersPeriodUpdateCommand private constructor(
     }
 
     companion object {
-        fun createCommand(
+        fun of(
             bingoMembers: List<Long>,
             since: LocalDate,
             until: LocalDate

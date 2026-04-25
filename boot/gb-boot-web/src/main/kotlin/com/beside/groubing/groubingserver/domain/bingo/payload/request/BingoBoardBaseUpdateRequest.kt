@@ -20,7 +20,7 @@ class BingoBoardBaseUpdateRequest(
     val until: LocalDate
 ) {
     fun command(): BingoBoardBaseUpdateCommand {
-        return BingoBoardBaseUpdateCommand.createCommand(title, goal, since, until)
+        return BingoBoardBaseUpdateCommand.of(title, goal, since, until)
     }
 }
 

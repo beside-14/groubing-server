@@ -10,7 +10,7 @@ class BingoBoardOpenUpdateCommand private constructor(
     }
 
     companion object {
-        fun createCommand(
+        fun of(
             open: Boolean
         ): BingoBoardOpenUpdateCommand {
             return BingoBoardOpenUpdateCommand(open)
