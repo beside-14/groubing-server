@@ -20,8 +20,8 @@ class BingoItemCompleteApi(
         @PathVariable bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<BingoCalculatingResponse> {
-        val bingoCalculatingResponse = bingoItemCompleteService.completeBingoItem(id, bingoItemId, memberId)
-        return ApiResponse.OK(bingoCalculatingResponse)
+        val bingoMap = bingoItemCompleteService.completeBingoItem(id, bingoItemId, memberId)
+        return ApiResponse.OK(BingoCalculatingResponse.fromBingoMap(bingoMap))
     }
 
     @PatchMapping("/{id}/bingo-items/{bingoItemId}/cancel")
@@ -30,7 +30,7 @@ class BingoItemCompleteApi(
         @PathVariable bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<BingoCalculatingResponse> {
-        val bingoCalculatingResponse = bingoItemCompleteService.cancelBingoItem(id, bingoItemId, memberId)
-        return ApiResponse.OK(bingoCalculatingResponse)
+        val bingoMap = bingoItemCompleteService.cancelBingoItem(id, bingoItemId, memberId)
+        return ApiResponse.OK(BingoCalculatingResponse.fromBingoMap(bingoMap))
     }
 }

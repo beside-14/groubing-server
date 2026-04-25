@@ -19,7 +19,8 @@ class BingoBoardListFindApi(
         @RequestParam memberId: Long,
         @AuthenticationPrincipal loginMemberId: Long
     ): ApiResponse<List<BingoBoardOverviewResponse>> {
-        val bingoBoardOverviewResponses = bingoBoardListFindService.findBingoBoardList(memberId, loginMemberId)
-        return ApiResponse.OK(bingoBoardOverviewResponses)
+        val bingoBoards = bingoBoardListFindService.findBingoBoardList(memberId, loginMemberId)
+        val responses = bingoBoards.map { BingoBoardOverviewResponse.fromBingoBoard(it, memberId) }
+        return ApiResponse.OK(responses)
     }
 }

@@ -28,8 +28,8 @@ class BingoBoardUpdateApi(
         @RequestBody @Valid
         baseUpdateRequest: BingoBoardBaseUpdateRequest
     ): ApiResponse<BingoBoardResponse> {
-        val bingoBoardResponse = bingoBoardUpdateService.updateBase(id, memberId, baseUpdateRequest.command())
-        return ApiResponse.OK(bingoBoardResponse)
+        val updated = bingoBoardUpdateService.updateBase(id, memberId, baseUpdateRequest.command())
+        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
     }
 
     @PatchMapping("/{id}/publish-info")
@@ -39,9 +39,9 @@ class BingoBoardUpdateApi(
         memberId: Long,
         @RequestBody @Valid
         memberPeriodUpdateRequest: BingoBoardMembersPeriodUpdateRequest
-    ): ApiResponse<BingoBoardResponse>? {
-        val bingoBoardResponse = bingoBoardUpdateService.updateMembersPeriod(id, memberId, memberPeriodUpdateRequest.command())
-        return ApiResponse.OK(bingoBoardResponse)
+    ): ApiResponse<BingoBoardResponse> {
+        val updated = bingoBoardUpdateService.updateMembersPeriod(id, memberId, memberPeriodUpdateRequest.command())
+        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
     }
 
     @PatchMapping("/{id}/memo")
@@ -52,8 +52,8 @@ class BingoBoardUpdateApi(
         @RequestBody @Valid
         memoUpdateRequest: BingoBoardMemoUpdateRequest
     ): ApiResponse<BingoBoardResponse> {
-        val bingoBoardResponse = bingoBoardUpdateService.updateMemo(id, memberId, memoUpdateRequest.command())
-        return ApiResponse.OK(bingoBoardResponse)
+        val updated = bingoBoardUpdateService.updateMemo(id, memberId, memoUpdateRequest.command())
+        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
     }
 
     @PatchMapping("/{id}/open")
@@ -64,7 +64,7 @@ class BingoBoardUpdateApi(
         @RequestBody @Valid
         openUpdateRequest: BingoBoardOpenUpdateRequest
     ): ApiResponse<BingoBoardResponse> {
-        val bingoBoardResponse = bingoBoardUpdateService.updateOpen(id, memberId, openUpdateRequest.command())
-        return ApiResponse.OK(bingoBoardResponse)
+        val updated = bingoBoardUpdateService.updateOpen(id, memberId, openUpdateRequest.command())
+        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
     }
 }

@@ -13,7 +13,6 @@ import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemShuffleService
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoLineResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -37,10 +36,8 @@ class BingoItemShuffleApiTest(
         val temporaryBingo = aTemporaryBingo()
         temporaryBingo.shuffleBingoItems()
         val bingoMap = temporaryBingo.makeBingoMap(memberId)
-        val response = bingoMap.getBingoLines(Direction.HORIZONTAL)
-            .map { BingoLineResponse.fromBingoLine(it, memberId) }
 
-        every { bingoItemShuffleService.shuffleBingoItems(memberId = memberId, boardId = temporaryBingo.id) } returns response
+        every { bingoItemShuffleService.shuffleBingoItems(memberId = memberId, boardId = temporaryBingo.id) } returns bingoMap
 
         When("데이터가 유효하다면") {
             mockMvc.perform(

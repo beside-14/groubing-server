@@ -16,7 +16,7 @@ class BingoBoardFindApi(
 ) {
     @GetMapping("/{id}")
     fun getBingoBoard(@RequestParam memberId: Long, @PathVariable id: Long): ApiResponse<BingoBoardDetailResponse> {
-        val bingoBoardDetailResponse = bingoBoardFindService.findBingoBoard(memberId, id)
-        return ApiResponse.OK(bingoBoardDetailResponse)
+        val detail = bingoBoardFindService.findBingoBoard(memberId, id)
+        return ApiResponse.OK(BingoBoardDetailResponse.of(detail))
     }
 }

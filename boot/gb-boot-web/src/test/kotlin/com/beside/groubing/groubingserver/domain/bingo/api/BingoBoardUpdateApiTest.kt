@@ -53,7 +53,7 @@ class BingoBoardUpdateApiTest(
             bingoBoardBaseUpdateRequest.since, bingoBoardBaseUpdateRequest.until
         )
         val baseUpdatedResponse = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
-        every { bingoBoardUpdateService.updateBase(id, memberId, any()) } returns baseUpdatedResponse
+        every { bingoBoardUpdateService.updateBase(id, memberId, any()) } returns aEmptyBingo
 
         When("Base 정보 업데이트 시") {
             checkUpdateResponse(
@@ -78,7 +78,7 @@ class BingoBoardUpdateApiTest(
         val bingoBoardMemoUpdateRequest = BingoBoardMemoUpdateRequest("빙고 메모입니다.")
         aEmptyBingo.updateBingoMemo(memberId, bingoBoardMemoUpdateRequest.memo)
         val memoUpdatedResponse = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
-        every { bingoBoardUpdateService.updateMemo(id, memberId, any()) } returns memoUpdatedResponse
+        every { bingoBoardUpdateService.updateMemo(id, memberId, any()) } returns aEmptyBingo
         When("Memo 정보 업데이트 시") {
             checkUpdateResponse(
                 mockMvc,
@@ -99,7 +99,7 @@ class BingoBoardUpdateApiTest(
         val bingoBoardOpenUpdateRequest = BingoBoardOpenUpdateRequest(false)
         aEmptyBingo.updateBingoOpen(memberId, bingoBoardOpenUpdateRequest.open)
         val openUpdatedResponse = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
-        every { bingoBoardUpdateService.updateOpen(id, memberId, any()) } returns openUpdatedResponse
+        every { bingoBoardUpdateService.updateOpen(id, memberId, any()) } returns aEmptyBingo
         When("공개여부 정보 업데이트 시") {
             checkUpdateResponse(
                 mockMvc,
@@ -135,7 +135,7 @@ class BingoBoardUpdateApiTest(
                 memberId,
                 any()
             )
-        } returns bingoMembersPeriodUpdatedResponse
+        } returns aEmptyBingo
         When("빙고멤버, 기간 업데이트 시") {
             checkUpdateResponse(
                 mockMvc,

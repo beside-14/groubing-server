@@ -10,7 +10,6 @@ import com.beside.groubing.groubingserver.docs.requestParam
 import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemCompleteService
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoCalculatingResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -32,8 +31,8 @@ class BingoItemCompleteApiTest(
         val englishBingoBoard = aEnglishStudyBingoBoard()
         val memberId = 1L
         val bingoItem = englishBingoBoard.bingoItems[0]
-        val bingoCalculatingResponse = BingoCalculatingResponse.fromBingoMap(englishBingoBoard.makeBingoMap(memberId))
-        every { bingoItemCompleteService.completeBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoCalculatingResponse
+        val bingoMap = englishBingoBoard.makeBingoMap(memberId)
+        every { bingoItemCompleteService.completeBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
 
         val responseBody = responseBody(
             "horizontalBingoIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
@@ -64,7 +63,7 @@ class BingoItemCompleteApiTest(
                 )
         }
 
-        every { bingoItemCompleteService.cancelBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoCalculatingResponse
+        every { bingoItemCompleteService.cancelBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
         When("취소 요청 시") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(

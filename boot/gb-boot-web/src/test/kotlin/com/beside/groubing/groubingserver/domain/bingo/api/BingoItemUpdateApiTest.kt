@@ -14,7 +14,6 @@ import com.beside.groubing.groubingserver.docs.responseBody
 import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemUpdateService
 import com.beside.groubing.groubingserver.domain.bingo.payload.request.BingoItemUpdateRequest
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoItemResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -42,8 +41,7 @@ class BingoItemUpdateApiTest(
             subTitle = "8월까지 끝내기"
         )
         val bingoItem = aEmptyBingo.bingoItems[0]
-        val response = BingoItemResponse.fromBingoItem(bingoItem, memberId)
-        every { bingoItemUpdateService.updateBingoItem(aEmptyBingo.id, bingoItem.id, memberId, any()) } returns response
+        every { bingoItemUpdateService.updateBingoItem(aEmptyBingo.id, bingoItem.id, memberId, any()) } returns bingoItem
 
         When("데이터가 유효하다면") {
             mockMvc.perform(

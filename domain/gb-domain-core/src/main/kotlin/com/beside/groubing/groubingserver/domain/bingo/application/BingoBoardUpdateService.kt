@@ -1,12 +1,12 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
 import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardBaseUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMembersPeriodUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardOpenUpdateCommand
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.groubingserver.domain.member.domain.port.MemberQueryRepository
 import com.beside.groubing.groubingserver.domain.member.exception.MemberInputException
 import org.springframework.stereotype.Service
@@ -19,33 +19,29 @@ class BingoBoardUpdateService(
     private val bingoBoardCommandRepository: BingoBoardCommandRepository,
     private val memberQueryRepository: MemberQueryRepository
 ) {
-    fun updateBase(bingoBoardId: Long, memberId: Long, command: BingoBoardBaseUpdateCommand): BingoBoardResponse {
+    fun updateBase(bingoBoardId: Long, memberId: Long, command: BingoBoardBaseUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
-        val updated = bingoBoardCommandRepository.update(bingoBoard)
-        return BingoBoardResponse.fromBingoBoard(updated, memberId)
+        return bingoBoardCommandRepository.update(bingoBoard)
     }
 
-    fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, command: BingoBoardMembersPeriodUpdateCommand): BingoBoardResponse {
+    fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, command: BingoBoardMembersPeriodUpdateCommand): BingoBoard {
         validateExistingMembers(command.bingoMembers)
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
-        val updated = bingoBoardCommandRepository.update(bingoBoard)
-        return BingoBoardResponse.fromBingoBoard(updated, memberId)
+        return bingoBoardCommandRepository.update(bingoBoard)
     }
 
-    fun updateMemo(bingoBoardId: Long, memberId: Long, command: BingoBoardMemoUpdateCommand): BingoBoardResponse {
+    fun updateMemo(bingoBoardId: Long, memberId: Long, command: BingoBoardMemoUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
-        val updated = bingoBoardCommandRepository.update(bingoBoard)
-        return BingoBoardResponse.fromBingoBoard(updated, memberId)
+        return bingoBoardCommandRepository.update(bingoBoard)
     }
 
-    fun updateOpen(bingoBoardId: Long, memberId: Long, command: BingoBoardOpenUpdateCommand): BingoBoardResponse {
+    fun updateOpen(bingoBoardId: Long, memberId: Long, command: BingoBoardOpenUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
-        val updated = bingoBoardCommandRepository.update(bingoBoard)
-        return BingoBoardResponse.fromBingoBoard(updated, memberId)
+        return bingoBoardCommandRepository.update(bingoBoard)
     }
 
     private fun validateExistingMembers(memberIds: List<Long>) {

@@ -1,6 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.api
 
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoItemShuffleService
+import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
 import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoLineResponse
 import com.beside.groubing.groubingserver.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -19,7 +20,9 @@ class BingoItemShuffleApi(
         @PathVariable id: Long,
         @AuthenticationPrincipal memberId: Long,
     ): ApiResponse<List<BingoLineResponse>> {
-        val bingoLineResponses = bingoItemShuffleService.shuffleBingoItems(memberId = memberId, boardId = id)
-        return ApiResponse.OK(bingoLineResponses)
+        val bingoMap = bingoItemShuffleService.shuffleBingoItems(memberId = memberId, boardId = id)
+        val responses = bingoMap.getBingoLines(Direction.HORIZONTAL)
+            .map { BingoLineResponse.fromBingoLine(it, memberId) }
+        return ApiResponse.OK(responses)
     }
 }

@@ -25,7 +25,7 @@ class BingoBoardCreateApi(
         request: BingoBoardCreateRequest
     ): ApiResponse<BingoBoardResponse> {
         val command = request.command(memberId)
-        val response = bingoBoardCreateService.create(command)
-        return ApiResponse.OK(response)
+        val saved = bingoBoardCreateService.create(command)
+        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(saved, memberId))
     }
 }

@@ -1,8 +1,7 @@
 package com.beside.groubing.groubingserver.domain.bingo.payload.response
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoard
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardDetail
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
-import com.beside.groubing.groubingserver.domain.member.domain.Member
 import java.time.LocalDate
 
 class BingoBoardDetailResponse private constructor(
@@ -37,11 +36,9 @@ class BingoBoardDetailResponse private constructor(
     val otherBingoMaps: List<BingoMapResponse>
 ) {
     companion object {
-        fun fromBingoBoard(
-            bingoBoard: BingoBoard,
-            member: Member,
-            otherMembers: List<Member>
-        ): BingoBoardDetailResponse {
+        fun of(detail: BingoBoardDetail): BingoBoardDetailResponse {
+            val bingoBoard = detail.bingoBoard
+            val viewer = detail.viewer
             return BingoBoardDetailResponse(
                 id = bingoBoard.id,
                 title = bingoBoard.title,
@@ -52,12 +49,12 @@ class BingoBoardDetailResponse private constructor(
                 until = bingoBoard.until,
                 dDay = bingoBoard.calculateLeftDays(),
                 memo = bingoBoard.memo,
-                isLeader = bingoBoard.isLeader(member.id),
+                isLeader = bingoBoard.isLeader(viewer.id),
                 completed = bingoBoard.isStarted(),
                 finished = bingoBoard.isFinished(),
                 bingoSize = bingoBoard.size,
-                bingoMap = BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(member.id), member.nickname),
-                otherBingoMaps = otherMembers
+                bingoMap = BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(viewer.id), viewer.nickname),
+                otherBingoMaps = detail.otherMembers
                     .map { BingoMapResponse.fromBingoMap(bingoBoard.makeBingoMap(it.id), it.nickname) }
             )
         }

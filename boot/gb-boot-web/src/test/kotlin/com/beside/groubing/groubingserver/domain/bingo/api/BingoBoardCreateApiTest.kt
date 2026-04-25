@@ -44,7 +44,7 @@ class BingoBoardCreateApiTest(
             bingoSize = aEmptyBingo.size
         )
         val response = BingoBoardResponse.fromBingoBoard(aEmptyBingo, memberId)
-        every { bingoBoardCreateService.create(any()) } returns response
+        every { bingoBoardCreateService.create(any()) } returns aEmptyBingo
 
         When("데이터가 유효하다면") {
             mockMvc.post("/api/bingo-boards") {

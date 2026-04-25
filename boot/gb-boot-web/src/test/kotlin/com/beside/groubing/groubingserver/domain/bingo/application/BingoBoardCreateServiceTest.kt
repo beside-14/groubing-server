@@ -2,7 +2,6 @@ package com.beside.groubing.groubingserver.domain.bingo.application
 
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoBoardCreateCommand
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardResponse
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.nulls.beNull
@@ -37,15 +36,12 @@ class BingoBoardCreateServiceTest(
             val board = command.toNewBingoBoard()
 
             Then("해당 데이터를 리턴한다.") {
-                every { bingoBoardCreateService.create(any()) } returns BingoBoardResponse.fromBingoBoard(
-                    board,
-                    memberId
-                )
+                every { bingoBoardCreateService.create(any()) } returns board
 
-                val response = bingoBoardCreateService.create(command)
+                val saved = bingoBoardCreateService.create(command)
 
-                response.memo shouldBe beNull()
-                response.bingoLines.size shouldBe bingoSize
+                saved.memo shouldBe beNull()
+                saved.size shouldBe bingoSize
 
                 verify(exactly = 1) { bingoBoardCreateService.create(any()) }
             }

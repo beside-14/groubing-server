@@ -16,7 +16,6 @@ import com.beside.groubing.groubingserver.docs.responseType
 import com.beside.groubing.groubingserver.domain.bingo.application.BingoBoardListFindService
 import com.beside.groubing.groubingserver.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoBoardOverviewResponse
 import com.beside.groubing.groubingserver.extension.getHttpHeaderJwt
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -38,10 +37,10 @@ class BingoBoardListFindApiTest(
         val memberId = 1L
         val loginMemberId = 2L
 
-        val bingoBoardOverviewResponses = listOf(
-            BingoBoardOverviewResponse.fromBingoBoard(aEnglishStudyBingoBoard(), memberId),
-            BingoBoardOverviewResponse.fromBingoBoard(aHealthBingoBoard(), memberId),
-            BingoBoardOverviewResponse.fromBingoBoard(aGameBingoBoard(), memberId)
+        val bingoBoards = listOf(
+            aEnglishStudyBingoBoard(),
+            aHealthBingoBoard(),
+            aGameBingoBoard()
         )
 
         every {
@@ -49,7 +48,7 @@ class BingoBoardListFindApiTest(
                 memberId,
                 loginMemberId
             )
-        } returns bingoBoardOverviewResponses
+        } returns bingoBoards
 
         When("GET /api/bingo-boards 요청이 들어왔을 때") {
             mockMvc.perform(

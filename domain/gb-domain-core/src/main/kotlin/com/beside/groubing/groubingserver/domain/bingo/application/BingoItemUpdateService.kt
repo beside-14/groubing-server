@@ -1,23 +1,22 @@
 package com.beside.groubing.groubingserver.domain.bingo.application
 
-import com.beside.groubing.groubingserver.domain.bingo.domain.map.Direction
+import com.beside.groubing.groubingserver.domain.bingo.domain.BingoItem
 import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.groubingserver.domain.bingo.domain.port.BingoBoardQueryRepository
-import com.beside.groubing.groubingserver.domain.bingo.payload.response.BingoLineResponse
+import com.beside.groubing.groubingserver.domain.bingo.payload.command.BingoItemUpdateCommand
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class BingoItemShuffleService(
+class BingoItemUpdateService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val bingoBoardCommandRepository: BingoBoardCommandRepository
 ) {
-    fun shuffleBingoItems(memberId: Long, boardId: Long): List<BingoLineResponse> {
-        val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
-        bingoBoard.shuffleBingoItems()
+    fun updateBingoItem(bingoBoardId: Long, bingoItemId: Long, memberId: Long, command: BingoItemUpdateCommand): BingoItem {
+        val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
+        bingoBoard.updateBingoItem(memberId, bingoItemId, command.title, command.subTitle)
         val updated = bingoBoardCommandRepository.update(bingoBoard)
-        return updated.makeBingoMap(memberId).getBingoLines(Direction.HORIZONTAL)
-            .map { BingoLineResponse.fromBingoLine(it, memberId) }
+        return updated.bingoItems.first { it.id == bingoItemId }
     }
 }
