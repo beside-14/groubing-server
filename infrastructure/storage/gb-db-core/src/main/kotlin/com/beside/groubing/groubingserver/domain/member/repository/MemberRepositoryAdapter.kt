@@ -26,14 +26,14 @@ class MemberRepositoryAdapter(
         return entity.toDomain()
     }
 
-    override fun editProfile(memberId: Long, newProfile: FileInfo): FileInfo? {
+    override fun editProfileOrNull(memberId: Long, newProfile: FileInfo): FileInfo? {
         val entity = findEntityById(memberId)
         val previous = entity.profile?.toDomain()
         entity.editProfile(FileInfoEntity.from(newProfile))
         return previous
     }
 
-    override fun deleteProfile(memberId: Long): FileInfo? {
+    override fun deleteProfileOrNull(memberId: Long): FileInfo? {
         val entity = findEntityById(memberId)
         val previous = entity.profile?.toDomain()
         entity.deleteProfile()

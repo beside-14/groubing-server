@@ -25,6 +25,8 @@ data class Member(
         return copy(active = false)
     }
 
+    fun hasNickname(): Boolean = nickname.isNotBlank()
+
     fun maskEmail(): String {
         check(email != null) { "email이 존재하지 않는 계정입니다." }
         val endIndex = email.indexOfFirst { it == '@' }

@@ -11,7 +11,7 @@ class MemberProfileDeleteService(
     private val memberCommandRepository: MemberCommandRepository
 ) {
     fun delete(id: Long) {
-        val previousProfile = memberCommandRepository.deleteProfile(id)
+        val previousProfile = memberCommandRepository.deleteProfileOrNull(id)
         previousProfile?.let { FileStorage.delete(it) }
     }
 }

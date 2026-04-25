@@ -29,7 +29,7 @@ class SocialLoginService(
     }
 
     private fun findOrCreateSocialInfo(socialLoginCommand: SocialLoginCommand): SocialInfo {
-        return socialInfoRepository.findBySocialIdAndSocialType(
+        return socialInfoRepository.findBySocialIdAndSocialTypeOrNull(
             socialLoginCommand.id,
             socialLoginCommand.socialType
         ) ?: run {

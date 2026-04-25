@@ -14,7 +14,7 @@ class SocialInfoRepositoryAdapter(
         return socialInfoJpaRepository.save(SocialInfoEntity.from(socialInfo)).toDomain()
     }
 
-    override fun findBySocialIdAndSocialType(socialId: String, socialType: SocialType): SocialInfo? {
+    override fun findBySocialIdAndSocialTypeOrNull(socialId: String, socialType: SocialType): SocialInfo? {
         return socialInfoJpaRepository.findBySocialIdAndSocialType(socialId, socialType)?.toDomain()
     }
 }

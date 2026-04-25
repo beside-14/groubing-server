@@ -12,7 +12,7 @@ class MemberProfileEditService(
     private val memberCommandRepository: MemberCommandRepository
 ) {
     fun edit(id: Long, newProfile: FileInfo): String {
-        val previousProfile = memberCommandRepository.editProfile(id, newProfile)
+        val previousProfile = memberCommandRepository.editProfileOrNull(id, newProfile)
         previousProfile?.let { FileStorage.delete(it) }
         return newProfile.url
     }

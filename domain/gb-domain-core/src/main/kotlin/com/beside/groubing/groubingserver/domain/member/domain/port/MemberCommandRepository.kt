@@ -9,7 +9,7 @@ interface MemberCommandRepository {
 
     fun update(member: Member): Member
 
-    fun editProfile(memberId: Long, newProfile: FileInfo): FileInfo?
+    fun editProfileOrNull(memberId: Long, newProfile: FileInfo): FileInfo?
 
-    fun deleteProfile(memberId: Long): FileInfo?
+    fun deleteProfileOrNull(memberId: Long): FileInfo?
 }

@@ -31,7 +31,7 @@ class SocialLoginServiceTest : BehaviorSpec({
         fun prepareMock(existingMember: Member, existingSocialInfo: SocialInfo? = null) {
             every { mockMemberQueryRepository.findById(any()) } returns existingMember
             every { mockMemberCommandRepository.update(any()) } returns existingMember
-            every { mockSocialInfoRepository.findBySocialIdAndSocialType(any(), any()) } returns existingSocialInfo
+            every { mockSocialInfoRepository.findBySocialIdAndSocialTypeOrNull(any(), any()) } returns existingSocialInfo
             every { mockTokenManager.generateAccessToken(any(), any()) } returns "token"
         }
 

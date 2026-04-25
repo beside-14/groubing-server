@@ -249,6 +249,12 @@ class BingoBoard private constructor(
         }
     }
 
+    fun validateCanLeave(memberId: Long) {
+        if (isLeader(memberId)) {
+            throw BingoIllegalStateException("그룹 빙고 리더는 빙고를 나갈 수 없습니다.")
+        }
+    }
+
     fun inactiveByMemberId(memberId: Long) {
         val bingoMember = getBingoMember(memberId)
         bingoMember.inactive()

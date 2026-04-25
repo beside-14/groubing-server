@@ -19,7 +19,7 @@ data class SocialMemberResponse(
                 nickname = member.nickname,
                 profileUrl = member.profileUrl,
                 token = authenticatedMember.accessToken,
-                hasNickname = member.nickname.isNotBlank()
+                hasNickname = member.hasNickname()
             )
         }
     }
