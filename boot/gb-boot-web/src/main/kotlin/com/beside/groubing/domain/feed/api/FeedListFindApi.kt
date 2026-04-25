@@ -1,0 +1,30 @@
+package com.beside.groubing.domain.feed.api
+
+import com.beside.groubing.domain.feed.application.FeedListFindService
+import com.beside.groubing.domain.feed.application.FriendFeedListFindService
+import com.beside.groubing.domain.feed.payload.response.FeedResponse
+import com.beside.groubing.global.response.ApiResponse
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/api")
+class FeedListFindApi(
+    private val feedListFindService: FeedListFindService,
+
+    private val friendFeedListFindService: FriendFeedListFindService
+) {
+    @GetMapping("/feeds")
+    fun findFeeds(@AuthenticationPrincipal memberId: Long): ApiResponse<List<FeedResponse>> {
+        val response = feedListFindService.findAllFeeds(memberId).map(FeedResponse::of)
+        return ApiResponse.OK(response)
+    }
+
+    @GetMapping("/friend-feeds")
+    fun findFriendFeeds(@AuthenticationPrincipal memberId: Long): ApiResponse<List<FeedResponse>> {
+        val response = friendFeedListFindService.findFriendFeeds(memberId).map(FeedResponse::of)
+        return ApiResponse.OK(response)
+    }
+}

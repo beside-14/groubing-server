@@ -1,0 +1,40 @@
+package com.beside.groubing.global.domain.file.api
+
+import com.beside.groubing.global.domain.file.application.FileInfoService
+import com.beside.groubing.global.domain.file.application.FileProvider
+import org.springframework.core.io.Resource
+import org.springframework.core.io.UrlResource
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/api/files")
+class FileDownloadApi(
+    private val fileInfoService: FileInfoService
+) {
+    @GetMapping("/{fileName:.+}")
+    fun download(
+        @PathVariable fileName: String
+    ): ResponseEntity<Resource> {
+        val fileInfo = fileInfoService.findByFileName(fileName)
+        val resource = FileProvider.find(fileInfo)
+        return ResponseEntity.ok()
+            .contentType(FileProvider.getContentType(fileName))
+            .body(resource)
+    }
+
+    @GetMapping("/bingo-item-image/{fileName:.+}")
+    fun downloadBingoItemImage(
+        @PathVariable fileName: String
+    ): ResponseEntity<Resource> {
+        val root = System.getProperty("user.home")
+        val fileUrl = "file:$root/groubing/bingoitem/$fileName"
+        return ResponseEntity.ok()
+            .contentType(MediaType.IMAGE_PNG)
+            .body(UrlResource(fileUrl))
+    }
+}
