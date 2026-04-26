@@ -12,11 +12,11 @@ interface MemberQueryRepository {
 
     fun findAllSortedByNickname(): List<Member>
 
-    fun findAllByIdIn(ids: Collection<Long>): List<Member>
+    fun findAll(ids: Collection<Long>): List<Member>
 
     fun existsByEmail(email: String): Boolean
 
     fun existsByNickname(nickname: String): Boolean
 
-    fun countByIdIn(ids: Collection<Long>): Int
+    fun count(ids: Collection<Long>): Int
 }

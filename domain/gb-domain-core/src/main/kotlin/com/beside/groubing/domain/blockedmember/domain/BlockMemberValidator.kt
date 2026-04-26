@@ -9,7 +9,7 @@ class BlockMemberValidator(
     private val blockedMemberRepository: BlockedMemberRepository
 ) {
     fun validate(requesterId: Long, targetMemberId: Long) {
-        if (blockedMemberRepository.existsByRequesterIdAndTargetMemberId(requesterId, targetMemberId)) {
+        if (blockedMemberRepository.exists(requesterId, targetMemberId)) {
             throw BlockedMemberInputException("이미 차단한 유저입니다.")
         }
     }

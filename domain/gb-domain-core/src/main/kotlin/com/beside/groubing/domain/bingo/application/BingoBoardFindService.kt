@@ -16,7 +16,7 @@ class BingoBoardFindService(
         val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
         bingoBoard.validateNotLeaderAndDraft(memberId)
         val viewer = memberQueryRepository.findById(memberId)
-        val otherMembers = memberQueryRepository.findAllByIdIn(bingoBoard.getOtherBingoMemberIds(memberId))
+        val otherMembers = memberQueryRepository.findAll(bingoBoard.getOtherBingoMemberIds(memberId))
         return BingoBoardDetail(bingoBoard, viewer, otherMembers)
     }
 }

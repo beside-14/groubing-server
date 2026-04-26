@@ -16,8 +16,8 @@ class FriendAddValidator(
     }
 
     private fun validateNotBlockedEitherWay(inviterId: Long, inviteeId: Long) {
-        val isBlockedEitherWay = blockedMemberRepository.existsByRequesterIdAndTargetMemberId(inviterId, inviteeId) ||
-            blockedMemberRepository.existsByRequesterIdAndTargetMemberId(inviteeId, inviterId)
+        val isBlockedEitherWay = blockedMemberRepository.exists(inviterId, inviteeId) ||
+            blockedMemberRepository.exists(inviteeId, inviterId)
         if (isBlockedEitherWay) {
             throw BlockedMemberInputException("내가 이미 차단했거나 상대방이 나를 차단했습니다.")
         }

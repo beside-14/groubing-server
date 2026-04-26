@@ -27,11 +27,11 @@ class BlockedMemberRepositoryAdapter(
         blockedMemberJpaRepository.deleteById(blockedMember.id)
     }
 
-    override fun existsByRequesterIdAndTargetMemberId(requesterId: Long, targetMemberId: Long): Boolean {
+    override fun exists(requesterId: Long, targetMemberId: Long): Boolean {
         return blockedMemberJpaRepository.existsByRequesterIdAndTargetMemberId(requesterId, targetMemberId)
     }
 
-    override fun findAllRequestedBy(requesterId: Long): List<BlockedMemberTarget> {
+    override fun findAll(requesterId: Long): List<BlockedMemberTarget> {
         return blockedMemberFindDao.findAllRequestedBy(requesterId).map {
             BlockedMemberTarget(
                 id = it.id,

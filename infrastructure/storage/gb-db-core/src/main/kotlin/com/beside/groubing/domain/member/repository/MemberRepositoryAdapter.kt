@@ -59,7 +59,7 @@ class MemberRepositoryAdapter(
             .map { it.toDomain() }
     }
 
-    override fun findAllByIdIn(ids: Collection<Long>): List<Member> {
+    override fun findAll(ids: Collection<Long>): List<Member> {
         return memberJpaRepository.findAllById(ids).map { it.toDomain() }
     }
 
@@ -71,7 +71,7 @@ class MemberRepositoryAdapter(
         return memberJpaRepository.existsByNickname(nickname)
     }
 
-    override fun countByIdIn(ids: Collection<Long>): Int {
+    override fun count(ids: Collection<Long>): Int {
         return memberJpaRepository.countByIdIn(ids)
     }
 

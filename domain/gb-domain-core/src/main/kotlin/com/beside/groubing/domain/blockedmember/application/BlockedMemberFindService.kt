@@ -11,6 +11,6 @@ class BlockedMemberFindService(
     private val blockedMemberRepository: BlockedMemberRepository
 ) {
     fun find(requesterId: Long): List<BlockedMemberTarget> {
-        return blockedMemberRepository.findAllRequestedBy(requesterId)
+        return blockedMemberRepository.findAll(requesterId)
     }
 }
