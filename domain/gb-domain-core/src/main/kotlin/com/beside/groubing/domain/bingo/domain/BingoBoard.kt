@@ -113,7 +113,7 @@ class BingoBoard private constructor(
     }
 
     fun getOtherBingoMemberIds(memberId: Long): List<Long> {
-        return bingoMembers.filter { it.memberId != memberId || it.active }
+        return bingoMembers.filter { it.memberId != memberId && it.active }
             .map { it.memberId }
     }
 
@@ -121,7 +121,7 @@ class BingoBoard private constructor(
         return period != null && bingoItems.all { it.isUpdated() }
     }
 
-    fun isFinished(): Boolean = calculateLeftDays() < 0
+    fun isFinished(): Boolean = period?.isExpired() ?: false
 
     fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {
         validateAuthority(memberId)

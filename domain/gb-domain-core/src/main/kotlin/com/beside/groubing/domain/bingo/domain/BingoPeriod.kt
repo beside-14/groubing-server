@@ -16,6 +16,8 @@ class BingoPeriod private constructor(
 
     fun calculateLeftDays(): Long = LocalDate.now().until(until, ChronoUnit.DAYS)
 
+    fun isExpired(): Boolean = LocalDate.now().isAfter(until)
+
     companion object {
         fun create(since: LocalDate, until: LocalDate): BingoPeriod = BingoPeriod(since, until)
     }
