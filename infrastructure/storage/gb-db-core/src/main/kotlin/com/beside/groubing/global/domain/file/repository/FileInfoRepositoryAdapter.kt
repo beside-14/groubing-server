@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository
 class FileInfoRepositoryAdapter(
     private val fileInfoJpaRepository: FileInfoJpaRepository
 ) : FileInfoQueryRepository {
-    override fun findByFileName(fileName: String): FileInfo {
-        return fileInfoJpaRepository.findFirstByFileName(fileName)?.toDomain()
+    override fun findOne(fileName: String): FileInfo {
+        return fileInfoJpaRepository.findByFileName(fileName)?.toDomain()
             ?: throw FileInfoInputException()
     }
 }

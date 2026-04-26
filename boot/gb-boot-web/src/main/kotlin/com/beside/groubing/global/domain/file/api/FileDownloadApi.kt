@@ -20,7 +20,7 @@ class FileDownloadApi(
     fun download(
         @PathVariable fileName: String
     ): ResponseEntity<Resource> {
-        val fileInfo = fileInfoService.findByFileName(fileName)
+        val fileInfo = fileInfoService.findOne(fileName)
         val resource = FileProvider.find(fileInfo)
         return ResponseEntity.ok()
             .contentType(FileProvider.getContentType(fileName))

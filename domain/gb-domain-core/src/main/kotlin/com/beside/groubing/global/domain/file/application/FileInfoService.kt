@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 class FileInfoService(
     private val fileInfoQueryRepository: FileInfoQueryRepository
 ) {
-    fun findByFileName(fileName: String): FileInfo {
-        return fileInfoQueryRepository.findByFileName(fileName)
+    fun findOne(fileName: String): FileInfo {
+        return fileInfoQueryRepository.findOne(fileName)
     }
 }
