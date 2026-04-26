@@ -60,7 +60,6 @@ class MemberRepositoryAdapter(
     }
 
     override fun findAllSortedByNicknameExcluding(excludedIds: Set<Long>): List<Member> {
-        if (excludedIds.isEmpty()) return findAllSortedByNickname()
         return memberJpaRepository.findAllByIdNotIn(excludedIds, Sort.by(Sort.Direction.ASC, "nickname"))
             .map { it.toDomain() }
     }

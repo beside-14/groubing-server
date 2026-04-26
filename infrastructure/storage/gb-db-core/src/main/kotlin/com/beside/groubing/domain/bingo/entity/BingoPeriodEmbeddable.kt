@@ -9,7 +9,7 @@ class BingoPeriodEmbeddable(
     val since: LocalDate,
     val until: LocalDate
 ) {
-    fun toDomain(): BingoPeriod = BingoPeriod.create(since, until)
+    fun toDomain(): BingoPeriod = BingoPeriod.of(since, until)
 
     companion object {
         fun from(domain: BingoPeriod): BingoPeriodEmbeddable = BingoPeriodEmbeddable(domain.since, domain.until)
