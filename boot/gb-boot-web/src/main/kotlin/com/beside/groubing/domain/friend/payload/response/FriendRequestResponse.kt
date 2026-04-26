@@ -2,6 +2,7 @@ package com.beside.groubing.domain.friend.payload.response
 
 import com.beside.groubing.domain.friend.domain.FriendMember
 import com.beside.groubing.domain.friend.domain.FriendStatus
+import com.beside.groubing.global.domain.file.domain.FileInfo
 
 data class FriendRequestResponse(
     val id: Long,
@@ -17,7 +18,7 @@ data class FriendRequestResponse(
             memberId = friendMember.memberId,
             email = friendMember.email,
             nickname = friendMember.nickname,
-            profileUrl = friendMember.profileFileName?.let { "/api/files/$it" },
+            profileUrl = FileInfo.urlOfOrNull(friendMember.profileFileName),
             status = friendMember.status
         )
     }

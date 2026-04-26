@@ -3,7 +3,7 @@ package com.beside.groubing.domain.bingo.payload.command
 import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoBoardType
 
-class BingoBoardCreateCommand constructor(
+class BingoBoardCreateCommand private constructor(
     val memberId: Long,
     val title: String,
     val goal: Int,

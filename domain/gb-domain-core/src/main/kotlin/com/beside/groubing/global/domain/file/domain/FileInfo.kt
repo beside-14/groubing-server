@@ -7,9 +7,15 @@ class FileInfo private constructor(
     val originalName: String
 ) {
     val url: String
-        get() = "/api/files/$fileName"
+        get() = urlOf(fileName)
 
     companion object {
+        private const val URL_PREFIX = "/api/files/"
+
+        fun urlOf(fileName: String): String = "$URL_PREFIX$fileName"
+
+        fun urlOfOrNull(fileName: String?): String? = fileName?.let(::urlOf)
+
         fun create(directory: String, fileName: String, originalName: String): FileInfo {
             return FileInfo(id = 0L, directory = directory, fileName = fileName, originalName = originalName)
         }

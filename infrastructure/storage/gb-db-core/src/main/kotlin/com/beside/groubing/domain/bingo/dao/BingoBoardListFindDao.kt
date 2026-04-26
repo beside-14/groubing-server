@@ -12,12 +12,7 @@ class BingoBoardListFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
     fun find(memberId: Long): List<BingoBoardEntity> {
-        val predicate = BooleanBuilder()
-            .and(
-                bingoBoardEntity.active.isTrue
-                    .and(bingoMemberEntity.active.isTrue)
-                    .and(bingoMemberEntity.memberId.eq(memberId))
-            ).value
+        val predicate = activePredicate(memberId)
 
         return queryFactory.selectFrom(bingoBoardEntity)
             .innerJoin(bingoBoardEntity.bingoMembers, bingoMemberEntity)
@@ -25,4 +20,19 @@ class BingoBoardListFindDao(
             .orderBy(bingoBoardEntity.lastModifiedDate.desc())
             .fetch()
     }
+
+    fun findAllIdsOf(memberId: Long): List<Long> {
+        return queryFactory.select(bingoBoardEntity.id)
+            .from(bingoBoardEntity)
+            .innerJoin(bingoBoardEntity.bingoMembers, bingoMemberEntity)
+            .where(activePredicate(memberId))
+            .fetch()
+    }
+
+    private fun activePredicate(memberId: Long) = BooleanBuilder()
+        .and(
+            bingoBoardEntity.active.isTrue
+                .and(bingoMemberEntity.active.isTrue)
+                .and(bingoMemberEntity.memberId.eq(memberId))
+        ).value
 }

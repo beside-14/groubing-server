@@ -54,9 +54,7 @@ class BingoBoard private constructor(
     }
 
     fun initBingoItemColor() {
-        val bingoItemColors = mutableListOf(
-            "#2787C9", "#F18FA2", "#E75097", "#FFD643", "#B6B4DB", "#00AAB3", "#00A783", "#85BCE7", "#F6A973"
-        ).shuffled()
+        val bingoItemColors = BINGO_ITEM_COLORS.shuffled()
 
         bingoItems.sortedBy { it.itemOrder }
             .take(bingoItemColors.size)
@@ -276,6 +274,10 @@ class BingoBoard private constructor(
         private val BINGO_ITEM_ALPHABETS = listOf(
             "g", "r", "o", "u", "b", "i", "n",
             "b2", "b3", "g2", "i2", "i3", "n2", "o2", "r2", "u2"
+        )
+
+        private val BINGO_ITEM_COLORS = listOf(
+            "#2787C9", "#F18FA2", "#E75097", "#FFD643", "#B6B4DB", "#00AAB3", "#00A783", "#85BCE7", "#F6A973"
         )
 
         fun create(

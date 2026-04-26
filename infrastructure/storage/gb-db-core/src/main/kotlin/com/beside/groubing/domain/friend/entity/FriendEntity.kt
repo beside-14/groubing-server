@@ -43,12 +43,10 @@ class FriendEntity(
 
     companion object {
         fun from(friend: Friend): FriendEntity {
-            val entity = FriendEntity(
+            return FriendEntity(
                 inviterId = friend.inviterId,
                 inviteeId = friend.inviteeId
-            )
-            entity.status = friend.status
-            return entity
+            ).apply { applyStatus(friend) }
         }
     }
 }

@@ -6,4 +6,6 @@ interface BingoBoardQueryRepository {
     fun findOne(id: Long): BingoBoard
 
     fun findAllOf(memberId: Long): List<BingoBoard>
+
+    fun findAllIdsOf(memberId: Long): List<Long>
 }

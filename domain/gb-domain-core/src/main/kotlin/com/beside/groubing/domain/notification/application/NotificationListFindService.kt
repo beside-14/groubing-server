@@ -13,7 +13,7 @@ class NotificationListFindService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository
 ) {
     fun findNotifications(memberId: Long): List<NotificationItem> {
-        val bingoBoardIds = bingoBoardQueryRepository.findAllOf(memberId).map { it.id }
+        val bingoBoardIds = bingoBoardQueryRepository.findAllIdsOf(memberId)
         return notificationQueryRepository.findRecentOf(bingoBoardIds, memberId)
     }
 }

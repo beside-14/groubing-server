@@ -1,6 +1,7 @@
 package com.beside.groubing.domain.friend.payload.response
 
 import com.beside.groubing.domain.friend.domain.FriendMember
+import com.beside.groubing.global.domain.file.domain.FileInfo
 
 data class FriendResponse(
     val id: Long,
@@ -15,7 +16,7 @@ data class FriendResponse(
             memberId = friendMember.memberId,
             email = friendMember.email,
             nickname = friendMember.nickname,
-            profileUrl = friendMember.profileFileName?.let { "/api/files/$it" }
+            profileUrl = FileInfo.urlOfOrNull(friendMember.profileFileName)
         )
     }
 }

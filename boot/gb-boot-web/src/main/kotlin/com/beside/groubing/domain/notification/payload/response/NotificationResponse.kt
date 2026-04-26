@@ -1,6 +1,7 @@
 package com.beside.groubing.domain.notification.payload.response
 
 import com.beside.groubing.domain.notification.domain.NotificationItem
+import com.beside.groubing.global.domain.file.domain.FileInfo
 
 class NotificationResponse(
     val bingoBoardId: Long,
@@ -17,7 +18,7 @@ class NotificationResponse(
                 bingoBoardId = item.bingoBoardId,
                 memberId = item.memberId,
                 message = item.message,
-                profileUrl = item.profileFileName?.let { "/api/files/$it" }
+                profileUrl = FileInfo.urlOfOrNull(item.profileFileName)
             )
         }
     }

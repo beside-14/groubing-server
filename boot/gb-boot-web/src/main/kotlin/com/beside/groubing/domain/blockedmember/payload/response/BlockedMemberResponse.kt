@@ -1,6 +1,7 @@
 package com.beside.groubing.domain.blockedmember.payload.response
 
 import com.beside.groubing.domain.blockedmember.domain.BlockedMemberTarget
+import com.beside.groubing.global.domain.file.domain.FileInfo
 
 data class BlockedMemberResponse(
     val id: Long,
@@ -14,7 +15,7 @@ data class BlockedMemberResponse(
                 id = target.id,
                 email = target.email,
                 nickname = target.nickname,
-                profileUrl = target.profileFileName?.let { "/api/files/$it" }
+                profileUrl = FileInfo.urlOfOrNull(target.profileFileName)
             )
         }
     }
