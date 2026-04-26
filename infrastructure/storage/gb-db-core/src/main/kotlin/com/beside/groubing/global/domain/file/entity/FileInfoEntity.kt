@@ -1,7 +1,7 @@
 package com.beside.groubing.global.domain.file.entity
 
 import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.jpa.BaseCreatedTimeEntity
+import com.beside.groubing.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -15,7 +15,7 @@ class FileInfoEntity private constructor(
     val directory: String,
     val fileName: String,
     val originalName: String
-) : BaseCreatedTimeEntity() {
+) : BaseEntity() {
     @Id
     @Column(name = "FILE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
