@@ -14,9 +14,7 @@ class FriendTargetsFindService(
     private val friendQueryRepository: FriendQueryRepository
 ) {
     fun findFriendTargets(myMemberId: Long): List<Member> {
-        val members = memberQueryRepository.findAllSortedByNickname()
-        val excludedMemberIds = collectExcludedMemberIds(myMemberId)
-        return members.filter { it.id !in excludedMemberIds }
+        return memberQueryRepository.findAllSortedByNicknameExcluding(collectExcludedMemberIds(myMemberId))
     }
 
     private fun collectExcludedMemberIds(myMemberId: Long): Set<Long> {

@@ -12,6 +12,8 @@ interface MemberQueryRepository {
 
     fun findAllSortedByNickname(): List<Member>
 
+    fun findAllSortedByNicknameExcluding(excludedIds: Set<Long>): List<Member>
+
     fun findAll(ids: Collection<Long>): List<Member>
 
     fun existsByEmail(email: String): Boolean

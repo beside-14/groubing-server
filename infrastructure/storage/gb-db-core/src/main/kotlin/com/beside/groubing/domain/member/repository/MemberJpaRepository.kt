@@ -14,4 +14,6 @@ interface MemberJpaRepository : JpaRepository<MemberEntity, Long> {
     fun existsByNickname(nickname: String): Boolean
 
     fun countByIdIn(ids: Collection<Long>): Int
+
+    fun findAllByIdNotIn(excludedIds: Set<Long>, sort: org.springframework.data.domain.Sort): List<MemberEntity>
 }
