@@ -24,7 +24,7 @@ class FriendAddService(
             return
         }
 
-        val rependable = FriendRelations(friends).findRependable(inviterId, inviteeId)
+        val rependable = FriendRelations.of(friends).findRependable(inviterId, inviteeId)
         friendCommandRepository.update(rependable.repend())
     }
 }

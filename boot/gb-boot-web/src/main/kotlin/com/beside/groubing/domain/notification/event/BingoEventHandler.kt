@@ -20,30 +20,26 @@ class BingoEventHandler(
     @Async
     @EventListener
     fun handle(event: BingoLineCompleteEvent) {
-        val member = memberQueryRepository.findById(event.memberId)
-        val message = "${member.nickname}님이 ${event.bingoBoardTitle} 빙고를 ${event.totalBingoCount} 빙고 달성했어요!"
-        notificationRepository.save(
-            Notification.create(bingoBoardId = event.bingoBoardId, memberId = event.memberId, message = message)
-        )
+        save(event.bingoBoardId, event.memberId, event.toMessage(nicknameOf(event.memberId)))
     }
 
     @Async
     @EventListener
     fun handle(event: BingoLineCancelEvent) {
-        val member = memberQueryRepository.findById(event.memberId)
-        val message = "${member.nickname}님이 ${event.bingoBoardTitle} 빙고에서 달성한 빙고 중 ${event.bingoItemTitle} 빙고 아이템을 취소했어요."
-        notificationRepository.save(
-            Notification.create(bingoBoardId = event.bingoBoardId, memberId = event.memberId, message = message)
-        )
+        save(event.bingoBoardId, event.memberId, event.toMessage(nicknameOf(event.memberId)))
     }
 
     @Async
     @EventListener
     fun handle(event: BingoCompleteEvent) {
-        val member = memberQueryRepository.findById(event.memberId)
-        val message = "${member.nickname}님이 ${event.bingoBoardTitle} 빙고의 목표 빙고 수를 달성했어요!"
+        save(event.bingoBoardId, event.memberId, event.toMessage(nicknameOf(event.memberId)))
+    }
+
+    private fun nicknameOf(memberId: Long): String = memberQueryRepository.findById(memberId).nickname
+
+    private fun save(bingoBoardId: Long, memberId: Long, message: String) {
         notificationRepository.save(
-            Notification.create(bingoBoardId = event.bingoBoardId, memberId = event.memberId, message = message)
+            Notification.create(bingoBoardId = bingoBoardId, memberId = memberId, message = message)
         )
     }
 }

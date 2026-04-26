@@ -10,4 +10,7 @@ class BingoLineCompleteEvent(
     val bingoBoardTitle: String,
 
     val totalBingoCount: Int
-)
+) {
+    fun toMessage(nickname: String): String =
+        "${nickname}님이 ${bingoBoardTitle} 빙고를 ${totalBingoCount} 빙고 달성했어요!"
+}

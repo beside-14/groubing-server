@@ -1,6 +1,7 @@
 package com.beside.groubing.domain.feed.application
 
 import com.beside.groubing.domain.feed.domain.FeedEntry
+import com.beside.groubing.domain.feed.domain.FeedEntry.Companion.MAX_FEED_ITEMS
 import com.beside.groubing.domain.feed.domain.port.FeedListQueryRepository
 import com.beside.groubing.domain.friend.domain.port.FriendQueryRepository
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
@@ -42,7 +43,4 @@ class FriendFeedListFindService(
         }
     }
 
-    companion object {
-        private const val MAX_FEED_ITEMS = 5
-    }
 }

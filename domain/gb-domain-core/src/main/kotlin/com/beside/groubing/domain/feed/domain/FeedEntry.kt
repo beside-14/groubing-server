@@ -7,4 +7,8 @@ class FeedEntry(
     val itemTitles: List<String>,
     val isFriendRequestReceived: Boolean,
     val isFriendRequestSent: Boolean
-)
+) {
+    companion object {
+        const val MAX_FEED_ITEMS = 5
+    }
+}

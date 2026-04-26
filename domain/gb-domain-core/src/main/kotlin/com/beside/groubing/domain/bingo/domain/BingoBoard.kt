@@ -243,7 +243,7 @@ class BingoBoard private constructor(
         this.active = false
     }
 
-    fun validateNotLeaderAndDraft(memberId: Long) {
+    fun validateViewableBy(memberId: Long) {
         if (!isLeader(memberId) && !isStarted() && getBingoMember(memberId).active) {
             throw BingoInputException("접근할 수 없는 빙고보드입니다.")
         }

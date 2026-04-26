@@ -1,6 +1,7 @@
 package com.beside.groubing.domain.feed.application
 
 import com.beside.groubing.domain.feed.domain.FeedEntry
+import com.beside.groubing.domain.feed.domain.FeedEntry.Companion.MAX_FEED_ITEMS
 import com.beside.groubing.domain.feed.domain.port.FeedListQueryRepository
 import com.beside.groubing.domain.friend.domain.FriendStatus
 import com.beside.groubing.domain.friend.domain.port.FriendQueryRepository
@@ -72,7 +73,6 @@ class FeedListFindService(
     )
 
     companion object {
-        private const val MAX_FEED_ITEMS = 5
         private val NON_REJECTED = setOf(FriendStatus.PENDING, FriendStatus.ACCEPT)
     }
 }
