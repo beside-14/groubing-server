@@ -9,7 +9,7 @@ import com.beside.groubing.global.response.ApiResponseCode
 import com.beside.groubing.global.response.error.ApiError
 import com.google.firebase.messaging.FirebaseMessagingException
 import org.hibernate.exception.ConstraintViolationException
-import org.hibernate.query.sqm.tree.SqmNode.log
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+
+    private val log = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
     @ExceptionHandler(MissingRequestHeaderException::class)
     fun handle(e: MissingRequestHeaderException): ResponseEntity<ApiError> {
