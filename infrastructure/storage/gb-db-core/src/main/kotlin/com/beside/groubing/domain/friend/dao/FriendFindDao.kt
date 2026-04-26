@@ -34,7 +34,7 @@ class FriendFindDao(
             .fetch()
     }
 
-    fun findAllReceivedBy(inviteeId: Long): List<FriendMemberInfo> {
+    fun findAllReceivedBy(inviteeId: Long, statuses: Set<FriendStatus>): List<FriendMemberInfo> {
         return queryFactory.select(
             QFriendMemberInfo(
                 friendEntity.id,
@@ -48,12 +48,12 @@ class FriendFindDao(
             .from(friendEntity)
             .innerJoin(memberEntity).on(memberEntity.id.eq(friendEntity.inviterId))
             .leftJoin(memberEntity.profile)
-            .where(friendEntity.inviteeId.eq(inviteeId))
+            .where(friendEntity.inviteeId.eq(inviteeId).and(friendEntity.status.`in`(statuses)))
             .orderBy(friendEntity.createdDate.desc())
             .fetch()
     }
 
-    fun findAllSentBy(inviterId: Long): List<FriendMemberInfo> {
+    fun findAllSentBy(inviterId: Long, statuses: Set<FriendStatus>): List<FriendMemberInfo> {
         return queryFactory.select(
             QFriendMemberInfo(
                 friendEntity.id,
@@ -67,7 +67,7 @@ class FriendFindDao(
             .from(friendEntity)
             .innerJoin(memberEntity).on(memberEntity.id.eq(friendEntity.inviteeId))
             .leftJoin(memberEntity.profile)
-            .where(friendEntity.inviterId.eq(inviterId))
+            .where(friendEntity.inviterId.eq(inviterId).and(friendEntity.status.`in`(statuses)))
             .orderBy(friendEntity.createdDate.desc())
             .fetch()
     }

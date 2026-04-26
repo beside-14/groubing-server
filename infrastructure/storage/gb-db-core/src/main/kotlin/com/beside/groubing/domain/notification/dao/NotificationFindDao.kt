@@ -21,10 +21,17 @@ class NotificationFindDao(
             .from(notificationEntity)
             .join(member).on(notificationEntity.memberId.eq(member.id))
             .leftJoin(member.profile)
-            .where(notificationEntity.bingoBoardId.`in`(bingoBoardIds).and(member.active.isTrue))
+            .where(
+                notificationEntity.bingoBoardId.`in`(bingoBoardIds)
+                    .and(notificationEntity.memberId.ne(myMemberId))
+                    .and(member.active.isTrue)
+            )
             .orderBy(notificationEntity.createdDate.desc())
+            .limit(MAX_NOTIFICATION_COUNT)
             .fetch()
-            .filter { it.memberId != myMemberId }
-            .take(30)
+    }
+
+    companion object {
+        private const val MAX_NOTIFICATION_COUNT = 30L
     }
 }

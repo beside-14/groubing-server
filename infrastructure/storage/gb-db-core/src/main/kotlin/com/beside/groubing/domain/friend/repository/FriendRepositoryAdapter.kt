@@ -4,6 +4,7 @@ import com.beside.groubing.domain.friend.dao.FriendFindDao
 import com.beside.groubing.domain.friend.dao.FriendMemberInfo
 import com.beside.groubing.domain.friend.domain.Friend
 import com.beside.groubing.domain.friend.domain.FriendMember
+import com.beside.groubing.domain.friend.domain.FriendStatus
 import com.beside.groubing.domain.friend.domain.port.FriendCommandRepository
 import com.beside.groubing.domain.friend.domain.port.FriendQueryRepository
 import com.beside.groubing.domain.friend.entity.FriendEntity
@@ -41,11 +42,11 @@ class FriendRepositoryAdapter(
     override fun findAllAcceptedOf(memberId: Long): List<FriendMember> =
         friendFindDao.findAllAcceptedOf(memberId).map(::toFriendMember)
 
-    override fun findAllReceivedBy(inviteeId: Long): List<FriendMember> =
-        friendFindDao.findAllReceivedBy(inviteeId).map(::toFriendMember)
+    override fun findAllReceivedBy(inviteeId: Long, statuses: Set<FriendStatus>): List<FriendMember> =
+        friendFindDao.findAllReceivedBy(inviteeId, statuses).map(::toFriendMember)
 
-    override fun findAllSentBy(inviterId: Long): List<FriendMember> =
-        friendFindDao.findAllSentBy(inviterId).map(::toFriendMember)
+    override fun findAllSentBy(inviterId: Long, statuses: Set<FriendStatus>): List<FriendMember> =
+        friendFindDao.findAllSentBy(inviterId, statuses).map(::toFriendMember)
 
     private fun toFriendMember(info: FriendMemberInfo): FriendMember = FriendMember(
         friendId = info.friendId,

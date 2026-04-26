@@ -2,6 +2,7 @@ package com.beside.groubing.domain.feed.application
 
 import com.beside.groubing.domain.feed.domain.FeedEntry
 import com.beside.groubing.domain.feed.domain.port.FeedListQueryRepository
+import com.beside.groubing.domain.friend.domain.FriendStatus
 import com.beside.groubing.domain.friend.domain.port.FriendQueryRepository
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
 import org.springframework.stereotype.Service
@@ -19,12 +20,10 @@ class FeedListFindService(
         val entries = composeEntries(memberIds = excludeIds, isFriend = false)
         if (entries.isEmpty()) return emptyList()
 
-        val receivedMemberIds = friendQueryRepository.findAllReceivedBy(myMemberId)
-            .filter { !it.status.isReject() }
+        val receivedMemberIds = friendQueryRepository.findAllReceivedBy(myMemberId, NON_REJECTED)
             .map { it.memberId }
             .toSet()
-        val sentMemberIds = friendQueryRepository.findAllSentBy(myMemberId)
-            .filter { !it.status.isReject() }
+        val sentMemberIds = friendQueryRepository.findAllSentBy(myMemberId, NON_REJECTED)
             .map { it.memberId }
             .toSet()
         return entries.map {
@@ -74,5 +73,6 @@ class FeedListFindService(
 
     companion object {
         private const val MAX_FEED_ITEMS = 5
+        private val NON_REJECTED = setOf(FriendStatus.PENDING, FriendStatus.ACCEPT)
     }
 }

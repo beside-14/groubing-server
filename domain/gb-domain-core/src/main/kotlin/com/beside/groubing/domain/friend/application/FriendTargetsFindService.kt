@@ -1,5 +1,6 @@
 package com.beside.groubing.domain.friend.application
 
+import com.beside.groubing.domain.friend.domain.FriendStatus
 import com.beside.groubing.domain.friend.domain.port.FriendQueryRepository
 import com.beside.groubing.domain.member.domain.Member
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
@@ -14,18 +15,17 @@ class FriendTargetsFindService(
 ) {
     fun findFriendTargets(myMemberId: Long): List<Member> {
         val members = memberQueryRepository.findAllSortedByNickname()
-        val receivedCounterparts = friendQueryRepository.findAllReceivedBy(myMemberId)
-            .filter { !it.status.isReject() }
-            .map { it.memberId }
-            .toSet()
-        val sentCounterparts = friendQueryRepository.findAllSentBy(myMemberId)
-            .filter { !it.status.isReject() }
-            .map { it.memberId }
-            .toSet()
+        val excludedMemberIds = collectExcludedMemberIds(myMemberId)
+        return members.filter { it.id !in excludedMemberIds }
+    }
 
-        return members
-            .filter { it.id !in receivedCounterparts }
-            .filter { it.id !in sentCounterparts }
-            .filter { it.id != myMemberId }
+    private fun collectExcludedMemberIds(myMemberId: Long): Set<Long> {
+        val received = friendQueryRepository.findAllReceivedBy(myMemberId, NON_REJECTED).map { it.memberId }
+        val sent = friendQueryRepository.findAllSentBy(myMemberId, NON_REJECTED).map { it.memberId }
+        return (received + sent + myMemberId).toSet()
+    }
+
+    companion object {
+        private val NON_REJECTED = setOf(FriendStatus.PENDING, FriendStatus.ACCEPT)
     }
 }

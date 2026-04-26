@@ -48,7 +48,7 @@ class FriendFindDaoTest(
     }
 
     test("모든 친구 요청 목록 조회") {
-        val friendRequests = friendFindDao.findAllReceivedBy(memberId)
+        val friendRequests = friendFindDao.findAllReceivedBy(memberId, FriendStatus.entries.toSet())
         friendRequests.size shouldBe 1
     }
 })
