@@ -2,7 +2,7 @@ package com.beside.groubing.domain.feed.application
 
 import com.beside.groubing.domain.feed.domain.FeedEntry
 import com.beside.groubing.domain.feed.domain.port.FeedListQueryRepository
-import com.beside.groubing.domain.friend.application.FriendFindService
+import com.beside.groubing.domain.friend.domain.port.FriendQueryRepository
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class FriendFeedListFindService(
     private val feedListQueryRepository: FeedListQueryRepository,
-    private val friendFindService: FriendFindService,
+    private val friendQueryRepository: FriendQueryRepository,
     private val memberQueryRepository: MemberQueryRepository
 ) {
     fun findFriendFeeds(memberId: Long): List<FeedEntry> {
-        val friendIds = friendFindService.findAllAcceptedOf(memberId).map { it.memberId }
+        val friendIds = friendQueryRepository.findAllAcceptedOf(memberId).map { it.memberId }
         if (friendIds.isEmpty()) return emptyList()
 
         val completerIds = feedListQueryRepository.findRecentCompleterMemberIds(friendIds, isFriend = true)

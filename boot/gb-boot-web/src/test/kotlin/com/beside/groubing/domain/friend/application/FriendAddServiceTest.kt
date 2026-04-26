@@ -8,6 +8,7 @@ import com.beside.groubing.domain.blockedmember.domain.port.BlockedMemberReposit
 import com.beside.groubing.domain.blockedmember.exception.BlockedMemberInputException
 import com.beside.groubing.domain.blockedmember.repository.BlockedMemberRepositoryAdapter
 import com.beside.groubing.domain.friend.domain.Friend
+import com.beside.groubing.domain.friend.domain.FriendAddValidator
 import com.beside.groubing.domain.friend.domain.FriendStatus
 import com.beside.groubing.domain.friend.dao.FriendFindDao
 import com.beside.groubing.domain.friend.entity.FriendEntity
@@ -29,6 +30,7 @@ import org.springframework.context.annotation.Import
 @Import(
     QuerydslConfig::class,
     FriendAddService::class,
+    FriendAddValidator::class,
     FriendRepositoryAdapter::class,
     FriendFindDao::class,
     MemberRepositoryAdapter::class,

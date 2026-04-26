@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 class BlockedMemberFindService(
     private val blockedMemberRepository: BlockedMemberRepository
 ) {
-    fun findById(requesterId: Long): List<BlockedMemberTarget> {
+    fun find(requesterId: Long): List<BlockedMemberTarget> {
         return blockedMemberRepository.findAllRequestedBy(requesterId)
     }
 }

@@ -50,7 +50,7 @@ class BlockedMemberFindApiTest(
             )
             val serviceResult = listOf(target)
             val expectedResponse = serviceResult.map(BlockedMemberResponse::of)
-            every { blockedMemberFindService.findById(any()) } returns serviceResult
+            every { blockedMemberFindService.find(any()) } returns serviceResult
 
             Then("조회한다.") {
                 mockMvc.get("/api/blocked-members") {
