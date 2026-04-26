@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 class MemberEmailFindService(
     private val memberQueryRepository: MemberQueryRepository
 ) {
-    fun find(email: String): Member {
+    fun findOne(email: String): Member {
         return memberQueryRepository.findByEmail(email)
     }
 }

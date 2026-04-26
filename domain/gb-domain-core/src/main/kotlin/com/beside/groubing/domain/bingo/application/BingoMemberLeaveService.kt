@@ -11,7 +11,7 @@ class BingoMemberLeaveService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val bingoBoardCommandRepository: BingoBoardCommandRepository
 ) {
-    fun leaveBingoBoard(memberId: Long, bingoId: Long) {
+    fun leave(memberId: Long, bingoId: Long) {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoId)
         bingoBoard.validateCanLeave(memberId)
         bingoBoard.inactiveByMemberId(memberId)

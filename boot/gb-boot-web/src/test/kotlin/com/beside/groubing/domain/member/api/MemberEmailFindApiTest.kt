@@ -59,7 +59,7 @@ class MemberEmailFindApiTest(
                 profileUrl = null
             )
             val response = MemberEmailFindResponse.of(member)
-            every { memberEmailFindService.find(any()) } returns member
+            every { memberEmailFindService.findOne(any()) } returns member
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.post("/api/members/find-email") {
@@ -81,7 +81,7 @@ class MemberEmailFindApiTest(
                     )
                 )
 
-                verify(exactly = 1) { memberEmailFindService.find(any()) }
+                verify(exactly = 1) { memberEmailFindService.findOne(any()) }
             }
         }
     }

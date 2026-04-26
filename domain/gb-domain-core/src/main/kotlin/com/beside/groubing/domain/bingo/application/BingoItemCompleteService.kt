@@ -12,14 +12,14 @@ class BingoItemCompleteService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val bingoBoardCommandRepository: BingoBoardCommandRepository
 ) {
-    fun completeBingoItem(bingoBoardId: Long, bingoItemId: Long, memberId: Long): BingoMap {
+    fun complete(bingoBoardId: Long, bingoItemId: Long, memberId: Long): BingoMap {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         bingoBoard.completeBingoItem(bingoItemId = bingoItemId, memberId = memberId)
         val updated = bingoBoardCommandRepository.update(bingoBoard)
         return updated.makeBingoMap(memberId)
     }
 
-    fun cancelBingoItem(bingoBoardId: Long, bingoItemId: Long, memberId: Long): BingoMap {
+    fun cancel(bingoBoardId: Long, bingoItemId: Long, memberId: Long): BingoMap {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         bingoBoard.cancelBingoItem(bingoItemId = bingoItemId, memberId = memberId)
         val updated = bingoBoardCommandRepository.update(bingoBoard)

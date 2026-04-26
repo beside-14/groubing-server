@@ -38,18 +38,18 @@ class BingoItem private constructor(
         return completeMembers.any { it.memberId == memberId }
     }
 
-    fun completeBingoItem(memberId: Long) {
+    fun complete(memberId: Long) {
         if (isCompleted(memberId)) {
             throw IllegalStateException("이미 Complete된 BingoItem입니다. bingoItemId: $id, memberId: $memberId")
         }
         completeMembers.add(BingoCompleteMember.create(memberId))
     }
 
-    fun cancelBingoItem(memberId: Long) {
+    fun cancel(memberId: Long) {
         completeMembers.remove(completeMembers.find { it.memberId == memberId })
     }
 
-    fun updateBingoItem(title: String, subTitle: String?) {
+    fun update(title: String, subTitle: String?) {
         this.title = title
         this.subTitle = subTitle
     }

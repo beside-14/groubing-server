@@ -20,7 +20,7 @@ class BingoItemCompleteApi(
         @PathVariable bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<BingoCalculatingResponse> {
-        val bingoMap = bingoItemCompleteService.completeBingoItem(id, bingoItemId, memberId)
+        val bingoMap = bingoItemCompleteService.complete(id, bingoItemId, memberId)
         return ApiResponse.OK(BingoCalculatingResponse.fromBingoMap(bingoMap))
     }
 
@@ -30,7 +30,7 @@ class BingoItemCompleteApi(
         @PathVariable bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<BingoCalculatingResponse> {
-        val bingoMap = bingoItemCompleteService.cancelBingoItem(id, bingoItemId, memberId)
+        val bingoMap = bingoItemCompleteService.cancel(id, bingoItemId, memberId)
         return ApiResponse.OK(BingoCalculatingResponse.fromBingoMap(bingoMap))
     }
 }

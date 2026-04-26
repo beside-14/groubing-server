@@ -37,7 +37,7 @@ class BingoItemShuffleApiTest(
         temporaryBingo.shuffleBingoItems()
         val bingoMap = temporaryBingo.makeBingoMap(memberId)
 
-        every { bingoItemShuffleService.shuffleBingoItems(memberId = memberId, boardId = temporaryBingo.id) } returns bingoMap
+        every { bingoItemShuffleService.shuffle(memberId = memberId, boardId = temporaryBingo.id) } returns bingoMap
 
         When("데이터가 유효하다면") {
             mockMvc.perform(

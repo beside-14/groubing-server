@@ -20,7 +20,7 @@ class BingoItemShuffleApi(
         @PathVariable id: Long,
         @AuthenticationPrincipal memberId: Long,
     ): ApiResponse<List<BingoLineResponse>> {
-        val bingoMap = bingoItemShuffleService.shuffleBingoItems(memberId = memberId, boardId = id)
+        val bingoMap = bingoItemShuffleService.shuffle(memberId = memberId, boardId = id)
         val responses = bingoMap.getBingoLines(Direction.HORIZONTAL)
             .map { BingoLineResponse.fromBingoLine(it, memberId) }
         return ApiResponse.OK(responses)

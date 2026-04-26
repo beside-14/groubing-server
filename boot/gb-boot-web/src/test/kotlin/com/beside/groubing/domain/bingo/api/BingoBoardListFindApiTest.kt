@@ -44,7 +44,7 @@ class BingoBoardListFindApiTest(
         )
 
         every {
-            bingoBoardListFindService.findBingoBoardList(
+            bingoBoardListFindService.find(
                 memberId,
                 loginMemberId
             )

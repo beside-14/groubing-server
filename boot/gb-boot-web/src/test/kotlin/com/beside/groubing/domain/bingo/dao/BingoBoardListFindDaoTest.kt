@@ -33,7 +33,7 @@ class BingoBoardListFindDaoTest(
         Pair(3L, 2)
     ).forEach { (memberId, expectedSize) ->
         it("should return bingo board list for a memberId : $memberId") {
-            val result = bingoBoardListFindDao.findBingoBoardList(memberId)
+            val result = bingoBoardListFindDao.find(memberId)
 
             result.shouldNotBeEmpty()
             result.size shouldBe expectedSize

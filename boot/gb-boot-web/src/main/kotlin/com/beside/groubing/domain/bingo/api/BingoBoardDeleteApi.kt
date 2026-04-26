@@ -19,7 +19,7 @@ class BingoBoardDeleteApi(
         memberId: Long,
         @PathVariable id: Long
     ): ApiResponse<Unit> {
-        bingoBoardDeleteService.deleteBingoBoard(memberId = memberId, boardId = id)
+        bingoBoardDeleteService.delete(memberId = memberId, boardId = id)
         return ApiResponse.OK(Unit)
     }
 }

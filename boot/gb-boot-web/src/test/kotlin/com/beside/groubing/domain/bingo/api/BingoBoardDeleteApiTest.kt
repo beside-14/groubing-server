@@ -25,7 +25,7 @@ class BingoBoardDeleteApiTest(
     val memberId = 1L
     test("빙고 삭제 Rest Docs Api") {
         val bingoBoardId = 100L
-        every { bingoBoardDeleteService.deleteBingoBoard(memberId = memberId, boardId = bingoBoardId) } returns Unit
+        every { bingoBoardDeleteService.delete(memberId = memberId, boardId = bingoBoardId) } returns Unit
 
         mockMvc.perform(
             RestDocumentationRequestBuilders.delete("/api/bingo-boards/{id}", bingoBoardId)

@@ -12,7 +12,7 @@ class BingoBoardFindService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val memberQueryRepository: MemberQueryRepository
 ) {
-    fun findBingoBoard(memberId: Long, boardId: Long): BingoBoardDetail {
+    fun findOne(memberId: Long, boardId: Long): BingoBoardDetail {
         val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
         bingoBoard.validateViewableBy(memberId)
         val viewer = memberQueryRepository.findById(memberId)

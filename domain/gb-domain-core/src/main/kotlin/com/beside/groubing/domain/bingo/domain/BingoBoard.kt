@@ -126,7 +126,7 @@ class BingoBoard private constructor(
     fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {
         validateAuthority(memberId)
         val bingoItem = findBingoItem(bingoItemId)
-        bingoItem.updateBingoItem(title = title, subTitle = subTitle)
+        bingoItem.update(title = title, subTitle = subTitle)
         return bingoItem
     }
 
@@ -172,7 +172,7 @@ class BingoBoard private constructor(
         }
         val bingoMap = makeBingoMap(memberId)
         val beforeBingoCount = bingoMap.calculateTotalBingoCount()
-        findBingoItem(bingoItemId).completeBingoItem(memberId)
+        findBingoItem(bingoItemId).complete(memberId)
         val afterBingoCount = bingoMap.calculateTotalBingoCount()
         registerBingoItemCompleteEvent(afterBingoCount, beforeBingoCount, memberId)
     }
@@ -209,7 +209,7 @@ class BingoBoard private constructor(
         val bingoMap = makeBingoMap(memberId)
         val beforeBingoCount = bingoMap.calculateTotalBingoCount()
         val bingoItem = findBingoItem(bingoItemId)
-        bingoItem.cancelBingoItem(memberId)
+        bingoItem.cancel(memberId)
         val afterBingoCount = bingoMap.calculateTotalBingoCount()
         if (afterBingoCount < beforeBingoCount) {
             registerEvent(

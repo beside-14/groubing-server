@@ -20,7 +20,7 @@ class BingoMemberLeaveApi(
         memberId: Long,
         @PathVariable id: Long
     ): ApiResponse<Unit> {
-        bingoMemberLeaveService.leaveBingoBoard(memberId, id)
+        bingoMemberLeaveService.leave(memberId, id)
         return ApiResponse.OK(Unit)
     }
 }

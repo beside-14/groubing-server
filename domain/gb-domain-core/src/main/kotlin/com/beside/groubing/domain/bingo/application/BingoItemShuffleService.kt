@@ -12,7 +12,7 @@ class BingoItemShuffleService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val bingoBoardCommandRepository: BingoBoardCommandRepository
 ) {
-    fun shuffleBingoItems(memberId: Long, boardId: Long): BingoMap {
+    fun shuffle(memberId: Long, boardId: Long): BingoMap {
         val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
         bingoBoard.shuffleBingoItems()
         val updated = bingoBoardCommandRepository.update(bingoBoard)

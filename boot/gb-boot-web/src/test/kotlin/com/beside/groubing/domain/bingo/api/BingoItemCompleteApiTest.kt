@@ -32,7 +32,7 @@ class BingoItemCompleteApiTest(
         val memberId = 1L
         val bingoItem = englishBingoBoard.bingoItems[0]
         val bingoMap = englishBingoBoard.makeBingoMap(memberId)
-        every { bingoItemCompleteService.completeBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
+        every { bingoItemCompleteService.complete(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
 
         val responseBody = responseBody(
             "horizontalBingoIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
@@ -63,7 +63,7 @@ class BingoItemCompleteApiTest(
                 )
         }
 
-        every { bingoItemCompleteService.cancelBingoItem(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
+        every { bingoItemCompleteService.cancel(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
         When("취소 요청 시") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(

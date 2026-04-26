@@ -21,7 +21,7 @@ class MemberEmailFindApi(
         @Validated
         request: MemberEmailFindRequest
     ): ApiResponse<MemberEmailFindResponse> {
-        val member = memberEmailFindService.find(request.email)
+        val member = memberEmailFindService.findOne(request.email)
         return ApiResponse.OK(MemberEmailFindResponse.of(member))
     }
 }

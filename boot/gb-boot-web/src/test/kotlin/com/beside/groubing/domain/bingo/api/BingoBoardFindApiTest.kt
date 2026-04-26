@@ -47,7 +47,7 @@ class BingoBoardFindApiTest(
         val member = aMember(memberId).toDomain()
         val otherMembers = (2L..5L).map { aMember(it).toDomain() }
 
-        every { bingoBoardFindService.findBingoBoard(memberId, bingoBoardId) } returns BingoBoardDetail(bingoBoard, member, otherMembers)
+        every { bingoBoardFindService.findOne(memberId, bingoBoardId) } returns BingoBoardDetail(bingoBoard, member, otherMembers)
 
         When("GET /api/bingo-boards/{id} 요청이 들어왔을 때") {
             mockMvc.perform(

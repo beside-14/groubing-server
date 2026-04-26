@@ -11,7 +11,7 @@ class BingoBoardDeleteService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository,
     private val bingoBoardCommandRepository: BingoBoardCommandRepository
 ) {
-    fun deleteBingoBoard(memberId: Long, boardId: Long) {
+    fun delete(memberId: Long, boardId: Long) {
         val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
         bingoBoard.validateAuthority(memberId)
         bingoBoard.delete()

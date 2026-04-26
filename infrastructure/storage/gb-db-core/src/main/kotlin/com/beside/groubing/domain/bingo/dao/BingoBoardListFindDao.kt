@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository
 class BingoBoardListFindDao(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun findBingoBoardList(memberId: Long): List<BingoBoardEntity> {
+    fun find(memberId: Long): List<BingoBoardEntity> {
         val predicate = BooleanBuilder()
             .and(
                 bingoBoardEntity.active.isTrue

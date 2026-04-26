@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class BingoBoardListFindService(
     private val bingoBoardQueryRepository: BingoBoardQueryRepository
 ) {
-    fun findBingoBoardList(memberId: Long, loginMemberId: Long): List<BingoBoard> {
+    fun find(memberId: Long, loginMemberId: Long): List<BingoBoard> {
         val bingoBoards = BingoBoards(bingoBoardQueryRepository.findAllOf(memberId))
         return bingoBoards.visibleTo(viewerMemberId = loginMemberId, ownerMemberId = memberId)
     }

@@ -25,7 +25,7 @@ class BingoItemUpdateApi(
         @RequestBody @Valid
         bingoItemUpdateRequest: BingoItemUpdateRequest
     ): ApiResponse<BingoItemResponse> {
-        val bingoItem = bingoItemUpdateService.updateBingoItem(id, bingoItemId, memberId, bingoItemUpdateRequest.command())
+        val bingoItem = bingoItemUpdateService.update(id, bingoItemId, memberId, bingoItemUpdateRequest.command())
         return ApiResponse.OK(BingoItemResponse.fromBingoItem(bingoItem, memberId))
     }
 }

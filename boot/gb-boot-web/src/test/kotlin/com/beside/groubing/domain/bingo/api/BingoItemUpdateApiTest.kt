@@ -41,7 +41,7 @@ class BingoItemUpdateApiTest(
             subTitle = "8월까지 끝내기"
         )
         val bingoItem = aEmptyBingo.bingoItems[0]
-        every { bingoItemUpdateService.updateBingoItem(aEmptyBingo.id, bingoItem.id, memberId, any()) } returns bingoItem
+        every { bingoItemUpdateService.update(aEmptyBingo.id, bingoItem.id, memberId, any()) } returns bingoItem
 
         When("데이터가 유효하다면") {
             mockMvc.perform(
