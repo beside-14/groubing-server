@@ -1,156 +1,72 @@
-import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-    id("org.springframework.boot") version "3.0.3"
-    id("io.spring.dependency-management") version "1.1.0"
-    id("org.asciidoctor.jvm.convert") version "3.3.2"
-    kotlin("jvm") version "1.9.0"
-    kotlin("plugin.spring") version "1.9.0"
-    kotlin("plugin.jpa") version "1.9.0"
-    kotlin("kapt") version "1.9.0"
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
+    kotlin("plugin.jpa") version "1.9.25"
+    kotlin("kapt") version "1.9.25"
+    id("org.springframework.boot") version "3.3.4"
+    id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "com.beside.groubing"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+allprojects {
+    group = "com.beside.groubing"
+    version = "0.0.1-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+subprojects {
+    // 컨테이너 디렉터리(boot, infrastructure/storage 등)는 실제 모듈이 아니므로 플러그인 적용 대상 제외
+    if (childProjects.isNotEmpty()) return@subprojects
 
-    // Jackson
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "kotlin")
+    apply(plugin = "kotlin-spring")
+    apply(plugin = "kotlin-kapt")
 
-    // Spring
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-
-    // QueryDSL
-    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
-    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
-    kapt("jakarta.annotation:jakarta.annotation-api")
-    kapt("jakarta.persistence:jakarta.persistence-api")
-
-    // JWT
-    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-
-    // MySql
-    runtimeOnly("com.mysql:mysql-connector-j")
-
-    // H2
-    runtimeOnly("com.h2database:h2")
-
-    // p6spy
-    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
-
-    // Kotlin-Logging
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-
-    // FCM
-    implementation("com.google.firebase:firebase-admin:9.2.0")
-
-    // Test
-    testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-        exclude(module = "mockito-core")
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
     }
 
-    // Mockk
-    testImplementation("com.ninja-squad:springmockk:4.0.0")
+    dependencies {
+        "implementation"("org.jetbrains.kotlin:kotlin-reflect")
+        "implementation"("org.jetbrains.kotlin:kotlin-stdlib")
 
-    // KoTest
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.5.5")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:5.5.5")
-    testImplementation("io.kotest:kotest-extensions-jvm:5.5.5")
-    testImplementation("io.kotest:kotest-property-jvm:5.5.5")
-    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+        "testImplementation"("org.springframework.boot:spring-boot-starter-test") {
+            exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+            exclude(module = "mockito-core")
+        }
+        "testImplementation"("com.ninja-squad:springmockk:4.0.2")
+        "testImplementation"("io.kotest:kotest-runner-junit5-jvm:5.5.5")
+        "testImplementation"("io.kotest:kotest-assertions-core-jvm:5.5.5")
+        "testImplementation"("io.kotest:kotest-extensions-jvm:5.5.5")
+        "testImplementation"("io.kotest:kotest-property-jvm:5.5.5")
+        "testImplementation"("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+    }
 
-    // AsciiDocs
-    val asciidoctorExt: Configuration by configurations.creating
-    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
-}
-
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
-    buildInfo()
-}
-
-tasks {
-    withType<KotlinCompile> {
+    tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = JavaVersion.VERSION_21.toString()
         }
     }
 
-    // Spring REST Docs
-    val snippetsDir = file("build/generated-snippets")
-
-    withType<Test> {
+    tasks.withType<Test> {
         useJUnitPlatform()
-        outputs.dir(snippetsDir)
-        filter {
-            includeTestsMatching("com.beside.groubing.*")
-        }
     }
+}
 
-    // AsciiDocs
-    withType<AsciidoctorTask> {
-        configurations("asciidoctorExt")
-        inputs.dir(snippetsDir)
-        dependsOn(test)
-        // 빌드 시, 아래 경로의 파일 삭제
-        doFirst {
-            delete {
-                file("build/docs/asciidoc")
-                file("src/main/resources/static/docs")
-            }
-        }
-        forkOptions {
-            jvmArgs(
-                "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
-                "--add-opens", "java.base/java.io=ALL-UNNAMED"
-            )
-        }
-    }
+// 루트 프로젝트는 실행 가능한 산출물이 아님
+tasks.named("bootJar") {
+    enabled = false
+}
 
-    withType<BootJar> {
-        dependsOn(asciidoctor)
-        from("${asciidoctor.get().outputDir}/html5") {
-            into("static/docs")
-        }
-
-        // BootJar 파일명
-        archiveBaseName.set("api")
-        // BootJar 버전
-        archiveVersion.set("")
-    }
-
-    val copyDocument by registering(Copy::class) {
-        dependsOn(asciidoctor)
-
-        from(file("build/docs/asciidoc/"))
-        into(file("src/main/resources/static/docs"))
-    }
-
-    build {
-        dependsOn(copyDocument)
-    }
+tasks.named("jar") {
+    enabled = false
 }

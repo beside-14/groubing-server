@@ -1,0 +1,28 @@
+package com.beside.groubing.domain.bingo.payload.command
+
+import com.beside.groubing.domain.bingo.domain.BingoBoard
+import com.beside.groubing.domain.bingo.domain.BingoBoardType
+
+class BingoBoardCreateCommand private constructor(
+    val memberId: Long,
+    val title: String,
+    val goal: Int,
+    val boardType: BingoBoardType,
+    val open: Boolean,
+    val bingoSize: Int
+) {
+    fun toNewBingoBoard(): BingoBoard =
+        BingoBoard.create(memberId, title, goal, boardType, open, bingoSize)
+
+    companion object {
+        fun of(
+            memberId: Long,
+            title: String,
+            goal: Int,
+            boardType: BingoBoardType,
+            open: Boolean,
+            bingoSize: Int
+        ): BingoBoardCreateCommand =
+            BingoBoardCreateCommand(memberId, title, goal, boardType, open, bingoSize)
+    }
+}

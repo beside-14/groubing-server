@@ -1,0 +1,12 @@
+package com.beside.groubing.persistence
+
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import org.springframework.test.context.ActiveProfiles
+
+@DataJpaTest
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@EnableJpaAuditing
+annotation class PersistenceTest
