@@ -1,15 +1,18 @@
 package com.beside.groubing.domain.notification.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.NUMBER
-import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.notification.application.NotificationListFindService
 import com.beside.groubing.domain.notification.domain.NotificationItem
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.memberId
+import com.beside.groubing.vocabulary.notificationBingoBoardId
+import com.beside.groubing.vocabulary.notificationMessage
+import com.beside.groubing.vocabulary.pageParam
+import com.beside.groubing.vocabulary.profileUrl
+import com.beside.groubing.vocabulary.sizeParam
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
@@ -53,14 +56,14 @@ class NotificationListFindApiTest(
                 .andDocument(
                     "notification-list-find",
                     requestParam(
-                        "page" requestParam "페이지 수" example "1,2,3..",
-                        "size" requestParam "페이지 Element 수" example "20"
+                        pageParam(),
+                        sizeParam()
                     ),
                     responseBody(
-                        "[].bingoBoardId" responseType NUMBER means "빙고보드 ID" example "1",
-                        "[].memberId" responseType NUMBER means "알림 메세지 생성 member id" example "100",
-                        "[].message" responseType STRING means "알림 메세지" example "awaji님이 이직 준비하기 빙고의 목표 빙고 수를 달성했어요!",
-                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
+                        notificationBingoBoardId("[].bingoBoardId"),
+                        memberId("[].memberId", "알림 메세지 생성 member id"),
+                        notificationMessage("[].message"),
+                        profileUrl("[].profileUrl"),
                     )
                 )
         }

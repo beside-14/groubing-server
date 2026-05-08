@@ -1,16 +1,17 @@
 package com.beside.groubing.domain.blockedmember.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.NUMBER
-import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.blockedmember.application.BlockedMemberFindService
 import com.beside.groubing.domain.blockedmember.domain.BlockedMemberTarget
 import com.beside.groubing.domain.blockedmember.payload.response.BlockedMemberResponse
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.global.response.ApiResponse
+import com.beside.groubing.vocabulary.email
+import com.beside.groubing.vocabulary.id
+import com.beside.groubing.vocabulary.nickname
+import com.beside.groubing.vocabulary.profileUrl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -63,10 +64,10 @@ class BlockedMemberFindApiTest(
                 }.andDocument(
                     "blocked-member-find",
                     responseBody(
-                        "[].id" responseType NUMBER means "유저 ID" example "1",
-                        "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
-                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
+                        id("[].id", "유저 ID"),
+                        email("[].email"),
+                        nickname("[].nickname"),
+                        profileUrl("[].profileUrl"),
                     )
                 )
             }

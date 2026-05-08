@@ -5,11 +5,11 @@ import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.docs.requestBody
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.domain.member.application.MemberNicknameEditService
 import com.beside.groubing.domain.member.payload.request.MemberNicknameEditRequest
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.memberIdPath
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -54,7 +54,7 @@ class MemberNicknameEditApiTest(
                     .andDocument(
                         "member-nickname-edit",
                         pathVariables(
-                            "id" requestParam "유저 ID" example id.toString() isOptional true
+                            memberIdPath() example id.toString() isOptional true
                         ),
                         requestBody(
                             "nickname" requestType STRING means "닉네임" example nickname formattedAs "^[가-힣a-zA-Z0-9]{2,7}"

@@ -3,8 +3,8 @@ package com.beside.groubing.domain.member.api
 import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.domain.member.application.MemberProfileDeleteService
+import com.beside.groubing.vocabulary.memberIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
@@ -36,7 +36,7 @@ class MemberProfileDeleteApiTest(
                     .andDocument(
                         "member-profile-delete",
                         pathVariables(
-                            "id" requestParam "유저 ID" example id.toString()
+                            memberIdPath() example id.toString()
                         )
                     )
             }

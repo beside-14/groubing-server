@@ -1,15 +1,14 @@
 package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.requestPart
 import com.beside.groubing.docs.requestParts
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.member.application.MemberProfileEditService
+import com.beside.groubing.vocabulary.memberIdPath
+import com.beside.groubing.vocabulary.profileUrl
 import com.beside.groubing.domain.member.payload.response.MemberProfileResponse
 import com.beside.groubing.extension.multipart
 import com.beside.groubing.global.domain.file.application.FileProvider
@@ -71,13 +70,13 @@ class MemberProfileEditApiTest(
                     .andDocument(
                         "member-profile-edit",
                         pathVariables(
-                            "id" requestParam "유저 ID" example id.toString()
+                            memberIdPath() example id.toString()
                         ),
                         requestParts(
                             "profile" requestPart "프로필 이미지 파일" formattedAs ".png / .jpeg / .jpg"
                         ),
                         responseBody(
-                            "profileUrl" responseType STRING means "프로필 이미지 URL" example fileInfo.url
+                            profileUrl() example fileInfo.url
                         )
                     )
             }

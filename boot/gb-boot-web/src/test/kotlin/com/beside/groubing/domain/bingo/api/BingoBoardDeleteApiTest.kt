@@ -3,9 +3,9 @@ package com.beside.groubing.domain.bingo.api
 import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.domain.bingo.application.BingoBoardDeleteService
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.every
@@ -37,7 +37,7 @@ class BingoBoardDeleteApiTest(
             .andDocument(
                 "delete-bingo",
                 pathVariables(
-                    "id" requestParam "빙고 ID" example "1" isOptional true
+                    bingoBoardIdPath() example "1" isOptional true
                 )
             )
     }

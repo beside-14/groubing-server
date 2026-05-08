@@ -1,16 +1,18 @@
 package com.beside.groubing.domain.feed.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.BOOLEAN
-import com.beside.groubing.docs.NUMBER
-import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.feed.application.FeedListFindService
 import com.beside.groubing.domain.feed.application.FriendFeedListFindService
 import com.beside.groubing.domain.feed.domain.FeedEntry
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.feedItemTitle
+import com.beside.groubing.vocabulary.isFriendRequestReceived
+import com.beside.groubing.vocabulary.isFriendRequestSend
+import com.beside.groubing.vocabulary.memberId
+import com.beside.groubing.vocabulary.nickname
+import com.beside.groubing.vocabulary.profileUrl
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
@@ -65,12 +67,12 @@ class FeedListFindApiTest(
                 .andDocument(
                     "feed-list-find",
                     responseBody(
-                        "[].memberId" responseType NUMBER means "Feed Member ID" example "1",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
-                        "[].profile" responseType STRING means "프로필 이미지 URL" isOptional true,
-                        "[].feedItems[].title" responseType STRING means "빙고 Item Title" example "토익 만점 받기",
-                        "[].isFriendRequestReceived" responseType BOOLEAN means "나에게 친구요청을 보낸 사람 여부" example true.toString(),
-                        "[].isFriendRequestSend" responseType BOOLEAN means "내가 친구요청을 보낸 사람 여부" example false.toString()
+                        memberId("[].memberId", "Feed Member ID"),
+                        nickname("[].nickname"),
+                        profileUrl("[].profile"),
+                        feedItemTitle(),
+                        isFriendRequestReceived(),
+                        isFriendRequestSend()
                     )
                 )
         }
@@ -88,12 +90,12 @@ class FeedListFindApiTest(
                 .andDocument(
                     "friend-feed-list-find",
                     responseBody(
-                        "[].memberId" responseType NUMBER means "Feed Member ID" example "1",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
-                        "[].profile" responseType STRING means "프로필 이미지 URL" isOptional true,
-                        "[].feedItems[].title" responseType STRING means "빙고 Item Title" example "토익 만점 받기",
-                        "[].isFriendRequestReceived" responseType BOOLEAN means "나에게 친구요청을 보낸 사람 여부" example true.toString(),
-                        "[].isFriendRequestSend" responseType BOOLEAN means "내가 친구요청을 보낸 사람 여부" example false.toString()
+                        memberId("[].memberId", "Feed Member ID"),
+                        nickname("[].nickname"),
+                        profileUrl("[].profile"),
+                        feedItemTitle(),
+                        isFriendRequestReceived(),
+                        isFriendRequestSend()
                     )
                 )
         }

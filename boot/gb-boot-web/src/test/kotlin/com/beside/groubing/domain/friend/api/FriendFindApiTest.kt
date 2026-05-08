@@ -1,12 +1,8 @@
 package com.beside.groubing.domain.friend.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.ENUM
-import com.beside.groubing.docs.NUMBER
-import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.friend.application.FriendFindService
 import com.beside.groubing.domain.friend.domain.FriendMember
 import com.beside.groubing.domain.friend.domain.FriendStatus
@@ -14,6 +10,12 @@ import com.beside.groubing.domain.friend.payload.response.FriendRequestResponse
 import com.beside.groubing.domain.friend.payload.response.FriendResponse
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.global.response.ApiResponse
+import com.beside.groubing.vocabulary.email
+import com.beside.groubing.vocabulary.friendId
+import com.beside.groubing.vocabulary.friendStatus
+import com.beside.groubing.vocabulary.memberId
+import com.beside.groubing.vocabulary.nickname
+import com.beside.groubing.vocabulary.profileUrl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -59,11 +61,11 @@ class FriendFindApiTest(
                 }.andDocument(
                     "friend-find",
                     responseBody(
-                        "[].id" responseType NUMBER means "친구 요청 ID" example "1",
-                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
-                        "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
-                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
+                        friendId("[].id"),
+                        memberId("[].memberId", "유저 ID"),
+                        email("[].email"),
+                        nickname("[].nickname"),
+                        profileUrl("[].profileUrl"),
                     )
                 )
             }
@@ -86,12 +88,12 @@ class FriendFindApiTest(
                 }.andDocument(
                     "friend-find-request",
                     responseBody(
-                        "[].id" responseType NUMBER means "친구 요청 ID" example "1",
-                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
-                        "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
-                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
-                        "[].status" responseType ENUM(FriendStatus::class) means "친구 요청 처리 상태" example "`PENDING` : 친구 요청 / `ACCEPT` : 수락 / `REJECT` : 거절",
+                        friendId("[].id"),
+                        memberId("[].memberId", "유저 ID"),
+                        email("[].email"),
+                        nickname("[].nickname"),
+                        profileUrl("[].profileUrl"),
+                        friendStatus("[].status"),
                     )
                 )
             }
@@ -114,12 +116,12 @@ class FriendFindApiTest(
                 }.andDocument(
                     "friend-find-request",
                     responseBody(
-                        "[].id" responseType NUMBER means "친구 요청 ID" example "1",
-                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
-                        "[].email" responseType STRING means "유저 이메일" example "test@groubing.com",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "그루빙멤버",
-                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" isOptional true,
-                        "[].status" responseType ENUM(FriendStatus::class) means "친구 요청 처리 상태" example "`PENDING` : 친구 요청 / `ACCEPT` : 수락 / `REJECT` : 거절",
+                        friendId("[].id"),
+                        memberId("[].memberId", "유저 ID"),
+                        email("[].email"),
+                        nickname("[].nickname"),
+                        profileUrl("[].profileUrl"),
+                        friendStatus("[].status"),
                     )
                 )
             }

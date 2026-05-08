@@ -1,14 +1,11 @@
 package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.BOOLEAN
-import com.beside.groubing.docs.NUMBER
 import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.auth.application.SignUpService
 import com.beside.groubing.domain.auth.domain.AuthenticatedMember
 import com.beside.groubing.domain.member.domain.Member
@@ -17,6 +14,12 @@ import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.domain.member.payload.request.SignUpRequest
 import com.beside.groubing.global.domain.security.JwtProvider
+import com.beside.groubing.vocabulary.accessToken
+import com.beside.groubing.vocabulary.email
+import com.beside.groubing.vocabulary.memberId
+import com.beside.groubing.vocabulary.nickname
+import com.beside.groubing.vocabulary.notificationReceive
+import com.beside.groubing.vocabulary.profileUrl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -71,12 +74,12 @@ class SignUpApiTest(
                         "nickname" requestType STRING means "닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}"
                     ),
                     responseBody(
-                        "id" responseType NUMBER means "유저 ID" example "1",
-                        "email" responseType STRING means "유저 이메일" example "test@groubing.com",
-                        "nickname" responseType STRING means "유저 닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
-                        "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
-                        "token" responseType STRING means "유저 JWT 토큰",
-                        "notificationReceive" responseType BOOLEAN means "알림 수신 여부" example "true" formattedAs "true|false"
+                        memberId("id", "유저 ID"),
+                        email(),
+                        nickname() formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
+                        profileUrl() example "/api/files/\${fileName} 혹은 null",
+                        accessToken(),
+                        notificationReceive() formattedAs "true|false"
                     )
                 )
 

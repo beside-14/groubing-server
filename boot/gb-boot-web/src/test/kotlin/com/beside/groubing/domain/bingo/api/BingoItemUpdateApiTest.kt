@@ -2,8 +2,6 @@ package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.aEmptyBingo
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.BOOLEAN
-import com.beside.groubing.docs.NUMBER
 import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
@@ -11,10 +9,17 @@ import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.bingo.application.BingoItemUpdateService
 import com.beside.groubing.domain.bingo.payload.request.BingoItemUpdateRequest
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.bingoBoardIdPath
+import com.beside.groubing.vocabulary.bingoItemColorCode
+import com.beside.groubing.vocabulary.bingoItemComplete
+import com.beside.groubing.vocabulary.bingoItemId
+import com.beside.groubing.vocabulary.bingoItemImageUrl
+import com.beside.groubing.vocabulary.bingoItemOrder
+import com.beside.groubing.vocabulary.bingoItemSubTitle
+import com.beside.groubing.vocabulary.bingoItemTitle
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -59,7 +64,7 @@ class BingoItemUpdateApiTest(
                 .andDocument(
                     "bingo-item-update",
                     pathVariables(
-                        "id" requestParam "빙고 ID" example "1" isOptional true,
+                        bingoBoardIdPath() example "1" isOptional true,
                         "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
                     ),
                     requestBody(
@@ -67,13 +72,13 @@ class BingoItemUpdateApiTest(
                         "subTitle" requestType STRING means "빙고 아이템 제목 상세" example "8월까지 끝내기"
                     ),
                     responseBody(
-                        "id" responseType NUMBER means "빙고 아이템 ID" example "1",
-                        "title" responseType STRING means "빙고 아이템 제목" example request.title,
-                        "subTitle" responseType STRING means "빙고 아이템 제목 상세" example "8월까지 끝내기",
-                        "imageUrl" responseType STRING means "빙고 아이템 이미지 Url" example "http://10.0.40.246/item1.svg",
-                        "itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3",
-                        "complete" responseType BOOLEAN means "빙고 아이템 완료 여부" example "true",
-                        "colorCode" responseType STRING means "빙고 아이템 Color Code" example "#F6A973"
+                        bingoItemId("id"),
+                        bingoItemTitle("title") means "빙고 아이템 제목" example request.title,
+                        bingoItemSubTitle("subTitle") means "빙고 아이템 제목 상세" example "8월까지 끝내기",
+                        bingoItemImageUrl("imageUrl") means "빙고 아이템 이미지 Url" example "http://10.0.40.246/item1.svg",
+                        bingoItemOrder("itemOrder") example "1, 2, 3",
+                        bingoItemComplete("complete") means "빙고 아이템 완료 여부",
+                        bingoItemColorCode("colorCode")
                     )
                 )
         }

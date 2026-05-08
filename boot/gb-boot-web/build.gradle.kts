@@ -39,6 +39,10 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
+    // 도메인/엔티티 픽스처 + 슬라이스 어노테이션은 각 모듈의 testFixtures 에서 가져온다.
+    testImplementation(testFixtures(project(":domain:gb-domain-core")))
+    testImplementation(testFixtures(project(":infrastructure:storage:gb-db-core")))
+
     // Config modules
     runtimeOnly(project(":config:gb-config-yaml-importer"))
     runtimeOnly(project(":config:gb-config-logging"))

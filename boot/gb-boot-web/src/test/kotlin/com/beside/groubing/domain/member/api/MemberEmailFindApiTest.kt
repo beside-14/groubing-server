@@ -1,14 +1,14 @@
 package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.NUMBER
 import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.auth.application.MemberEmailFindService
+import com.beside.groubing.vocabulary.email
+import com.beside.groubing.vocabulary.memberId
 import com.beside.groubing.domain.member.domain.Member
 import com.beside.groubing.domain.member.domain.MemberRole
 import com.beside.groubing.domain.member.domain.MemberType
@@ -76,8 +76,8 @@ class MemberEmailFindApiTest(
                         "email" requestType STRING means "유저 이메일" example email
                     ),
                     responseBody(
-                        "id" responseType NUMBER means "유저 ID" example id.toString(),
-                        "email" responseType STRING means "유저 이메일" example email
+                        memberId("id", "유저 ID") example id.toString(),
+                        email() example email
                     )
                 )
 

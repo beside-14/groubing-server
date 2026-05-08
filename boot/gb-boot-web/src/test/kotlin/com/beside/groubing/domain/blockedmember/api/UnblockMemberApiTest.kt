@@ -3,9 +3,9 @@ package com.beside.groubing.domain.blockedmember.api
 import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.domain.blockedmember.application.UnblockMemberService
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.idPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
@@ -40,7 +40,7 @@ class UnblockMemberApiTest(
                 ).andExpect(status().isOk)
                     .andDocument(
                         "unblock-member",
-                        pathVariables("id" requestParam "회원 차단 내역 ID" example id.toString())
+                        pathVariables(idPath("id", "회원 차단 내역 ID") example id.toString())
                     )
             }
         }

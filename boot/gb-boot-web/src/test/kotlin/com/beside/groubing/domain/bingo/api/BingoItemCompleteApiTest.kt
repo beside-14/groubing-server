@@ -2,15 +2,17 @@ package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.aEnglishStudyBingoBoard
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.ARRAY
-import com.beside.groubing.docs.NUMBER
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.bingo.application.BingoItemCompleteService
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.bingoBoardIdPath
+import com.beside.groubing.vocabulary.diagonalBingoIndexes
+import com.beside.groubing.vocabulary.horizontalBingoIndexes
+import com.beside.groubing.vocabulary.totalBingoCount
+import com.beside.groubing.vocabulary.verticalBingoIndexes
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
@@ -35,10 +37,10 @@ class BingoItemCompleteApiTest(
         every { bingoItemCompleteService.complete(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
 
         val responseBody = responseBody(
-            "horizontalBingoIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
-            "verticalBingoIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
-            "diagonalBingoIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스",
-            "totalBingoCount" responseType NUMBER means "달성한 총 빙고 수"
+            horizontalBingoIndexes("horizontalBingoIndexes[]"),
+            verticalBingoIndexes("verticalBingoIndexes[]"),
+            diagonalBingoIndexes("diagonalBingoIndexes[]"),
+            totalBingoCount("totalBingoCount")
         )
 
         When("완료 요청 시") {
@@ -56,7 +58,7 @@ class BingoItemCompleteApiTest(
                 .andDocument(
                     "bingo-item-complete",
                     pathVariables(
-                        "id" requestParam "빙고 ID" example "1" isOptional true,
+                        bingoBoardIdPath() example "1" isOptional true,
                         "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
                     ),
                     responseBody
@@ -79,7 +81,7 @@ class BingoItemCompleteApiTest(
                 .andDocument(
                     "bingo-item-cancel",
                     pathVariables(
-                        "id" requestParam "빙고 ID" example "1" isOptional true,
+                        bingoBoardIdPath() example "1" isOptional true,
                         "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
                     ),
                     responseBody

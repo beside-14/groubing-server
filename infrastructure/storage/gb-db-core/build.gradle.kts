@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    `java-test-fixtures`
 }
 
 apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
@@ -23,6 +24,16 @@ dependencies {
     runtimeOnly("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.2")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    // 슬라이스 테스트(@PersistenceTest)가 application-test.yml 을 로드하므로
+    // yaml-importer 모듈이 test classpath 에 필요하다.
+    testRuntimeOnly(project(":config:gb-config-yaml-importer"))
+
+    // testFixtures: 엔티티 픽스처(MemberEntity 의 aMember(...)) 가 Arb 사용
+    testFixturesImplementation("io.kotest:kotest-property-jvm:5.5.5")
+
+    // db-core 자체 슬라이스 테스트에서 도메인 픽스처(BingoBoardFixtures 등)가 필요하다.
+    testImplementation(testFixtures(project(":domain:gb-domain-core")))
 }
 
 tasks.bootJar { enabled = false }

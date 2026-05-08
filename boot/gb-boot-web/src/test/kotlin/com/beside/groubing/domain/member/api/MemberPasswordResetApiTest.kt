@@ -5,9 +5,9 @@ import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.docs.requestBody
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.domain.auth.application.MemberPasswordResetService
+import com.beside.groubing.vocabulary.memberIdPath
 import com.beside.groubing.domain.member.payload.request.MemberPasswordResetRequest
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -55,7 +55,7 @@ class MemberPasswordResetApiTest(
                     .andDocument(
                         "member-password-reset",
                         pathVariables(
-                            "id" requestParam "유저 ID" example id.toString() isOptional true
+                            memberIdPath() example id.toString() isOptional true
                         ),
                         requestBody(
                             "beforePassword" requestType STRING means "이전에 사용한 패스워드" example beforePassword,

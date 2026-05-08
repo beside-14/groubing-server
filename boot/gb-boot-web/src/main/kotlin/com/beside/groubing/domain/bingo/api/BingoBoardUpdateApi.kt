@@ -5,7 +5,10 @@ import com.beside.groubing.domain.bingo.payload.request.BingoBoardBaseUpdateRequ
 import com.beside.groubing.domain.bingo.payload.request.BingoBoardMembersPeriodUpdateRequest
 import com.beside.groubing.domain.bingo.payload.request.BingoBoardMemoUpdateRequest
 import com.beside.groubing.domain.bingo.payload.request.BingoBoardOpenUpdateRequest
-import com.beside.groubing.domain.bingo.payload.response.BingoBoardResponse
+import com.beside.groubing.domain.bingo.payload.response.BingoBoardBaseUpdateResponse
+import com.beside.groubing.domain.bingo.payload.response.BingoBoardMembersPeriodUpdateResponse
+import com.beside.groubing.domain.bingo.payload.response.BingoBoardMemoUpdateResponse
+import com.beside.groubing.domain.bingo.payload.response.BingoBoardOpenUpdateResponse
 import com.beside.groubing.global.response.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -27,9 +30,9 @@ class BingoBoardUpdateApi(
         memberId: Long,
         @RequestBody @Valid
         baseUpdateRequest: BingoBoardBaseUpdateRequest
-    ): ApiResponse<BingoBoardResponse> {
+    ): ApiResponse<BingoBoardBaseUpdateResponse> {
         val updated = bingoBoardUpdateService.updateBase(id, memberId, baseUpdateRequest.command())
-        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
+        return ApiResponse.OK(BingoBoardBaseUpdateResponse.fromBingoBoard(updated))
     }
 
     @PatchMapping("/{id}/publish-info")
@@ -39,9 +42,9 @@ class BingoBoardUpdateApi(
         memberId: Long,
         @RequestBody @Valid
         memberPeriodUpdateRequest: BingoBoardMembersPeriodUpdateRequest
-    ): ApiResponse<BingoBoardResponse> {
+    ): ApiResponse<BingoBoardMembersPeriodUpdateResponse> {
         val updated = bingoBoardUpdateService.updateMembersPeriod(id, memberId, memberPeriodUpdateRequest.command())
-        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
+        return ApiResponse.OK(BingoBoardMembersPeriodUpdateResponse.fromBingoBoard(updated))
     }
 
     @PatchMapping("/{id}/memo")
@@ -51,9 +54,9 @@ class BingoBoardUpdateApi(
         memberId: Long,
         @RequestBody @Valid
         memoUpdateRequest: BingoBoardMemoUpdateRequest
-    ): ApiResponse<BingoBoardResponse> {
+    ): ApiResponse<BingoBoardMemoUpdateResponse> {
         val updated = bingoBoardUpdateService.updateMemo(id, memberId, memoUpdateRequest.command())
-        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
+        return ApiResponse.OK(BingoBoardMemoUpdateResponse.fromBingoBoard(updated))
     }
 
     @PatchMapping("/{id}/open")
@@ -63,8 +66,8 @@ class BingoBoardUpdateApi(
         memberId: Long,
         @RequestBody @Valid
         openUpdateRequest: BingoBoardOpenUpdateRequest
-    ): ApiResponse<BingoBoardResponse> {
+    ): ApiResponse<BingoBoardOpenUpdateResponse> {
         val updated = bingoBoardUpdateService.updateOpen(id, memberId, openUpdateRequest.command())
-        return ApiResponse.OK(BingoBoardResponse.fromBingoBoard(updated, memberId))
+        return ApiResponse.OK(BingoBoardOpenUpdateResponse.fromBingoBoard(updated))
     }
 }

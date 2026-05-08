@@ -3,22 +3,41 @@ package com.beside.groubing.domain.bingo.api
 import com.beside.groubing.aEnglishStudyBingoBoard
 import com.beside.groubing.aMember
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.ARRAY
-import com.beside.groubing.docs.BOOLEAN
-import com.beside.groubing.docs.DATE
-import com.beside.groubing.docs.ENUM
-import com.beside.groubing.docs.NUMBER
-import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.bingo.application.BingoBoardFindService
 import com.beside.groubing.domain.bingo.domain.BingoBoardDetail
-import com.beside.groubing.domain.bingo.domain.BingoBoardType
-import com.beside.groubing.domain.bingo.domain.map.Direction
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.bingoBoardId
+import com.beside.groubing.vocabulary.bingoBoardIdPath
+import com.beside.groubing.vocabulary.bingoBoardType
+import com.beside.groubing.docs.NUMBER
+import com.beside.groubing.docs.responseType
+import com.beside.groubing.vocabulary.bingoCompleted
+import com.beside.groubing.vocabulary.bingoFinished
+import com.beside.groubing.vocabulary.bingoGoal
+import com.beside.groubing.vocabulary.bingoIsLeader
+import com.beside.groubing.vocabulary.bingoItemColorCode
+import com.beside.groubing.vocabulary.bingoItemComplete
+import com.beside.groubing.vocabulary.bingoItemId
+import com.beside.groubing.vocabulary.bingoItemImageUrl
+import com.beside.groubing.vocabulary.bingoItemOrder
+import com.beside.groubing.vocabulary.bingoItemSubTitle
+import com.beside.groubing.vocabulary.bingoItemTitle
+import com.beside.groubing.vocabulary.bingoLineDirection
+import com.beside.groubing.vocabulary.bingoMapNickName
+import com.beside.groubing.vocabulary.bingoMemo
+import com.beside.groubing.vocabulary.bingoOpen
+import com.beside.groubing.vocabulary.bingoSince
+import com.beside.groubing.vocabulary.bingoSize
+import com.beside.groubing.vocabulary.bingoTitle
+import com.beside.groubing.vocabulary.bingoUntil
+import com.beside.groubing.vocabulary.diagonalBingoIndexes
+import com.beside.groubing.vocabulary.horizontalBingoIndexes
+import com.beside.groubing.vocabulary.totalBingoCount
+import com.beside.groubing.vocabulary.verticalBingoIndexes
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
@@ -30,7 +49,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-
 
 @WebMvcTest(BingoBoardFindApi::class)
 @ApiTest
@@ -61,52 +79,52 @@ class BingoBoardFindApiTest(
                 .andDocument(
                     "bingo-board-find",
                     pathVariables(
-                        "id" requestParam "빙고 ID" example "1" isOptional true
+                        bingoBoardIdPath() example "1" isOptional true
                     ),
                     requestParam(
                         "memberId" requestParam "회원 ID" example "1"
                     ),
                     responseBody(
-                        "id" responseType NUMBER means "빙고 ID" example "1",
-                        "title" responseType STRING means "빙고 제목" example "[테스트] 새로운 빙고입니다." formattedAs "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣 -@\\[-_~]{1,40}",
-                        "goal" responseType NUMBER means "달성 목표수, 빙고 사이즈가 3X3 인 경우 최대 3개, 4X4 인 경우 최대 4개" example "1",
-                        "groupType" responseType ENUM(BingoBoardType::class) means "빙고 유형" example "`SINGLE`" formattedAs "개인 : `SINGLE`, 그룹 : `GROUP`",
-                        "open" responseType BOOLEAN means "피드 공개여부, `true` : 공개,`false` : 비공개" example "false",
+                        bingoBoardId(),
+                        bingoTitle(),
+                        bingoGoal(),
+                        bingoBoardType("groupType"),
+                        bingoOpen(),
                         "dday" responseType NUMBER means "빙고 종료일자까지 남은 일 카운트",
-                        "memo" responseType STRING means "빙고 메모" example "빙고 메모이며 `null` 일 수 있습니다.",
-                        "isLeader" responseType BOOLEAN means "해당 빙고 리더 여부 `true` : 리더,`false` : 멤버" example "true",
-                        "since" responseType DATE means "빙고 시작일자, 현재보다 미래로 설정" example "2023-01-01" formattedAs "yyyy-MM-dd",
-                        "until" responseType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd",
-                        "completed" responseType BOOLEAN means "빙고 보드의 임시저장 여부, 시작/종료일이 설정되지 않은 경우 임시저장으로 간주합니다." example "false" formattedAs "`true` : 임시저장 상태, `false` : 발행 상태",
-                        "finished" responseType BOOLEAN means "빙고 보드의 진행 종료 여부, D-Day 기준으로 종료 여부를 확인합니다." example "false" formattedAs "`true` : 빙고 종료, `false` : 빙고 진행 중",
-                        "bingoSize" responseType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4",
-                        "bingoMap.nickName" responseType STRING means "빙고 참여자 본인 닉네임" example "holeman79",
-                        "bingoMap.bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
-                        "bingoMap.bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
-                        "bingoMap.bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
-                        "bingoMap.bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
-                        "bingoMap.bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
-                        "bingoMap.bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
-                        "bingoMap.bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
-                        "bingoMap.bingoLines[].bingoItems[].colorCode" responseType STRING means "빙고 아이템 Color Code" example "#F6A973",
-                        "bingoMap.totalBingoCount" responseType NUMBER means "달성한 총 빙고 수",
-                        "bingoMap.horizontalBingoIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
-                        "bingoMap.verticalBingoIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
-                        "bingoMap.diagonalBingoIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스",
+                        bingoMemo(),
+                        bingoIsLeader(),
+                        bingoSince(),
+                        bingoUntil(),
+                        bingoCompleted(),
+                        bingoFinished(),
+                        bingoSize(),
+                        bingoMapNickName("bingoMap.nickName", "빙고 참여자 본인 닉네임"),
+                        bingoLineDirection("bingoMap.bingoLines[].direction"),
+                        bingoItemId("bingoMap.bingoLines[].bingoItems[].id"),
+                        bingoItemTitle("bingoMap.bingoLines[].bingoItems[].title"),
+                        bingoItemSubTitle("bingoMap.bingoLines[].bingoItems[].subTitle"),
+                        bingoItemImageUrl("bingoMap.bingoLines[].bingoItems[].imageUrl"),
+                        bingoItemComplete("bingoMap.bingoLines[].bingoItems[].complete"),
+                        bingoItemOrder("bingoMap.bingoLines[].bingoItems[].itemOrder"),
+                        bingoItemColorCode("bingoMap.bingoLines[].bingoItems[].colorCode"),
+                        totalBingoCount("bingoMap.totalBingoCount"),
+                        horizontalBingoIndexes("bingoMap.horizontalBingoIndexes[]"),
+                        verticalBingoIndexes("bingoMap.verticalBingoIndexes[]"),
+                        diagonalBingoIndexes("bingoMap.diagonalBingoIndexes[]"),
 
-                        "otherBingoMaps[].nickName" responseType STRING means "본인 외 빙고 참여자 닉네임" example "holeman79",
-                        "otherBingoMaps[].bingoLines[].direction" responseType ENUM(Direction::class) means "빙고 축을 의미합니다." example "`HORIZONTAL`" formattedAs "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].id" responseType NUMBER means "빙고 아이템 ID" example "1",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].title" responseType STRING means "TODO" example "토익 만점 받기",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].subTitle" responseType STRING means "TODO 부가 설명, `null` 일 수 있습니다." example "토익 만점을 받으려면 열심히 공부해야 한다.",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].imageUrl" responseType STRING means "빙고 아이템 추가 이미지 URL, `null` 일 수 있습니다.",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].complete" responseType BOOLEAN means "TODO 달성 여부" example "true",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].itemOrder" responseType NUMBER means "빙고 아이템 순서" example "1, 2, 3...",
-                        "otherBingoMaps[].bingoLines[].bingoItems[].colorCode" responseType STRING means "빙고 아이템 Color Code" example "#F6A973",
-                        "otherBingoMaps[].totalBingoCount" responseType NUMBER means "달성한 총 빙고 수",
-                        "otherBingoMaps[].horizontalBingoIndexes[]" responseType ARRAY means "X축 달성한 빙고 아이템 인덱스",
-                        "otherBingoMaps[].verticalBingoIndexes[]" responseType ARRAY means "Y축 달성한 빙고 아이템 인덱스",
-                        "otherBingoMaps[].diagonalBingoIndexes[]" responseType ARRAY means "Z축 달성한 빙고 아이템 인덱스",
+                        bingoMapNickName("otherBingoMaps[].nickName", "본인 외 빙고 참여자 닉네임"),
+                        bingoLineDirection("otherBingoMaps[].bingoLines[].direction"),
+                        bingoItemId("otherBingoMaps[].bingoLines[].bingoItems[].id"),
+                        bingoItemTitle("otherBingoMaps[].bingoLines[].bingoItems[].title"),
+                        bingoItemSubTitle("otherBingoMaps[].bingoLines[].bingoItems[].subTitle"),
+                        bingoItemImageUrl("otherBingoMaps[].bingoLines[].bingoItems[].imageUrl"),
+                        bingoItemComplete("otherBingoMaps[].bingoLines[].bingoItems[].complete"),
+                        bingoItemOrder("otherBingoMaps[].bingoLines[].bingoItems[].itemOrder"),
+                        bingoItemColorCode("otherBingoMaps[].bingoLines[].bingoItems[].colorCode"),
+                        totalBingoCount("otherBingoMaps[].totalBingoCount"),
+                        horizontalBingoIndexes("otherBingoMaps[].horizontalBingoIndexes[]"),
+                        verticalBingoIndexes("otherBingoMaps[].verticalBingoIndexes[]"),
+                        diagonalBingoIndexes("otherBingoMaps[].diagonalBingoIndexes[]"),
                     )
                 )
         }

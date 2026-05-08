@@ -1,7 +1,6 @@
 package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.aEmptyBingo
-import com.beside.groubing.bingoBoardResponseSnippets
 import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.BOOLEAN
 import com.beside.groubing.docs.DATE
@@ -11,12 +10,32 @@ import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestType
+import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoBoardCreateService
 import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.payload.request.BingoBoardCreateRequest
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardResponse
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.global.response.ApiResponse
+import com.beside.groubing.vocabulary.bingoBoardId
+import com.beside.groubing.vocabulary.bingoBoardType
+import com.beside.groubing.vocabulary.bingoCompleted
+import com.beside.groubing.vocabulary.bingoDday
+import com.beside.groubing.vocabulary.bingoFinished
+import com.beside.groubing.vocabulary.bingoGoal
+import com.beside.groubing.vocabulary.bingoIsLeader
+import com.beside.groubing.vocabulary.bingoItemColorCode
+import com.beside.groubing.vocabulary.bingoItemComplete
+import com.beside.groubing.vocabulary.bingoItemId
+import com.beside.groubing.vocabulary.bingoItemImageUrl
+import com.beside.groubing.vocabulary.bingoItemOrder
+import com.beside.groubing.vocabulary.bingoItemSubTitle
+import com.beside.groubing.vocabulary.bingoItemTitle
+import com.beside.groubing.vocabulary.bingoLineDirection
+import com.beside.groubing.vocabulary.bingoMemo
+import com.beside.groubing.vocabulary.bingoOpen
+import com.beside.groubing.vocabulary.bingoSize
+import com.beside.groubing.vocabulary.bingoTitle
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -67,7 +86,27 @@ class BingoBoardCreateApiTest(
                     "until" requestType DATE means "빙고 종료일자, 시작일자보다 미래로 설정" example "2023-02-01" formattedAs "yyyy-MM-dd",
                     "bingoSize" requestType NUMBER means "빙고 사이즈" example "3" formattedAs "3X3 : 3, 4X4 : 4"
                 ),
-                bingoBoardResponseSnippets
+                responseBody(
+                    bingoBoardId(),
+                    bingoTitle(),
+                    bingoGoal(),
+                    bingoBoardType(),
+                    bingoOpen(),
+                    bingoDday(),
+                    bingoCompleted(),
+                    bingoFinished(),
+                    bingoSize(),
+                    bingoMemo(),
+                    bingoIsLeader(),
+                    bingoLineDirection("bingoLines[].direction"),
+                    bingoItemId("bingoLines[].bingoItems[].id"),
+                    bingoItemTitle("bingoLines[].bingoItems[].title"),
+                    bingoItemSubTitle("bingoLines[].bingoItems[].subTitle"),
+                    bingoItemImageUrl("bingoLines[].bingoItems[].imageUrl"),
+                    bingoItemComplete("bingoLines[].bingoItems[].complete"),
+                    bingoItemOrder("bingoLines[].bingoItems[].itemOrder"),
+                    bingoItemColorCode("bingoLines[].bingoItems[].colorCode")
+                )
             )
         }
     }

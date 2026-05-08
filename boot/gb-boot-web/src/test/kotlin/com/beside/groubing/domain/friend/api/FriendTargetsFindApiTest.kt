@@ -1,15 +1,16 @@
 package com.beside.groubing.domain.friend.api
 
-import com.beside.groubing.docs.NUMBER
-import com.beside.groubing.docs.STRING
+import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
-import com.beside.groubing.config.ApiTest
 import com.beside.groubing.domain.friend.application.FriendTargetsFindService
 import com.beside.groubing.domain.member.domain.Member
 import com.beside.groubing.domain.member.domain.MemberRole
 import com.beside.groubing.domain.member.domain.MemberType
+import com.beside.groubing.vocabulary.email
+import com.beside.groubing.vocabulary.memberId
+import com.beside.groubing.vocabulary.nickname
+import com.beside.groubing.vocabulary.profileUrl
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
@@ -52,10 +53,10 @@ class FriendTargetsFindApiTest(
                 }.andDocument(
                     "friend-target-find",
                     responseBody(
-                        "[].memberId" responseType NUMBER means "유저 ID" example "1",
-                        "[].email" responseType STRING means "유저 이메일" example "groubing1@daum.net",
-                        "[].nickname" responseType STRING means "유저 닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
-                        "[].profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
+                        memberId("[].memberId", "유저 ID"),
+                        email("[].email"),
+                        nickname("[].nickname") formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
+                        profileUrl("[].profileUrl") example "/api/files/\${fileName} 혹은 null",
                     )
                 )
             }

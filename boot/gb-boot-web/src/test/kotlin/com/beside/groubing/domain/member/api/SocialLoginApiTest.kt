@@ -1,14 +1,11 @@
 package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.BOOLEAN
-import com.beside.groubing.docs.NUMBER
 import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.docs.responseBody
-import com.beside.groubing.docs.responseType
 import com.beside.groubing.domain.auth.application.SocialLoginService
 import com.beside.groubing.domain.auth.domain.AuthenticatedMember
 import com.beside.groubing.domain.auth.domain.SocialType
@@ -17,6 +14,12 @@ import com.beside.groubing.domain.member.domain.MemberRole
 import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.payload.request.SocialLoginRequest
 import com.beside.groubing.extension.getJwt
+import com.beside.groubing.vocabulary.accessToken
+import com.beside.groubing.vocabulary.email
+import com.beside.groubing.vocabulary.hasNickname
+import com.beside.groubing.vocabulary.memberId
+import com.beside.groubing.vocabulary.nickname
+import com.beside.groubing.vocabulary.profileUrl
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -77,12 +80,12 @@ class SocialLoginApiTest(
                         "fcmToken" requestType STRING means "FCM Token" example fcmToken
                     ),
                     responseBody(
-                        "id" responseType NUMBER means "유저 ID" example "1",
-                        "email" responseType STRING means "유저 이메일" example email,
-                        "nickname" responseType STRING means "유저 닉네임" example "푸른바다123" formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
-                        "profileUrl" responseType STRING means "프로필 이미지 URL" example "/api/files/\${fileName} 혹은 null" isOptional true,
-                        "token" responseType STRING means "유저 JWT 토큰",
-                        "hasNickname" responseType BOOLEAN means "초기 닉네임 설정여부"
+                        memberId("id", "유저 ID"),
+                        email(),
+                        nickname() formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
+                        profileUrl() example "/api/files/\${fileName} 혹은 null",
+                        accessToken(),
+                        hasNickname()
                     )
                 )
 

@@ -3,9 +3,9 @@ package com.beside.groubing.domain.friend.api
 import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
-import com.beside.groubing.docs.requestParam
 import com.beside.groubing.domain.friend.application.FriendAcceptService
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.vocabulary.friendIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
@@ -41,7 +41,7 @@ class FriendAcceptApiTest(
                 ).andExpect(status().isOk)
                     .andDocument(
                         "friend-accept",
-                        pathVariables("id" requestParam "친구 요청 ID" example id.toString())
+                        pathVariables(friendIdPath() example id.toString())
                     )
             }
         }
