@@ -13,7 +13,7 @@ class BingoBoardMembersPeriodUpdateResponse private constructor(
         fun fromBingoBoard(board: BingoBoard): BingoBoardMembersPeriodUpdateResponse =
             BingoBoardMembersPeriodUpdateResponse(
                 id = board.id,
-                bingoMembers = board.bingoMembers.map { it.memberId },
+                bingoMembers = board.bingoMembers.memberIds(),
                 since = board.since,
                 until = board.until
             )
