@@ -3,8 +3,8 @@ package com.beside.groubing.domain.bingo.repository
 import com.beside.groubing.domain.bingo.dao.BingoBoardListFindDao
 import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoCompleteMember
-import com.beside.groubing.domain.bingo.domain.BingoItem
-import com.beside.groubing.domain.bingo.domain.BingoMember
+import com.beside.groubing.domain.bingo.domain.BingoItems
+import com.beside.groubing.domain.bingo.domain.BingoMembers
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.domain.bingo.entity.BingoBoardEntity
@@ -59,7 +59,7 @@ class BingoBoardRepositoryAdapter(
             .orElseThrow { BingoInputException("존재하지 않는 BingoBoard Id입니다. : $id") }
     }
 
-    private fun syncBingoMembers(entities: MutableList<BingoMemberEntity>, domains: List<BingoMember>) {
+    private fun syncBingoMembers(entities: MutableList<BingoMemberEntity>, domains: BingoMembers) {
         val existingById = entities.filter { it.id != 0L }.associateBy { it.id }
         entities.removeAll { it.id != 0L && domains.none { d -> d.id == it.id } }
         domains.forEach { domain ->
@@ -71,7 +71,7 @@ class BingoBoardRepositoryAdapter(
         }
     }
 
-    private fun syncBingoItems(entities: MutableList<BingoItemEntity>, domains: List<BingoItem>) {
+    private fun syncBingoItems(entities: MutableList<BingoItemEntity>, domains: BingoItems) {
         val existingById = entities.associateBy { it.id }
         domains.forEach { domain ->
             val entity = existingById[domain.id]

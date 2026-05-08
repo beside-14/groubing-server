@@ -3,6 +3,8 @@ package com.beside.groubing.domain.bingo.entity
 import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.domain.BingoColor
+import com.beside.groubing.domain.bingo.domain.BingoItems
+import com.beside.groubing.domain.bingo.domain.BingoMembers
 import com.beside.groubing.global.domain.jpa.BaseAggregateRoot
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -99,8 +101,8 @@ class BingoBoardEntity(
         bingoSize = bingoSize.toDomain(),
         bingoGoal = bingoGoal.toDomain(bingoSize.toDomain()),
         period = period?.toDomain(),
-        bingoMembers = bingoMembers.map { it.toDomain() }.toMutableList(),
-        bingoItems = bingoItems.map { it.toDomain() }
+        bingoMembers = BingoMembers.of(bingoMembers.map { it.toDomain() }.toMutableList()),
+        bingoItems = BingoItems.of(bingoItems.map { it.toDomain() })
     )
 
     companion object {

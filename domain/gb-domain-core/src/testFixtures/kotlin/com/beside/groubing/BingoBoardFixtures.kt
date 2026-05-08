@@ -5,8 +5,10 @@ import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.domain.BingoColor
 import com.beside.groubing.domain.bingo.domain.BingoGoal
 import com.beside.groubing.domain.bingo.domain.BingoItem
+import com.beside.groubing.domain.bingo.domain.BingoItems
 import com.beside.groubing.domain.bingo.domain.BingoMember
 import com.beside.groubing.domain.bingo.domain.BingoMemberType
+import com.beside.groubing.domain.bingo.domain.BingoMembers
 import com.beside.groubing.domain.bingo.domain.BingoSize
 import com.beside.groubing.domain.bingo.payload.command.BingoItemUpdateCommand
 import java.time.LocalDate
@@ -33,18 +35,20 @@ fun aEmptyBingo(bingoBoardId: Long, bingoBoardType: BingoBoardType, memberId: Lo
         bingoSize = size,
         bingoGoal = BingoGoal.create(3, size),
         period = null,
-        bingoMembers = mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER)),
-        bingoItems = (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map {
-            BingoItem.of(
-                id = it.toLong(),
-                title = null,
-                subTitle = null,
-                imageUrl = numberRange.removeAt(0),
-                itemOrder = it % 9,
-                colorCode = "#2787C9",
-                completeMembers = mutableSetOf()
-            )
-        }
+        bingoMembers = BingoMembers.of(mutableListOf(BingoMember.create(memberId, BingoMemberType.LEADER))),
+        bingoItems = BingoItems.of(
+            (1 + ((startItemId - 1) * 9)..(9 * startItemId)).map {
+                BingoItem.of(
+                    id = it.toLong(),
+                    title = null,
+                    subTitle = null,
+                    imageUrl = numberRange.removeAt(0),
+                    itemOrder = it % 9,
+                    colorCode = "#2787C9",
+                    completeMembers = mutableSetOf()
+                )
+            }
+        )
     )
 }
 
