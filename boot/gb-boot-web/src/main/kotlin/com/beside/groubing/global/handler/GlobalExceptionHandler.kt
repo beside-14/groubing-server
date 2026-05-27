@@ -7,9 +7,8 @@ import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.global.domain.file.exception.FileInfoInputException
 import com.beside.groubing.global.response.ApiResponseCode
 import com.beside.groubing.global.response.error.ApiError
-import com.google.firebase.messaging.FirebaseMessagingException
-import org.hibernate.exception.ConstraintViolationException
 import org.slf4j.LoggerFactory
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -43,8 +42,8 @@ class GlobalExceptionHandler {
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(ConstraintViolationException::class)
-    fun handle(e: ConstraintViolationException): ResponseEntity<ApiError> {
+    @ExceptionHandler(DataIntegrityViolationException::class)
+    fun handle(e: DataIntegrityViolationException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_REQUEST_HEADER, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
@@ -90,12 +89,6 @@ class GlobalExceptionHandler {
     fun handle(e: BlockedMemberInputException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(FirebaseMessagingException::class)
-    fun handle(e: FirebaseMessagingException): ResponseEntity<ApiError> {
-        val apiError = ApiError(ApiResponseCode.SERVER_ERROR, e)
-        return ResponseEntity(apiError, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     @ExceptionHandler(Exception::class)
