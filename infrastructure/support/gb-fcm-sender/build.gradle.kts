@@ -5,9 +5,8 @@ plugins {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
 
-    // firebase-admin은 boot-web 의 GlobalExceptionHandler 가 FirebaseMessagingException
-    // 을 직접 참조하므로 api 로 노출한다.
-    api("com.google.firebase:firebase-admin:9.2.0")
+    // FcmConfig 가 FirebaseMessaging 빈을 생성하는 데에만 사용하고 타입이 외부로 새지 않으므로 implementation.
+    implementation("com.google.firebase:firebase-admin:9.2.0")
 }
 
 tasks.bootJar { enabled = false }

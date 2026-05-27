@@ -6,12 +6,12 @@ plugins {
 apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
 
 dependencies {
-    // 순수 도메인 모델 / 포트 인터페이스
-    api(project(":domain:gb-domain-core"))
+    // 순수 도메인 모델 / 포트 인터페이스 (유일한 소비자 boot-web 이 domain-core 를 직접 의존하므로 재노출 불필요)
+    implementation(project(":domain:gb-domain-core"))
 
-    // 엔티티는 boot-web(그리고 추후 domain) 에 남기 때문에 JPA / QueryDSL API 는 api 로 노출한다.
-    api("org.springframework.boot:spring-boot-starter-data-jpa")
-    api("com.querydsl:querydsl-jpa:5.1.0:jakarta")
+    // 엔티티/Q클래스가 이 모듈에 있어 JPA/QueryDSL 타입이 외부로 새지 않으므로 implementation 으로 충분하다.
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
 
     kapt("com.querydsl:querydsl-apt:5.1.0:jakarta")
     kapt("jakarta.annotation:jakarta.annotation-api")

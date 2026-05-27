@@ -16,6 +16,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+    // @Transactional(BingoEventHandler) / Pageable·PageableDefault(페이징 컨트롤러) 를 직접 사용한다.
+    implementation("org.springframework:spring-tx")
+    implementation("org.springframework.data:spring-data-commons")
+
     // QueryDSL Q-클래스는 여전히 이 모듈의 엔티티들에서 생성되어야 한다.
     kapt("com.querydsl:querydsl-apt:5.1.0:jakarta")
     kapt("jakarta.annotation:jakarta.annotation-api")
