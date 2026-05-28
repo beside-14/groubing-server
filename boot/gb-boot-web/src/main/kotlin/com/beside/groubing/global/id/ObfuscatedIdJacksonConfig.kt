@@ -1,0 +1,28 @@
+package com.beside.groubing.global.id
+
+import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.fasterxml.jackson.databind.AnnotationIntrospector
+import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.annotation.PostConstruct
+import org.springframework.context.annotation.Configuration
+
+/**
+ * 기본 [ObjectMapper] 에 [EncryptIdAnnotationIntrospector] 를 합성 등록한다.
+ *
+ * 기존 introspector(어노테이션·Kotlin 모듈 등)와 [AnnotationIntrospector.pair] 로 묶어
+ * 다른 Jackson 동작을 깨뜨리지 않는다.
+ */
+@Configuration
+class ObfuscatedIdJacksonConfig(
+    private val objectMapper: ObjectMapper,
+    private val idObfuscator: IdObfuscator
+) {
+    @PostConstruct
+    fun registerEncryptIdIntrospector() {
+        val introspector = EncryptIdAnnotationIntrospector(idObfuscator)
+        val existing = objectMapper.serializationConfig.annotationIntrospector
+        objectMapper.setAnnotationIntrospector(
+            AnnotationIntrospector.pair(introspector, existing)
+        )
+    }
+}
