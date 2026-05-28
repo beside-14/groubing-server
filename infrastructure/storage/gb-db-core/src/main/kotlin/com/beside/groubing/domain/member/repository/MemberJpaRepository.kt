@@ -2,18 +2,25 @@ package com.beside.groubing.domain.member.repository
 
 import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.entity.MemberEntity
+import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberJpaRepository : JpaRepository<MemberEntity, Long> {
-    fun findByEmail(email: String): MemberEntity?
+    fun findByIdAndActiveTrue(id: Long): MemberEntity?
 
-    fun findByEmailAndMemberType(email: String, memberType: MemberType): MemberEntity?
+    fun findByEmailAndActiveTrue(email: String): MemberEntity?
 
-    fun existsByEmail(email: String): Boolean
+    fun findByEmailAndMemberTypeAndActiveTrue(email: String, memberType: MemberType): MemberEntity?
 
-    fun existsByNickname(nickname: String): Boolean
+    fun existsByEmailAndActiveTrue(email: String): Boolean
 
-    fun countByIdIn(ids: Collection<Long>): Int
+    fun existsByNicknameAndActiveTrue(nickname: String): Boolean
 
-    fun findAllByIdNotIn(excludedIds: Set<Long>, sort: org.springframework.data.domain.Sort): List<MemberEntity>
+    fun countByIdInAndActiveTrue(ids: Collection<Long>): Int
+
+    fun findAllByActiveTrue(sort: Sort): List<MemberEntity>
+
+    fun findAllByIdInAndActiveTrue(ids: Collection<Long>): List<MemberEntity>
+
+    fun findAllByIdNotInAndActiveTrue(excludedIds: Set<Long>, sort: Sort): List<MemberEntity>
 }

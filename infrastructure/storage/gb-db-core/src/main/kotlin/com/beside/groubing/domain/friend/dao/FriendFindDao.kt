@@ -29,6 +29,7 @@ class FriendFindDao(
                         friendEntity.inviterId.eq(memberId).and(memberEntity.id.eq(friendEntity.inviteeId))
                             .or(friendEntity.inviteeId.eq(memberId).and(memberEntity.id.eq(friendEntity.inviterId)))
                     )
+                    .and(memberEntity.active.isTrue)
             )
             .orderBy(friendEntity.createdDate.desc())
             .fetch()
@@ -48,7 +49,11 @@ class FriendFindDao(
             .from(friendEntity)
             .innerJoin(memberEntity).on(memberEntity.id.eq(friendEntity.inviterId))
             .leftJoin(memberEntity.profile)
-            .where(friendEntity.inviteeId.eq(inviteeId).and(friendEntity.status.`in`(statuses)))
+            .where(
+                friendEntity.inviteeId.eq(inviteeId)
+                    .and(friendEntity.status.`in`(statuses))
+                    .and(memberEntity.active.isTrue)
+            )
             .orderBy(friendEntity.createdDate.desc())
             .fetch()
     }
@@ -67,7 +72,11 @@ class FriendFindDao(
             .from(friendEntity)
             .innerJoin(memberEntity).on(memberEntity.id.eq(friendEntity.inviteeId))
             .leftJoin(memberEntity.profile)
-            .where(friendEntity.inviterId.eq(inviterId).and(friendEntity.status.`in`(statuses)))
+            .where(
+                friendEntity.inviterId.eq(inviterId)
+                    .and(friendEntity.status.`in`(statuses))
+                    .and(memberEntity.active.isTrue)
+            )
             .orderBy(friendEntity.createdDate.desc())
             .fetch()
     }

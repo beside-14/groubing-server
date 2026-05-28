@@ -45,44 +45,43 @@ class MemberRepositoryAdapter(
     }
 
     override fun findByEmail(email: String): Member {
-        return memberJpaRepository.findByEmail(email)?.toDomain()
+        return memberJpaRepository.findByEmailAndActiveTrue(email)?.toDomain()
             ?: throw MemberInputException("존재하지 않는 유저 입니다.")
     }
 
     override fun findByEmailAndMemberType(email: String, memberType: MemberType): Member {
-        return memberJpaRepository.findByEmailAndMemberType(email, memberType)?.toDomain()
+        return memberJpaRepository.findByEmailAndMemberTypeAndActiveTrue(email, memberType)?.toDomain()
             ?: throw MemberInputException("존재하지 않는 이메일 입니다.: $email")
     }
 
     override fun findAllSortedByNickname(): List<Member> {
-        return memberJpaRepository.findAll(Sort.by(Sort.Direction.ASC, "nickname"))
+        return memberJpaRepository.findAllByActiveTrue(Sort.by(Sort.Direction.ASC, "nickname"))
             .map { it.toDomain() }
     }
 
     override fun findAllSortedByNicknameExcluding(excludedIds: Set<Long>): List<Member> {
-        return memberJpaRepository.findAllByIdNotIn(excludedIds, Sort.by(Sort.Direction.ASC, "nickname"))
+        return memberJpaRepository.findAllByIdNotInAndActiveTrue(excludedIds, Sort.by(Sort.Direction.ASC, "nickname"))
             .map { it.toDomain() }
     }
 
     override fun findAll(ids: Collection<Long>): List<Member> {
-        return memberJpaRepository.findAllById(ids).map { it.toDomain() }
+        return memberJpaRepository.findAllByIdInAndActiveTrue(ids).map { it.toDomain() }
     }
 
     override fun existsByEmail(email: String): Boolean {
-        return memberJpaRepository.existsByEmail(email)
+        return memberJpaRepository.existsByEmailAndActiveTrue(email)
     }
 
     override fun existsByNickname(nickname: String): Boolean {
-        return memberJpaRepository.existsByNickname(nickname)
+        return memberJpaRepository.existsByNicknameAndActiveTrue(nickname)
     }
 
     override fun count(ids: Collection<Long>): Int {
-        return memberJpaRepository.countByIdIn(ids)
+        return memberJpaRepository.countByIdInAndActiveTrue(ids)
     }
 
     private fun findEntityById(id: Long): MemberEntity {
-        return memberJpaRepository.findById(id).orElseThrow {
-            MemberInputException("존재하지 않는 유저 입니다.")
-        }
+        return memberJpaRepository.findByIdAndActiveTrue(id)
+            ?: throw MemberInputException("존재하지 않는 유저 입니다.")
     }
 }
