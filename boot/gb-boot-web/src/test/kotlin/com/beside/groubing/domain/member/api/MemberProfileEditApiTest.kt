@@ -10,9 +10,11 @@ import com.beside.groubing.domain.member.application.MemberProfileEditService
 import com.beside.groubing.vocabulary.memberIdPath
 import com.beside.groubing.vocabulary.profileUrl
 import com.beside.groubing.domain.member.payload.response.MemberProfileResponse
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.multipart
 import com.beside.groubing.global.domain.file.application.FileProvider
 import com.beside.groubing.global.domain.file.domain.FileInfo
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -49,6 +51,7 @@ class MemberProfileEditApiTest(
 
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
+        val encodedId = id.encodedAs(ObfuscationType.MEMBER)
         val imageData = "Test image data".toByteArray()
         val imageResource = InputStreamResource(ByteArrayInputStream(imageData))
         val profile = MockMultipartFile("profile", "test.jpg", MediaType.IMAGE_JPEG_VALUE, imageResource.inputStream)
@@ -62,7 +65,7 @@ class MemberProfileEditApiTest(
 
             Then("프로필 이미지 URL 을 응답하도록 한다.") {
                 mockMvc.perform(
-                    multipart(HttpMethod.PATCH, "/api/members/{id}/profile", id)
+                    multipart(HttpMethod.PATCH, "/api/members/{id}/profile", encodedId)
                         .file(profile)
                 ).andDo(print())
                     .andExpect(status().isOk)
@@ -70,7 +73,7 @@ class MemberProfileEditApiTest(
                     .andDocument(
                         "member-profile-edit",
                         pathVariables(
-                            memberIdPath() example id.toString()
+                            memberIdPath() example encodedId
                         ),
                         requestParts(
                             "profile" requestPart "프로필 이미지 파일" formattedAs ".png / .jpeg / .jpg"

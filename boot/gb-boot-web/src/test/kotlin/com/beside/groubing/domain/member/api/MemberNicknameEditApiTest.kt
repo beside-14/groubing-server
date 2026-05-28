@@ -8,7 +8,9 @@ import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.domain.member.application.MemberNicknameEditService
 import com.beside.groubing.domain.member.payload.request.MemberNicknameEditRequest
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.vocabulary.memberIdPath
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -37,6 +39,7 @@ class MemberNicknameEditApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(min = 1L, max = 100L).single()
+        val encodedId = id.encodedAs(ObfuscationType.MEMBER)
         val nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single()
         val request = MemberNicknameEditRequest(nickname)
 
@@ -45,7 +48,7 @@ class MemberNicknameEditApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
-                    patch("/api/members/{id}/nickname", id)
+                    patch("/api/members/{id}/nickname", encodedId)
                         .header("Authorization", getHttpHeaderJwt(id))
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +57,7 @@ class MemberNicknameEditApiTest(
                     .andDocument(
                         "member-nickname-edit",
                         pathVariables(
-                            memberIdPath() example id.toString() isOptional true
+                            memberIdPath() example encodedId isOptional true
                         ),
                         requestBody(
                             "nickname" requestType STRING means "닉네임" example nickname formattedAs "^[가-힣a-zA-Z0-9]{2,7}"

@@ -3,6 +3,8 @@ package com.beside.groubing.domain.member.api
 import com.beside.groubing.domain.member.application.MemberProfileEditService
 import com.beside.groubing.domain.member.payload.response.MemberProfileResponse
 import com.beside.groubing.global.domain.file.application.FileProvider
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,7 +20,7 @@ class MemberProfileEditApi(
 ) {
     @PatchMapping("/{id}/profile")
     fun editProfile(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long,
         @RequestPart profile: MultipartFile
     ): ApiResponse<MemberProfileResponse> {
         val newProfile = FileProvider.upload(profile)
