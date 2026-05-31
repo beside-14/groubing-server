@@ -11,7 +11,9 @@ import com.beside.groubing.docs.requestType
 import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoItemUpdateService
 import com.beside.groubing.domain.bingo.payload.request.BingoItemUpdateRequest
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.beside.groubing.vocabulary.bingoItemColorCode
 import com.beside.groubing.vocabulary.bingoItemComplete
@@ -46,14 +48,16 @@ class BingoItemUpdateApiTest(
             subTitle = "8월까지 끝내기"
         )
         val bingoItem = aEmptyBingo.bingoItems[0]
+        val encodedBingoBoardId = aEmptyBingo.id.encodedAs(ObfuscationType.BINGO_BOARD)
+        val encodedBingoItemId = bingoItem.id.encodedAs(ObfuscationType.BINGO_ITEM)
         every { bingoItemUpdateService.update(aEmptyBingo.id, bingoItem.id, memberId, any()) } returns bingoItem
 
         When("데이터가 유효하다면") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.put(
                     "/api/bingo-boards/{id}/bingo-items/{bingoItemId}",
-                    aEmptyBingo.id,
-                    bingoItem.id
+                    encodedBingoBoardId,
+                    encodedBingoItemId
                 )
                     .content(mapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
@@ -64,8 +68,8 @@ class BingoItemUpdateApiTest(
                 .andDocument(
                     "bingo-item-update",
                     pathVariables(
-                        bingoBoardIdPath() example "1" isOptional true,
-                        "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
+                        bingoBoardIdPath() example encodedBingoBoardId isOptional true,
+                        "bingoItemId" requestParam "빙고 아이템 ID (obfuscated)" example encodedBingoItemId isOptional true
                     ),
                     requestBody(
                         "title" requestType STRING means "빙고 아이템 제목" example request.title,

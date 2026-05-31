@@ -6,6 +6,7 @@ import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 
 class NotificationResponse(
+    @EncryptId(ObfuscationType.BINGO_BOARD)
     val bingoBoardId: Long,
 
     @EncryptId(ObfuscationType.MEMBER)

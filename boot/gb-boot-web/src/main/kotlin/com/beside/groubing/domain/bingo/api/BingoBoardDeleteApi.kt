@@ -1,6 +1,8 @@
 package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.domain.bingo.application.BingoBoardDeleteService
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,7 +19,7 @@ class BingoBoardDeleteApi(
     fun delete(
         @AuthenticationPrincipal
         memberId: Long,
-        @PathVariable id: Long
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long
     ): ApiResponse<Unit> {
         bingoBoardDeleteService.delete(memberId = memberId, boardId = id)
         return ApiResponse.OK(Unit)

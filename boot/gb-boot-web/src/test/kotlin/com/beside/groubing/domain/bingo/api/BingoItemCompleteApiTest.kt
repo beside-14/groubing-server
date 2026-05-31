@@ -7,7 +7,9 @@ import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoItemCompleteService
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.beside.groubing.vocabulary.diagonalBingoIndexes
 import com.beside.groubing.vocabulary.horizontalBingoIndexes
@@ -33,6 +35,8 @@ class BingoItemCompleteApiTest(
         val englishBingoBoard = aEnglishStudyBingoBoard()
         val memberId = 1L
         val bingoItem = englishBingoBoard.bingoItems[0]
+        val encodedBingoBoardId = englishBingoBoard.id.encodedAs(ObfuscationType.BINGO_BOARD)
+        val encodedBingoItemId = bingoItem.id.encodedAs(ObfuscationType.BINGO_ITEM)
         val bingoMap = englishBingoBoard.makeBingoMap(memberId)
         every { bingoItemCompleteService.complete(englishBingoBoard.id, bingoItem.id, memberId) } returns bingoMap
 
@@ -47,8 +51,8 @@ class BingoItemCompleteApiTest(
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(
                     "/api/bingo-boards/{id}/bingo-items/{bingoItemId}/complete",
-                    englishBingoBoard.id,
-                    bingoItem.id
+                    encodedBingoBoardId,
+                    encodedBingoItemId
                 )
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -58,8 +62,8 @@ class BingoItemCompleteApiTest(
                 .andDocument(
                     "bingo-item-complete",
                     pathVariables(
-                        bingoBoardIdPath() example "1" isOptional true,
-                        "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
+                        bingoBoardIdPath() example encodedBingoBoardId isOptional true,
+                        "bingoItemId" requestParam "빙고 아이템 ID (obfuscated)" example encodedBingoItemId isOptional true
                     ),
                     responseBody
                 )
@@ -70,8 +74,8 @@ class BingoItemCompleteApiTest(
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(
                     "/api/bingo-boards/{id}/bingo-items/{bingoItemId}/cancel",
-                    englishBingoBoard.id,
-                    bingoItem.id
+                    encodedBingoBoardId,
+                    encodedBingoItemId
                 )
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -81,8 +85,8 @@ class BingoItemCompleteApiTest(
                 .andDocument(
                     "bingo-item-cancel",
                     pathVariables(
-                        bingoBoardIdPath() example "1" isOptional true,
-                        "bingoItemId" requestParam "빙고 아이템 ID" example "1" isOptional true
+                        bingoBoardIdPath() example encodedBingoBoardId isOptional true,
+                        "bingoItemId" requestParam "빙고 아이템 ID (obfuscated)" example encodedBingoItemId isOptional true
                     ),
                     responseBody
                 )
