@@ -4,7 +4,9 @@ import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.domain.friend.application.FriendAcceptService
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.vocabulary.friendIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -26,6 +28,7 @@ class FriendAcceptApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
+        val encodedId = id.encodedAs(ObfuscationType.FRIEND)
         val userId = Arb.long(1L..100L).single()
 
         When("친구 요청을") {
@@ -34,14 +37,14 @@ class FriendAcceptApiTest(
                 justRun { friendAcceptService.accept(any(), any()) }
 
                 mockMvc.perform(
-                    patch("/api/friends/{id}/accept", id)
+                    patch("/api/friends/{id}/accept", encodedId)
                         .header("Authorization", getHttpHeaderJwt(userId))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk)
                     .andDocument(
                         "friend-accept",
-                        pathVariables(friendIdPath() example id.toString())
+                        pathVariables(friendIdPath() example encodedId)
                     )
             }
         }

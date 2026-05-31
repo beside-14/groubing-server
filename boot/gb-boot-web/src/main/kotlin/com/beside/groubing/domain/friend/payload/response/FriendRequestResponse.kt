@@ -7,6 +7,7 @@ import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 
 data class FriendRequestResponse(
+    @EncryptId(ObfuscationType.FRIEND)
     val id: Long,
     @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
