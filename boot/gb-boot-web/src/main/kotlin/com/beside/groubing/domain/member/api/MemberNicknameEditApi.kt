@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 class MemberNicknameEditApi(
     private val memberNicknameEditService: MemberNicknameEditService
 ) {
-    @PatchMapping("/{id}/nickname")
+    @PatchMapping("/{memberId}/nickname")
     fun editNickname(
-        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) memberId: Long,
         @RequestBody
         @Validated
         request: MemberNicknameEditRequest
     ) {
-        memberNicknameEditService.edit(id, request.nickname)
+        memberNicknameEditService.edit(memberId, request.nickname)
     }
 }

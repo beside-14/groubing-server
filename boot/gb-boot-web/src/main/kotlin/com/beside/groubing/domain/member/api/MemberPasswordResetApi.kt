@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 class MemberPasswordResetApi(
     private val memberPasswordResetService: MemberPasswordResetService
 ) {
-    @PatchMapping("/{id}/password")
+    @PatchMapping("/{memberId}/password")
     fun resetPassword(
-        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) memberId: Long,
         @RequestBody
         @Validated
         request: MemberPasswordResetRequest
     ) {
-        memberPasswordResetService.reset(id, request.beforePassword, request.afterPassword)
+        memberPasswordResetService.reset(memberId, request.beforePassword, request.afterPassword)
     }
 }

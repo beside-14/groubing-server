@@ -50,7 +50,7 @@ class BingoItemCompleteApiTest(
         When("완료 요청 시") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(
-                    "/api/bingo-boards/{id}/bingo-items/{bingoItemId}/complete",
+                    "/api/bingo-boards/{bingoBoardId}/bingo-items/{bingoItemId}/complete",
                     encodedBingoBoardId,
                     encodedBingoItemId
                 )
@@ -73,7 +73,7 @@ class BingoItemCompleteApiTest(
         When("취소 요청 시") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.patch(
-                    "/api/bingo-boards/{id}/bingo-items/{bingoItemId}/cancel",
+                    "/api/bingo-boards/{bingoBoardId}/bingo-items/{bingoItemId}/cancel",
                     encodedBingoBoardId,
                     encodedBingoItemId
                 )

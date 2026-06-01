@@ -71,9 +71,9 @@ class BingoBoardFindApiTest(
 
         every { bingoBoardFindService.findOne(memberId, bingoBoardId) } returns BingoBoardDetail(bingoBoard, member, otherMembers)
 
-        When("GET /api/bingo-boards/{id} 요청이 들어왔을 때") {
+        When("GET /api/bingo-boards/{bingoBoardId} 요청이 들어왔을 때") {
             mockMvc.perform(
-                get("/api/bingo-boards/{id}", encodedBingoBoardId)
+                get("/api/bingo-boards/{bingoBoardId}", encodedBingoBoardId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header("Authorization", getHttpHeaderJwt(memberId))

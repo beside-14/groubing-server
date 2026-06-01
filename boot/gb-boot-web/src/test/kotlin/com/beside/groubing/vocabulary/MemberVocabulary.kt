@@ -10,7 +10,7 @@ import com.beside.groubing.domain.member.domain.MemberType
 
 // --- Path Variable ---
 
-fun memberIdPath(fieldName: String = "id") =
+fun memberIdPath(fieldName: String = "memberId") =
     fieldName requestParam "유저 ID (obfuscated)"
 
 // --- 회원 식별자 (obfuscated 문자열) ---

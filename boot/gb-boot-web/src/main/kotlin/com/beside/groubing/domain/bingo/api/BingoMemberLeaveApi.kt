@@ -16,13 +16,13 @@ class BingoMemberLeaveApi(
     private val bingoMemberLeaveService: BingoMemberLeaveService
 ) {
 
-    @PostMapping("/{id}/leave")
+    @PostMapping("/{bingoBoardId}/leave")
     fun leave(
         @AuthenticationPrincipal
         memberId: Long,
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long
     ): ApiResponse<Unit> {
-        bingoMemberLeaveService.leave(memberId, id)
+        bingoMemberLeaveService.leave(memberId, bingoBoardId)
         return ApiResponse.OK(Unit)
     }
 }

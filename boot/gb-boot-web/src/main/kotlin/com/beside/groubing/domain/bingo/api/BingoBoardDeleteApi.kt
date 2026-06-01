@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController
 class BingoBoardDeleteApi(
     private val bingoBoardDeleteService: BingoBoardDeleteService
 ) {
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{bingoBoardId}")
     fun delete(
         @AuthenticationPrincipal
         memberId: Long,
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long
     ): ApiResponse<Unit> {
-        bingoBoardDeleteService.delete(memberId = memberId, boardId = id)
+        bingoBoardDeleteService.delete(memberId = memberId, boardId = bingoBoardId)
         return ApiResponse.OK(Unit)
     }
 }

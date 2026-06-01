@@ -48,7 +48,7 @@ class MemberNicknameEditApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
-                    patch("/api/members/{id}/nickname", encodedId)
+                    patch("/api/members/{memberId}/nickname", encodedId)
                         .header("Authorization", getHttpHeaderJwt(id))
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)

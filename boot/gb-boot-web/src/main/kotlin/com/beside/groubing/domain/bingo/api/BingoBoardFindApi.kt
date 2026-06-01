@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController
 class BingoBoardFindApi(
     private val bingoBoardFindService: BingoBoardFindService
 ) {
-    @GetMapping("/{id}")
+    @GetMapping("/{bingoBoardId}")
     fun getBingoBoard(
         @RequestParam @DecryptId(ObfuscationType.MEMBER) memberId: Long,
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long
     ): ApiResponse<BingoBoardDetailResponse> {
-        val detail = bingoBoardFindService.findOne(memberId, id)
+        val detail = bingoBoardFindService.findOne(memberId, bingoBoardId)
         return ApiResponse.OK(BingoBoardDetailResponse.of(detail))
     }
 }

@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController
 class BingoItemShuffleApi(
     private val bingoItemShuffleService: BingoItemShuffleService
 ) {
-    @PutMapping("/{id}/bingo-items")
+    @PutMapping("/{bingoBoardId}/bingo-items")
     fun shuffle(
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
         @AuthenticationPrincipal memberId: Long,
     ): ApiResponse<List<BingoLineResponse>> {
-        val bingoMap = bingoItemShuffleService.shuffle(memberId = memberId, boardId = id)
+        val bingoMap = bingoItemShuffleService.shuffle(memberId = memberId, boardId = bingoBoardId)
         val responses = bingoMap.getBingoLines(Direction.HORIZONTAL)
             .map { BingoLineResponse.fromBingoLine(it, memberId) }
         return ApiResponse.OK(responses)

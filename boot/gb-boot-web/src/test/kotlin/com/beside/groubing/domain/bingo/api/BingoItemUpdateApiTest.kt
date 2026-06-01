@@ -55,7 +55,7 @@ class BingoItemUpdateApiTest(
         When("데이터가 유효하다면") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.put(
-                    "/api/bingo-boards/{id}/bingo-items/{bingoItemId}",
+                    "/api/bingo-boards/{bingoBoardId}/bingo-items/{bingoItemId}",
                     encodedBingoBoardId,
                     encodedBingoItemId
                 )

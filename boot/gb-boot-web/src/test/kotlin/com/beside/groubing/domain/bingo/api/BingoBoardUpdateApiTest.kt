@@ -72,7 +72,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/base",
+                "/api/bingo-boards/{bingoBoardId}/base",
                 encodedId,
                 memberId,
                 bingoBoardBaseUpdateRequest,
@@ -101,7 +101,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/memo",
+                "/api/bingo-boards/{bingoBoardId}/memo",
                 encodedId,
                 memberId,
                 bingoBoardMemoUpdateRequest,
@@ -124,7 +124,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/open",
+                "/api/bingo-boards/{bingoBoardId}/open",
                 encodedId,
                 memberId,
                 bingoBoardOpenUpdateRequest,
@@ -162,7 +162,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/publish-info",
+                "/api/bingo-boards/{bingoBoardId}/publish-info",
                 encodedId,
                 memberId,
                 bingoBoardMembersPeriodUpdateRequest,

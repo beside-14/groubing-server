@@ -14,5 +14,5 @@ fun friendStatus(fieldName: String = "status") =
         "친구 요청 처리 상태" example
         "`PENDING` : 친구 요청 / `ACCEPT` : 수락 / `REJECT` : 거절"
 
-fun friendIdPath(fieldName: String = "id") =
+fun friendIdPath(fieldName: String = "friendId") =
     fieldName requestParam "친구 요청 ID (obfuscated)"

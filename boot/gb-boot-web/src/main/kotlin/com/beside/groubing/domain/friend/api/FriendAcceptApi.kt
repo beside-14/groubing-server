@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 class FriendAcceptApi(
     private val friendAcceptService: FriendAcceptService
 ) {
-    @PatchMapping("/{id}/accept")
+    @PatchMapping("/{friendId}/accept")
     fun accept(
         @AuthenticationPrincipal memberId: Long,
-        @PathVariable @DecryptId(ObfuscationType.FRIEND) id: Long
+        @PathVariable @DecryptId(ObfuscationType.FRIEND) friendId: Long
     ) {
-        friendAcceptService.accept(memberId = memberId, id = id)
+        friendAcceptService.accept(memberId = memberId, id = friendId)
     }
 }

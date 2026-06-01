@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 class FriendRejectApi(
     private val friendRejectService: FriendRejectService
 ) {
-    @PatchMapping("/{id}/reject")
+    @PatchMapping("/{friendId}/reject")
     fun reject(
         @AuthenticationPrincipal memberId: Long,
-        @PathVariable @DecryptId(ObfuscationType.FRIEND) id: Long
+        @PathVariable @DecryptId(ObfuscationType.FRIEND) friendId: Long
     ) {
-        friendRejectService.reject(memberId = memberId, id = id)
+        friendRejectService.reject(memberId = memberId, id = friendId)
     }
 }

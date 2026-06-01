@@ -47,7 +47,7 @@ class BingoItemShuffleApiTest(
         When("데이터가 유효하다면") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.put(
-                    "/api/bingo-boards/{id}/bingo-items",
+                    "/api/bingo-boards/{bingoBoardId}/bingo-items",
                     encodedBingoBoardId
                 )
                     .contentType(MediaType.APPLICATION_JSON)

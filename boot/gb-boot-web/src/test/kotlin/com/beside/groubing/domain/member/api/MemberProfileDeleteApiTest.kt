@@ -33,7 +33,7 @@ class MemberProfileDeleteApiTest(
             justRun { memberProfileDeleteService.delete(any()) }
 
             Then("성공 응답을 리턴한다.") {
-                mockMvc.perform(delete("/api/members/{id}/profile", encodedId))
+                mockMvc.perform(delete("/api/members/{memberId}/profile", encodedId))
                     .andDo(print())
                     .andExpect(status().isOk)
                     .andDocument(

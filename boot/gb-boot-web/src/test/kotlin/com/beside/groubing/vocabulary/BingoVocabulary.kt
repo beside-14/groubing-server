@@ -13,7 +13,7 @@ import com.beside.groubing.domain.bingo.domain.map.Direction
 
 // --- Path / Query ---
 
-fun bingoBoardIdPath(fieldName: String = "id") =
+fun bingoBoardIdPath(fieldName: String = "bingoBoardId") =
     fieldName requestParam "빙고 ID (obfuscated)"
 
 // --- BingoBoard 응답 ---
