@@ -169,7 +169,9 @@ class BingoBoardUpdateApiTest(
                 ApiResponse.OK(BingoBoardMembersPeriodUpdateResponse.fromBingoBoard(aEmptyBingo)),
                 "update-bingo-members-period",
                 requestBody(
-                    "bingoMembers" requestType ARRAY means "빙고 참여 멤버 리스트" example "2, 3, 7",
+                    "bingoMembers" requestType ARRAY means
+                        "빙고 참여 멤버 ID 리스트 (각 요소는 obfuscated 문자열)" example
+                        "[\"MEbN4aLpqRzK\", \"k9aQ2nWxRzVp\"]",
                     "since" requestType DATE means "빙고 시작 일자" example "2023-05-08",
                     "until" requestType DATE means "빙고 종료 일자" example "2023-05-15"
                 ),
