@@ -6,12 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Configuration
 
-/**
- * 기본 [ObjectMapper] 에 [EncryptIdAnnotationIntrospector] 를 합성 등록한다.
- *
- * 기존 introspector(어노테이션·Kotlin 모듈 등)와 [AnnotationIntrospector.pair] 로 묶어
- * 다른 Jackson 동작을 깨뜨리지 않는다.
- */
+/** 기존 introspector(Kotlin 모듈 등)는 보존하기 위해 [AnnotationIntrospector.pair] 로 합성한다. */
 @Configuration
 class ObfuscatedIdJacksonConfig(
     private val objectMapper: ObjectMapper,

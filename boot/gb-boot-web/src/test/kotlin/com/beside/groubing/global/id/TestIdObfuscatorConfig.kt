@@ -9,13 +9,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
 
 /**
- * `@ApiTest` 슬라이스에서 [IdObfuscator] 빈을 공급한다.
- *
- * - `@WebMvcTest` 는 일반 `@Component`(다른 모듈의 [HashidsIdObfuscator]) 를 스캔하지 않으므로
- *   [com.beside.groubing.global.config.WebConfig] 의 의존성 주입이 실패한다 → 테스트 전용 빈으로 대체.
- * - 직렬화/역직렬화 어노테이션 인식을 위해 [EncryptIdAnnotationIntrospector] 도 동일한 방식으로 등록한다.
- *
- * 기본 [ApiTest] 어노테이션이 `@Import` 로 함께 가져온다.
+ * `@WebMvcTest` 슬라이스는 다른 모듈의 `@Component`([HashidsIdObfuscator]) 를 스캔하지 않아
+ * [com.beside.groubing.global.config.WebConfig] 주입이 실패한다 — 그 자리를 메우는 테스트 전용 빈.
+ * `@ApiTest` 가 `@Import` 로 함께 가져온다.
  */
 @TestConfiguration
 class TestIdObfuscatorConfig {
