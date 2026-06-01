@@ -8,6 +8,7 @@ import java.time.LocalDate
 class BingoBoardMembersPeriodUpdateResponse private constructor(
     @EncryptId(ObfuscationType.BINGO_BOARD)
     val id: Long,
+    @EncryptId(ObfuscationType.MEMBER)
     val bingoMembers: List<Long>,
     val since: LocalDate?,
     val until: LocalDate?
