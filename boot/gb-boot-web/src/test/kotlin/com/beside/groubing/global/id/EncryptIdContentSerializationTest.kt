@@ -15,14 +15,7 @@ import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 
-/**
- * `@EncryptId` 가 컨테이너(List<Long>) 필드에 부착됐을 때
- * [EncryptIdAnnotationIntrospector.findContentSerializer] / `findContentDeserializer`
- * 가 각 요소(Long)를 obfuscate 하는지 검증한다.
- *
- * 다른 단위 테스트들이 mock 기반인 반면, 이 테스트는 실제 [ObjectMapper] 에 introspector 를 등록해
- * 직렬화 / 역직렬화 round-trip 까지 확인한다.
- */
+/** 다른 단위 테스트는 mock 기반 — 이건 실제 ObjectMapper 로 컨테이너 요소 round-trip 검증. */
 class EncryptIdContentSerializationTest : BehaviorSpec({
 
     val idObfuscator: IdObfuscator = HashidsIdObfuscator(baseSalt = "test-salt", minLength = 12)
@@ -72,12 +65,10 @@ class EncryptIdContentSerializationTest : BehaviorSpec({
 
         When("역직렬화하면") {
             Then("InvalidObfuscatedIdException 이 발생한다") {
-                // Jackson 은 Kotlin data class 생성자 호출 단계에서 던진 예외를
-                // ValueInstantiationException 으로 감싸므로 원인 체인을 따라 확인한다.
+                // Jackson 이 JsonMappingException 으로 감싸 던지므로 원인 체인에서 확인.
                 val thrown = shouldThrow<JsonMappingException> {
                     mapper.readValue(invalidJson, ContainerDto::class.java)
                 }
-                // Jackson 이 ValueInstantiation/JsonMapping 으로 감싸 던지므로 원인 체인에서 확인.
                 val hasInvalidIdInChain = generateSequence(thrown as Throwable?) { it.cause }
                     .any { it is InvalidObfuscatedIdException }
                 hasInvalidIdInChain shouldBe true
@@ -105,18 +96,11 @@ class EncryptIdContentSerializationTest : BehaviorSpec({
         }
     }
 }) {
-    /**
-     * 테스트 전용 DTO — `List<Long>` 필드 + `@field:EncryptId` 부착.
-     * 실제 응답·요청 DTO 와 동일한 어노테이션 패턴.
-     */
     data class ContainerDto(
         @field:EncryptId(ObfuscationType.MEMBER)
         val memberIds: List<Long>
     )
 
-    /**
-     * Set 컨테이너 검증용 DTO — List 외 Collection 구현에도 introspector 가 적용되는지 확인.
-     */
     data class SetContainerDto(
         @field:EncryptId(ObfuscationType.BINGO_BOARD)
         val bingoBoardIds: Set<Long>
