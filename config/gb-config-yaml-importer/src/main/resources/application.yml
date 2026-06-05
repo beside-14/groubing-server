@@ -13,3 +13,9 @@ spring:
     multipart:
       max-file-size: 3MB
       max-request-size: 3MB
+
+# 외부 노출 id obfuscation. salt 는 운영에서 환경변수로 오버라이드(아래 default 는 dev 편의용).
+# 한 번 정한 salt 를 바꾸면 이미 발급된 모든 obfuscated id 가 무효화되므로 신중히 변경할 것.
+id-obfuscator:
+  salt: ${ID_OBFUSCATOR_SALT:groubing-default-salt-change-in-prod}
+  min-length: 12

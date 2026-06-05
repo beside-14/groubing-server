@@ -5,6 +5,7 @@ import com.beside.groubing.domain.blockedmember.exception.BlockedMemberInputExce
 import com.beside.groubing.domain.friend.exception.FriendInputException
 import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.global.domain.file.exception.FileInfoInputException
+import com.beside.groubing.global.domain.id.exception.InvalidObfuscatedIdException
 import com.beside.groubing.global.response.ApiResponseCode
 import com.beside.groubing.global.response.error.ApiError
 import org.slf4j.LoggerFactory
@@ -88,6 +89,12 @@ class GlobalExceptionHandler {
     @ExceptionHandler(BlockedMemberInputException::class)
     fun handle(e: BlockedMemberInputException): ResponseEntity<ApiError> {
         val apiError = ApiError(ApiResponseCode.BAD_MEMBER_INPUT, e)
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(InvalidObfuscatedIdException::class)
+    fun handle(e: InvalidObfuscatedIdException): ResponseEntity<ApiError> {
+        val apiError = ApiError(ApiResponseCode.BAD_PARAMETER, e)
         return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
 

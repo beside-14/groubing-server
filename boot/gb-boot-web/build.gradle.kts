@@ -32,6 +32,7 @@ dependencies {
     implementation(project(":infrastructure:storage:gb-db-core"))
     implementation(project(":infrastructure:support:gb-jwt-core"))
     implementation(project(":infrastructure:support:gb-crypto-core"))
+    implementation(project(":infrastructure:support:gb-id-obfuscator"))
 
     // Kotlin-Logging
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
