@@ -1,0 +1,6 @@
+# 앱 전역 공통 설정(프로파일 무관). DB/도메인 설정은 각 모듈의 config/ 로 분산된다.
+spring:
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 3MB

@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: prod
   jpa:
     hibernate:
       ddl-auto: none
@@ -6,7 +9,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #url: jdbc:mysql://118.67.142.31:3306/bside?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Seoul
     url: jdbc:mysql://10.41.14.153:3306/groubing?serverTimezone=Asia/Seoul
     username: groubing_user
     password: groubing975
