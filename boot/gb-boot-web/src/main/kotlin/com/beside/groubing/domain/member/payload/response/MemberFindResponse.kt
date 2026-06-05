@@ -1,8 +1,11 @@
 package com.beside.groubing.domain.member.payload.response
 
 import com.beside.groubing.domain.member.domain.Member
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.EncryptId
 
 class MemberFindResponse(
+    @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
     val email: String?,
     val nickname: String,

@@ -2,9 +2,13 @@ package com.beside.groubing.domain.friend.payload.response
 
 import com.beside.groubing.domain.friend.domain.FriendMember
 import com.beside.groubing.global.domain.file.domain.FileInfo
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.EncryptId
 
 data class FriendResponse(
+    @EncryptId(ObfuscationType.FRIEND)
     val id: Long,
+    @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
     val email: String?,
     val nickname: String,

@@ -20,7 +20,9 @@ import com.beside.groubing.domain.bingo.payload.response.BingoBoardBaseUpdateRes
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardMembersPeriodUpdateResponse
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardMemoUpdateResponse
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardOpenUpdateResponse
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.global.response.ApiResponse
 import com.beside.groubing.vocabulary.bingoBoardId
 import com.beside.groubing.vocabulary.bingoGoal
@@ -51,6 +53,7 @@ class BingoBoardUpdateApiTest(
     Given("빙고 업데이트 API가 주어졌을 때") {
         val aEmptyBingo = aEmptyBingo()
         val id = aEmptyBingo.id
+        val encodedId = id.encodedAs(ObfuscationType.BINGO_BOARD)
         val memberId = 1L
 
         val bingoBoardBaseUpdateRequest = BingoBoardBaseUpdateRequest(
@@ -70,7 +73,7 @@ class BingoBoardUpdateApiTest(
                 mockMvc,
                 mapper,
                 "/api/bingo-boards/{id}/base",
-                id,
+                encodedId,
                 memberId,
                 bingoBoardBaseUpdateRequest,
                 ApiResponse.OK(BingoBoardBaseUpdateResponse.fromBingoBoard(aEmptyBingo)),
@@ -99,7 +102,7 @@ class BingoBoardUpdateApiTest(
                 mockMvc,
                 mapper,
                 "/api/bingo-boards/{id}/memo",
-                id,
+                encodedId,
                 memberId,
                 bingoBoardMemoUpdateRequest,
                 ApiResponse.OK(BingoBoardMemoUpdateResponse.fromBingoBoard(aEmptyBingo)),
@@ -122,7 +125,7 @@ class BingoBoardUpdateApiTest(
                 mockMvc,
                 mapper,
                 "/api/bingo-boards/{id}/open",
-                id,
+                encodedId,
                 memberId,
                 bingoBoardOpenUpdateRequest,
                 ApiResponse.OK(BingoBoardOpenUpdateResponse.fromBingoBoard(aEmptyBingo)),
@@ -160,7 +163,7 @@ class BingoBoardUpdateApiTest(
                 mockMvc,
                 mapper,
                 "/api/bingo-boards/{id}/publish-info",
-                id,
+                encodedId,
                 memberId,
                 bingoBoardMembersPeriodUpdateRequest,
                 ApiResponse.OK(BingoBoardMembersPeriodUpdateResponse.fromBingoBoard(aEmptyBingo)),
@@ -185,7 +188,7 @@ private fun checkUpdateResponse(
     mockMvc: MockMvc,
     mapper: ObjectMapper,
     url: String,
-    bingoBoardId: Long,
+    bingoBoardId: String,
     memberId: Long,
     request: Any,
     expectedResponse: ApiResponse<*>,

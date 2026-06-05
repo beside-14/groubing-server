@@ -4,7 +4,9 @@ import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.domain.bingo.application.BingoBoardDeleteService
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.FunSpec
@@ -25,10 +27,11 @@ class BingoBoardDeleteApiTest(
     val memberId = 1L
     test("빙고 삭제 Rest Docs Api") {
         val bingoBoardId = 100L
+        val encodedBingoBoardId = bingoBoardId.encodedAs(ObfuscationType.BINGO_BOARD)
         every { bingoBoardDeleteService.delete(memberId = memberId, boardId = bingoBoardId) } returns Unit
 
         mockMvc.perform(
-            RestDocumentationRequestBuilders.delete("/api/bingo-boards/{id}", bingoBoardId)
+            RestDocumentationRequestBuilders.delete("/api/bingo-boards/{id}", encodedBingoBoardId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", getHttpHeaderJwt(memberId))
@@ -37,7 +40,7 @@ class BingoBoardDeleteApiTest(
             .andDocument(
                 "delete-bingo",
                 pathVariables(
-                    bingoBoardIdPath() example "1" isOptional true
+                    bingoBoardIdPath() example encodedBingoBoardId isOptional true
                 )
             )
     }

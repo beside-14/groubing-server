@@ -1,13 +1,15 @@
 package com.beside.groubing.domain.blockedmember.api
 
 import com.beside.groubing.config.ApiTest
-import com.beside.groubing.docs.NUMBER
+import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestBody
 import com.beside.groubing.docs.requestType
 import com.beside.groubing.domain.blockedmember.application.BlockMemberService
 import com.beside.groubing.domain.blockedmember.payload.request.BlockingMemberRequest
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -43,7 +45,11 @@ class BlockMemberApiTest(
                 }.andExpect { status { isOk() } }
                     .andDocument(
                         "block-member",
-                        requestBody("targetMemberId" requestType NUMBER means "친구 요청할 유저 ID" example request.targetMemberId.toString())
+                        requestBody(
+                            "targetMemberId" requestType STRING means
+                                "차단할 유저 ID (obfuscated)" example
+                                request.targetMemberId.encodedAs(ObfuscationType.MEMBER)
+                        )
                     )
             }
         }

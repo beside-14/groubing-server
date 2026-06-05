@@ -14,12 +14,12 @@ import com.beside.groubing.domain.bingo.domain.map.Direction
 // --- Path / Query ---
 
 fun bingoBoardIdPath(fieldName: String = "id") =
-    fieldName requestParam "빙고 ID"
+    fieldName requestParam "빙고 ID (obfuscated)"
 
 // --- BingoBoard 응답 ---
 
 fun bingoBoardId(fieldName: String = "id") =
-    fieldName responseType NUMBER means "빙고 ID" example "1"
+    fieldName responseType STRING means "빙고 ID (obfuscated)" example "MEbN4aLpqRzK"
 
 fun bingoTitle(fieldName: String = "title") =
     fieldName responseType STRING means
@@ -87,7 +87,7 @@ fun bingoLineDirection(fieldName: String) =
         "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`"
 
 fun bingoItemId(fieldName: String) =
-    fieldName responseType NUMBER means "빙고 아이템 ID" example "1"
+    fieldName responseType STRING means "빙고 아이템 ID (obfuscated)" example "MEbN4aLpqRzK"
 
 fun bingoItemTitle(fieldName: String) =
     fieldName responseType STRING means "TODO" example "토익 만점 받기"

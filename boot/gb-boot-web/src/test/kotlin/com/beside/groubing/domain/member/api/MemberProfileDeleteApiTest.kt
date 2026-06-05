@@ -4,6 +4,8 @@ import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.domain.member.application.MemberProfileDeleteService
+import com.beside.groubing.extension.encodedAs
+import com.beside.groubing.global.domain.id.ObfuscationType
 import com.beside.groubing.vocabulary.memberIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -25,18 +27,19 @@ class MemberProfileDeleteApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
+        val encodedId = id.encodedAs(ObfuscationType.MEMBER)
 
         When("기존에 등록한 프로필 이미지를 삭제할 경우") {
             justRun { memberProfileDeleteService.delete(any()) }
 
             Then("성공 응답을 리턴한다.") {
-                mockMvc.perform(delete("/api/members/{id}/profile", id))
+                mockMvc.perform(delete("/api/members/{id}/profile", encodedId))
                     .andDo(print())
                     .andExpect(status().isOk)
                     .andDocument(
                         "member-profile-delete",
                         pathVariables(
-                            memberIdPath() example id.toString()
+                            memberIdPath() example encodedId
                         )
                     )
             }

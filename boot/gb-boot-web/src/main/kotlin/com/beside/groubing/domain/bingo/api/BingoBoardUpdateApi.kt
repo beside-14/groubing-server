@@ -9,6 +9,8 @@ import com.beside.groubing.domain.bingo.payload.response.BingoBoardBaseUpdateRes
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardMembersPeriodUpdateResponse
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardMemoUpdateResponse
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardOpenUpdateResponse
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -25,7 +27,7 @@ class BingoBoardUpdateApi(
 ) {
     @PatchMapping("/{id}/base")
     fun updateBase(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
@@ -37,7 +39,7 @@ class BingoBoardUpdateApi(
 
     @PatchMapping("/{id}/publish-info")
     fun updateBingoMembersPeriod(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
@@ -49,7 +51,7 @@ class BingoBoardUpdateApi(
 
     @PatchMapping("/{id}/memo")
     fun updateMemo(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
@@ -61,7 +63,7 @@ class BingoBoardUpdateApi(
 
     @PatchMapping("/{id}/open")
     fun updateOpen(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid

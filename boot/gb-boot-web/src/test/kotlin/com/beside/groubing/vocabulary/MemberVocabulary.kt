@@ -2,7 +2,6 @@ package com.beside.groubing.vocabulary
 
 import com.beside.groubing.docs.BOOLEAN
 import com.beside.groubing.docs.ENUM
-import com.beside.groubing.docs.NUMBER
 import com.beside.groubing.docs.STRING
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseType
@@ -12,15 +11,15 @@ import com.beside.groubing.domain.member.domain.MemberType
 // --- Path Variable ---
 
 fun memberIdPath(fieldName: String = "id") =
-    fieldName requestParam "유저 ID"
+    fieldName requestParam "유저 ID (obfuscated)"
 
-// --- 회원 식별자 ---
+// --- 회원 식별자 (obfuscated 문자열) ---
 
-fun memberId(fieldName: String = "memberId", description: String = "회원 ID") =
-    fieldName responseType NUMBER means description example "1"
+fun memberId(fieldName: String = "memberId", description: String = "회원 ID (obfuscated)") =
+    fieldName responseType STRING means description example "MEbN4aLpqRzK"
 
-fun targetMemberId(fieldName: String = "targetMemberId", description: String = "대상 회원 ID") =
-    fieldName responseType NUMBER means description example "1"
+fun targetMemberId(fieldName: String = "targetMemberId", description: String = "대상 회원 ID (obfuscated)") =
+    fieldName responseType STRING means description example "MEbN4aLpqRzK"
 
 // --- 회원 프로필 ---
 

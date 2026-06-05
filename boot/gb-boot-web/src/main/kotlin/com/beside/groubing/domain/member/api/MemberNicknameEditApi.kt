@@ -2,6 +2,8 @@ package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.domain.member.application.MemberNicknameEditService
 import com.beside.groubing.domain.member.payload.request.MemberNicknameEditRequest
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,7 +18,7 @@ class MemberNicknameEditApi(
 ) {
     @PatchMapping("/{id}/nickname")
     fun editNickname(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long,
         @RequestBody
         @Validated
         request: MemberNicknameEditRequest

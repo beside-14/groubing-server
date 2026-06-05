@@ -1,6 +1,8 @@
 package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.domain.member.application.MemberProfileDeleteService
+import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,7 +15,7 @@ class MemberProfileDeleteApi(
 ) {
     @DeleteMapping("/{id}/profile")
     fun deleteProfile(
-        @PathVariable id: Long
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long
     ) {
         memberProfileDeleteService.delete(id)
     }
