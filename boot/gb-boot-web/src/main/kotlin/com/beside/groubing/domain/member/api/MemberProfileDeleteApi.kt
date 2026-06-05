@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController
 class MemberProfileDeleteApi(
     private val memberProfileDeleteService: MemberProfileDeleteService
 ) {
-    @DeleteMapping("/{id}/profile")
+    @DeleteMapping("/{memberId}/profile")
     fun deleteProfile(
-        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) memberId: Long
     ) {
-        memberProfileDeleteService.delete(id)
+        memberProfileDeleteService.delete(memberId)
     }
 }

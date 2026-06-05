@@ -65,7 +65,7 @@ class MemberProfileEditApiTest(
 
             Then("프로필 이미지 URL 을 응답하도록 한다.") {
                 mockMvc.perform(
-                    multipart(HttpMethod.PATCH, "/api/members/{id}/profile", encodedId)
+                    multipart(HttpMethod.PATCH, "/api/members/{memberId}/profile", encodedId)
                         .file(profile)
                 ).andDo(print())
                     .andExpect(status().isOk)

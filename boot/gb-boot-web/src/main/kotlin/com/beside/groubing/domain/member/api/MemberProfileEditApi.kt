@@ -18,13 +18,13 @@ import org.springframework.web.multipart.MultipartFile
 class MemberProfileEditApi(
     private val memberProfileEditService: MemberProfileEditService
 ) {
-    @PatchMapping("/{id}/profile")
+    @PatchMapping("/{memberId}/profile")
     fun editProfile(
-        @PathVariable @DecryptId(ObfuscationType.MEMBER) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) memberId: Long,
         @RequestPart profile: MultipartFile
     ): ApiResponse<MemberProfileResponse> {
         val newProfile = FileProvider.upload(profile)
-        val profileUrl = memberProfileEditService.edit(id, newProfile)
+        val profileUrl = memberProfileEditService.edit(memberId, newProfile)
         return ApiResponse.OK(MemberProfileResponse(profileUrl))
     }
 }

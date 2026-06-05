@@ -36,7 +36,7 @@ class UnblockMemberApiTest(
 
             Then("차단 해제한다.") {
                 mockMvc.perform(
-                    delete("/api/blocked-members/{id}", encodedId)
+                    delete("/api/blocked-members/{blockedMemberId}", encodedId)
                         .header("Authorization", getHttpHeaderJwt(userId))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)

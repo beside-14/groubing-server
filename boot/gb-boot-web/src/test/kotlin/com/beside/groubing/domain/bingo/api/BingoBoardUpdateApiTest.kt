@@ -72,7 +72,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/base",
+                "/api/bingo-boards/{bingoBoardId}/base",
                 encodedId,
                 memberId,
                 bingoBoardBaseUpdateRequest,
@@ -101,7 +101,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/memo",
+                "/api/bingo-boards/{bingoBoardId}/memo",
                 encodedId,
                 memberId,
                 bingoBoardMemoUpdateRequest,
@@ -124,7 +124,7 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/open",
+                "/api/bingo-boards/{bingoBoardId}/open",
                 encodedId,
                 memberId,
                 bingoBoardOpenUpdateRequest,
@@ -162,14 +162,16 @@ class BingoBoardUpdateApiTest(
             checkUpdateResponse(
                 mockMvc,
                 mapper,
-                "/api/bingo-boards/{id}/publish-info",
+                "/api/bingo-boards/{bingoBoardId}/publish-info",
                 encodedId,
                 memberId,
                 bingoBoardMembersPeriodUpdateRequest,
                 ApiResponse.OK(BingoBoardMembersPeriodUpdateResponse.fromBingoBoard(aEmptyBingo)),
                 "update-bingo-members-period",
                 requestBody(
-                    "bingoMembers" requestType ARRAY means "빙고 참여 멤버 리스트" example "2, 3, 7",
+                    "bingoMembers" requestType ARRAY means
+                        "빙고 참여 멤버 ID 리스트 (각 요소는 obfuscated 문자열)" example
+                        "[\"MEbN4aLpqRzK\", \"k9aQ2nWxRzVp\"]",
                     "since" requestType DATE means "빙고 시작 일자" example "2023-05-08",
                     "until" requestType DATE means "빙고 종료 일자" example "2023-05-15"
                 ),

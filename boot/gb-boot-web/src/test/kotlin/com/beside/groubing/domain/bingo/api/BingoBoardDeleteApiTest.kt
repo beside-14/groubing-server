@@ -31,7 +31,7 @@ class BingoBoardDeleteApiTest(
         every { bingoBoardDeleteService.delete(memberId = memberId, boardId = bingoBoardId) } returns Unit
 
         mockMvc.perform(
-            RestDocumentationRequestBuilders.delete("/api/bingo-boards/{id}", encodedBingoBoardId)
+            RestDocumentationRequestBuilders.delete("/api/bingo-boards/{bingoBoardId}", encodedBingoBoardId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", getHttpHeaderJwt(memberId))

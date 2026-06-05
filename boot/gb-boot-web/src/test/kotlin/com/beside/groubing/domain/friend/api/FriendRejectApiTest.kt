@@ -37,7 +37,7 @@ class FriendRejectApiTest(
                 justRun { friendRejectService.reject(any(), any()) }
 
                 mockMvc.perform(
-                    patch("/api/friends/{id}/reject", encodedId)
+                    patch("/api/friends/{friendId}/reject", encodedId)
                         .header("Authorization", getHttpHeaderJwt(userId))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)

@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RestController
 class BingoItemUpdateApi(
     private val bingoItemUpdateService: BingoItemUpdateService
 ) {
-    @PutMapping("/{id}/bingo-items/{bingoItemId}")
+    @PutMapping("/{bingoBoardId}/bingo-items/{bingoItemId}")
     fun updateBingoItem(
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
         @PathVariable @DecryptId(ObfuscationType.BINGO_ITEM) bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long,
         @RequestBody @Valid
         bingoItemUpdateRequest: BingoItemUpdateRequest
     ): ApiResponse<BingoItemResponse> {
-        val bingoItem = bingoItemUpdateService.update(id, bingoItemId, memberId, bingoItemUpdateRequest.command())
+        val bingoItem = bingoItemUpdateService.update(bingoBoardId, bingoItemId, memberId, bingoItemUpdateRequest.command())
         return ApiResponse.OK(BingoItemResponse.fromBingoItem(bingoItem, memberId))
     }
 }

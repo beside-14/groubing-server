@@ -25,51 +25,51 @@ import org.springframework.web.bind.annotation.RestController
 class BingoBoardUpdateApi(
     private val bingoBoardUpdateService: BingoBoardUpdateService
 ) {
-    @PatchMapping("/{id}/base")
+    @PatchMapping("/{bingoBoardId}/base")
     fun updateBase(
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
         baseUpdateRequest: BingoBoardBaseUpdateRequest
     ): ApiResponse<BingoBoardBaseUpdateResponse> {
-        val updated = bingoBoardUpdateService.updateBase(id, memberId, baseUpdateRequest.command())
+        val updated = bingoBoardUpdateService.updateBase(bingoBoardId, memberId, baseUpdateRequest.command())
         return ApiResponse.OK(BingoBoardBaseUpdateResponse.fromBingoBoard(updated))
     }
 
-    @PatchMapping("/{id}/publish-info")
+    @PatchMapping("/{bingoBoardId}/publish-info")
     fun updateBingoMembersPeriod(
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
         memberPeriodUpdateRequest: BingoBoardMembersPeriodUpdateRequest
     ): ApiResponse<BingoBoardMembersPeriodUpdateResponse> {
-        val updated = bingoBoardUpdateService.updateMembersPeriod(id, memberId, memberPeriodUpdateRequest.command())
+        val updated = bingoBoardUpdateService.updateMembersPeriod(bingoBoardId, memberId, memberPeriodUpdateRequest.command())
         return ApiResponse.OK(BingoBoardMembersPeriodUpdateResponse.fromBingoBoard(updated))
     }
 
-    @PatchMapping("/{id}/memo")
+    @PatchMapping("/{bingoBoardId}/memo")
     fun updateMemo(
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
         memoUpdateRequest: BingoBoardMemoUpdateRequest
     ): ApiResponse<BingoBoardMemoUpdateResponse> {
-        val updated = bingoBoardUpdateService.updateMemo(id, memberId, memoUpdateRequest.command())
+        val updated = bingoBoardUpdateService.updateMemo(bingoBoardId, memberId, memoUpdateRequest.command())
         return ApiResponse.OK(BingoBoardMemoUpdateResponse.fromBingoBoard(updated))
     }
 
-    @PatchMapping("/{id}/open")
+    @PatchMapping("/{bingoBoardId}/open")
     fun updateOpen(
-        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) id: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
         @AuthenticationPrincipal
         memberId: Long,
         @RequestBody @Valid
         openUpdateRequest: BingoBoardOpenUpdateRequest
     ): ApiResponse<BingoBoardOpenUpdateResponse> {
-        val updated = bingoBoardUpdateService.updateOpen(id, memberId, openUpdateRequest.command())
+        val updated = bingoBoardUpdateService.updateOpen(bingoBoardId, memberId, openUpdateRequest.command())
         return ApiResponse.OK(BingoBoardOpenUpdateResponse.fromBingoBoard(updated))
     }
 }

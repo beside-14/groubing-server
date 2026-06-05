@@ -49,7 +49,7 @@ class MemberPasswordResetApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
-                    patch("/api/members/{id}/password", encodedId)
+                    patch("/api/members/{memberId}/password", encodedId)
                         .header("Authorization", getHttpHeaderJwt(id))
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
