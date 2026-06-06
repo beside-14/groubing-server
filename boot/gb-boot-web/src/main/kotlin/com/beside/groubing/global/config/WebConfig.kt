@@ -1,6 +1,6 @@
 package com.beside.groubing.global.config
 
-import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.beside.groubing.domain.common.id.port.IdObfuscator
 import com.beside.groubing.global.id.DecryptIdConverter
 import com.beside.groubing.global.interceptor.LoggingInterceptor
 import org.springframework.context.annotation.Configuration

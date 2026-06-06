@@ -9,7 +9,7 @@ import com.beside.groubing.domain.friend.application.FriendAddService
 import com.beside.groubing.domain.friend.payload.request.FriendAddRequest
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec

@@ -93,9 +93,10 @@ gb-boot-web/com/beside/groubing/groubingserver/domain/bingo/
 └── payload/                # request/ and response/ DTOs (controllers map domain → response factories)
 ```
 
-Global infra-free code (`global/response/`, `global/filter/`, `global/handler/`, `global/config/`) lives in boot-web.
-JPA base types (`BaseEntity`, `BaseAggregateRoot`, `BaseCreatedTimeEntity`) live in `gb-db-core/global/domain/jpa/`.
-FileInfo domain is in `gb-domain-core/global/domain/file/`; FileInfoEntity + adapter in `gb-db-core/global/domain/file/`. Pure-NIO `FileStorage` (delete + path) lives next to `FileInfo` in domain-core; web-only `FileProvider` (upload via `MultipartFile`, find via `Resource`) stays in boot-web.
+Global infra-free code (`global/response/`, `global/filter/`, `global/handler/`, `global/config/`) lives in boot-web — `global` is a **web-layer** cross-cutting prefix only. Shared/cross-aggregate **domain** concepts (id obfuscation, file) live under `domain.common.*` (shared kernel), parallel to the real bounded contexts under `domain.*` — not under `global`.
+JPA base types (`BaseEntity`, `BaseAggregateRoot`, `BaseCreatedTimeEntity`) live in `gb-db-core/global/domain/jpa/` (infra base, still under `global.domain.jpa`; security/JWT under `gb-jwt-core/global/domain/security`).
+Id obfuscation domain (`IdObfuscator` port, `ObfuscationType`, `InvalidObfuscatedIdException`) is in `gb-domain-core/domain/common/id/`.
+FileInfo domain is in `gb-domain-core/domain/common/file/`; FileInfoEntity + adapter in `gb-db-core/domain/common/file/`. Pure-NIO `FileStorage` (delete + path) lives next to `FileInfo` in domain-core; web-only `FileProvider` (upload via `MultipartFile`, find via `Resource`) stays in boot-web.
 
 ## Hexagonal Conventions (established over Phase 5a–6h refactor)
 
@@ -137,7 +138,7 @@ FileInfo domain is in `gb-domain-core/global/domain/file/`; FileInfoEntity + ada
 - One Service + one Api per use case — `BingoBoardCreateApi/Service`, `BingoBoardDeleteApi/Service`, etc.
 - Multi-repository validation (existence check, duplicate check, ownership) → extract `@Component` Validator (`SignUpValidator`, etc.).
 - **Return domain types, not response DTOs.** Services return `Member`, `BingoBoard`, `BingoMap`, projections (`FriendMemberInfo`), or service-level domain DTOs (`AuthenticatedMember(member, accessToken)`, `BingoBoardDetail(bingoBoard, viewer, otherMembers)`). The controller maps to response DTO via factory.
-- **File side-effects from domain-core**: pure NIO helper `FileStorage.delete(FileInfo)` lives in `gb-domain-core/global/domain/file/application/`. Web-only `FileProvider` (boot-web) keeps `upload(MultipartFile)`, `find(): Resource`, `getContentType` — controller uploads first, passes `FileInfo` into service so `MultipartFile` does not leak into domain-core.
+- **File side-effects from domain-core**: pure NIO helper `FileStorage.delete(FileInfo)` lives in `gb-domain-core/domain/common/file/application/`. Web-only `FileProvider` (boot-web) keeps `upload(MultipartFile)`, `find(): Resource`, `getContentType` — controller uploads first, passes `FileInfo` into service so `MultipartFile` does not leak into domain-core.
 
 ### Responses (gb-boot-web/payload/response)
 - Factory methods (`FriendResponse.of(info)`, `MemberResponse.of(authenticatedMember)`, `BingoBoardDetailResponse.of(detail)`, `BingoBoardResponse.fromBingoBoard(board, memberId)`) — no primary-ctor-in-controller.

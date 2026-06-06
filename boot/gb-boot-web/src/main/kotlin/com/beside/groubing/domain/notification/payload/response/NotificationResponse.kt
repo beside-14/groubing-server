@@ -1,8 +1,8 @@
 package com.beside.groubing.domain.notification.payload.response
 
 import com.beside.groubing.domain.notification.domain.NotificationItem
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 
 class NotificationResponse(

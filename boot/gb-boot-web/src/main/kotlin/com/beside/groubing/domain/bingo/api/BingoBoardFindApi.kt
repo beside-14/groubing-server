@@ -2,7 +2,7 @@ package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.domain.bingo.application.BingoBoardFindService
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardDetailResponse
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping

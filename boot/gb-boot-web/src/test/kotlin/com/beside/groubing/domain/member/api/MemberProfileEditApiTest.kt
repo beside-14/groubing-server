@@ -12,9 +12,9 @@ import com.beside.groubing.vocabulary.profileUrl
 import com.beside.groubing.domain.member.payload.response.MemberProfileResponse
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.multipart
-import com.beside.groubing.global.domain.file.application.FileProvider
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.file.application.FileProvider
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.response.ApiResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean

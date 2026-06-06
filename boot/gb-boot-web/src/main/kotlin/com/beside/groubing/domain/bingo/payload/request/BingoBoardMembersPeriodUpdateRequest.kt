@@ -1,7 +1,7 @@
 package com.beside.groubing.domain.bingo.payload.request
 
 import com.beside.groubing.domain.bingo.payload.command.BingoBoardMembersPeriodUpdateCommand
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.NotEmpty

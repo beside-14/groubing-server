@@ -8,7 +8,7 @@ import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoItemShuffleService
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.beside.groubing.vocabulary.bingoItemColorCode
 import com.beside.groubing.vocabulary.bingoItemComplete

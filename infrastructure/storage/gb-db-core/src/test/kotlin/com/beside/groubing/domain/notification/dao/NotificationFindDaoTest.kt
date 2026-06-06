@@ -5,8 +5,8 @@ import com.beside.groubing.global.config.QuerydslConfig
 import com.beside.groubing.domain.member.repository.MemberJpaRepository
 import com.beside.groubing.domain.notification.entity.NotificationEntity
 import com.beside.groubing.domain.notification.repository.NotificationJpaRepository
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.file.entity.FileInfoEntity
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.file.entity.FileInfoEntity
 import com.beside.groubing.persistence.PersistenceTest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

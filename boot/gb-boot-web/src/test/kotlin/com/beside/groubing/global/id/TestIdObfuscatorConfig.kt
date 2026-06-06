@@ -1,6 +1,6 @@
 package com.beside.groubing.global.id
 
-import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.beside.groubing.domain.common.id.port.IdObfuscator
 import com.beside.groubing.global.support.id.HashidsIdObfuscator
 import com.fasterxml.jackson.databind.AnnotationIntrospector
 import com.fasterxml.jackson.databind.ObjectMapper

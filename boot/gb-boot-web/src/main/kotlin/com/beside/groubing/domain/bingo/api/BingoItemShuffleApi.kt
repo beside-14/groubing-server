@@ -3,7 +3,7 @@ package com.beside.groubing.domain.bingo.api
 import com.beside.groubing.domain.bingo.application.BingoItemShuffleService
 import com.beside.groubing.domain.bingo.domain.map.Direction
 import com.beside.groubing.domain.bingo.payload.response.BingoLineResponse
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal

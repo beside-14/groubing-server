@@ -1,7 +1,7 @@
-package com.beside.groubing.global.domain.file.api
+package com.beside.groubing.domain.common.file.api
 
-import com.beside.groubing.global.domain.file.application.FileInfoService
-import com.beside.groubing.global.domain.file.application.FileProvider
+import com.beside.groubing.domain.common.file.application.FileInfoService
+import com.beside.groubing.domain.common.file.application.FileProvider
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.http.MediaType

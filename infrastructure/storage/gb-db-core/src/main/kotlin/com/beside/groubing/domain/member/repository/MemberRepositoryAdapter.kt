@@ -7,8 +7,8 @@ import com.beside.groubing.domain.member.domain.port.MemberCommandRepository
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
 import com.beside.groubing.domain.member.entity.MemberEntity
 import com.beside.groubing.domain.member.exception.MemberInputException
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.file.entity.FileInfoEntity
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.file.entity.FileInfoEntity
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 

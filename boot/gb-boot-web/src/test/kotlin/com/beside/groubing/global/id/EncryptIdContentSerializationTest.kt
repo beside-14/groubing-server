@@ -1,8 +1,8 @@
 package com.beside.groubing.global.id
 
-import com.beside.groubing.global.domain.id.ObfuscationType
-import com.beside.groubing.global.domain.id.exception.InvalidObfuscatedIdException
-import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.domain.common.id.exception.InvalidObfuscatedIdException
+import com.beside.groubing.domain.common.id.port.IdObfuscator
 import com.beside.groubing.global.support.id.HashidsIdObfuscator
 import com.fasterxml.jackson.databind.AnnotationIntrospector
 import com.fasterxml.jackson.databind.JsonMappingException

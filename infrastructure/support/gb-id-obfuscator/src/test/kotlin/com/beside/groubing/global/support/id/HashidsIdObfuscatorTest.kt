@@ -1,7 +1,7 @@
 package com.beside.groubing.global.support.id
 
-import com.beside.groubing.global.domain.id.ObfuscationType
-import com.beside.groubing.global.domain.id.exception.InvalidObfuscatedIdException
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.domain.common.id.exception.InvalidObfuscatedIdException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

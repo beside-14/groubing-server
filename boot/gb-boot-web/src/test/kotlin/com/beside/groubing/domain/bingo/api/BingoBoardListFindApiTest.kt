@@ -10,7 +10,7 @@ import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoBoardListFindService
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardId
 import com.beside.groubing.vocabulary.bingoBoardType
 import com.beside.groubing.vocabulary.bingoColorValue

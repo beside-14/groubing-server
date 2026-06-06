@@ -10,7 +10,7 @@ import com.beside.groubing.domain.member.application.MemberNicknameEditService
 import com.beside.groubing.domain.member.payload.request.MemberNicknameEditRequest
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.memberIdPath
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean

@@ -1,7 +1,7 @@
-package com.beside.groubing.global.domain.file.application
+package com.beside.groubing.domain.common.file.application
 
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.file.domain.port.FileInfoQueryRepository
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.file.domain.port.FileInfoQueryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

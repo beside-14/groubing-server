@@ -2,8 +2,8 @@ package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.domain.member.application.MemberProfileEditService
 import com.beside.groubing.domain.member.payload.response.MemberProfileResponse
-import com.beside.groubing.global.domain.file.application.FileProvider
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.file.application.FileProvider
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.web.bind.annotation.PatchMapping

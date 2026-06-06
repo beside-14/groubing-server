@@ -1,6 +1,6 @@
 package com.beside.groubing.global.id
 
-import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.beside.groubing.domain.common.id.port.IdObfuscator
 import org.springframework.core.convert.TypeDescriptor
 import org.springframework.core.convert.converter.ConditionalGenericConverter
 import org.springframework.core.convert.converter.GenericConverter.ConvertiblePair
