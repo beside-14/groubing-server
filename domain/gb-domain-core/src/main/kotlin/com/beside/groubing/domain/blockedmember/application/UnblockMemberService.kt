@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 class UnblockMemberService(
     private val blockedMemberRepository: BlockedMemberRepository
 ) {
-    fun unblock(requesterId: Long, id: Long) {
-        val blockedMember = blockedMemberRepository.findById(id)
-        blockedMember.validateUnblockAuthority(requesterId)
+    fun unblock(requesterId: Long, targetMemberId: Long) {
+        val blockedMember = blockedMemberRepository.findOne(requesterId, targetMemberId)
         blockedMemberRepository.delete(blockedMember)
     }
 }

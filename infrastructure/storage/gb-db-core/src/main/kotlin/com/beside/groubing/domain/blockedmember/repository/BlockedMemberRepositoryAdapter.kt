@@ -17,10 +17,9 @@ class BlockedMemberRepositoryAdapter(
         return blockedMemberJpaRepository.save(BlockedMemberEntity.from(blockedMember)).toDomain()
     }
 
-    override fun findById(id: Long): BlockedMember {
-        return blockedMemberJpaRepository.findById(id).map { it.toDomain() }.orElseThrow {
-            BlockedMemberInputException("차단 내역이 존재하지 않습니다.")
-        }
+    override fun findOne(requesterId: Long, targetMemberId: Long): BlockedMember {
+        return blockedMemberJpaRepository.findByRequesterIdAndTargetMemberId(requesterId, targetMemberId)?.toDomain()
+            ?: throw BlockedMemberInputException("차단 내역이 존재하지 않습니다.")
     }
 
     override fun delete(blockedMember: BlockedMember) {

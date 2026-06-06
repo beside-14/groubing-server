@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 class UnblockMemberApi(
     private val unblockMemberService: UnblockMemberService
 ) {
-    @DeleteMapping("/{blockedMemberId}")
+    @DeleteMapping("/{targetMemberId}")
     fun unblock(
         @AuthenticationPrincipal memberId: Long,
-        @PathVariable @DecryptId(ObfuscationType.BLOCKED_MEMBER) blockedMemberId: Long
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) targetMemberId: Long
     ) {
-        unblockMemberService.unblock(memberId, blockedMemberId)
+        unblockMemberService.unblock(memberId, targetMemberId)
     }
 }

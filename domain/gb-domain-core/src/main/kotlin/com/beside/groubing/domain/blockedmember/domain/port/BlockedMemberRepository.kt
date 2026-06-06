@@ -6,7 +6,7 @@ import com.beside.groubing.domain.blockedmember.domain.BlockedMemberTarget
 interface BlockedMemberRepository {
     fun save(blockedMember: BlockedMember): BlockedMember
 
-    fun findById(id: Long): BlockedMember
+    fun findOne(requesterId: Long, targetMemberId: Long): BlockedMember
 
     fun delete(blockedMember: BlockedMember)
 
