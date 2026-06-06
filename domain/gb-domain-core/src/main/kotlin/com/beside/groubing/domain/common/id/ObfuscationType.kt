@@ -9,7 +9,6 @@ enum class ObfuscationType(val saltSuffix: String) {
     BINGO_ITEM("bingo-item"),
     BINGO_MEMBER("bingo-member"),
     FRIEND("friend"),
-    BLOCKED_MEMBER("blocked-member"),
     NOTIFICATION("notification"),
     FILE_INFO("file-info"),
 }

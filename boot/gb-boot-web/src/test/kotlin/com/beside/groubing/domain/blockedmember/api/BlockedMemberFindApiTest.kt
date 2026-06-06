@@ -8,7 +8,7 @@ import com.beside.groubing.domain.blockedmember.domain.BlockedMemberTarget
 import com.beside.groubing.domain.blockedmember.payload.response.BlockedMemberResponse
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.global.response.ApiResponse
-import com.beside.groubing.vocabulary.blockedMemberId
+import com.beside.groubing.vocabulary.targetMemberId
 import com.beside.groubing.vocabulary.email
 import com.beside.groubing.vocabulary.nickname
 import com.beside.groubing.vocabulary.profileUrl
@@ -64,7 +64,7 @@ class BlockedMemberFindApiTest(
                 }.andDocument(
                     "blocked-member-find",
                     responseBody(
-                        blockedMemberId("[].id"),
+                        targetMemberId("[].id"),
                         email("[].email"),
                         nickname("[].nickname"),
                         profileUrl("[].profileUrl"),
