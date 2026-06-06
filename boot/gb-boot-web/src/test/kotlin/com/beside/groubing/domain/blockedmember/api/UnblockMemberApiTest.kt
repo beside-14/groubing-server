@@ -6,7 +6,7 @@ import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.domain.blockedmember.application.UnblockMemberService
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.blockedMemberIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec

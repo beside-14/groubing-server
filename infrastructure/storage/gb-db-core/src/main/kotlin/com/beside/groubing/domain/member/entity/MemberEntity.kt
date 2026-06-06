@@ -4,7 +4,7 @@ import com.beside.groubing.domain.member.domain.Member
 import com.beside.groubing.domain.member.domain.MemberRole
 import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.domain.NewMember
-import com.beside.groubing.global.domain.file.entity.FileInfoEntity
+import com.beside.groubing.domain.common.file.entity.FileInfoEntity
 import com.beside.groubing.global.domain.jpa.BaseEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column

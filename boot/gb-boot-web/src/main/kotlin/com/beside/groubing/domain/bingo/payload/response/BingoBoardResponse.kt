@@ -3,7 +3,7 @@ package com.beside.groubing.domain.bingo.payload.response
 import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.domain.map.Direction
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 
 class BingoBoardResponse private constructor(

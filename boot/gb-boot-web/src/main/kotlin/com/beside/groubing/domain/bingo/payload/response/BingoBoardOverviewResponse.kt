@@ -5,7 +5,7 @@ import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.domain.BingoItem
 import com.beside.groubing.domain.bingo.domain.map.BingoLine
 import com.beside.groubing.domain.bingo.domain.map.Direction
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 import java.time.LocalDate
 

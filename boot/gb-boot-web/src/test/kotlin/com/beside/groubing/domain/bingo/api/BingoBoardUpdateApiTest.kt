@@ -22,7 +22,7 @@ import com.beside.groubing.domain.bingo.payload.response.BingoBoardMemoUpdateRes
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardOpenUpdateResponse
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.response.ApiResponse
 import com.beside.groubing.vocabulary.bingoBoardId
 import com.beside.groubing.vocabulary.bingoGoal

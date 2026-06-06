@@ -1,6 +1,6 @@
-package com.beside.groubing.global.domain.file.entity
+package com.beside.groubing.domain.common.file.entity
 
-import com.beside.groubing.global.domain.file.domain.FileInfo
+import com.beside.groubing.domain.common.file.domain.FileInfo
 import com.beside.groubing.global.domain.jpa.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

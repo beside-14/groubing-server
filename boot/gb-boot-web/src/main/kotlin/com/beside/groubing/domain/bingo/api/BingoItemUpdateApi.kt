@@ -3,7 +3,7 @@ package com.beside.groubing.domain.bingo.api
 import com.beside.groubing.domain.bingo.application.BingoItemUpdateService
 import com.beside.groubing.domain.bingo.payload.request.BingoItemUpdateRequest
 import com.beside.groubing.domain.bingo.payload.response.BingoItemResponse
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import jakarta.validation.Valid

@@ -1,6 +1,6 @@
 package com.beside.groubing.extension
 
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.support.id.HashidsIdObfuscator
 
 /** `TestIdObfuscatorConfig` 와 동일 salt — MockMvc URL 에 넣을 obfuscated 문자열 생성. */

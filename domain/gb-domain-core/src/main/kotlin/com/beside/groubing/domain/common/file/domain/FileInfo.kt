@@ -1,4 +1,4 @@
-package com.beside.groubing.global.domain.file.domain
+package com.beside.groubing.domain.common.file.domain
 
 class FileInfo private constructor(
     val id: Long,

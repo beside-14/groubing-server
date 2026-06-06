@@ -2,7 +2,7 @@ package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.domain.member.application.MemberNicknameEditService
 import com.beside.groubing.domain.member.payload.request.MemberNicknameEditRequest
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.DecryptId
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PatchMapping

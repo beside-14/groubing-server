@@ -1,8 +1,8 @@
 package com.beside.groubing.global.id
 
-import com.beside.groubing.global.domain.id.ObfuscationType
-import com.beside.groubing.global.domain.id.exception.InvalidObfuscatedIdException
-import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.domain.common.id.exception.InvalidObfuscatedIdException
+import com.beside.groubing.domain.common.id.port.IdObfuscator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

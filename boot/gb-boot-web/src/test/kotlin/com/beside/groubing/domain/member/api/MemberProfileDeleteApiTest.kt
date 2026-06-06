@@ -5,7 +5,7 @@ import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.domain.member.application.MemberProfileDeleteService
 import com.beside.groubing.extension.encodedAs
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.memberIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec

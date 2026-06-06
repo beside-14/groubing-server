@@ -1,8 +1,8 @@
 package com.beside.groubing.domain.friend.payload.response
 
 import com.beside.groubing.domain.friend.domain.FriendMember
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 
 data class FriendResponse(

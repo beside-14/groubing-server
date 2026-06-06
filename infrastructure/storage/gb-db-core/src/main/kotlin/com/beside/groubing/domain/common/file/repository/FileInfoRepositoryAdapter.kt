@@ -1,8 +1,8 @@
-package com.beside.groubing.global.domain.file.repository
+package com.beside.groubing.domain.common.file.repository
 
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.file.domain.port.FileInfoQueryRepository
-import com.beside.groubing.global.domain.file.exception.FileInfoInputException
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.file.domain.port.FileInfoQueryRepository
+import com.beside.groubing.domain.common.file.exception.FileInfoInputException
 import org.springframework.stereotype.Repository
 
 @Repository

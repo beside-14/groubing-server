@@ -1,7 +1,7 @@
 package com.beside.groubing.domain.member.payload.response
 
 import com.beside.groubing.domain.member.domain.Member
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.EncryptId
 
 data class MemberEmailFindResponse(

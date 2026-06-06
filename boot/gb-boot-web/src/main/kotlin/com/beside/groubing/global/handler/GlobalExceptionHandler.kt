@@ -4,8 +4,8 @@ import com.beside.groubing.domain.bingo.exception.BingoInputException
 import com.beside.groubing.domain.blockedmember.exception.BlockedMemberInputException
 import com.beside.groubing.domain.friend.exception.FriendInputException
 import com.beside.groubing.domain.member.exception.MemberInputException
-import com.beside.groubing.global.domain.file.exception.FileInfoInputException
-import com.beside.groubing.global.domain.id.exception.InvalidObfuscatedIdException
+import com.beside.groubing.domain.common.file.exception.FileInfoInputException
+import com.beside.groubing.domain.common.id.exception.InvalidObfuscatedIdException
 import com.beside.groubing.global.response.ApiResponseCode
 import com.beside.groubing.global.response.error.ApiError
 import org.slf4j.LoggerFactory

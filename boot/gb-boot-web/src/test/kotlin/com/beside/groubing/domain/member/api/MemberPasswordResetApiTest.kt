@@ -11,7 +11,7 @@ import com.beside.groubing.vocabulary.memberIdPath
 import com.beside.groubing.domain.member.payload.request.MemberPasswordResetRequest
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec

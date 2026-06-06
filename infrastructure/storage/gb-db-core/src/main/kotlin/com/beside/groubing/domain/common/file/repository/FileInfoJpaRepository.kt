@@ -1,6 +1,6 @@
-package com.beside.groubing.global.domain.file.repository
+package com.beside.groubing.domain.common.file.repository
 
-import com.beside.groubing.global.domain.file.entity.FileInfoEntity
+import com.beside.groubing.domain.common.file.entity.FileInfoEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface FileInfoJpaRepository : JpaRepository<FileInfoEntity, Long> {

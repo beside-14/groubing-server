@@ -9,7 +9,7 @@ import com.beside.groubing.domain.bingo.payload.response.BingoBoardBaseUpdateRes
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardMembersPeriodUpdateResponse
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardMemoUpdateResponse
 import com.beside.groubing.domain.bingo.payload.response.BingoBoardOpenUpdateResponse
-import com.beside.groubing.global.domain.id.ObfuscationType
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import jakarta.validation.Valid
