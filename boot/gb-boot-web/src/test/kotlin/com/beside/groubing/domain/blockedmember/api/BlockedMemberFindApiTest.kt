@@ -64,7 +64,7 @@ class BlockedMemberFindApiTest(
                 }.andDocument(
                     "blocked-member-find",
                     responseBody(
-                        targetMemberId("[].id"),
+                        targetMemberId("[].memberId"),
                         email("[].email"),
                         nickname("[].nickname"),
                         profileUrl("[].profileUrl"),
