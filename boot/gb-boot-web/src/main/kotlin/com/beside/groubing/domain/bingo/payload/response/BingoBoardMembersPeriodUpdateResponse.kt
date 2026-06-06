@@ -9,7 +9,7 @@ class BingoBoardMembersPeriodUpdateResponse private constructor(
     @EncryptId(ObfuscationType.BINGO_BOARD)
     val id: Long,
     @EncryptId(ObfuscationType.MEMBER)
-    val bingoMembers: List<Long>,
+    val bingoMemberIds: List<Long>,
     val since: LocalDate?,
     val until: LocalDate?
 ) {
@@ -17,7 +17,7 @@ class BingoBoardMembersPeriodUpdateResponse private constructor(
         fun fromBingoBoard(board: BingoBoard): BingoBoardMembersPeriodUpdateResponse =
             BingoBoardMembersPeriodUpdateResponse(
                 id = board.id,
-                bingoMembers = board.bingoMembers.memberIds(),
+                bingoMemberIds = board.bingoMembers.memberIds(),
                 since = board.since,
                 until = board.until
             )
