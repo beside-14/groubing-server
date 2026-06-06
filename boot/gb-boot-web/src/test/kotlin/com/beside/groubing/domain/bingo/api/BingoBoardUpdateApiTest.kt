@@ -26,7 +26,7 @@ import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.global.response.ApiResponse
 import com.beside.groubing.vocabulary.bingoBoardId
 import com.beside.groubing.vocabulary.bingoGoal
-import com.beside.groubing.vocabulary.bingoMembers
+import com.beside.groubing.vocabulary.bingoMemberIds
 import com.beside.groubing.vocabulary.bingoMemo
 import com.beside.groubing.vocabulary.bingoOpen
 import com.beside.groubing.vocabulary.bingoSince
@@ -141,13 +141,13 @@ class BingoBoardUpdateApiTest(
         }
 
         val bingoBoardMembersPeriodUpdateRequest = BingoBoardMembersPeriodUpdateRequest(
-            bingoMembers = listOf(2, 3, 7),
+            bingoMemberIds = listOf(2, 3, 7),
             since = LocalDate.now(),
             until = LocalDate.now().plusDays(7)
         )
         aEmptyBingo.updateBingoMembersPeriod(
             memberId,
-            bingoBoardMembersPeriodUpdateRequest.bingoMembers,
+            bingoBoardMembersPeriodUpdateRequest.bingoMemberIds,
             bingoBoardMembersPeriodUpdateRequest.since,
             bingoBoardMembersPeriodUpdateRequest.until
         )
@@ -169,7 +169,7 @@ class BingoBoardUpdateApiTest(
                 ApiResponse.OK(BingoBoardMembersPeriodUpdateResponse.fromBingoBoard(aEmptyBingo)),
                 "update-bingo-members-period",
                 requestBody(
-                    "bingoMembers" requestType ARRAY means
+                    "bingoMemberIds" requestType ARRAY means
                         "빙고 참여 멤버 ID 리스트 (각 요소는 obfuscated 문자열)" example
                         "[\"MEbN4aLpqRzK\", \"k9aQ2nWxRzVp\"]",
                     "since" requestType DATE means "빙고 시작 일자" example "2023-05-08",
@@ -177,7 +177,7 @@ class BingoBoardUpdateApiTest(
                 ),
                 responseBody(
                     bingoBoardId(),
-                    bingoMembers(),
+                    bingoMemberIds(),
                     bingoSince(),
                     bingoUntil()
                 )

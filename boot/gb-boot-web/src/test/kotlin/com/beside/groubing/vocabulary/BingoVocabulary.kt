@@ -75,7 +75,7 @@ fun bingoColorValue(fieldName: String = "bingoColorValue") =
         "#B8B7FC" formattedAs
         "Blue : `#8BC0FC`, Orange: `#FCB179`, Red: `FF8282`, Green: `#55DEB5`, Purple : `#B8B7FC`"
 
-fun bingoMembers(fieldName: String = "bingoMembers") =
+fun bingoMemberIds(fieldName: String = "bingoMemberIds") =
     fieldName responseType ARRAY means
         "빙고 참여 멤버 ID 리스트 (각 요소는 obfuscated 문자열)" example
         "[\"MEbN4aLpqRzK\", \"k9aQ2nWxRzVp\"]"

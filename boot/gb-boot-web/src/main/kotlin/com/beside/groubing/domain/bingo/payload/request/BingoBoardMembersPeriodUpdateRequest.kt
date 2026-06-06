@@ -10,7 +10,7 @@ import java.time.LocalDate
 class BingoBoardMembersPeriodUpdateRequest(
     @field:NotEmpty
     @field:EncryptId(ObfuscationType.MEMBER)
-    val bingoMembers: List<Long>,
+    val bingoMemberIds: List<Long>,
 
     val since: LocalDate,
 
@@ -18,6 +18,6 @@ class BingoBoardMembersPeriodUpdateRequest(
     val until: LocalDate
 ) {
     fun command(): BingoBoardMembersPeriodUpdateCommand {
-        return BingoBoardMembersPeriodUpdateCommand.of(bingoMembers, since, until)
+        return BingoBoardMembersPeriodUpdateCommand.of(bingoMemberIds, since, until)
     }
 }
