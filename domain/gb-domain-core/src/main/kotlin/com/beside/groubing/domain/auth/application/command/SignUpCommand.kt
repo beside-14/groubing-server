@@ -6,12 +6,12 @@ import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.domain.NewMember
 
 class SignUpCommand(
-    val email: String,
+    val loginId: String,
     val password: String,
     val nickname: String
 ) {
     fun toNewMember(passwordEncryptor: PasswordEncryptor): NewMember = NewMember(
-        email = email,
+        loginId = loginId,
         password = passwordEncryptor.encode(password),
         nickname = nickname,
         role = MemberRole.MEMBER,

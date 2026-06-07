@@ -1,15 +1,14 @@
 package com.beside.groubing.domain.member.payload.request
 
 import com.beside.groubing.domain.auth.application.command.SignUpCommand
-import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 
 data class SignUpRequest(
-    @field:Email(message = "이메일을 올바른 양식으로 입력해 주세요.")
-    @field:NotBlank(message = "이메일을 입력해 주세요")
-    val email: String,
+    @field:NotBlank(message = "아이디를 입력해 주세요.")
+    @field:Pattern(regexp = "^[a-z0-9]{4,20}$", message = "아이디는 영문 소문자와 숫자 4~20자로 입력해 주세요.")
+    val loginId: String,
 
     @field:NotBlank(message = "비밀번호를 입력해 주세요.")
     @field:Length(min = 8, max = 20, message = "비밀번호는 8 ~ 20자 내외로 입력해 주세요.")
@@ -21,5 +20,5 @@ data class SignUpRequest(
     @field:Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,7}", message = "허용하지 않는 특수문자가 포함되어 있어요.")
     val nickname: String
 ) {
-    fun command() = SignUpCommand(email, password, nickname)
+    fun command() = SignUpCommand(loginId, password, nickname)
 }

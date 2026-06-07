@@ -11,7 +11,6 @@ data class FriendRequestResponse(
     val id: Long,
     @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
-    val email: String?,
     val nickname: String,
     val profileUrl: String?,
     val status: FriendStatus
@@ -20,7 +19,6 @@ data class FriendRequestResponse(
         fun of(friendMember: FriendMember): FriendRequestResponse = FriendRequestResponse(
             id = friendMember.friendId,
             memberId = friendMember.memberId,
-            email = friendMember.email,
             nickname = friendMember.nickname,
             profileUrl = FileInfo.urlOfOrNull(friendMember.profileFileName),
             status = friendMember.status

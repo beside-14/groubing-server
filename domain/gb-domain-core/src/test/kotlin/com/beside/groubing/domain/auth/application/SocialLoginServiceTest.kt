@@ -36,11 +36,11 @@ class SocialLoginServiceTest : BehaviorSpec({
         }
 
         val fcmToken = "cFypG01m0s:APA91bEETmrwFTfkpscX3_qpYx03NE"
-        fun createSocialLoginCommand(id: String, email: String, socialType: SocialType) =
-            SocialLoginCommand(id, email, socialType, fcmToken)
-        fun createMember(id: Long, email: String) = Member(
+        fun createSocialLoginCommand(id: String, socialType: SocialType) =
+            SocialLoginCommand(id, socialType, fcmToken)
+        fun createMember(id: Long) = Member(
             id = id,
-            email = email,
+            loginId = null,
             password = "",
             nickname = "nickname",
             role = MemberRole.MEMBER,
@@ -54,34 +54,30 @@ class SocialLoginServiceTest : BehaviorSpec({
         When("이미 존재하는 사용자로 로그인하는 경우") {
             val memberId = 1L
             val socialId = "153262439"
-            val email = "email@example.com"
-            val existingMember = createMember(memberId, email)
-            val existingSocialInfo = SocialInfo.of(0L, socialId, email, SocialType.KAKAO, memberId)
+            val existingMember = createMember(memberId)
+            val existingSocialInfo = SocialInfo.of(0L, socialId, SocialType.KAKAO, memberId)
 
             prepareMock(existingMember, existingSocialInfo)
-            val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))
+            val result = socialLoginService.login(createSocialLoginCommand(socialId, SocialType.KAKAO))
 
             Then("이미 존재하는 유저 정보가 반환") {
                 result.member.id shouldBe memberId
-                result.member.email shouldBe email
             }
         }
 
         When("신규 사용자로 로그인하는 경우") {
             val memberId = 2L
             val socialId = "2753426843"
-            val email = "holeman80@nate.com"
-            val newMember = createMember(memberId, email)
+            val newMember = createMember(memberId)
 
             prepareMock(newMember)
-            every { mockSocialInfoRepository.save(any()) } returns SocialInfo.of(0L, socialId, email, SocialType.KAKAO, memberId)
+            every { mockSocialInfoRepository.save(any()) } returns SocialInfo.of(0L, socialId, SocialType.KAKAO, memberId)
             every { mockMemberCommandRepository.save(any()) } returns newMember
 
-            val result = socialLoginService.login(createSocialLoginCommand(socialId, email, SocialType.KAKAO))
+            val result = socialLoginService.login(createSocialLoginCommand(socialId, SocialType.KAKAO))
 
             Then("새로 가입된 유저 정보가 반환") {
                 result.member.id shouldBe memberId
-                result.member.email shouldBe email
             }
         }
     }

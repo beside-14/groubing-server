@@ -6,30 +6,27 @@ import com.beside.groubing.domain.member.entity.MemberEntity
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
-import io.kotest.property.arbitrary.email
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
-import io.kotest.property.arbitrary.stringPattern
 
 fun aMember(memberId: Long): MemberEntity {
     return MemberEntity(
         id = memberId,
-        email = "test${memberId}@gmail.com",
+        loginId = "test$memberId",
         password = "1234",
-        nickname = "test${memberId}",
+        nickname = "test$memberId",
         role = MemberRole.MEMBER,
         memberType = MemberType.CLASSIC
     )
 }
 
 fun aMember(
-    email: String = Arb.email(Arb.string(5, 10, Codepoint.alphanumeric()), Arb.stringPattern("groubing\\.com"))
-        .single(),
+    loginId: String = Arb.string(minSize = 4, maxSize = 20, codepoints = Codepoint.alphanumeric()).single().lowercase(),
     password: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single(),
     nickname: String = Arb.string(minSize = 8, maxSize = 20, codepoints = Codepoint.alphanumeric()).single()
 ): MemberEntity {
     return MemberEntity(
-        email = email,
+        loginId = loginId,
         password = password,
         nickname = nickname,
         role = MemberRole.MEMBER,

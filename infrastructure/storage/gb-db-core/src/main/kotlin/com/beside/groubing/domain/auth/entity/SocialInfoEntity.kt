@@ -17,8 +17,6 @@ import jakarta.persistence.Table
 class SocialInfoEntity(
     val socialId: String,
 
-    val email: String?,
-
     @Enumerated(EnumType.STRING)
     val socialType: SocialType,
 
@@ -32,7 +30,6 @@ class SocialInfoEntity(
     fun toDomain(): SocialInfo = SocialInfo.of(
         id = id,
         socialId = socialId,
-        email = email,
         socialType = socialType,
         memberId = memberId
     )
@@ -40,7 +37,6 @@ class SocialInfoEntity(
     companion object {
         fun from(socialInfo: SocialInfo): SocialInfoEntity = SocialInfoEntity(
             socialId = socialInfo.socialId,
-            email = socialInfo.email,
             socialType = socialInfo.socialType,
             memberId = socialInfo.memberId
         )

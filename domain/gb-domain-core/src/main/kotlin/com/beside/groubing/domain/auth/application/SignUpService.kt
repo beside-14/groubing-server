@@ -26,7 +26,7 @@ class SignUpService(
             val savedMember = memberCommandRepository.save(newMember)
             AuthenticatedMember(savedMember, tokenManager.generateAccessToken(savedMember.id, savedMember.role.name))
         } catch (e: DataIntegrityViolationException) {
-            throw MemberInputException("중복된 email / 닉네임 입니다.")
+            throw MemberInputException("중복된 아이디 / 닉네임 입니다.")
         }
     }
 }

@@ -34,7 +34,6 @@ class BlockedMemberRepositoryAdapter(
         return blockedMemberFindDao.findAllRequestedBy(requesterId).map {
             BlockedMemberTarget(
                 id = it.id,
-                email = it.email,
                 nickname = it.nickname,
                 profileFileName = it.profileFileName
             )

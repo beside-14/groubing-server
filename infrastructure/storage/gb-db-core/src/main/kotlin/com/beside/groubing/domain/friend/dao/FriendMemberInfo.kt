@@ -8,8 +8,6 @@ class FriendMemberInfo @QueryProjection constructor(
 
     val memberId: Long,
 
-    val email: String?,
-
     val nickname: String,
 
     val profileFileName: String?,

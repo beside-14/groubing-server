@@ -15,7 +15,6 @@ class FriendFindDao(
             QFriendMemberInfo(
                 friendEntity.id,
                 memberEntity.id,
-                memberEntity.email,
                 memberEntity.nickname,
                 memberEntity.profile.fileName,
                 friendEntity.status
@@ -40,7 +39,6 @@ class FriendFindDao(
             QFriendMemberInfo(
                 friendEntity.id,
                 memberEntity.id,
-                memberEntity.email,
                 memberEntity.nickname,
                 memberEntity.profile.fileName,
                 friendEntity.status
@@ -63,7 +61,6 @@ class FriendFindDao(
             QFriendMemberInfo(
                 friendEntity.id,
                 memberEntity.id,
-                memberEntity.email,
                 memberEntity.nickname,
                 memberEntity.profile.fileName,
                 friendEntity.status

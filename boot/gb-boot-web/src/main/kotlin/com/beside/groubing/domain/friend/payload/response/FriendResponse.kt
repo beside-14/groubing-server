@@ -10,7 +10,6 @@ data class FriendResponse(
     val id: Long,
     @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
-    val email: String?,
     val nickname: String,
     val profileUrl: String?
 ) {
@@ -18,7 +17,6 @@ data class FriendResponse(
         fun of(friendMember: FriendMember): FriendResponse = FriendResponse(
             id = friendMember.friendId,
             memberId = friendMember.memberId,
-            email = friendMember.email,
             nickname = friendMember.nickname,
             profileUrl = FileInfo.urlOfOrNull(friendMember.profileFileName)
         )

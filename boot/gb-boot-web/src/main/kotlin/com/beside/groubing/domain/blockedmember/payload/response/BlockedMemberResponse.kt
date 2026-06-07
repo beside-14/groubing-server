@@ -8,7 +8,6 @@ import com.beside.groubing.global.id.EncryptId
 data class BlockedMemberResponse(
     @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
-    val email: String?,
     val nickname: String,
     val profileUrl: String?
 ) {
@@ -16,7 +15,6 @@ data class BlockedMemberResponse(
         fun of(target: BlockedMemberTarget): BlockedMemberResponse {
             return BlockedMemberResponse(
                 memberId = target.id,
-                email = target.email,
                 nickname = target.nickname,
                 profileUrl = FileInfo.urlOfOrNull(target.profileFileName)
             )

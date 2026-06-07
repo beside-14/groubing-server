@@ -27,8 +27,8 @@ class MemberEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    @Column(name = "EMAIL", unique = true)
-    val email: String?,
+    @Column(name = "LOGIN_ID", unique = true)
+    val loginId: String?,
 
     password: String,
 
@@ -79,7 +79,7 @@ class MemberEntity(
 
     fun toDomain(): Member = Member(
         id = id,
-        email = email,
+        loginId = loginId,
         password = password,
         nickname = nickname,
         role = role,
@@ -92,7 +92,7 @@ class MemberEntity(
 
     companion object {
         fun from(newMember: NewMember): MemberEntity = MemberEntity(
-            email = newMember.email,
+            loginId = newMember.loginId,
             password = newMember.password,
             nickname = newMember.nickname,
             role = newMember.role,

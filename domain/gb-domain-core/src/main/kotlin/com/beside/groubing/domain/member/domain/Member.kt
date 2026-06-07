@@ -2,7 +2,7 @@ package com.beside.groubing.domain.member.domain
 
 data class Member(
     val id: Long,
-    val email: String?,
+    val loginId: String?,
     val password: String,
     val nickname: String,
     val role: MemberRole,
@@ -26,12 +26,4 @@ data class Member(
     }
 
     fun hasNickname(): Boolean = nickname.isNotBlank()
-
-    fun maskEmail(): String {
-        check(email != null) { "email이 존재하지 않는 계정입니다." }
-        val endIndex = email.indexOfFirst { it == '@' }
-        val startIndex = endIndex / 2
-        val replacement = (startIndex until endIndex).joinToString("") { "*" }
-        return StringBuilder(email).replace(startIndex, endIndex, replacement).toString()
-    }
 }

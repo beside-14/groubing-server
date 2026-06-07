@@ -23,8 +23,8 @@ fun targetMemberId(fieldName: String = "targetMemberId", description: String = "
 
 // --- 회원 프로필 ---
 
-fun email(fieldName: String = "email") =
-    fieldName responseType STRING means "이메일" example "test@groubing.com"
+fun loginId(fieldName: String = "loginId") =
+    fieldName responseType STRING means "아이디" example "groubing01"
 
 fun nickname(fieldName: String = "nickname") =
     fieldName responseType STRING means "닉네임" example "그루빙멤버"

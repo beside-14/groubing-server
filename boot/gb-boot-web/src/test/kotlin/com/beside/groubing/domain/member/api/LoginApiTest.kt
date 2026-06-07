@@ -15,7 +15,6 @@ import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.domain.member.payload.request.LoginRequest
 import com.beside.groubing.extension.getJwt
 import com.beside.groubing.vocabulary.accessToken
-import com.beside.groubing.vocabulary.email
 import com.beside.groubing.vocabulary.memberId
 import com.beside.groubing.vocabulary.nickname
 import com.beside.groubing.vocabulary.notificationReceive
@@ -43,17 +42,17 @@ class LoginApiTest(
     @MockkBean private val loginService: LoginService
 ) : BehaviorSpec({
     Given("유저가") {
-        val email = "user1@gmail.com"
+        val loginId = "groubing01"
         val nickname = Arb.string(codepoints = Codepoint.alphanumeric()).single()
         val password = "abcd1234"
         val fcmToken = "cFypG01m0s:APA91bEETmrwFTfkpscX3_qpYx03NE"
-        val request = LoginRequest(email, password, fcmToken)
+        val request = LoginRequest(loginId, password, fcmToken)
 
         When("올바른 정보로 로그인 요청 시") {
             val jwt = getJwt(1L)
             val member = Member(
                 id = 1L,
-                email = email,
+                loginId = loginId,
                 password = "",
                 nickname = nickname,
                 role = MemberRole.MEMBER,
@@ -74,13 +73,12 @@ class LoginApiTest(
                 }.andDocument(
                     "member-login-success",
                     requestBody(
-                        "email" requestType STRING means "유저 이메일" example "test@groubing.com",
+                        "loginId" requestType STRING means "유저 아이디" example "groubing01",
                         "password" requestType STRING means "유저 패스워드" example "Bside-14th",
                         "fcmToken" requestType STRING means "FCM Token" example fcmToken
                     ),
                     responseBody(
                         memberId("id", "유저 ID"),
-                        email(),
                         nickname() formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
                         profileUrl() example "/api/files/\${fileName} 혹은 null",
                         accessToken(),
@@ -93,7 +91,7 @@ class LoginApiTest(
         }
 
         When("유효하지 않은 로그인 요청 시") {
-            val exception = MemberInputException("존재하지 않는 이메일 입니다.")
+            val exception = MemberInputException("존재하지 않는 아이디 입니다.")
             every { loginService.login(any()) } throws exception
 
             Then("실패 응답을 리턴한다.") {
