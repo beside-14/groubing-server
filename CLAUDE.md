@@ -169,14 +169,13 @@ FileInfo domain is in `gb-domain-core/domain/common/file/`; FileInfoEntity + ada
 - **Port-based tests**: `@LocalPersistenceTest` slice does **not** auto-load `@Service`/`@Component`/`@Repository` adapters. Add `@Import(XxxRepositoryAdapter::class)` when the test needs the port. Spring Data `JpaRepository` interfaces ARE auto-loaded.
 - **JWT in tests** — `extension/JwtExpression.kt` exposes `getHttpHeaderJwt(memberId)` for supplying an `Authorization` header in MockMvc calls.
 
-## Project-Specific Skills (`.claude/skills/`)
+## Convention Skills (global `~/.claude/skills/`)
 
-Three skills define non-obvious project conventions. **Always consult them when writing/modifying code:**
+These conventions are enforced via globally-installed skills (no longer vendored in the repo). **Always consult them when writing/modifying code:**
 - `code-implementation-rules` — OOP rules, port/service/domain layering, 19 numbered rules (priority = number order).
 - `clean-code` — Uncle Bob naming, functions, formatting heuristics.
-- `full-code-rules` — project-specific Kotlin + port/VO/first-class-collection patterns.
 
-Additional skills for specific tasks: `kotest-writing`, `plan-writing`, `requirement-planning`, `rest-docs-writing`. Reviewer agents in `.claude/agents/` (`clean-code-reviewer`, `code-rules-reviewer`) can verify compliance at the end of a phase.
+Additional skills for specific tasks: `kotest-writing`, `rest-docs-writing` (also `clean-architecture`, `domain-driven-design`, `plan-creation`). The `code-reviewer` agent can verify convention compliance at the end of a phase.
 
 ## Things Easy to Miss
 
