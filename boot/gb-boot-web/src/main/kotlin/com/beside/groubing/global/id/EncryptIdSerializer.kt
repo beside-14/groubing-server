@@ -1,7 +1,7 @@
 package com.beside.groubing.global.id
 
-import com.beside.groubing.global.domain.id.ObfuscationType
-import com.beside.groubing.global.domain.id.port.IdObfuscator
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.domain.common.id.port.IdObfuscator
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider

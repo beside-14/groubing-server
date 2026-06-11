@@ -1,14 +1,14 @@
 package com.beside.groubing.domain.member.repository
 
 import com.beside.groubing.domain.member.domain.Member
-import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.domain.NewMember
 import com.beside.groubing.domain.member.domain.port.MemberCommandRepository
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
 import com.beside.groubing.domain.member.entity.MemberEntity
 import com.beside.groubing.domain.member.exception.MemberInputException
-import com.beside.groubing.global.domain.file.domain.FileInfo
-import com.beside.groubing.global.domain.file.entity.FileInfoEntity
+import com.beside.groubing.domain.common.file.domain.FileInfo
+import com.beside.groubing.domain.common.file.entity.FileInfoEntity
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 
@@ -17,7 +17,11 @@ class MemberRepositoryAdapter(
     private val memberJpaRepository: MemberJpaRepository
 ) : MemberCommandRepository, MemberQueryRepository {
     override fun save(newMember: NewMember): Member {
-        return memberJpaRepository.save(MemberEntity.from(newMember)).toDomain()
+        return try {
+            memberJpaRepository.save(MemberEntity.from(newMember)).toDomain()
+        } catch (e: DataIntegrityViolationException) {
+            throw MemberInputException("중복된 아이디 / 닉네임 입니다.")
+        }
     }
 
     override fun update(member: Member): Member {
@@ -44,14 +48,9 @@ class MemberRepositoryAdapter(
         return findEntityById(id).toDomain()
     }
 
-    override fun findByEmail(email: String): Member {
-        return memberJpaRepository.findByEmailAndActiveTrue(email)?.toDomain()
-            ?: throw MemberInputException("존재하지 않는 유저 입니다.")
-    }
-
-    override fun findByEmailAndMemberType(email: String, memberType: MemberType): Member {
-        return memberJpaRepository.findByEmailAndMemberTypeAndActiveTrue(email, memberType)?.toDomain()
-            ?: throw MemberInputException("존재하지 않는 이메일 입니다.: $email")
+    override fun findOneByLoginId(loginId: String): Member {
+        return memberJpaRepository.findByLoginIdAndActiveTrue(loginId)?.toDomain()
+            ?: throw MemberInputException("존재하지 않는 아이디 입니다.: $loginId")
     }
 
     override fun findAllSortedByNickname(): List<Member> {
@@ -68,8 +67,8 @@ class MemberRepositoryAdapter(
         return memberJpaRepository.findAllByIdInAndActiveTrue(ids).map { it.toDomain() }
     }
 
-    override fun existsByEmail(email: String): Boolean {
-        return memberJpaRepository.existsByEmailAndActiveTrue(email)
+    override fun existsByLoginId(loginId: String): Boolean {
+        return memberJpaRepository.existsByLoginIdAndActiveTrue(loginId)
     }
 
     override fun existsByNickname(nickname: String): Boolean {

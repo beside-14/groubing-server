@@ -4,8 +4,10 @@ import com.beside.groubing.config.ApiTest
 import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.domain.blockedmember.application.UnblockMemberService
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
-import com.beside.groubing.vocabulary.idPath
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.vocabulary.memberIdPath
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
@@ -26,6 +28,7 @@ class UnblockMemberApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(1L..100L).single()
+        val encodedId = id.encodedAs(ObfuscationType.MEMBER)
         val userId = Arb.long(1L..100L).single()
 
         When("특정 유저를") {
@@ -33,14 +36,14 @@ class UnblockMemberApiTest(
 
             Then("차단 해제한다.") {
                 mockMvc.perform(
-                    delete("/api/blocked-members/{id}", id)
+                    delete("/api/blocked-members/{targetMemberId}", encodedId)
                         .header("Authorization", getHttpHeaderJwt(userId))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk)
                     .andDocument(
                         "unblock-member",
-                        pathVariables(idPath("id", "회원 차단 내역 ID") example id.toString())
+                        pathVariables(memberIdPath("targetMemberId") example encodedId)
                     )
             }
         }

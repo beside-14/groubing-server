@@ -2,7 +2,9 @@ package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.domain.member.application.MemberProfileEditService
 import com.beside.groubing.domain.member.payload.response.MemberProfileResponse
-import com.beside.groubing.global.domain.file.application.FileProvider
+import com.beside.groubing.domain.common.file.application.FileProvider
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,13 +18,13 @@ import org.springframework.web.multipart.MultipartFile
 class MemberProfileEditApi(
     private val memberProfileEditService: MemberProfileEditService
 ) {
-    @PatchMapping("/{id}/profile")
+    @PatchMapping("/{memberId}/profile")
     fun editProfile(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) memberId: Long,
         @RequestPart profile: MultipartFile
     ): ApiResponse<MemberProfileResponse> {
         val newProfile = FileProvider.upload(profile)
-        val profileUrl = memberProfileEditService.edit(id, newProfile)
+        val profileUrl = memberProfileEditService.edit(memberId, newProfile)
         return ApiResponse.OK(MemberProfileResponse(profileUrl))
     }
 }

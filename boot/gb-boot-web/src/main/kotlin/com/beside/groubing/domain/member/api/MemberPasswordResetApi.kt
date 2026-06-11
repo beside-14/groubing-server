@@ -2,6 +2,8 @@ package com.beside.groubing.domain.member.api
 
 import com.beside.groubing.domain.auth.application.MemberPasswordResetService
 import com.beside.groubing.domain.member.payload.request.MemberPasswordResetRequest
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 class MemberPasswordResetApi(
     private val memberPasswordResetService: MemberPasswordResetService
 ) {
-    @PatchMapping("/{id}/password")
+    @PatchMapping("/{memberId}/password")
     fun resetPassword(
-        @PathVariable id: Long,
+        @PathVariable @DecryptId(ObfuscationType.MEMBER) memberId: Long,
         @RequestBody
         @Validated
         request: MemberPasswordResetRequest
     ) {
-        memberPasswordResetService.reset(id, request.beforePassword, request.afterPassword)
+        memberPasswordResetService.reset(memberId, request.beforePassword, request.afterPassword)
     }
 }

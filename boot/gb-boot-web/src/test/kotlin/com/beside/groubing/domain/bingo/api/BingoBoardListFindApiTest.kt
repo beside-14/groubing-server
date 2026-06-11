@@ -8,7 +8,9 @@ import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoBoardListFindService
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardId
 import com.beside.groubing.vocabulary.bingoBoardType
 import com.beside.groubing.vocabulary.bingoColorValue
@@ -42,6 +44,7 @@ class BingoBoardListFindApiTest(
 ) : BehaviorSpec({
     Given("BingoBoardListFindApi가 주어졌을 때") {
         val memberId = 1L
+        val encodedMemberId = memberId.encodedAs(ObfuscationType.MEMBER)
         val loginMemberId = 2L
 
         val bingoBoards = listOf(
@@ -62,14 +65,14 @@ class BingoBoardListFindApiTest(
                 get("/api/bingo-boards")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
-                    .param("memberId", "1")
+                    .param("memberId", encodedMemberId)
                     .header("Authorization", getHttpHeaderJwt(loginMemberId))
             ).andDo(print())
                 .andExpect(status().isOk)
                 .andDocument(
                     "bingo-board-list-find",
                     requestParam(
-                        "memberId" requestParam "멤버 ID" example "1" isOptional true
+                        "memberId" requestParam "멤버 ID (obfuscated)" example encodedMemberId isOptional true
                     ),
                     responseBody(
                         bingoBoardId("[].id"),

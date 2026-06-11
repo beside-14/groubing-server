@@ -1,8 +1,11 @@
 package com.beside.groubing.domain.feed.payload.response
 
 import com.beside.groubing.domain.feed.domain.FeedEntry
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.global.id.EncryptId
 
 class FeedResponse private constructor(
+    @EncryptId(ObfuscationType.MEMBER)
     val memberId: Long,
 
     val nickname: String,

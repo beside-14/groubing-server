@@ -1,6 +1,5 @@
 package com.beside.groubing.domain.member.repository
 
-import com.beside.groubing.domain.member.domain.MemberType
 import com.beside.groubing.domain.member.entity.MemberEntity
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
@@ -8,11 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface MemberJpaRepository : JpaRepository<MemberEntity, Long> {
     fun findByIdAndActiveTrue(id: Long): MemberEntity?
 
-    fun findByEmailAndActiveTrue(email: String): MemberEntity?
+    fun findByLoginIdAndActiveTrue(loginId: String): MemberEntity?
 
-    fun findByEmailAndMemberTypeAndActiveTrue(email: String, memberType: MemberType): MemberEntity?
-
-    fun existsByEmailAndActiveTrue(email: String): Boolean
+    fun existsByLoginIdAndActiveTrue(loginId: String): Boolean
 
     fun existsByNicknameAndActiveTrue(nickname: String): Boolean
 

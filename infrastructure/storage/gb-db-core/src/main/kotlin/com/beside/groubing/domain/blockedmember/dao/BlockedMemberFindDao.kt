@@ -13,7 +13,6 @@ class BlockedMemberFindDao(
         return queryFactory.select(
             QBlockedMemberTargetInfo(
                 member.id,
-                member.email,
                 member.nickname,
                 member.profile.fileName
             )

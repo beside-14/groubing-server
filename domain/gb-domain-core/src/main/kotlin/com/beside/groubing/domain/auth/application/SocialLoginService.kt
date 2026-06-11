@@ -35,7 +35,7 @@ class SocialLoginService(
         ) ?: run {
             val member = memberCommandRepository.save(
                 NewMember(
-                    email = socialLoginCommand.email,
+                    loginId = null,
                     password = "",
                     nickname = "",
                     role = MemberRole.MEMBER,
@@ -45,7 +45,6 @@ class SocialLoginService(
             socialInfoRepository.save(
                 SocialInfo.create(
                     socialId = socialLoginCommand.id,
-                    email = socialLoginCommand.email,
                     socialType = socialLoginCommand.socialType,
                     memberId = member.id
                 )

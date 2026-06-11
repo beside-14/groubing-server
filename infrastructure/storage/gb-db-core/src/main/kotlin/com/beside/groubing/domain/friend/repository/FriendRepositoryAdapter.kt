@@ -51,7 +51,6 @@ class FriendRepositoryAdapter(
     private fun toFriendMember(info: FriendMemberInfo): FriendMember = FriendMember(
         friendId = info.friendId,
         memberId = info.memberId,
-        email = info.email,
         nickname = info.nickname,
         profileFileName = info.profileFileName,
         status = info.status

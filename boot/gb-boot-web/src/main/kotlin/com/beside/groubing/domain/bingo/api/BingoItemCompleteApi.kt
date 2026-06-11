@@ -2,6 +2,8 @@ package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.domain.bingo.application.BingoItemCompleteService
 import com.beside.groubing.domain.bingo.payload.response.BingoCalculatingResponse
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PatchMapping
@@ -14,23 +16,23 @@ import org.springframework.web.bind.annotation.RestController
 class BingoItemCompleteApi(
     private val bingoItemCompleteService: BingoItemCompleteService
 ) {
-    @PatchMapping("/{id}/bingo-items/{bingoItemId}/complete")
+    @PatchMapping("/{bingoBoardId}/bingo-items/{bingoItemId}/complete")
     fun completeBingoItem(
-        @PathVariable id: Long,
-        @PathVariable bingoItemId: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_ITEM) bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<BingoCalculatingResponse> {
-        val bingoMap = bingoItemCompleteService.complete(id, bingoItemId, memberId)
+        val bingoMap = bingoItemCompleteService.complete(bingoBoardId, bingoItemId, memberId)
         return ApiResponse.OK(BingoCalculatingResponse.fromBingoMap(bingoMap))
     }
 
-    @PatchMapping("/{id}/bingo-items/{bingoItemId}/cancel")
+    @PatchMapping("/{bingoBoardId}/bingo-items/{bingoItemId}/cancel")
     fun cancelBingoItem(
-        @PathVariable id: Long,
-        @PathVariable bingoItemId: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long,
+        @PathVariable @DecryptId(ObfuscationType.BINGO_ITEM) bingoItemId: Long,
         @AuthenticationPrincipal memberId: Long
     ): ApiResponse<BingoCalculatingResponse> {
-        val bingoMap = bingoItemCompleteService.cancel(id, bingoItemId, memberId)
+        val bingoMap = bingoItemCompleteService.cancel(bingoBoardId, bingoItemId, memberId)
         return ApiResponse.OK(BingoCalculatingResponse.fromBingoMap(bingoMap))
     }
 }

@@ -39,11 +39,6 @@ Groubing 서비스 Backend API 문서
 
 * link:member/SignUpApi.html[회원가입,window=_blank]
 
-[[member-email-find]]
-=== 이메일 찾기
-
-* link:member/MemberEmailFind.html[이메일 찾기,window=_blank]
-
 [[member-password-reset]]
 === 비밀번호 변경
 

@@ -6,7 +6,9 @@ import com.beside.groubing.docs.andDocument
 import com.beside.groubing.docs.pathVariables
 import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoItemShuffleService
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.beside.groubing.vocabulary.bingoItemColorCode
 import com.beside.groubing.vocabulary.bingoItemComplete
@@ -37,6 +39,7 @@ class BingoItemShuffleApiTest(
 
         val temporaryBingo = aTemporaryBingo()
         temporaryBingo.shuffleBingoItems()
+        val encodedBingoBoardId = temporaryBingo.id.encodedAs(ObfuscationType.BINGO_BOARD)
         val bingoMap = temporaryBingo.makeBingoMap(memberId)
 
         every { bingoItemShuffleService.shuffle(memberId = memberId, boardId = temporaryBingo.id) } returns bingoMap
@@ -44,8 +47,8 @@ class BingoItemShuffleApiTest(
         When("데이터가 유효하다면") {
             mockMvc.perform(
                 RestDocumentationRequestBuilders.put(
-                    "/api/bingo-boards/{id}/bingo-items",
-                    temporaryBingo.id
+                    "/api/bingo-boards/{bingoBoardId}/bingo-items",
+                    encodedBingoBoardId
                 )
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -55,7 +58,7 @@ class BingoItemShuffleApiTest(
                 .andDocument(
                     "bingo-item-shuffle",
                     pathVariables(
-                        bingoBoardIdPath() example "1" isOptional true
+                        bingoBoardIdPath() example encodedBingoBoardId isOptional true
                     ),
                     responseBody(
                         bingoLineDirection("[].direction"),

@@ -1,18 +1,16 @@
 package com.beside.groubing.domain.member.payload.request
 
 import com.beside.groubing.domain.auth.application.command.LoginCommand
-import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 
 data class LoginRequest(
-    @field:Email(message = "이메일을 올바른 양식으로 입력해 주세요.")
-    @field:NotBlank
-    val email: String,
+    @field:NotBlank(message = "아이디를 입력해 주세요.")
+    val loginId: String,
 
     @field:NotBlank(message = "비밀번호를 입력해 주세요.")
     val password: String,
 
     val fcmToken: String?
 ) {
-    fun command() = LoginCommand(email, password, fcmToken)
+    fun command() = LoginCommand(loginId, password, fcmToken)
 }

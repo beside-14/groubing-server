@@ -10,7 +10,6 @@ import com.beside.groubing.domain.friend.payload.response.FriendRequestResponse
 import com.beside.groubing.domain.friend.payload.response.FriendResponse
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.global.response.ApiResponse
-import com.beside.groubing.vocabulary.email
 import com.beside.groubing.vocabulary.friendId
 import com.beside.groubing.vocabulary.friendStatus
 import com.beside.groubing.vocabulary.memberId
@@ -22,11 +21,9 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
-import io.kotest.property.arbitrary.email
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
-import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -63,7 +60,6 @@ class FriendFindApiTest(
                     responseBody(
                         friendId("[].id"),
                         memberId("[].memberId", "유저 ID"),
-                        email("[].email"),
                         nickname("[].nickname"),
                         profileUrl("[].profileUrl"),
                     )
@@ -90,7 +86,6 @@ class FriendFindApiTest(
                     responseBody(
                         friendId("[].id"),
                         memberId("[].memberId", "유저 ID"),
-                        email("[].email"),
                         nickname("[].nickname"),
                         profileUrl("[].profileUrl"),
                         friendStatus("[].status"),
@@ -118,7 +113,6 @@ class FriendFindApiTest(
                     responseBody(
                         friendId("[].id"),
                         memberId("[].memberId", "유저 ID"),
-                        email("[].email"),
                         nickname("[].nickname"),
                         profileUrl("[].profileUrl"),
                         friendStatus("[].status"),
@@ -132,10 +126,6 @@ class FriendFindApiTest(
 private fun aFriendMember(status: FriendStatus): FriendMember = FriendMember(
     friendId = Arb.long(1L..100L).single(),
     memberId = Arb.long(1L..100L).single(),
-    email = Arb.email(
-        Arb.string(5, 10, Codepoint.alphanumeric()),
-        Arb.stringPattern("groubing\\.com")
-    ).single(),
     nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
     profileFileName = null,
     status = status

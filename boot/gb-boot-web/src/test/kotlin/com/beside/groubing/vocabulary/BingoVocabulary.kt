@@ -13,13 +13,13 @@ import com.beside.groubing.domain.bingo.domain.map.Direction
 
 // --- Path / Query ---
 
-fun bingoBoardIdPath(fieldName: String = "id") =
-    fieldName requestParam "빙고 ID"
+fun bingoBoardIdPath(fieldName: String = "bingoBoardId") =
+    fieldName requestParam "빙고 ID (obfuscated)"
 
 // --- BingoBoard 응답 ---
 
 fun bingoBoardId(fieldName: String = "id") =
-    fieldName responseType NUMBER means "빙고 ID" example "1"
+    fieldName responseType STRING means "빙고 ID (obfuscated)" example "MEbN4aLpqRzK"
 
 fun bingoTitle(fieldName: String = "title") =
     fieldName responseType STRING means
@@ -76,7 +76,9 @@ fun bingoColorValue(fieldName: String = "bingoColorValue") =
         "Blue : `#8BC0FC`, Orange: `#FCB179`, Red: `FF8282`, Green: `#55DEB5`, Purple : `#B8B7FC`"
 
 fun bingoMembers(fieldName: String = "bingoMembers") =
-    fieldName responseType ARRAY means "빙고 참여 멤버 ID 리스트" example "[2, 3, 7]"
+    fieldName responseType ARRAY means
+        "빙고 참여 멤버 ID 리스트 (각 요소는 obfuscated 문자열)" example
+        "[\"MEbN4aLpqRzK\", \"k9aQ2nWxRzVp\"]"
 
 // --- Bingo Lines / Items ---
 
@@ -87,7 +89,7 @@ fun bingoLineDirection(fieldName: String) =
         "X : `HORIZONTAL`, Y : `VERTICAL`, Z : `DIAGONAL`"
 
 fun bingoItemId(fieldName: String) =
-    fieldName responseType NUMBER means "빙고 아이템 ID" example "1"
+    fieldName responseType STRING means "빙고 아이템 ID (obfuscated)" example "MEbN4aLpqRzK"
 
 fun bingoItemTitle(fieldName: String) =
     fieldName responseType STRING means "TODO" example "토익 만점 받기"

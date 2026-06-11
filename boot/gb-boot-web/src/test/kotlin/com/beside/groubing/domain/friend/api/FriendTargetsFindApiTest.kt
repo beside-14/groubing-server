@@ -7,7 +7,6 @@ import com.beside.groubing.domain.friend.application.FriendTargetsFindService
 import com.beside.groubing.domain.member.domain.Member
 import com.beside.groubing.domain.member.domain.MemberRole
 import com.beside.groubing.domain.member.domain.MemberType
-import com.beside.groubing.vocabulary.email
 import com.beside.groubing.vocabulary.memberId
 import com.beside.groubing.vocabulary.nickname
 import com.beside.groubing.vocabulary.profileUrl
@@ -30,7 +29,7 @@ class FriendTargetsFindApiTest(
             val members = (1..10).map {
                 Member(
                     id = it.toLong(),
-                    email = "groubing$it@daum.net",
+                    loginId = "groubing$it",
                     password = "1234",
                     nickname = "groubing$it",
                     role = MemberRole.MEMBER,
@@ -54,7 +53,6 @@ class FriendTargetsFindApiTest(
                     "friend-target-find",
                     responseBody(
                         memberId("[].memberId", "유저 ID"),
-                        email("[].email"),
                         nickname("[].nickname") formattedAs "^[가-힣a-zA-Z0-9]{2,7}",
                         profileUrl("[].profileUrl") example "/api/files/\${fileName} 혹은 null",
                     )

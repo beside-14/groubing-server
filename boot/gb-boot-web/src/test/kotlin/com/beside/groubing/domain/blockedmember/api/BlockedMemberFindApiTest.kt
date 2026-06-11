@@ -8,8 +8,7 @@ import com.beside.groubing.domain.blockedmember.domain.BlockedMemberTarget
 import com.beside.groubing.domain.blockedmember.payload.response.BlockedMemberResponse
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.global.response.ApiResponse
-import com.beside.groubing.vocabulary.email
-import com.beside.groubing.vocabulary.id
+import com.beside.groubing.vocabulary.targetMemberId
 import com.beside.groubing.vocabulary.nickname
 import com.beside.groubing.vocabulary.profileUrl
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -18,11 +17,9 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.Codepoint
 import io.kotest.property.arbitrary.alphanumeric
-import io.kotest.property.arbitrary.email
 import io.kotest.property.arbitrary.long
 import io.kotest.property.arbitrary.single
 import io.kotest.property.arbitrary.string
-import io.kotest.property.arbitrary.stringPattern
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -42,10 +39,6 @@ class BlockedMemberFindApiTest(
         When("현재 차단된 회원 목록을") {
             val target = BlockedMemberTarget(
                 id = Arb.long(1L..100L).single(),
-                email = Arb.email(
-                    Arb.string(5, 10, Codepoint.alphanumeric()),
-                    Arb.stringPattern("groubing\\.com")
-                ).single(),
                 nickname = Arb.string(2, 7, codepoints = Codepoint.alphanumeric()).single(),
                 profileFileName = null
             )
@@ -64,8 +57,7 @@ class BlockedMemberFindApiTest(
                 }.andDocument(
                     "blocked-member-find",
                     responseBody(
-                        id("[].id", "유저 ID"),
-                        email("[].email"),
+                        targetMemberId("[].memberId"),
                         nickname("[].nickname"),
                         profileUrl("[].profileUrl"),
                     )

@@ -9,7 +9,9 @@ import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoBoardFindService
 import com.beside.groubing.domain.bingo.domain.BingoBoardDetail
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.beside.groubing.vocabulary.bingoBoardId
 import com.beside.groubing.vocabulary.bingoBoardIdPath
 import com.beside.groubing.vocabulary.bingoBoardType
@@ -60,29 +62,31 @@ class BingoBoardFindApiTest(
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
 
         val memberId = authentication.principal as Long
+        val encodedMemberId = memberId.encodedAs(ObfuscationType.MEMBER)
         val bingoBoardId = 1L
+        val encodedBingoBoardId = bingoBoardId.encodedAs(ObfuscationType.BINGO_BOARD)
         val bingoBoard = aEnglishStudyBingoBoard()
         val member = aMember(memberId).toDomain()
         val otherMembers = (2L..5L).map { aMember(it).toDomain() }
 
         every { bingoBoardFindService.findOne(memberId, bingoBoardId) } returns BingoBoardDetail(bingoBoard, member, otherMembers)
 
-        When("GET /api/bingo-boards/{id} 요청이 들어왔을 때") {
+        When("GET /api/bingo-boards/{bingoBoardId} 요청이 들어왔을 때") {
             mockMvc.perform(
-                get("/api/bingo-boards/{id}", bingoBoardId)
+                get("/api/bingo-boards/{bingoBoardId}", encodedBingoBoardId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .header("Authorization", getHttpHeaderJwt(memberId))
-                    .param("memberId", memberId.toString())
+                    .param("memberId", encodedMemberId)
             ).andDo(print())
                 .andExpect(status().isOk)
                 .andDocument(
                     "bingo-board-find",
                     pathVariables(
-                        bingoBoardIdPath() example "1" isOptional true
+                        bingoBoardIdPath() example encodedBingoBoardId isOptional true
                     ),
                     requestParam(
-                        "memberId" requestParam "회원 ID" example "1"
+                        "memberId" requestParam "회원 ID (obfuscated)" example encodedMemberId
                     ),
                     responseBody(
                         bingoBoardId(),

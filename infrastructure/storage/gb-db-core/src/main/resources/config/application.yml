@@ -1,0 +1,12 @@
+# JPA 공통 설정(프로파일 무관). datasource·ddl-auto 는 application-{profile}.yml 에서 지정·오버라이드.
+spring:
+  jpa:
+    open-in-view: false
+    properties:
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: UNSPECIFIED
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100

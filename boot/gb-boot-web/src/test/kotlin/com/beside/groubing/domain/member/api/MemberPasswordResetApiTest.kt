@@ -9,7 +9,9 @@ import com.beside.groubing.docs.requestType
 import com.beside.groubing.domain.auth.application.MemberPasswordResetService
 import com.beside.groubing.vocabulary.memberIdPath
 import com.beside.groubing.domain.member.payload.request.MemberPasswordResetRequest
+import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
+import com.beside.groubing.domain.common.id.ObfuscationType
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
@@ -37,6 +39,7 @@ class MemberPasswordResetApiTest(
 ) : BehaviorSpec({
     Given("유저가") {
         val id = Arb.long(min = 1L, max = 100L).single()
+        val encodedId = id.encodedAs(ObfuscationType.MEMBER)
         val beforePassword = Arb.string(8, 20, codepoints = Codepoint.alphanumeric()).single()
         val afterPassword = Arb.string(8, 20, codepoints = Codepoint.alphanumeric()).single()
         val request = MemberPasswordResetRequest(beforePassword, afterPassword)
@@ -46,7 +49,7 @@ class MemberPasswordResetApiTest(
 
             Then("성공 응답을 리턴한다.") {
                 mockMvc.perform(
-                    patch("/api/members/{id}/password", id)
+                    patch("/api/members/{memberId}/password", encodedId)
                         .header("Authorization", getHttpHeaderJwt(id))
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -55,7 +58,7 @@ class MemberPasswordResetApiTest(
                     .andDocument(
                         "member-password-reset",
                         pathVariables(
-                            memberIdPath() example id.toString() isOptional true
+                            memberIdPath() example encodedId isOptional true
                         ),
                         requestBody(
                             "beforePassword" requestType STRING means "이전에 사용한 패스워드" example beforePassword,

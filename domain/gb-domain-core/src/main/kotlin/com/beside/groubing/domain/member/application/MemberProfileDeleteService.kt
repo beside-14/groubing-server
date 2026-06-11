@@ -1,7 +1,7 @@
 package com.beside.groubing.domain.member.application
 
 import com.beside.groubing.domain.member.domain.port.MemberCommandRepository
-import com.beside.groubing.global.domain.file.application.FileStorage
+import com.beside.groubing.domain.common.file.application.FileStorage
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

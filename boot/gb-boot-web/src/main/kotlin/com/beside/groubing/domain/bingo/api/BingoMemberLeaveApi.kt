@@ -1,6 +1,8 @@
 package com.beside.groubing.domain.bingo.api
 
 import com.beside.groubing.domain.bingo.application.BingoMemberLeaveService
+import com.beside.groubing.domain.common.id.ObfuscationType
+import com.beside.groubing.global.id.DecryptId
 import com.beside.groubing.global.response.ApiResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,13 +16,13 @@ class BingoMemberLeaveApi(
     private val bingoMemberLeaveService: BingoMemberLeaveService
 ) {
 
-    @PostMapping("/{id}/leave")
+    @PostMapping("/{bingoBoardId}/leave")
     fun leave(
         @AuthenticationPrincipal
         memberId: Long,
-        @PathVariable id: Long
+        @PathVariable @DecryptId(ObfuscationType.BINGO_BOARD) bingoBoardId: Long
     ): ApiResponse<Unit> {
-        bingoMemberLeaveService.leave(memberId, id)
+        bingoMemberLeaveService.leave(memberId, bingoBoardId)
         return ApiResponse.OK(Unit)
     }
 }
