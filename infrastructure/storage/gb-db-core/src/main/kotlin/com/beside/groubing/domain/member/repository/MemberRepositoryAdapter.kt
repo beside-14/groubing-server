@@ -8,6 +8,7 @@ import com.beside.groubing.domain.member.entity.MemberEntity
 import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.domain.common.file.domain.FileInfo
 import com.beside.groubing.domain.common.file.entity.FileInfoEntity
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 
@@ -16,7 +17,11 @@ class MemberRepositoryAdapter(
     private val memberJpaRepository: MemberJpaRepository
 ) : MemberCommandRepository, MemberQueryRepository {
     override fun save(newMember: NewMember): Member {
-        return memberJpaRepository.save(MemberEntity.from(newMember)).toDomain()
+        return try {
+            memberJpaRepository.save(MemberEntity.from(newMember)).toDomain()
+        } catch (e: DataIntegrityViolationException) {
+            throw MemberInputException("중복된 아이디 / 닉네임 입니다.")
+        }
     }
 
     override fun update(member: Member): Member {
