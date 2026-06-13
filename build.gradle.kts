@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
+import org.gradle.testing.jacoco.tasks.JacocoReport
 
 plugins {
     kotlin("jvm") version "1.9.25"
@@ -27,6 +29,7 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "kotlin-spring")
     apply(plugin = "kotlin-kapt")
+    apply(plugin = "jacoco")
 
     java {
         toolchain {
@@ -59,6 +62,34 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        finalizedBy(tasks.withType<JacocoReport>())
+    }
+
+    extensions.configure<JacocoPluginExtension> {
+        toolVersion = "0.8.12"
+    }
+
+    tasks.withType<JacocoReport> {
+        dependsOn(tasks.withType<Test>())
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+        }
+        // 생성·무로직 코드는 커버리지 측정에서 제외
+        classDirectories.setFrom(
+            files(classDirectories.files.map {
+                fileTree(it) {
+                    exclude(
+                        "**/Q*.class",        // QueryDSL kapt 생성물
+                        "**/*Application*",   // 부트 진입점
+                        "**/config/**",
+                        "**/*Config*",
+                        "**/entity/**",       // JPA 엔티티
+                        "**/payload/**"       // 요청/응답 DTO
+                    )
+                }
+            })
+        )
     }
 }
 
