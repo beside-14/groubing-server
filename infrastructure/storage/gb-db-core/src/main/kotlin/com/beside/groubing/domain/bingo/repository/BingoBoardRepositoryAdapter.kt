@@ -54,6 +54,9 @@ class BingoBoardRepositoryAdapter(
     override fun findAllIdsOf(memberId: Long): List<Long> =
         bingoBoardListFindDao.findAllIdsOf(memberId)
 
+    override fun isLeaderOf(bingoBoardId: Long, memberId: Long): Boolean =
+        bingoBoardListFindDao.isLeaderOf(bingoBoardId, memberId)
+
     private fun findActiveEntityById(id: Long): BingoBoardEntity {
         return bingoBoardJpaRepository.findByIdAndActiveIsTrue(id)
             .orElseThrow { BingoInputException("존재하지 않는 BingoBoard Id입니다. : $id") }

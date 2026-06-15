@@ -8,4 +8,6 @@ interface BingoBoardQueryRepository {
     fun findAllOf(memberId: Long): List<BingoBoard>
 
     fun findAllIdsOf(memberId: Long): List<Long>
+
+    fun isLeaderOf(bingoBoardId: Long, memberId: Long): Boolean
 }
