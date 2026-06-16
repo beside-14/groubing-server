@@ -34,7 +34,8 @@ class BingoBoardUpdateService(
     fun updateMemo(bingoBoardId: Long, memberId: Long, command: BingoBoardMemoUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
         command.update(bingoBoard, memberId)
-        return bingoBoardCommandRepository.update(bingoBoard)
+        bingoBoardCommandRepository.updateMemo(bingoBoardId, bingoBoard.memo)
+        return bingoBoard
     }
 
     fun updateOpen(bingoBoardId: Long, memberId: Long, command: BingoBoardOpenUpdateCommand): BingoBoard {
