@@ -81,6 +81,10 @@ class BingoBoardEntity(
         this.memo = memo
     }
 
+    fun changeOpen(open: Boolean) {
+        this.open = open
+    }
+
     fun applyChanges(domain: BingoBoard) {
         this.title = domain.title
         this.open = domain.open

@@ -41,4 +41,28 @@ class BingoBoardRepositoryAdapterTest(
             }
         }
     }
+
+    describe("updateOpen") {
+        context("리더가 공개여부를 변경하면") {
+            it("공개여부만 토글되고 멤버/아이템은 그대로 유지된다") {
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(aEnglishStudyBingoBoard()))
+                val savedId = saved.id
+                val originalOpen = saved.open
+                val originalMemberCount = saved.bingoMembers.size
+                val originalActiveCount = saved.bingoMembers.count { it.active }
+                val originalItemTitles = saved.bingoItems.sortedBy { it.id }.map { it.title }
+
+                bingoBoardRepositoryAdapter.updateOpen(savedId, !originalOpen)
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
+                reloaded.open shouldBe !originalOpen
+                reloaded.bingoMembers.size shouldBe originalMemberCount
+                reloaded.bingoMembers.count { it.active } shouldBe originalActiveCount
+                reloaded.bingoItems.size shouldBe originalItemTitles.size
+                reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles
+            }
+        }
+    }
 })

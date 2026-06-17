@@ -39,6 +39,10 @@ class BingoBoardRepositoryAdapter(
         findActiveEntityById(bingoBoardId).changeMemo(memo)
     }
 
+    override fun updateOpen(bingoBoardId: Long, open: Boolean) {
+        findActiveEntityById(bingoBoardId).changeOpen(open)
+    }
+
     override fun inactivateAllOf(memberId: Long) {
         bingoBoardListFindDao.find(memberId)
             .forEach { entity ->
