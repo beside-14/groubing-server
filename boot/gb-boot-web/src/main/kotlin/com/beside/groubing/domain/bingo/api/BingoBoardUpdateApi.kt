@@ -69,7 +69,7 @@ class BingoBoardUpdateApi(
         @RequestBody @Valid
         openUpdateRequest: BingoBoardOpenUpdateRequest
     ): ApiResponse<BingoBoardOpenUpdateResponse> {
-        val updated = bingoBoardUpdateService.updateOpen(bingoBoardId, memberId, openUpdateRequest.command())
+        val updated = bingoBoardUpdateService.updateOpen(bingoBoardId, memberId, openUpdateRequest.open)
         return ApiResponse.OK(BingoBoardOpenUpdateResponse.fromBingoBoard(updated))
     }
 }
