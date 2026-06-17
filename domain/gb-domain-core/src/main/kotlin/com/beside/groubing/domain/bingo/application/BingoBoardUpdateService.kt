@@ -18,7 +18,7 @@ class BingoBoardUpdateService(
 ) {
     fun updateBase(bingoBoardId: Long, memberId: Long, command: BingoBoardBaseUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
-        command.update(bingoBoard, memberId)
+        bingoBoard.updateBase(memberId, command.title, command.goal, command.since, command.until)
         bingoBoardCommandRepository.updateBase(bingoBoardId, bingoBoard.title, bingoBoard.bingoGoal, bingoBoard.period!!)
         return bingoBoard
     }
