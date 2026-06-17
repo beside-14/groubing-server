@@ -4,7 +4,6 @@ import com.beside.groubing.aEnglishStudyBingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoBoardMembersValidator
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardQueryRepository
-import com.beside.groubing.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -27,13 +26,12 @@ class BingoBoardUpdateServiceTest : BehaviorSpec({
         val bingoBoardId = 2L
         val newMemo = "메모"
         val bingoBoard = aEnglishStudyBingoBoard()
-        val command = BingoBoardMemoUpdateCommand.of(newMemo)
 
         every { bingoBoardQueryRepository.findOne(bingoBoardId) } returns bingoBoard
         justRun { bingoBoardCommandRepository.updateMemo(bingoBoardId, newMemo) }
 
         `when`("updateMemo 를 호출하면") {
-            val result = bingoBoardUpdateService.updateMemo(bingoBoardId, leaderId, command)
+            val result = bingoBoardUpdateService.updateMemo(bingoBoardId, leaderId, newMemo)
 
             then("타깃 영속화 경로(updateMemo)를 타고 스냅샷 update 는 호출하지 않는다") {
                 verify(exactly = 1) { bingoBoardCommandRepository.updateMemo(bingoBoardId, newMemo) }

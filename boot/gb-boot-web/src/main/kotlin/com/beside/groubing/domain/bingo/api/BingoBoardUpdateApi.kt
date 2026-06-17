@@ -57,7 +57,7 @@ class BingoBoardUpdateApi(
         @RequestBody @Valid
         memoUpdateRequest: BingoBoardMemoUpdateRequest
     ): ApiResponse<BingoBoardMemoUpdateResponse> {
-        val updated = bingoBoardUpdateService.updateMemo(bingoBoardId, memberId, memoUpdateRequest.command())
+        val updated = bingoBoardUpdateService.updateMemo(bingoBoardId, memberId, memoUpdateRequest.memo)
         return ApiResponse.OK(BingoBoardMemoUpdateResponse.fromBingoBoard(updated))
     }
 

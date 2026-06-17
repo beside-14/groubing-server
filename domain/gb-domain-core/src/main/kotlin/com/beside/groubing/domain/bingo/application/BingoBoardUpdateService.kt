@@ -6,7 +6,6 @@ import com.beside.groubing.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.domain.bingo.payload.command.BingoBoardBaseUpdateCommand
 import com.beside.groubing.domain.bingo.payload.command.BingoBoardMembersPeriodUpdateCommand
-import com.beside.groubing.domain.bingo.payload.command.BingoBoardMemoUpdateCommand
 import com.beside.groubing.domain.bingo.payload.command.BingoBoardOpenUpdateCommand
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -31,9 +30,9 @@ class BingoBoardUpdateService(
         return bingoBoardCommandRepository.update(bingoBoard)
     }
 
-    fun updateMemo(bingoBoardId: Long, memberId: Long, command: BingoBoardMemoUpdateCommand): BingoBoard {
+    fun updateMemo(bingoBoardId: Long, memberId: Long, memo: String?): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
-        bingoBoard.updateBingoMemo(memberId, command.memo)
+        bingoBoard.updateBingoMemo(memberId, memo)
         bingoBoardCommandRepository.updateMemo(bingoBoardId, bingoBoard.memo)
         return bingoBoard
     }
