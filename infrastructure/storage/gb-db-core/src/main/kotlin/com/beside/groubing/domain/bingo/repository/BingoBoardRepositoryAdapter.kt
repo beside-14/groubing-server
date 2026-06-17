@@ -5,6 +5,7 @@ import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoCompleteMember
 import com.beside.groubing.domain.bingo.domain.BingoGoal
 import com.beside.groubing.domain.bingo.domain.BingoItems
+import com.beside.groubing.domain.bingo.domain.BingoMember
 import com.beside.groubing.domain.bingo.domain.BingoMembers
 import com.beside.groubing.domain.bingo.domain.BingoPeriod
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardCommandRepository
@@ -39,6 +40,14 @@ class BingoBoardRepositoryAdapter(
 
     override fun updateBase(bingoBoardId: Long, title: String, bingoGoal: BingoGoal, period: BingoPeriod) {
         findActiveEntityById(bingoBoardId).changeBase(title, bingoGoal, period)
+    }
+
+    override fun addBingoMembers(bingoBoardId: Long, bingoMembers: List<BingoMember>) {
+        findActiveEntityById(bingoBoardId).addBingoMembers(bingoMembers)
+    }
+
+    override fun updatePeriod(bingoBoardId: Long, period: BingoPeriod) {
+        findActiveEntityById(bingoBoardId).changePeriod(period)
     }
 
     override fun updateMemo(bingoBoardId: Long, memo: String?) {

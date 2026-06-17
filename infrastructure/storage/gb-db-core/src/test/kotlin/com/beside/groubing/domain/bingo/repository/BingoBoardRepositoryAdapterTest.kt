@@ -1,14 +1,18 @@
 package com.beside.groubing.domain.bingo.repository
 
+import com.beside.groubing.aEmptyBingo
 import com.beside.groubing.aEnglishStudyBingoBoard
 import com.beside.groubing.domain.bingo.dao.BingoBoardListFindDao
 import com.beside.groubing.domain.bingo.domain.BingoGoal
+import com.beside.groubing.domain.bingo.domain.BingoMember
+import com.beside.groubing.domain.bingo.domain.BingoMemberType
 import com.beside.groubing.domain.bingo.domain.BingoPeriod
 import com.beside.groubing.domain.bingo.domain.BingoSize
 import com.beside.groubing.domain.bingo.entity.BingoBoardEntity
 import com.beside.groubing.global.config.QuerydslConfig
 import com.beside.groubing.persistence.PersistenceTest
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.context.annotation.Import
@@ -51,6 +55,58 @@ class BingoBoardRepositoryAdapterTest(
                 reloaded.period!!.until shouldBe newUntil
                 reloaded.bingoMembers.size shouldBe originalMemberCount
                 reloaded.bingoMembers.count { it.active } shouldBe originalActiveCount
+                reloaded.bingoItems.size shouldBe originalItemTitles.size
+                reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles
+            }
+        }
+    }
+
+    describe("addBingoMembers") {
+        context("리더가 멤버를 추가하면") {
+            it("추가 멤버만 PARTICIPANT 로 INSERT 되고 기존 멤버/아이템은 그대로 유지된다") {
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(aEmptyBingo()))
+                val savedId = saved.id
+                val originalMemberCount = saved.bingoMembers.size
+                val originalItemTitles = saved.bingoItems.sortedBy { it.id }.map { it.title }
+
+                bingoBoardRepositoryAdapter.addBingoMembers(
+                    savedId,
+                    listOf(BingoMember.create(2L), BingoMember.create(3L))
+                )
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
+                reloaded.bingoMembers.size shouldBe originalMemberCount + 2
+                reloaded.bingoMembers.map { it.memberId } shouldContainAll listOf(2L, 3L)
+                reloaded.bingoMembers.filter { it.memberId in setOf(2L, 3L) }.forEach {
+                    it.active shouldBe true
+                    it.bingoMemberType shouldBe BingoMemberType.PARTICIPANT
+                }
+                reloaded.bingoItems.size shouldBe originalItemTitles.size
+                reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles
+            }
+        }
+    }
+
+    describe("updatePeriod") {
+        context("리더가 기간을 변경하면") {
+            it("기간만 갱신되고 멤버/아이템은 그대로 유지된다") {
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(aEnglishStudyBingoBoard()))
+                val savedId = saved.id
+                val originalMemberCount = saved.bingoMembers.size
+                val originalItemTitles = saved.bingoItems.sortedBy { it.id }.map { it.title }
+                val newSince = LocalDate.now().plusDays(2)
+                val newUntil = LocalDate.now().plusDays(20)
+
+                bingoBoardRepositoryAdapter.updatePeriod(savedId, BingoPeriod.create(newSince, newUntil))
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
+                reloaded.period!!.since shouldBe newSince
+                reloaded.period!!.until shouldBe newUntil
+                reloaded.bingoMembers.size shouldBe originalMemberCount
                 reloaded.bingoItems.size shouldBe originalItemTitles.size
                 reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles
             }

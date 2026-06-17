@@ -5,6 +5,7 @@ import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.domain.BingoColor
 import com.beside.groubing.domain.bingo.domain.BingoGoal
 import com.beside.groubing.domain.bingo.domain.BingoItems
+import com.beside.groubing.domain.bingo.domain.BingoMember
 import com.beside.groubing.domain.bingo.domain.BingoMembers
 import com.beside.groubing.domain.bingo.domain.BingoPeriod
 import com.beside.groubing.global.domain.jpa.BaseAggregateRoot
@@ -82,6 +83,14 @@ class BingoBoardEntity(
     fun changeBase(title: String, bingoGoal: BingoGoal, period: BingoPeriod) {
         this.title = title
         this.bingoGoal = BingoGoalEmbeddable.from(bingoGoal)
+        this.period = BingoPeriodEmbeddable.from(period)
+    }
+
+    fun addBingoMembers(bingoMembers: List<BingoMember>) {
+        bingoMembers.forEach { this.bingoMembers.add(BingoMemberEntity.from(it)) }
+    }
+
+    fun changePeriod(period: BingoPeriod) {
         this.period = BingoPeriodEmbeddable.from(period)
     }
 
