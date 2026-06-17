@@ -2,6 +2,9 @@ package com.beside.groubing.domain.bingo.repository
 
 import com.beside.groubing.aEnglishStudyBingoBoard
 import com.beside.groubing.domain.bingo.dao.BingoBoardListFindDao
+import com.beside.groubing.domain.bingo.domain.BingoGoal
+import com.beside.groubing.domain.bingo.domain.BingoPeriod
+import com.beside.groubing.domain.bingo.domain.BingoSize
 import com.beside.groubing.domain.bingo.entity.BingoBoardEntity
 import com.beside.groubing.global.config.QuerydslConfig
 import com.beside.groubing.persistence.PersistenceTest
@@ -9,6 +12,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.context.annotation.Import
+import java.time.LocalDate
 
 @PersistenceTest
 @Import(BingoBoardRepositoryAdapter::class, BingoBoardListFindDao::class, QuerydslConfig::class)
@@ -17,6 +21,41 @@ class BingoBoardRepositoryAdapterTest(
     private val bingoBoardJpaRepository: BingoBoardJpaRepository,
     private val testEntityManager: TestEntityManager
 ) : DescribeSpec({
+
+    describe("updateBase") {
+        context("리더가 기본정보(제목/목표/기간)를 변경하면") {
+            it("해당 보드의 제목/목표/기간만 갱신되고 멤버/아이템은 그대로 유지된다") {
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(aEnglishStudyBingoBoard()))
+                val savedId = saved.id
+                val originalMemberCount = saved.bingoMembers.size
+                val originalActiveCount = saved.bingoMembers.count { it.active }
+                val originalItemTitles = saved.bingoItems.sortedBy { it.id }.map { it.title }
+                val newTitle = "변경된 제목"
+                val newGoal = 5
+                val newSince = LocalDate.now().plusDays(1)
+                val newUntil = LocalDate.now().plusDays(10)
+
+                bingoBoardRepositoryAdapter.updateBase(
+                    savedId,
+                    newTitle,
+                    BingoGoal.create(newGoal, BingoSize.cache(3)),
+                    BingoPeriod.create(newSince, newUntil)
+                )
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
+                reloaded.title shouldBe newTitle
+                reloaded.bingoGoal.goal shouldBe newGoal
+                reloaded.period!!.since shouldBe newSince
+                reloaded.period!!.until shouldBe newUntil
+                reloaded.bingoMembers.size shouldBe originalMemberCount
+                reloaded.bingoMembers.count { it.active } shouldBe originalActiveCount
+                reloaded.bingoItems.size shouldBe originalItemTitles.size
+                reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles
+            }
+        }
+    }
 
     describe("updateMemo") {
         context("리더가 메모를 변경하면") {

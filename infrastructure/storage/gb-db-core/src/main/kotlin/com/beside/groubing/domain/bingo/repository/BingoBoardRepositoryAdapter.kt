@@ -3,8 +3,10 @@ package com.beside.groubing.domain.bingo.repository
 import com.beside.groubing.domain.bingo.dao.BingoBoardListFindDao
 import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoCompleteMember
+import com.beside.groubing.domain.bingo.domain.BingoGoal
 import com.beside.groubing.domain.bingo.domain.BingoItems
 import com.beside.groubing.domain.bingo.domain.BingoMembers
+import com.beside.groubing.domain.bingo.domain.BingoPeriod
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardQueryRepository
 import com.beside.groubing.domain.bingo.entity.BingoBoardEntity
@@ -33,6 +35,10 @@ class BingoBoardRepositoryAdapter(
         syncBingoItems(entity.bingoItems, bingoBoard.bingoItems)
         bingoBoard.pullEvents().forEach { entity.publishEvent(it) }
         return entity.toDomain()
+    }
+
+    override fun updateBase(bingoBoardId: Long, title: String, bingoGoal: BingoGoal, period: BingoPeriod) {
+        findActiveEntityById(bingoBoardId).changeBase(title, bingoGoal, period)
     }
 
     override fun updateMemo(bingoBoardId: Long, memo: String?) {
