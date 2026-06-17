@@ -9,5 +9,7 @@ interface BingoBoardCommandRepository {
 
     fun updateMemo(bingoBoardId: Long, memo: String?)
 
+    fun updateOpen(bingoBoardId: Long, open: Boolean)
+
     fun inactivateAllOf(memberId: Long)
 }

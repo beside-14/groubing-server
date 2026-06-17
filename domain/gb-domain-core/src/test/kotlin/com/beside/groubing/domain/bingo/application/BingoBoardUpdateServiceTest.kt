@@ -4,6 +4,7 @@ import com.beside.groubing.aEnglishStudyBingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoBoardMembersValidator
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardCommandRepository
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardQueryRepository
+import com.beside.groubing.domain.bingo.payload.command.BingoBoardOpenUpdateCommand
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -40,6 +41,30 @@ class BingoBoardUpdateServiceTest : BehaviorSpec({
 
             then("메모가 변경된 도메인을 그대로 반환한다") {
                 result.memo shouldBe newMemo
+            }
+        }
+    }
+
+    given("리더(memberId=1)가 공개여부 변경을 요청할 때") {
+        val leaderId = 1L
+        val bingoBoardId = 2L
+        val newOpen = false
+        val bingoBoard = aEnglishStudyBingoBoard()
+        val command = BingoBoardOpenUpdateCommand.of(newOpen)
+
+        every { bingoBoardQueryRepository.findOne(bingoBoardId) } returns bingoBoard
+        justRun { bingoBoardCommandRepository.updateOpen(bingoBoardId, newOpen) }
+
+        `when`("updateOpen 을 호출하면") {
+            val result = bingoBoardUpdateService.updateOpen(bingoBoardId, leaderId, command)
+
+            then("타깃 영속화 경로(updateOpen)를 타고 스냅샷 update 는 호출하지 않는다") {
+                verify(exactly = 1) { bingoBoardCommandRepository.updateOpen(bingoBoardId, newOpen) }
+                verify(exactly = 0) { bingoBoardCommandRepository.update(any()) }
+            }
+
+            then("공개여부가 변경된 도메인을 그대로 반환한다") {
+                result.open shouldBe newOpen
             }
         }
     }

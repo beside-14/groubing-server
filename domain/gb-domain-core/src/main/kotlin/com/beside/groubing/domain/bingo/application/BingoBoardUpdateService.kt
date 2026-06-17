@@ -39,7 +39,8 @@ class BingoBoardUpdateService(
 
     fun updateOpen(bingoBoardId: Long, memberId: Long, command: BingoBoardOpenUpdateCommand): BingoBoard {
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
-        command.update(bingoBoard, memberId)
-        return bingoBoardCommandRepository.update(bingoBoard)
+        bingoBoard.updateBingoOpen(memberId, command.open)
+        bingoBoardCommandRepository.updateOpen(bingoBoardId, bingoBoard.open)
+        return bingoBoard
     }
 }
