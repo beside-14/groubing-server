@@ -77,6 +77,10 @@ class BingoBoardEntity(
     var period: BingoPeriodEmbeddable? = period
         private set
 
+    fun changeMemo(memo: String?) {
+        this.memo = memo
+    }
+
     fun applyChanges(domain: BingoBoard) {
         this.title = domain.title
         this.open = domain.open

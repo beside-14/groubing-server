@@ -35,6 +35,10 @@ class BingoBoardRepositoryAdapter(
         return entity.toDomain()
     }
 
+    override fun updateMemo(bingoBoardId: Long, memo: String?) {
+        findActiveEntityById(bingoBoardId).changeMemo(memo)
+    }
+
     override fun inactivateAllOf(memberId: Long) {
         bingoBoardListFindDao.find(memberId)
             .forEach { entity ->

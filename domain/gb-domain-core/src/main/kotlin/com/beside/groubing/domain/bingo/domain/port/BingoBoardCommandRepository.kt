@@ -7,5 +7,7 @@ interface BingoBoardCommandRepository {
 
     fun update(bingoBoard: BingoBoard): BingoBoard
 
+    fun updateMemo(bingoBoardId: Long, memo: String?)
+
     fun inactivateAllOf(memberId: Long)
 }
