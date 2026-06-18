@@ -20,5 +20,7 @@ interface BingoBoardCommandRepository {
 
     fun updateOpen(bingoBoardId: Long, open: Boolean)
 
+    fun deactivateBingoMember(bingoBoardId: Long, memberId: Long)
+
     fun inactivateAllOf(memberId: Long)
 }
