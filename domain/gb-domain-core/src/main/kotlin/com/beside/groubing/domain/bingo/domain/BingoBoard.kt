@@ -90,10 +90,10 @@ class BingoBoard private constructor(
         this.period = BingoPeriod.create(since, until)
     }
 
-    fun updateBingoMembersPeriod(memberId: Long, bingoMembers: List<Long>, since: LocalDate, until: LocalDate) {
+    fun updateBingoMembersPeriod(memberId: Long, bingoMembers: List<Long>, since: LocalDate, until: LocalDate): List<BingoMember> {
         this.bingoMembers.validateLeaderOf(memberId, id)
         this.period = BingoPeriod.create(since, until)
-        this.bingoMembers.addNewMembers(bingoMembers)
+        return this.bingoMembers.addNewMembers(bingoMembers)
     }
 
     fun updateBingoMemo(memberId: Long, memo: String?) {

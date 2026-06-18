@@ -26,8 +26,10 @@ class BingoBoardUpdateService(
     fun updateMembersPeriod(bingoBoardId: Long, memberId: Long, command: BingoBoardMembersPeriodUpdateCommand): BingoBoard {
         bingoBoardMembersValidator.validate(command.bingoMembers)
         val bingoBoard = bingoBoardQueryRepository.findOne(bingoBoardId)
-        command.update(bingoBoard, memberId)
-        return bingoBoardCommandRepository.update(bingoBoard)
+        val addedMembers = bingoBoard.updateBingoMembersPeriod(memberId, command.bingoMembers, command.since, command.until)
+        bingoBoardCommandRepository.addBingoMembers(bingoBoardId, addedMembers)
+        bingoBoardCommandRepository.updatePeriod(bingoBoardId, bingoBoard.period!!)
+        return bingoBoard
     }
 
     fun updateMemo(bingoBoardId: Long, memberId: Long, memo: String?): BingoBoard {

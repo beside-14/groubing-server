@@ -33,8 +33,10 @@ class BingoMembers private constructor(val data: MutableList<BingoMember>) : Ite
         }
     }
 
-    fun addNewMembers(memberIds: List<Long>) {
-        data.addAll(memberIds.map { BingoMember.create(it) })
+    fun addNewMembers(memberIds: List<Long>): List<BingoMember> {
+        val newMembers = memberIds.map { BingoMember.create(it) }
+        data.addAll(newMembers)
+        return newMembers
     }
 
     fun inactivateOf(memberId: Long, bingoBoardId: Long) {
