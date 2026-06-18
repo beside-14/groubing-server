@@ -23,6 +23,10 @@ class BingoCompleteMemberEntity(
     var active: Boolean = active
         private set
 
+    fun deactivate() {
+        this.active = false
+    }
+
     fun applyChanges(domain: BingoCompleteMember) {
         this.active = domain.active
     }

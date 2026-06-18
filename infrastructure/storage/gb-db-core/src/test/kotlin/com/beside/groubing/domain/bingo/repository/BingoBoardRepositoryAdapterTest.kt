@@ -13,6 +13,7 @@ import com.beside.groubing.global.config.QuerydslConfig
 import com.beside.groubing.persistence.PersistenceTest
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.context.annotation.Import
@@ -106,6 +107,33 @@ class BingoBoardRepositoryAdapterTest(
                 val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
                 reloaded.period!!.since shouldBe newSince
                 reloaded.period!!.until shouldBe newUntil
+                reloaded.bingoMembers.size shouldBe originalMemberCount
+                reloaded.bingoItems.size shouldBe originalItemTitles.size
+                reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles
+            }
+        }
+    }
+
+    describe("deactivateBingoMember") {
+        context("참여자가 빙고를 나가면") {
+            it("해당 멤버와 그의 완료기록만 비활성화되고 다른 멤버/아이템은 그대로 유지된다") {
+                val board = aEnglishStudyBingoBoard()
+                board.completeBingoItem(bingoItemId = 1L, memberId = 2L)
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(board))
+                val savedId = saved.id
+                val originalMemberCount = saved.bingoMembers.size
+                val originalItemTitles = saved.bingoItems.sortedBy { it.id }.map { it.title }
+
+                bingoBoardRepositoryAdapter.deactivateBingoMember(savedId, 2L)
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
+                reloaded.bingoMembers.first { it.memberId == 2L }.active shouldBe false
+                reloaded.bingoMembers.filter { it.memberId != 2L }.forEach { it.active shouldBe true }
+                val completeMembersOfLeaver = reloaded.bingoItems.flatMap { it.completeMembers }.filter { it.memberId == 2L }
+                completeMembersOfLeaver.shouldNotBeEmpty()
+                completeMembersOfLeaver.forEach { it.active shouldBe false }
                 reloaded.bingoMembers.size shouldBe originalMemberCount
                 reloaded.bingoItems.size shouldBe originalItemTitles.size
                 reloaded.bingoItems.sortedBy { it.id }.map { it.title } shouldBe originalItemTitles

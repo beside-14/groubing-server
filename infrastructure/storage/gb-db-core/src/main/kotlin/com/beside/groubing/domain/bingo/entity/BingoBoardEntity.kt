@@ -102,6 +102,13 @@ class BingoBoardEntity(
         this.open = open
     }
 
+    fun deactivateMember(memberId: Long) {
+        bingoMembers.filter { it.memberId == memberId }.forEach { it.deactivate() }
+        bingoItems.forEach { item ->
+            item.completeMembers.filter { it.memberId == memberId }.forEach { it.deactivate() }
+        }
+    }
+
     fun applyChanges(domain: BingoBoard) {
         this.title = domain.title
         this.open = domain.open
