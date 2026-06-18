@@ -62,17 +62,6 @@ class BingoBoardRepositoryAdapter(
         findActiveEntityById(bingoBoardId).deactivateMember(memberId)
     }
 
-    override fun inactivateAllOf(memberId: Long) {
-        bingoBoardListFindDao.find(memberId)
-            .forEach { entity ->
-                val domain = entity.toDomain()
-                domain.inactiveByMemberId(memberId)
-                entity.applyChanges(domain)
-                syncBingoMembers(entity.bingoMembers, domain.bingoMembers)
-                syncBingoItems(entity.bingoItems, domain.bingoItems)
-            }
-    }
-
     override fun findOne(id: Long): BingoBoard = findActiveEntityById(id).toDomain()
 
     override fun findAllOf(memberId: Long): List<BingoBoard> =

@@ -55,6 +55,7 @@ class SignUpApiTest(
                 fcmToken = null,
                 notificationReceive = true,
                 active = true,
+                deletedAt = null,
                 profileUrl = null
             )
             every { signUpService.signUp(any()) } returns AuthenticatedMember(member, token)

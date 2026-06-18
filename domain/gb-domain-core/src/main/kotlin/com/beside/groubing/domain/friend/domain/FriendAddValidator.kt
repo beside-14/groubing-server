@@ -24,7 +24,7 @@ class FriendAddValidator(
     }
 
     private fun validateMembersExist(inviterId: Long, inviteeId: Long) {
-        memberQueryRepository.findById(inviterId)
-        memberQueryRepository.findById(inviteeId)
+        memberQueryRepository.findActiveById(inviterId)
+        memberQueryRepository.findActiveById(inviteeId)
     }
 }

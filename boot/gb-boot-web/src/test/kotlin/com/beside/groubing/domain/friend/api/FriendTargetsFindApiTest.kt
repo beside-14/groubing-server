@@ -37,6 +37,7 @@ class FriendTargetsFindApiTest(
                     fcmToken = null,
                     notificationReceive = true,
                     active = true,
+                    deletedAt = null,
                     profileUrl = null
                 )
             }

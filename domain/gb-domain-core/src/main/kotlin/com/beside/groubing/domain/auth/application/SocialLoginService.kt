@@ -23,7 +23,7 @@ class SocialLoginService(
 ) {
     fun login(socialLoginCommand: SocialLoginCommand): AuthenticatedMember {
         val socialInfo = findOrCreateSocialInfo(socialLoginCommand)
-        val member = memberQueryRepository.findById(socialInfo.memberId)
+        val member = memberQueryRepository.findActiveById(socialInfo.memberId)
         val updated = memberCommandRepository.update(member.withFcmToken(socialLoginCommand.fcmToken))
         return AuthenticatedMember(updated, tokenManager.generateAccessToken(updated.id, updated.role.name))
     }

@@ -35,7 +35,7 @@ class BingoEventHandler(
         save(event.bingoBoardId, event.memberId, event.toMessage(nicknameOf(event.memberId)))
     }
 
-    private fun nicknameOf(memberId: Long): String = memberQueryRepository.findById(memberId).nickname
+    private fun nicknameOf(memberId: Long): String = memberQueryRepository.findActiveById(memberId).nickname
 
     private fun save(bingoBoardId: Long, memberId: Long, message: String) {
         notificationRepository.save(

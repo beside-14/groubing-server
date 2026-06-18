@@ -15,7 +15,7 @@ class MemberNicknameEditService(
     @Transactional
     fun edit(id: Long, nickname: String) {
         nicknameUniquenessValidator.validate(nickname)
-        val member = memberQueryRepository.findById(id)
+        val member = memberQueryRepository.findActiveById(id)
         memberCommandRepository.update(member.withNickname(nickname))
     }
 }
