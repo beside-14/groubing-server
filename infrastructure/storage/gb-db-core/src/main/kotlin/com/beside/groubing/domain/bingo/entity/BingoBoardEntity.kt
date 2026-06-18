@@ -3,8 +3,10 @@ package com.beside.groubing.domain.bingo.entity
 import com.beside.groubing.domain.bingo.domain.BingoBoard
 import com.beside.groubing.domain.bingo.domain.BingoBoardType
 import com.beside.groubing.domain.bingo.domain.BingoColor
+import com.beside.groubing.domain.bingo.domain.BingoGoal
 import com.beside.groubing.domain.bingo.domain.BingoItems
 import com.beside.groubing.domain.bingo.domain.BingoMembers
+import com.beside.groubing.domain.bingo.domain.BingoPeriod
 import com.beside.groubing.global.domain.jpa.BaseAggregateRoot
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -76,6 +78,12 @@ class BingoBoardEntity(
     @Embedded
     var period: BingoPeriodEmbeddable? = period
         private set
+
+    fun changeBase(title: String, bingoGoal: BingoGoal, period: BingoPeriod) {
+        this.title = title
+        this.bingoGoal = BingoGoalEmbeddable.from(bingoGoal)
+        this.period = BingoPeriodEmbeddable.from(period)
+    }
 
     fun changeMemo(memo: String?) {
         this.memo = memo
