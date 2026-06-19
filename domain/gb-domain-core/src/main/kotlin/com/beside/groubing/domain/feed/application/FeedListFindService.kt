@@ -41,7 +41,7 @@ class FeedListFindService(
 
         val titlesByMember = feedListQueryRepository.findCompletedFeedItems(completerIds)
             .groupBy({ it.memberId }, { it.title })
-        val members = memberQueryRepository.findAll(completerIds).sortedBy { it.id }
+        val members = memberQueryRepository.findAllActive(completerIds).sortedBy { it.id }
 
         return members.mapNotNull { member ->
             val titles = titlesByMember[member.id].orEmpty().shuffled().take(MAX_FEED_ITEMS)

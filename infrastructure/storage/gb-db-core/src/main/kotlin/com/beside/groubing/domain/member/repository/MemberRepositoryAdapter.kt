@@ -73,6 +73,10 @@ class MemberRepositoryAdapter(
     }
 
     override fun findAll(ids: Collection<Long>): List<Member> {
+        return memberJpaRepository.findAllById(ids).map { it.toDomain() }
+    }
+
+    override fun findAllActive(ids: Collection<Long>): List<Member> {
         return memberJpaRepository.findAllByIdInAndActiveTrue(ids).map { it.toDomain() }
     }
 

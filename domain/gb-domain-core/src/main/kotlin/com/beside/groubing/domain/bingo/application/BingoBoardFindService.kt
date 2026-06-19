@@ -17,6 +17,7 @@ class BingoBoardFindService(
         bingoBoard.validateViewableBy(memberId)
         val viewer = memberQueryRepository.findActiveById(memberId)
         val otherMembers = memberQueryRepository.findAll(bingoBoard.otherActiveMemberIdsOf(memberId))
+            .map { it.anonymizeIfWithdrawn() }
         return BingoBoardDetail(bingoBoard, viewer, otherMembers)
     }
 }
