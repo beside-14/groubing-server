@@ -20,7 +20,7 @@ class MemberNotiUpdateService(
     }
 
     private fun updateReceive(memberId: Long, receive: Boolean) {
-        val member = memberQueryRepository.findById(memberId)
+        val member = memberQueryRepository.findActiveById(memberId)
         memberCommandRepository.update(member.withNotificationReceive(receive))
     }
 }

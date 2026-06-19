@@ -18,6 +18,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "MEMBERS")
@@ -57,6 +58,10 @@ class MemberEntity(
     var active: Boolean = true
         private set
 
+    @Column(name = "DELETED_AT")
+    var deletedAt: LocalDateTime? = null
+        private set
+
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "PROFILE_ID")
     var profile: FileInfoEntity? = null
@@ -67,6 +72,11 @@ class MemberEntity(
         this.fcmToken = member.fcmToken
         this.notificationReceive = member.notificationReceive
         this.active = member.active
+    }
+
+    fun withdraw(now: LocalDateTime) {
+        this.active = false
+        this.deletedAt = now
     }
 
     fun editProfile(profile: FileInfoEntity) {
@@ -87,6 +97,7 @@ class MemberEntity(
         fcmToken = fcmToken,
         notificationReceive = notificationReceive,
         active = active,
+        deletedAt = deletedAt,
         profileUrl = profile?.toDomain()?.url
     )
 

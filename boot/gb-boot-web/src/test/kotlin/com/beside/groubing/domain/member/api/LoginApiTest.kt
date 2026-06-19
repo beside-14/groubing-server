@@ -60,6 +60,7 @@ class LoginApiTest(
                 fcmToken = fcmToken,
                 notificationReceive = true,
                 active = true,
+                deletedAt = null,
                 profileUrl = null
             )
             every { loginService.login(any()) } returns AuthenticatedMember(member, jwt)

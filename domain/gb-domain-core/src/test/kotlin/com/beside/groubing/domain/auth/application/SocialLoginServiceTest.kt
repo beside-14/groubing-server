@@ -29,7 +29,7 @@ class SocialLoginServiceTest : BehaviorSpec({
 
     Given("SocialLoginService가 주어졌을 때") {
         fun prepareMock(existingMember: Member, existingSocialInfo: SocialInfo? = null) {
-            every { mockMemberQueryRepository.findById(any()) } returns existingMember
+            every { mockMemberQueryRepository.findActiveById(any()) } returns existingMember
             every { mockMemberCommandRepository.update(any()) } returns existingMember
             every { mockSocialInfoRepository.findBySocialIdAndSocialTypeOrNull(any(), any()) } returns existingSocialInfo
             every { mockTokenManager.generateAccessToken(any(), any()) } returns "token"
@@ -48,6 +48,7 @@ class SocialLoginServiceTest : BehaviorSpec({
             fcmToken = null,
             notificationReceive = true,
             active = true,
+            deletedAt = null,
             profileUrl = null
         )
 

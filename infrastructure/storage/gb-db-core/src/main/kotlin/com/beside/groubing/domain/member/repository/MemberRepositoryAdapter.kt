@@ -11,6 +11,7 @@ import com.beside.groubing.domain.common.file.entity.FileInfoEntity
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 class MemberRepositoryAdapter(
@@ -25,20 +26,24 @@ class MemberRepositoryAdapter(
     }
 
     override fun update(member: Member): Member {
-        val entity = findEntityById(member.id)
+        val entity = findActiveEntityById(member.id)
         entity.applyChanges(member)
         return entity.toDomain()
     }
 
+    override fun withdraw(memberId: Long, now: LocalDateTime) {
+        findActiveEntityById(memberId).withdraw(now)
+    }
+
     override fun editProfileOrNull(memberId: Long, newProfile: FileInfo): FileInfo? {
-        val entity = findEntityById(memberId)
+        val entity = findActiveEntityById(memberId)
         val previous = entity.profile?.toDomain()
         entity.editProfile(FileInfoEntity.from(newProfile))
         return previous
     }
 
     override fun deleteProfileOrNull(memberId: Long): FileInfo? {
-        val entity = findEntityById(memberId)
+        val entity = findActiveEntityById(memberId)
         val previous = entity.profile?.toDomain()
         entity.deleteProfile()
         return previous
@@ -46,6 +51,10 @@ class MemberRepositoryAdapter(
 
     override fun findById(id: Long): Member {
         return findEntityById(id).toDomain()
+    }
+
+    override fun findActiveById(id: Long): Member {
+        return findActiveEntityById(id).toDomain()
     }
 
     override fun findOneByLoginId(loginId: String): Member {
@@ -79,8 +88,13 @@ class MemberRepositoryAdapter(
         return memberJpaRepository.countByIdInAndActiveTrue(ids)
     }
 
-    private fun findEntityById(id: Long): MemberEntity {
-        return memberJpaRepository.findByIdAndActiveTrue(id)
-            ?: throw MemberInputException("존재하지 않는 유저 입니다.")
+    private fun findActiveEntityById(id: Long): MemberEntity {
+        return memberJpaRepository.findByIdAndActiveTrue(id) ?: throw memberNotFound()
     }
+
+    private fun findEntityById(id: Long): MemberEntity {
+        return memberJpaRepository.findById(id).orElseThrow { memberNotFound() }
+    }
+
+    private fun memberNotFound() = MemberInputException("존재하지 않는 유저 입니다.")
 }

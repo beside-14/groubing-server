@@ -14,7 +14,7 @@ class BingoBoardCreateService(
     private val memberQueryRepository: MemberQueryRepository
 ) {
     fun create(command: BingoBoardCreateCommand): BingoBoard {
-        memberQueryRepository.findById(command.memberId)
+        memberQueryRepository.findActiveById(command.memberId)
         return bingoBoardCommandRepository.save(command.toNewBingoBoard())
     }
 }

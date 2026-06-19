@@ -5,6 +5,8 @@ import com.beside.groubing.domain.member.domain.Member
 interface MemberQueryRepository {
     fun findById(id: Long): Member
 
+    fun findActiveById(id: Long): Member
+
     fun findOneByLoginId(loginId: String): Member
 
     fun findAllSortedByNickname(): List<Member>

@@ -15,7 +15,7 @@ class BingoBoardFindService(
     fun findOne(memberId: Long, boardId: Long): BingoBoardDetail {
         val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
         bingoBoard.validateViewableBy(memberId)
-        val viewer = memberQueryRepository.findById(memberId)
+        val viewer = memberQueryRepository.findActiveById(memberId)
         val otherMembers = memberQueryRepository.findAll(bingoBoard.otherActiveMemberIdsOf(memberId))
         return BingoBoardDetail(bingoBoard, viewer, otherMembers)
     }

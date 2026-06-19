@@ -59,6 +59,7 @@ class SocialLoginApiTest(
                 fcmToken = fcmToken,
                 notificationReceive = true,
                 active = true,
+                deletedAt = null,
                 profileUrl = null
             )
             every { socialLoginService.login(any()) } returns AuthenticatedMember(member, jwt)

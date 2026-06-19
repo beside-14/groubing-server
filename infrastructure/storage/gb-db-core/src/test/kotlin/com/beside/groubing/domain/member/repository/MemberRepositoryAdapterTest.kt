@@ -9,11 +9,13 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.context.annotation.Import
+import java.time.LocalDateTime
 
 @PersistenceTest
 @Import(MemberRepositoryAdapter::class)
 class MemberRepositoryAdapterTest(
-    private val memberRepositoryAdapter: MemberRepositoryAdapter
+    private val memberRepositoryAdapter: MemberRepositoryAdapter,
+    private val memberJpaRepository: MemberJpaRepository
 ) : FunSpec({
 
     fun newMember(loginId: String?, nickname: String) = NewMember(
@@ -45,5 +47,26 @@ class MemberRepositoryAdapterTest(
         shouldThrow<MemberInputException> {
             memberRepositoryAdapter.save(newMember(loginId = "idB", nickname = "dupNick"))
         }
+    }
+
+    test("withdraw 하면 회원이 비활성화되고 deletedAt 이 기록된다") {
+        val saved = memberRepositoryAdapter.save(newMember(loginId = "leaver", nickname = "leaverNick"))
+        val now = LocalDateTime.now()
+
+        memberRepositoryAdapter.withdraw(saved.id, now)
+
+        val entity = memberJpaRepository.findById(saved.id).orElseThrow()
+        entity.active shouldBe false
+        entity.deletedAt shouldBe now
+    }
+
+    test("탈퇴한 회원은 findById 로는 조회되지만 findActiveById 로는 조회되지 않는다") {
+        val saved = memberRepositoryAdapter.save(newMember(loginId = "wd", nickname = "wdNick"))
+        memberRepositoryAdapter.withdraw(saved.id, LocalDateTime.now())
+
+        memberRepositoryAdapter.findById(saved.id).active shouldBe false
+        shouldThrow<MemberInputException> {
+            memberRepositoryAdapter.findActiveById(saved.id)
+        }.message shouldBe "존재하지 않는 유저 입니다."
     }
 })

@@ -21,8 +21,8 @@ class FriendAddValidatorTest : BehaviorSpec({
     Given("차단 관계가 없고 두 회원 모두 존재할 때") {
         every { blockedMemberRepository.exists(inviterId, inviteeId) } returns false
         every { blockedMemberRepository.exists(inviteeId, inviterId) } returns false
-        every { memberQueryRepository.findById(inviterId) } returns mockk<Member>()
-        every { memberQueryRepository.findById(inviteeId) } returns mockk<Member>()
+        every { memberQueryRepository.findActiveById(inviterId) } returns mockk<Member>()
+        every { memberQueryRepository.findActiveById(inviteeId) } returns mockk<Member>()
 
         When("validate 호출") {
             Then("예외가 발생하지 않는다") {
@@ -55,8 +55,8 @@ class FriendAddValidatorTest : BehaviorSpec({
 
     Given("상대방이 존재하지 않는 회원인 경우") {
         every { blockedMemberRepository.exists(any(), any()) } returns false
-        every { memberQueryRepository.findById(inviterId) } returns mockk<Member>()
-        every { memberQueryRepository.findById(inviteeId) } throws MemberInputException("회원이 존재하지 않습니다.")
+        every { memberQueryRepository.findActiveById(inviterId) } returns mockk<Member>()
+        every { memberQueryRepository.findActiveById(inviteeId) } throws MemberInputException("회원이 존재하지 않습니다.")
 
         When("validate 호출") {
             Then("MemberInputException 이 전파된다") {

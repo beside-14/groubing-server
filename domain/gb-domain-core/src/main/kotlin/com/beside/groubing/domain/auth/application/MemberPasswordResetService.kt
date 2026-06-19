@@ -16,7 +16,7 @@ class MemberPasswordResetService(
     private val passwordEncryptor: PasswordEncryptor
 ) {
     fun reset(id: Long, beforePassword: String, afterPassword: String) {
-        val member = memberQueryRepository.findById(id)
+        val member = memberQueryRepository.findActiveById(id)
         passwordVerifier.verify(beforePassword, member.password)
         memberCommandRepository.update(member.withPassword(passwordEncryptor.encode(afterPassword)))
     }

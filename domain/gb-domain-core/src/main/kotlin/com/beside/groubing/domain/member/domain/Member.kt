@@ -1,5 +1,8 @@
 package com.beside.groubing.domain.member.domain
 
+import com.beside.groubing.domain.member.exception.MemberInputException
+import java.time.LocalDateTime
+
 data class Member(
     val id: Long,
     val loginId: String?,
@@ -10,6 +13,7 @@ data class Member(
     val fcmToken: String?,
     val notificationReceive: Boolean,
     val active: Boolean,
+    val deletedAt: LocalDateTime?,
     val profileUrl: String?
 ) {
     fun withFcmToken(fcmToken: String?): Member = copy(fcmToken = fcmToken)
@@ -20,9 +24,10 @@ data class Member(
 
     fun withNotificationReceive(receive: Boolean): Member = copy(notificationReceive = receive)
 
-    fun withdrawn(): Member {
-        check(active) { "이미 탈퇴한 회원입니다." }
-        return copy(active = false)
+    fun validateWithdrawable() {
+        if (!active) {
+            throw MemberInputException("이미 탈퇴한 회원입니다.")
+        }
     }
 
     fun hasNickname(): Boolean = nickname.isNotBlank()
