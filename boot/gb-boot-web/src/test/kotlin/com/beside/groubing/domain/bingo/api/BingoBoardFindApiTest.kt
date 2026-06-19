@@ -9,6 +9,7 @@ import com.beside.groubing.docs.requestParam
 import com.beside.groubing.docs.responseBody
 import com.beside.groubing.domain.bingo.application.BingoBoardFindService
 import com.beside.groubing.domain.bingo.domain.BingoBoardDetail
+import com.beside.groubing.domain.member.domain.Members
 import com.beside.groubing.extension.encodedAs
 import com.beside.groubing.extension.getHttpHeaderJwt
 import com.beside.groubing.domain.common.id.ObfuscationType
@@ -67,7 +68,7 @@ class BingoBoardFindApiTest(
         val encodedBingoBoardId = bingoBoardId.encodedAs(ObfuscationType.BINGO_BOARD)
         val bingoBoard = aEnglishStudyBingoBoard()
         val member = aMember(memberId).toDomain()
-        val otherMembers = (2L..5L).map { aMember(it).toDomain() }
+        val otherMembers = Members.of((2L..5L).map { aMember(it).toDomain() })
 
         every { bingoBoardFindService.findOne(memberId, bingoBoardId) } returns BingoBoardDetail(bingoBoard, member, otherMembers)
 

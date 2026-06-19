@@ -31,4 +31,13 @@ data class Member(
     }
 
     fun hasNickname(): Boolean = nickname.isNotBlank()
+
+    fun isWithdrawn(): Boolean = deletedAt != null
+
+    fun anonymizeIfWithdrawn(): Member =
+        if (isWithdrawn()) copy(nickname = WITHDRAWN_NICKNAME, profileUrl = null) else this
+
+    companion object {
+        const val WITHDRAWN_NICKNAME = "탈퇴한 회원"
+    }
 }

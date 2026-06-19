@@ -15,6 +15,8 @@ interface MemberQueryRepository {
 
     fun findAll(ids: Collection<Long>): List<Member>
 
+    fun findAllActive(ids: Collection<Long>): List<Member>
+
     fun existsByLoginId(loginId: String): Boolean
 
     fun existsByNickname(nickname: String): Boolean

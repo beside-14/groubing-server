@@ -7,6 +7,7 @@ import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.persistence.PersistenceTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import org.springframework.context.annotation.Import
 import java.time.LocalDateTime
@@ -68,5 +69,15 @@ class MemberRepositoryAdapterTest(
         shouldThrow<MemberInputException> {
             memberRepositoryAdapter.findActiveById(saved.id)
         }.message shouldBe "존재하지 않는 유저 입니다."
+    }
+
+    test("findAll 은 탈퇴한 회원도 포함하지만 findAllActive 는 활성 회원만 조회한다") {
+        val active = memberRepositoryAdapter.save(newMember(loginId = "act", nickname = "actNick"))
+        val withdrawn = memberRepositoryAdapter.save(newMember(loginId = "wd2", nickname = "wd2Nick"))
+        memberRepositoryAdapter.withdraw(withdrawn.id, LocalDateTime.now())
+
+        val ids = listOf(active.id, withdrawn.id)
+        memberRepositoryAdapter.findAll(ids).map { it.id } shouldContainExactlyInAnyOrder ids
+        memberRepositoryAdapter.findAllActive(ids).map { it.id } shouldBe listOf(active.id)
     }
 })
