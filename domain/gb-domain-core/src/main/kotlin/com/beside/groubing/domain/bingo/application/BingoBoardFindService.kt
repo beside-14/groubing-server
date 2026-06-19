@@ -2,6 +2,7 @@ package com.beside.groubing.domain.bingo.application
 
 import com.beside.groubing.domain.bingo.domain.BingoBoardDetail
 import com.beside.groubing.domain.bingo.domain.port.BingoBoardQueryRepository
+import com.beside.groubing.domain.member.domain.Members
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,8 +17,8 @@ class BingoBoardFindService(
         val bingoBoard = bingoBoardQueryRepository.findOne(boardId)
         bingoBoard.validateViewableBy(memberId)
         val viewer = memberQueryRepository.findActiveById(memberId)
-        val otherMembers = memberQueryRepository.findAll(bingoBoard.otherActiveMemberIdsOf(memberId))
-            .map { it.anonymizeIfWithdrawn() }
+        val otherMembers = Members.of(memberQueryRepository.findAll(bingoBoard.otherActiveMemberIdsOf(memberId)))
+            .anonymizeWithdrawn()
         return BingoBoardDetail(bingoBoard, viewer, otherMembers)
     }
 }
