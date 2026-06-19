@@ -17,4 +17,6 @@ interface FriendJpaRepository : JpaRepository<FriendEntity, Long> {
         @Param("memberIdA") memberIdA: Long,
         @Param("memberIdB") memberIdB: Long
     ): List<FriendEntity>
+
+    fun deleteByInviterIdOrInviteeId(inviterId: Long, inviteeId: Long)
 }

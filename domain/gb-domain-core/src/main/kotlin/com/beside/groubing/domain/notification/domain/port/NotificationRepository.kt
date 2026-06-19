@@ -4,4 +4,6 @@ import com.beside.groubing.domain.notification.domain.Notification
 
 interface NotificationRepository {
     fun save(notification: Notification): Notification
+
+    fun deleteAllByMemberId(memberId: Long)
 }

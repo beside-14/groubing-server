@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface SocialInfoJpaRepository : JpaRepository<SocialInfoEntity, Long> {
     fun findBySocialIdAndSocialType(socialId: String, socialType: SocialType): SocialInfoEntity?
+
+    fun deleteByMemberId(memberId: Long)
 }

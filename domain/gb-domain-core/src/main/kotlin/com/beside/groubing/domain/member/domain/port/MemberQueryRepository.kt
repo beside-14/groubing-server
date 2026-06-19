@@ -1,9 +1,12 @@
 package com.beside.groubing.domain.member.domain.port
 
 import com.beside.groubing.domain.member.domain.Member
+import java.time.LocalDateTime
 
 interface MemberQueryRepository {
     fun findById(id: Long): Member
+
+    fun findExpiredMemberIds(threshold: LocalDateTime): List<Long>
 
     fun findActiveById(id: Long): Member
 

@@ -17,4 +17,8 @@ class SocialInfoRepositoryAdapter(
     override fun findBySocialIdAndSocialTypeOrNull(socialId: String, socialType: SocialType): SocialInfo? {
         return socialInfoJpaRepository.findBySocialIdAndSocialType(socialId, socialType)?.toDomain()
     }
+
+    override fun deleteAllByMemberId(memberId: Long) {
+        socialInfoJpaRepository.deleteByMemberId(memberId)
+    }
 }

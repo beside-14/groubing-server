@@ -7,8 +7,11 @@ import com.beside.groubing.domain.member.exception.MemberInputException
 import com.beside.groubing.persistence.PersistenceTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.springframework.context.annotation.Import
 import java.time.LocalDateTime
 
@@ -79,5 +82,35 @@ class MemberRepositoryAdapterTest(
         val ids = listOf(active.id, withdrawn.id)
         memberRepositoryAdapter.findAll(ids).map { it.id } shouldContainExactlyInAnyOrder ids
         memberRepositoryAdapter.findAllActive(ids).map { it.id } shouldBe listOf(active.id)
+    }
+
+    test("tombstone 하면 식별정보가 제거되고 cleanedAt 이 기록된다") {
+        val saved = memberRepositoryAdapter.save(newMember(loginId = "ts", nickname = "tsNick"))
+        memberRepositoryAdapter.withdraw(saved.id, LocalDateTime.now())
+
+        memberRepositoryAdapter.tombstone(saved.id, LocalDateTime.now())
+
+        val entity = memberJpaRepository.findById(saved.id).orElseThrow()
+        entity.loginId shouldBe null
+        entity.nickname shouldBe "탈퇴회원_${saved.id}"
+        entity.password shouldBe ""
+        entity.fcmToken shouldBe null
+        entity.cleanedAt shouldNotBe null
+    }
+
+    test("findExpiredMemberIds 는 기준 이전 탈퇴 + 미정리(cleanedAt null) 회원만 반환한다") {
+        val expired = memberRepositoryAdapter.save(newMember(loginId = "exp", nickname = "expNick"))
+        val recent = memberRepositoryAdapter.save(newMember(loginId = "rec", nickname = "recNick"))
+        val cleaned = memberRepositoryAdapter.save(newMember(loginId = "cln", nickname = "clnNick"))
+        memberRepositoryAdapter.withdraw(expired.id, LocalDateTime.now().minusDays(400))
+        memberRepositoryAdapter.withdraw(recent.id, LocalDateTime.now().minusDays(10))
+        memberRepositoryAdapter.withdraw(cleaned.id, LocalDateTime.now().minusDays(400))
+        memberRepositoryAdapter.tombstone(cleaned.id, LocalDateTime.now())
+
+        val result = memberRepositoryAdapter.findExpiredMemberIds(LocalDateTime.now().minusDays(365))
+
+        result shouldContain expired.id
+        result shouldNotContain recent.id
+        result shouldNotContain cleaned.id
     }
 })

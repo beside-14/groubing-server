@@ -12,6 +12,8 @@ interface MemberCommandRepository {
 
     fun withdraw(memberId: Long, now: LocalDateTime = LocalDateTime.now())
 
+    fun tombstone(memberId: Long, now: LocalDateTime = LocalDateTime.now()): FileInfo?
+
     fun editProfileOrNull(memberId: Long, newProfile: FileInfo): FileInfo?
 
     fun deleteProfileOrNull(memberId: Long): FileInfo?

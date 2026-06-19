@@ -7,4 +7,6 @@ interface BlockedMemberJpaRepository : JpaRepository<BlockedMemberEntity, Long> 
     fun existsByRequesterIdAndTargetMemberId(requesterId: Long, targetMemberId: Long): Boolean
 
     fun findByRequesterIdAndTargetMemberId(requesterId: Long, targetMemberId: Long): BlockedMemberEntity?
+
+    fun deleteByRequesterIdOrTargetMemberId(requesterId: Long, targetMemberId: Long)
 }
