@@ -47,7 +47,7 @@ dependencies {
 
     // Config modules
     runtimeOnly(project(":config:gb-config-yaml-importer"))
-    runtimeOnly(project(":config:gb-config-logging"))
+    implementation(project(":config:gb-config-logging"))
 
     // AsciiDocs
     val asciidoctorExt: Configuration by configurations.creating

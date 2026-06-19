@@ -9,6 +9,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework:spring-tx")
 
+    // 로깅 모듈(kotlin-logging 파사드 + logback 설정)
+    implementation(project(":config:gb-config-logging"))
+
     // testFixtures: 도메인 픽스처에서 Arb 사용
     testFixturesImplementation("io.kotest:kotest-property-jvm:5.5.5")
 

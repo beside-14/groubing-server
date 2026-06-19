@@ -8,7 +8,7 @@ import com.beside.groubing.domain.common.file.exception.FileInfoInputException
 import com.beside.groubing.domain.common.id.exception.InvalidObfuscatedIdException
 import com.beside.groubing.global.response.ApiResponseCode
 import com.beside.groubing.global.response.error.ApiError
-import org.slf4j.LoggerFactory
+import mu.KotlinLogging
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,10 +20,10 @@ import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+private val log = KotlinLogging.logger {}
+
 @RestControllerAdvice
 class GlobalExceptionHandler {
-
-    private val log = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
     @ExceptionHandler(MissingRequestHeaderException::class)
     fun handle(e: MissingRequestHeaderException): ResponseEntity<ApiError> {
@@ -100,7 +100,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleException(e: Exception): ResponseEntity<ApiError> {
-        log.error("handleException", e)
+        log.error(e) { "handleException" }
         val apiError = ApiError(ApiResponseCode.SERVER_ERROR, e)
         return ResponseEntity(apiError, HttpStatus.INTERNAL_SERVER_ERROR)
     }
