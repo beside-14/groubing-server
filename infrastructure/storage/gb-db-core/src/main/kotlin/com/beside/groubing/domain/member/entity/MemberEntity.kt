@@ -28,8 +28,7 @@ class MemberEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    @Column(name = "LOGIN_ID", unique = true)
-    val loginId: String?,
+    loginId: String?,
 
     password: String,
 
@@ -42,6 +41,10 @@ class MemberEntity(
     @Enumerated(EnumType.STRING)
     val memberType: MemberType
 ) : BaseEntity() {
+    @Column(name = "LOGIN_ID", unique = true)
+    var loginId: String? = loginId
+        private set
+
     var password: String = password
         private set
 
@@ -62,6 +65,10 @@ class MemberEntity(
     var deletedAt: LocalDateTime? = null
         private set
 
+    @Column(name = "CLEANED_AT")
+    var cleanedAt: LocalDateTime? = null
+        private set
+
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "PROFILE_ID")
     var profile: FileInfoEntity? = null
@@ -77,6 +84,16 @@ class MemberEntity(
     fun withdraw(now: LocalDateTime) {
         this.active = false
         this.deletedAt = now
+    }
+
+    fun tombstone(now: LocalDateTime) {
+        this.loginId = null
+        this.password = ""
+        this.nickname = "탈퇴회원_$id"
+        this.fcmToken = null
+        this.notificationReceive = false
+        this.profile = null
+        this.cleanedAt = now
     }
 
     fun editProfile(profile: FileInfoEntity) {

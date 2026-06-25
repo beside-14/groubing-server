@@ -31,6 +31,10 @@ class FriendRepositoryAdapter(
         if (entities.isNotEmpty()) friendJpaRepository.deleteAll(entities)
     }
 
+    override fun deleteAllOf(memberId: Long) {
+        friendJpaRepository.deleteByInviterIdOrInviteeId(memberId, memberId)
+    }
+
     override fun findOne(id: Long): Friend {
         return findEntityById(id).toDomain()
     }

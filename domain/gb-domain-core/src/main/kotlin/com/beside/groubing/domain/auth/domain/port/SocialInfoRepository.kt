@@ -7,4 +7,6 @@ interface SocialInfoRepository {
     fun save(socialInfo: SocialInfo): SocialInfo
 
     fun findBySocialIdAndSocialTypeOrNull(socialId: String, socialType: SocialType): SocialInfo?
+
+    fun deleteAllByMemberId(memberId: Long)
 }

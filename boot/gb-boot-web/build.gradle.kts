@@ -34,9 +34,6 @@ dependencies {
     implementation(project(":infrastructure:support:gb-crypto-core"))
     implementation(project(":infrastructure:support:gb-id-obfuscator"))
 
-    // Kotlin-Logging
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-
     // FCM
     implementation(project(":infrastructure:support:gb-fcm-sender"))
 
@@ -50,7 +47,7 @@ dependencies {
 
     // Config modules
     runtimeOnly(project(":config:gb-config-yaml-importer"))
-    runtimeOnly(project(":config:gb-config-logging"))
+    implementation(project(":config:gb-config-logging"))
 
     // AsciiDocs
     val asciidoctorExt: Configuration by configurations.creating

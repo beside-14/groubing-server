@@ -35,6 +35,13 @@ class MemberRepositoryAdapter(
         findActiveEntityById(memberId).withdraw(now)
     }
 
+    override fun tombstone(memberId: Long, now: LocalDateTime): FileInfo? {
+        val entity = findEntityById(memberId)
+        val previousProfile = entity.profile?.toDomain()
+        entity.tombstone(now)
+        return previousProfile
+    }
+
     override fun editProfileOrNull(memberId: Long, newProfile: FileInfo): FileInfo? {
         val entity = findActiveEntityById(memberId)
         val previous = entity.profile?.toDomain()
@@ -51,6 +58,10 @@ class MemberRepositoryAdapter(
 
     override fun findById(id: Long): Member {
         return findEntityById(id).toDomain()
+    }
+
+    override fun findExpiredMemberIds(threshold: LocalDateTime): List<Long> {
+        return memberJpaRepository.findExpiredMemberIds(threshold)
     }
 
     override fun findActiveById(id: Long): Member {

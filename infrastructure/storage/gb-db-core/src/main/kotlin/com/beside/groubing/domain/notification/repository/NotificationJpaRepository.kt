@@ -11,4 +11,6 @@ interface NotificationJpaRepository : JpaRepository<NotificationEntity, Long> {
         memberId: Long,
         pageable: Pageable
     ): Page<NotificationEntity>
+
+    fun deleteByMemberId(memberId: Long)
 }

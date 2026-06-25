@@ -8,4 +8,6 @@ interface FriendCommandRepository {
     fun update(friend: Friend): Friend
 
     fun deleteAllBetween(memberIdA: Long, memberIdB: Long)
+
+    fun deleteAllOf(memberId: Long)
 }

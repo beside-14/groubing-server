@@ -26,6 +26,10 @@ class BlockedMemberRepositoryAdapter(
         blockedMemberJpaRepository.deleteById(blockedMember.id)
     }
 
+    override fun deleteAllOf(memberId: Long) {
+        blockedMemberJpaRepository.deleteByRequesterIdOrTargetMemberId(memberId, memberId)
+    }
+
     override fun exists(requesterId: Long, targetMemberId: Long): Boolean {
         return blockedMemberJpaRepository.existsByRequesterIdAndTargetMemberId(requesterId, targetMemberId)
     }

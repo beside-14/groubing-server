@@ -10,6 +10,8 @@ interface BlockedMemberRepository {
 
     fun delete(blockedMember: BlockedMember)
 
+    fun deleteAllOf(memberId: Long)
+
     fun exists(requesterId: Long, targetMemberId: Long): Boolean
 
     fun findAll(requesterId: Long): List<BlockedMemberTarget>
