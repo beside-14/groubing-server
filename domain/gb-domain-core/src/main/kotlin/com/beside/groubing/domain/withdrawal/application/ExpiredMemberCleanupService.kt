@@ -11,13 +11,13 @@ private val log = KotlinLogging.logger {}
 @Service
 class ExpiredMemberCleanupService(
     private val memberQueryRepository: MemberQueryRepository,
-    private val memberCleanupExecutor: MemberCleanupExecutor,
+    private val memberCleaner: MemberCleaner,
     @Value("\${withdrawal.grace-days:365}") private val graceDays: Long
 ) {
     fun cleanupExpired(now: LocalDateTime = LocalDateTime.now()) {
         val threshold = now.minusDays(graceDays)
         memberQueryRepository.findExpiredMemberIds(threshold).forEach { memberId ->
-            runCatching { memberCleanupExecutor.cleanup(memberId) }
+            runCatching { memberCleaner.cleanup(memberId) }
                 .onFailure { log.error(it) { "만료 회원 정리 실패. memberId=$memberId" } }
         }
     }

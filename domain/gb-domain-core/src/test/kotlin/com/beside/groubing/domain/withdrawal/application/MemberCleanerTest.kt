@@ -17,14 +17,14 @@ import io.mockk.unmockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
 
-class MemberCleanupExecutorTest : BehaviorSpec({
+class MemberCleanerTest : BehaviorSpec({
     val notificationRepository = mockk<NotificationRepository>(relaxed = true)
     val friendCommandRepository = mockk<FriendCommandRepository>(relaxed = true)
     val blockedMemberRepository = mockk<BlockedMemberRepository>(relaxed = true)
     val socialInfoRepository = mockk<SocialInfoRepository>(relaxed = true)
     val withdrawnMemberBingoCleaner = mockk<WithdrawnMemberBingoCleaner>()
     val memberCommandRepository = mockk<MemberCommandRepository>()
-    val executor = MemberCleanupExecutor(
+    val memberCleaner = MemberCleaner(
         notificationRepository,
         friendCommandRepository,
         blockedMemberRepository,
@@ -44,7 +44,7 @@ class MemberCleanupExecutorTest : BehaviorSpec({
         every { FileStorage.delete(previousProfile) } just Runs
 
         When("cleanup 을 호출하면") {
-            executor.cleanup(memberId)
+            memberCleaner.cleanup(memberId)
 
             Then("연관 데이터 삭제 → 빙고 정리 → tombstone → 프로필 물리파일 삭제 순으로 수행된다") {
                 verifyOrder {
@@ -67,7 +67,7 @@ class MemberCleanupExecutorTest : BehaviorSpec({
         every { memberCommandRepository.hardDelete(memberId) } returns null
 
         When("cleanup 을 호출하면") {
-            executor.cleanup(memberId)
+            memberCleaner.cleanup(memberId)
 
             Then("tombstone 대신 회원을 완전 삭제하고 프로필 물리파일 삭제는 호출되지 않는다") {
                 verify(exactly = 1) { memberCommandRepository.hardDelete(memberId) }
@@ -85,7 +85,7 @@ class MemberCleanupExecutorTest : BehaviorSpec({
         every { FileStorage.delete(previousProfile) } just Runs
 
         When("cleanup 을 호출하면") {
-            executor.cleanup(memberId)
+            memberCleaner.cleanup(memberId)
 
             Then("완전 삭제 후 이전 프로필 물리파일을 삭제한다") {
                 verify(exactly = 1) { memberCommandRepository.hardDelete(memberId) }

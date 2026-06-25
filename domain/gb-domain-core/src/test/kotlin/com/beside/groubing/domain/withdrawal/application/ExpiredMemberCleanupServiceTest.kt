@@ -11,23 +11,23 @@ import java.time.LocalDateTime
 
 class ExpiredMemberCleanupServiceTest : BehaviorSpec({
     val memberQueryRepository = mockk<MemberQueryRepository>()
-    val memberCleanupExecutor = mockk<MemberCleanupExecutor>()
-    val cleanupService = ExpiredMemberCleanupService(memberQueryRepository, memberCleanupExecutor, graceDays = 365)
+    val memberCleaner = mockk<MemberCleaner>()
+    val cleanupService = ExpiredMemberCleanupService(memberQueryRepository, memberCleaner, graceDays = 365)
 
     Given("만료 회원 3명 중 1명 정리가 실패할 때") {
         val now = LocalDateTime.of(2026, 1, 1, 0, 0)
         every { memberQueryRepository.findExpiredMemberIds(any()) } returns listOf(1L, 2L, 3L)
-        every { memberCleanupExecutor.cleanup(1L) } just Runs
-        every { memberCleanupExecutor.cleanup(2L) } throws RuntimeException("boom")
-        every { memberCleanupExecutor.cleanup(3L) } just Runs
+        every { memberCleaner.cleanup(1L) } just Runs
+        every { memberCleaner.cleanup(2L) } throws RuntimeException("boom")
+        every { memberCleaner.cleanup(3L) } just Runs
 
         When("cleanupExpired 를 호출하면") {
             cleanupService.cleanupExpired(now)
 
             Then("한 명의 실패가 격리되고 나머지 회원도 모두 정리가 시도된다") {
-                verify(exactly = 1) { memberCleanupExecutor.cleanup(1L) }
-                verify(exactly = 1) { memberCleanupExecutor.cleanup(2L) }
-                verify(exactly = 1) { memberCleanupExecutor.cleanup(3L) }
+                verify(exactly = 1) { memberCleaner.cleanup(1L) }
+                verify(exactly = 1) { memberCleaner.cleanup(2L) }
+                verify(exactly = 1) { memberCleaner.cleanup(3L) }
             }
         }
     }

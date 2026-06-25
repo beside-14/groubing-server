@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class MemberCleanupExecutor(
+class MemberCleaner(
     private val notificationRepository: NotificationRepository,
     private val friendCommandRepository: FriendCommandRepository,
     private val blockedMemberRepository: BlockedMemberRepository,
