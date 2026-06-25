@@ -42,6 +42,13 @@ class MemberRepositoryAdapter(
         return previousProfile
     }
 
+    override fun hardDelete(memberId: Long): FileInfo? {
+        val entity = findEntityById(memberId)
+        val previousProfile = entity.profile?.toDomain()
+        memberJpaRepository.delete(entity)
+        return previousProfile
+    }
+
     override fun editProfileOrNull(memberId: Long, newProfile: FileInfo): FileInfo? {
         val entity = findActiveEntityById(memberId)
         val previous = entity.profile?.toDomain()

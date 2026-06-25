@@ -13,4 +13,6 @@ interface NotificationJpaRepository : JpaRepository<NotificationEntity, Long> {
     ): Page<NotificationEntity>
 
     fun deleteByMemberId(memberId: Long)
+
+    fun deleteByBingoBoardId(bingoBoardId: Long)
 }

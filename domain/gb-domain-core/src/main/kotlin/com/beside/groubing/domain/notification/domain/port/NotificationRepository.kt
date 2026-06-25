@@ -6,4 +6,6 @@ interface NotificationRepository {
     fun save(notification: Notification): Notification
 
     fun deleteAllByMemberId(memberId: Long)
+
+    fun deleteAllByBingoBoardId(bingoBoardId: Long)
 }

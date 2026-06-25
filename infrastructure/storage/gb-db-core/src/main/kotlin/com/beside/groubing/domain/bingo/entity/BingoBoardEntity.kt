@@ -8,6 +8,7 @@ import com.beside.groubing.domain.bingo.domain.BingoItems
 import com.beside.groubing.domain.bingo.domain.BingoMember
 import com.beside.groubing.domain.bingo.domain.BingoMembers
 import com.beside.groubing.domain.bingo.domain.BingoPeriod
+import com.beside.groubing.domain.bingo.exception.BingoInputException
 import com.beside.groubing.global.domain.jpa.BaseAggregateRoot
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -107,6 +108,13 @@ class BingoBoardEntity(
         bingoItems.forEach { item ->
             item.completeMembers.filter { it.memberId == memberId }.forEach { it.deactivate() }
         }
+    }
+
+    fun changeLeader(newLeaderId: Long) {
+        val newLeader = bingoMembers.find { it.memberId == newLeaderId }
+            ?: throw BingoInputException("이양 대상 멤버가 빙고에 없습니다. bingoBoardId: $id, memberId: $newLeaderId")
+        bingoMembers.filter { it.bingoMemberType.isLeader() }.forEach { it.demoteToParticipant() }
+        newLeader.promoteToLeader()
     }
 
     fun applyChanges(domain: BingoBoard) {

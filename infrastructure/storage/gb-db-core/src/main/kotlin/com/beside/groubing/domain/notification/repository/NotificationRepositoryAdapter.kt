@@ -21,6 +21,10 @@ class NotificationRepositoryAdapter(
         notificationJpaRepository.deleteByMemberId(memberId)
     }
 
+    override fun deleteAllByBingoBoardId(bingoBoardId: Long) {
+        notificationJpaRepository.deleteByBingoBoardId(bingoBoardId)
+    }
+
     override fun findRecentOf(bingoBoardIds: List<Long>, myMemberId: Long): List<NotificationItem> {
         return notificationFindDao.findNotifications(bingoBoardIds, myMemberId)
             .map {
