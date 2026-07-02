@@ -1,6 +1,7 @@
 package com.beside.groubing.domain.withdrawal.application
 
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
+import com.beside.groubing.domain.withdrawal.domain.WithdrawalGracePeriod
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.Runs
 import io.mockk.every
@@ -12,7 +13,7 @@ import java.time.LocalDateTime
 class ExpiredMemberCleanupServiceTest : BehaviorSpec({
     val memberQueryRepository = mockk<MemberQueryRepository>()
     val memberCleaner = mockk<MemberCleaner>()
-    val cleanupService = ExpiredMemberCleanupService(memberQueryRepository, memberCleaner, graceDays = 365)
+    val cleanupService = ExpiredMemberCleanupService(memberQueryRepository, memberCleaner, WithdrawalGracePeriod(days = 365))
 
     Given("만료 회원 3명 중 1명 정리가 실패할 때") {
         val now = LocalDateTime.of(2026, 1, 1, 0, 0)

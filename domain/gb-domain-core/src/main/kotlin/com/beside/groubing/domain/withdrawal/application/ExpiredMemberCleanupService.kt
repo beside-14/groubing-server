@@ -1,8 +1,8 @@
 package com.beside.groubing.domain.withdrawal.application
 
 import com.beside.groubing.domain.member.domain.port.MemberQueryRepository
+import com.beside.groubing.domain.withdrawal.domain.WithdrawalGracePeriod
 import mu.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -12,13 +12,13 @@ private val log = KotlinLogging.logger {}
 class ExpiredMemberCleanupService(
     private val memberQueryRepository: MemberQueryRepository,
     private val memberCleaner: MemberCleaner,
-    @Value("\${withdrawal.grace-days:365}") private val graceDays: Long
+    private val gracePeriod: WithdrawalGracePeriod
 ) {
     fun cleanupExpired(now: LocalDateTime = LocalDateTime.now()) {
-        val threshold = now.minusDays(graceDays)
-        memberQueryRepository.findExpiredMemberIds(threshold).forEach { memberId ->
-            runCatching { memberCleaner.cleanup(memberId) }
-                .onFailure { log.error(it) { "만료 회원 정리 실패. memberId=$memberId" } }
-        }
+        memberQueryRepository.findExpiredMemberIds(gracePeriod.calculateExpirationThreshold(now))
+            .forEach { memberId ->
+                runCatching { memberCleaner.cleanup(memberId) }
+                    .onFailure { log.error(it) { "만료 회원 정리 실패. memberId=$memberId" } }
+            }
     }
 }
