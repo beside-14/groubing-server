@@ -20,6 +20,11 @@ class BingoMembers private constructor(val data: MutableList<BingoMember>) : Ite
     fun isLeaderOf(memberId: Long): Boolean =
         data.any { it.memberId == memberId && it.isLeader() }
 
+    fun electNextLeader(livingMemberIds: Collection<Long>): Long =
+        data.filter { it.active && it.memberId in livingMemberIds }
+            .minOfOrNull { it.memberId }
+            ?: throw BingoIllegalStateException("리더를 이양할 살아있는 멤버가 없습니다.")
+
     fun findOf(memberId: Long, bingoBoardId: Long): BingoMember =
         data.find { it.memberId == memberId }
             ?: throw BingoInputException(

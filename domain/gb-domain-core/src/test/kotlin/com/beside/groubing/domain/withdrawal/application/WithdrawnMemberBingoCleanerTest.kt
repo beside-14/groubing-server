@@ -32,7 +32,6 @@ class WithdrawnMemberBingoCleanerTest : BehaviorSpec({
 
     Given("탈퇴 회원이 단독 보드만 가질 때") {
         every { bingoBoardQueryRepository.findAllOf(withdrawnMemberId) } returns listOf(aEmptyBingo())
-        every { memberQueryRepository.findAllActive(emptyList()) } returns emptyList()
 
         When("보드를 정리하면") {
             val remainsInGroupBingo = cleaner.cleanUpBoardsOf(withdrawnMemberId)
@@ -97,7 +96,6 @@ class WithdrawnMemberBingoCleanerTest : BehaviorSpec({
     Given("탈퇴 회원이 단독 보드와 리더인 그룹 보드를 함께 가질 때") {
         every { bingoBoardQueryRepository.findAllOf(withdrawnMemberId) } returns
             listOf(aEmptyBingo(), aEnglishStudyBingoBoard())
-        every { memberQueryRepository.findAllActive(emptyList()) } returns emptyList()
         every { memberQueryRepository.findAllActive(listOf(2L, 3L, 7L)) } returns
             listOf(activeMember(3L), activeMember(7L))
 

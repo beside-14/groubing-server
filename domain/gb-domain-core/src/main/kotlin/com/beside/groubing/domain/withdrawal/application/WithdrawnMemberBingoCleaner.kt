@@ -22,26 +22,29 @@ class WithdrawnMemberBingoCleaner(
      * @return 탈퇴 회원이 살아남은 그룹 빙고에 여전히 참여자로 남아있으면 true(= tombstone 필요).
      */
     fun cleanUpBoardsOf(memberId: Long): Boolean {
-        return bingoBoardQueryRepository.findAllOf(memberId)
-            .map { cleanUpBoard(it, memberId) }
+        val boards = bingoBoardQueryRepository.findAllOf(memberId)
+        val livingMemberIds = findLivingMemberIds(boards, memberId)
+        return boards
+            .map { cleanUpBoard(it, memberId, livingMemberIds) }
             .any { it }
     }
 
-    private fun cleanUpBoard(board: BingoBoard, memberId: Long): Boolean {
-        val livingOtherIds = livingOtherMemberIds(board, memberId)
+    private fun findLivingMemberIds(boards: List<BingoBoard>, memberId: Long): Set<Long> {
+        val candidateIds = boards.flatMap { it.otherActiveMemberIdsOf(memberId) }.distinct()
+        if (candidateIds.isEmpty()) return emptySet()
+        return memberQueryRepository.findAllActive(candidateIds).map { it.id }.toSet()
+    }
+
+    private fun cleanUpBoard(board: BingoBoard, memberId: Long, livingMemberIds: Set<Long>): Boolean {
+        val livingOtherIds = board.otherActiveMemberIdsOf(memberId).filter { it in livingMemberIds }
         if (livingOtherIds.isEmpty()) {
             deleteBoard(board.id)
             return false
         }
         if (board.isLeader(memberId)) {
-            bingoBoardCommandRepository.changeLeader(board.id, livingOtherIds.min())
+            bingoBoardCommandRepository.changeLeader(board.id, board.electNextLeader(livingOtherIds))
         }
         return true
-    }
-
-    private fun livingOtherMemberIds(board: BingoBoard, memberId: Long): List<Long> {
-        val otherActiveIds = board.otherActiveMemberIdsOf(memberId)
-        return memberQueryRepository.findAllActive(otherActiveIds).map { it.id }
     }
 
     private fun deleteBoard(bingoBoardId: Long) {
