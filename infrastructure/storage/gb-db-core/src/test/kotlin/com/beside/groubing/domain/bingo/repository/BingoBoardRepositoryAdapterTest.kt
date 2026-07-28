@@ -141,6 +141,51 @@ class BingoBoardRepositoryAdapterTest(
         }
     }
 
+    describe("changeLeader") {
+        context("리더를 다른 멤버에게 이양하면") {
+            it("기존 리더는 PARTICIPANT 로, 신규 리더는 LEADER 로 바뀌고 나머지 멤버는 그대로 유지된다") {
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(aEnglishStudyBingoBoard()))
+                val savedId = saved.id
+                val originalMemberCount = saved.bingoMembers.size
+
+                bingoBoardRepositoryAdapter.changeLeader(savedId, 2L)
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                val reloaded = bingoBoardJpaRepository.findById(savedId).orElseThrow()
+                reloaded.bingoMembers.first { it.memberId == 1L }.bingoMemberType shouldBe BingoMemberType.PARTICIPANT
+                reloaded.bingoMembers.first { it.memberId == 2L }.bingoMemberType shouldBe BingoMemberType.LEADER
+                reloaded.bingoMembers.filter { it.memberId !in setOf(1L, 2L) }.forEach {
+                    it.bingoMemberType shouldBe BingoMemberType.PARTICIPANT
+                }
+                reloaded.bingoMembers.size shouldBe originalMemberCount
+            }
+        }
+    }
+
+    describe("hardDelete") {
+        context("보드를 완전 삭제하면") {
+            it("보드와 멤버/아이템/완료기록이 모두 함께 삭제된다") {
+                val board = aEnglishStudyBingoBoard()
+                board.completeBingoItem(bingoItemId = 1L, memberId = 2L)
+                val saved = bingoBoardJpaRepository.save(BingoBoardEntity.from(board))
+                val savedId = saved.id
+                testEntityManager.flush()
+
+                bingoBoardRepositoryAdapter.hardDelete(savedId)
+                testEntityManager.flush()
+                testEntityManager.clear()
+
+                fun countOf(entity: String) =
+                    testEntityManager.entityManager.createQuery("select count(e) from $entity e").singleResult as Long
+                bingoBoardJpaRepository.findById(savedId).isPresent shouldBe false
+                countOf("BingoMemberEntity") shouldBe 0L
+                countOf("BingoItemEntity") shouldBe 0L
+                countOf("BingoCompleteMemberEntity") shouldBe 0L
+            }
+        }
+    }
+
     describe("updateMemo") {
         context("리더가 메모를 변경하면") {
             it("메모만 갱신되고 멤버/아이템은 그대로 유지된다") {

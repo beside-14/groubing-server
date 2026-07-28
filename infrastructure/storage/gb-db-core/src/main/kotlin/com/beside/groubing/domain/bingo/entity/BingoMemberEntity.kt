@@ -17,8 +17,7 @@ import jakarta.persistence.Table
 class BingoMemberEntity(
     val memberId: Long,
 
-    @Enumerated(EnumType.STRING)
-    val bingoMemberType: BingoMemberType,
+    bingoMemberType: BingoMemberType,
 
     active: Boolean = true
 ) : BaseEntity() {
@@ -27,11 +26,23 @@ class BingoMemberEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 
+    @Enumerated(EnumType.STRING)
+    var bingoMemberType: BingoMemberType = bingoMemberType
+        private set
+
     var active: Boolean = active
         private set
 
     fun deactivate() {
         this.active = false
+    }
+
+    fun promoteToLeader() {
+        this.bingoMemberType = BingoMemberType.LEADER
+    }
+
+    fun demoteToParticipant() {
+        this.bingoMemberType = BingoMemberType.PARTICIPANT
     }
 
     fun applyChanges(domain: BingoMember) {

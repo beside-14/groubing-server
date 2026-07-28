@@ -94,6 +94,35 @@ class BingoMembersTest : BehaviorSpec({
         }
     }
 
+    Given("electNextLeader") {
+        When("살아있는 멤버 중에서 다음 리더를 선출하면") {
+            val members = membersOf(participants = listOf(7L, 3L))
+
+            Then("가장 작은 memberId 를 반환한다.") {
+                members.electNextLeader(listOf(7L, 3L)) shouldBe 3L
+            }
+        }
+
+        When("빙고 내 비활성 멤버는 후보에서 제외하면") {
+            val members = membersOf(participants = listOf(3L, 7L))
+            members.inactivateOf(3L, bingoBoardId)
+
+            Then("활성 멤버 중 가장 작은 memberId 를 반환한다.") {
+                members.electNextLeader(listOf(3L, 7L)) shouldBe 7L
+            }
+        }
+
+        When("후보 중 빙고에 속한 살아있는 멤버가 없으면") {
+            val members = membersOf(participants = listOf(3L))
+
+            Then("BingoIllegalStateException 이 발생한다.") {
+                shouldThrow<BingoIllegalStateException> {
+                    members.electNextLeader(listOf(999L))
+                }.message shouldBe "리더를 이양할 살아있는 멤버가 없습니다."
+            }
+        }
+    }
+
     Given("addNewMembers") {
         When("새 회원들을 추가하면") {
             val members = membersOf(participants = emptyList())

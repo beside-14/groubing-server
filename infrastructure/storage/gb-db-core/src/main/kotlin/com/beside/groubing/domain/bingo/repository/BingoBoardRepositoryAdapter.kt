@@ -62,6 +62,14 @@ class BingoBoardRepositoryAdapter(
         findActiveEntityById(bingoBoardId).deactivateMember(memberId)
     }
 
+    override fun changeLeader(bingoBoardId: Long, newLeaderId: Long) {
+        findActiveEntityById(bingoBoardId).changeLeader(newLeaderId)
+    }
+
+    override fun hardDelete(bingoBoardId: Long) {
+        bingoBoardJpaRepository.deleteById(bingoBoardId)
+    }
+
     override fun findOne(id: Long): BingoBoard = findActiveEntityById(id).toDomain()
 
     override fun findAllOf(memberId: Long): List<BingoBoard> =

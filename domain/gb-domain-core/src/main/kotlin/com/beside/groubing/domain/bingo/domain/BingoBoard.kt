@@ -74,6 +74,8 @@ class BingoBoard private constructor(
 
     fun isLeader(memberId: Long): Boolean = bingoMembers.isLeaderOf(memberId)
 
+    fun electNextLeader(livingMemberIds: Collection<Long>): Long = bingoMembers.electNextLeader(livingMemberIds)
+
     fun validateAuthority(memberId: Long) = bingoMembers.validateLeaderOf(memberId, id)
 
     fun updateBingoItem(memberId: Long, bingoItemId: Long, title: String, subTitle: String?): BingoItem {

@@ -98,6 +98,15 @@ class MemberRepositoryAdapterTest(
         entity.cleanedAt shouldNotBe null
     }
 
+    test("hardDelete 하면 회원 row 가 완전히 삭제되고 이전 프로필이 반환된다") {
+        val saved = memberRepositoryAdapter.save(newMember(loginId = "hd", nickname = "hdNick"))
+
+        val previousProfile = memberRepositoryAdapter.hardDelete(saved.id)
+
+        memberJpaRepository.findById(saved.id).isPresent shouldBe false
+        previousProfile shouldBe null
+    }
+
     test("findExpiredMemberIds 는 기준 이전 탈퇴 + 미정리(cleanedAt null) 회원만 반환한다") {
         val expired = memberRepositoryAdapter.save(newMember(loginId = "exp", nickname = "expNick"))
         val recent = memberRepositoryAdapter.save(newMember(loginId = "rec", nickname = "recNick"))

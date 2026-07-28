@@ -21,4 +21,8 @@ interface BingoBoardCommandRepository {
     fun updateOpen(bingoBoardId: Long, open: Boolean)
 
     fun deactivateBingoMember(bingoBoardId: Long, memberId: Long)
+
+    fun changeLeader(bingoBoardId: Long, newLeaderId: Long)
+
+    fun hardDelete(bingoBoardId: Long)
 }

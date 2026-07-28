@@ -10,11 +10,12 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class MemberCleanupExecutor(
+class MemberCleaner(
     private val notificationRepository: NotificationRepository,
     private val friendCommandRepository: FriendCommandRepository,
     private val blockedMemberRepository: BlockedMemberRepository,
     private val socialInfoRepository: SocialInfoRepository,
+    private val withdrawnMemberBingoCleaner: WithdrawnMemberBingoCleaner,
     private val memberCommandRepository: MemberCommandRepository
 ) {
     @Transactional
@@ -23,6 +24,14 @@ class MemberCleanupExecutor(
         friendCommandRepository.deleteAllOf(memberId)
         blockedMemberRepository.deleteAllOf(memberId)
         socialInfoRepository.deleteAllByMemberId(memberId)
-        memberCommandRepository.tombstone(memberId)?.let { FileStorage.delete(it) }
+        val remainsInGroupBingo = withdrawnMemberBingoCleaner.cleanUpBoardsOf(memberId)
+        removeMember(memberId, remainsInGroupBingo)
+    }
+
+    private fun removeMember(memberId: Long, remainsInGroupBingo: Boolean) {
+        val previousProfile =
+            if (remainsInGroupBingo) memberCommandRepository.tombstone(memberId)
+            else memberCommandRepository.hardDelete(memberId)
+        previousProfile?.let { FileStorage.delete(it) }
     }
 }
